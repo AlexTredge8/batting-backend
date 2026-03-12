@@ -1,0 +1,25 @@
+{
+  "video": "test_batting.mov",
+  "total_frames": 129,
+  "frames_with_pose": 110,
+  "detection_rate": 85.3,
+  "duration_s": 4.3,
+  "measurements_summary": {
+    "head_lateral_offset": {
+      "mean": -0.1062,
+      "min": -0.1392,
+      "max": -0.0817,
+      "std": 0.0129
+    },
+    "shoulder_openness_deg": {
+      "mean": 68.6,
+      "min": 6.3,
+      "max": 89.1
+    },
+    "stance_width": {
+      "mean": 0.0255,
+      "min": 0.005,
+      "max": 0.0566
+    }
+  }
+}
