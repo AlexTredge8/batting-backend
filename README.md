@@ -1,49 +1,43 @@
-# BattingIQ Phase 1 — Proof of Concept
+# BattingIQ Backend - Phase 1 Proof of Concept
 
-Extracts pose data from a cricket batting video filmed from the bowler's end. Uses MediaPipe BlazePose to track 33 body landmarks and calculates cricket-specific metrics.
+Processes a cricket batting video (filmed from bowler's end) and extracts pose-based coaching measurements using MediaPipe BlazePose.
 
-## What it measures (from bowler's end view)
+## What it does
 
-* **Shoulder openness** — is the batter side-on or opening up to the bowler?
-* **Head offset** — is the head staying central or falling to off side?
-* **Stance width** — how wide is the base?
-* **Wrist height** — proxy for bat position (backlift, contact point)
+1. Runs pose detection on every frame of your video
+2. Extracts coaching-relevant measurements:
+   - **Head lateral offset** — is the head falling to off side?
+   - **Shoulder openness** — is the batter opening up too early?
+   - **Stance width** — base stability
+   - **Knee bend angles** — power position
+   - **Wrist height** — hand/bat position tracking
+3. Outputs an annotated video with pose overlay
+4. Outputs a JSON file with frame-by-frame + summary data
 
 ## Setup
 
 ```bash
-# Clone and enter the project
-cd battingiq-poc
-
-# Install dependencies
 pip install -r requirements.txt
 ```
 
-## Run
+## Usage
 
 ```bash
-python analyse.py path/to/your_batting_video.mp4
+python poc_analyse.py path/to/your/batting_video.mp4
 ```
 
 ## Output
 
-The script creates an `output/` folder containing:
+Creates an `output/` folder containing:
+- `yourfile_annotated.mp4` — video with pose skeleton drawn on
+- `yourfile_analysis.json` — all measurements + summary stats
 
-* `annotated_video.mp4` — your video with pose skeleton overlay and live metrics
-* `analysis.json` — frame-by-frame landmark data and summary statistics
+## Camera Angle
 
-## Filming tips for best results
+This PoC is designed for **bowler's end** filming (camera behind the bowler, looking at the batter). This is the most natural filming angle for users.
 
-* Film from behind the bowler's arm (bowler's end)
-* Batter should be fully visible in frame (head to feet)
-* Good lighting (avoid strong backlight)
-* Keep camera steady (tripod ideal, but steady hand works)
-* Film at 60fps if possible (phone slow-mo is great for this)
+## Next Steps
 
-## Next steps
-
-Once this POC works, Phase 2 adds:
-
-* Phase detection (setup → backlift → stride → contact → follow-through)
-* Rule-based coaching feedback
-* Cricket-specific annotations on the video
+- Phase 2: Add rule-based coaching feedback logic
+- Phase 3: Wrap in FastAPI service
+- Phase 4: Connect to Lovable frontend
