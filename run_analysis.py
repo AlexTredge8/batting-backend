@@ -116,3 +116,8 @@ def main():
 
 if __name__ == "__main__":
     main()
+
+
+def run_full_analysis(video_path: str, output_dir: str = None) -> dict:
+    """Programmatic entry point for the FastAPI wrapper. Returns the full report as a dict."""
+    return analyse(video_path, output_dir=output_dir, verbose=False)
