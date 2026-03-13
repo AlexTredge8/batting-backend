@@ -1,0 +1,55 @@
+{
+  "video": "test_batting.mov",
+  "fps": 30.034924330616995,
+  "total_frames": 129,
+  "detection_rate": 85.3,
+  "phases": {
+    "setup_end": 63,
+    "backlift_start": 67,
+    "hands_peak": 76,
+    "front_foot_down": 78,
+    "contact": 81,
+    "follow_through_start": 84,
+    "hands_peak_vs_ffd_diff": -2,
+    "backlift_to_contact_frames": 14
+  },
+  "setup": {
+    "wrist_height_mean": 0.4852,
+    "stance_width_mean": 0.02287,
+    "shoulder_openness_mean": 77.553,
+    "hip_openness_mean": 84.521,
+    "head_offset_mean": -0.10006,
+    "hip_centre_x_mean": 0.64327
+  },
+  "hands_peak": {
+    "wrist_height": 0.42248,
+    "wrist_x_mid": 0.47126,
+    "wrist_spread": 3e-05,
+    "shoulder_openness": 33.469
+  },
+  "contact": {
+    "shoulder_openness": 56.872,
+    "hip_openness": 81.513,
+    "shoulder_hip_gap": -26.268,
+    "front_knee_angle": 156.497,
+    "back_knee_angle": 159.981,
+    "front_elbow_angle": 125.212,
+    "back_elbow_angle": 138.646,
+    "wrist_x_mid": 0.4528,
+    "wrist_spread": 0.04284,
+    "wrist_height": 0.46152,
+    "hip_centre_x": 0.58089,
+    "head_offset": -0.13074,
+    "torso_lean": 0.08682,
+    "hip_shift_from_setup": -0.06238
+  },
+  "follow_through": {
+    "wrist_min_y": 0.36862,
+    "shoulder_y_at_contact": 0.40035,
+    "compression_frames": 3
+  },
+  "timing": {
+    "backlift_to_contact_frames": 14,
+    "backlift_to_contact_ms": 466.1
+  }
+}

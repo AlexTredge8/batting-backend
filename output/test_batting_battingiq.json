@@ -1,0 +1,92 @@
+{
+  "battingiq_score": 100,
+  "score_band": "Excellent",
+  "pillars": {
+    "access": {
+      "score": 25,
+      "max": 25,
+      "status": "green",
+      "faults": [],
+      "positives": [
+        "Good elbow bend at contact \u2014 you are creating space through the ball."
+      ]
+    },
+    "tracking": {
+      "score": 25,
+      "max": 25,
+      "status": "green",
+      "faults": [],
+      "positives": [
+        "Head position looks composed \u2014 eyes tracking well."
+      ]
+    },
+    "stability": {
+      "score": 25,
+      "max": 25,
+      "status": "green",
+      "faults": [],
+      "positives": [
+        "Good weight transfer \u2014 your body is moving through the shot."
+      ]
+    },
+    "flow": {
+      "score": 25,
+      "max": 25,
+      "status": "green",
+      "faults": [],
+      "positives": [
+        "Smooth swing sequence \u2014 the bat is working as one connected movement."
+      ]
+    }
+  },
+  "priority_fix": null,
+  "development_notes": [
+    "Your access looks clean. Focus on maintaining that elbow space through the ball as you face faster bowling.",
+    "Good base stability. Work on making that planted finish a habit against full-pitched deliveries."
+  ],
+  "phases": {
+    "setup": {
+      "start": 0,
+      "end": 63,
+      "start_ms": 0,
+      "end_ms": 2097.6
+    },
+    "backlift_starts": {
+      "frame": 67,
+      "ms": 2230.7
+    },
+    "hands_peak": {
+      "frame": 76,
+      "ms": 2530.4
+    },
+    "front_foot_down": {
+      "frame": 78,
+      "ms": 2597.0
+    },
+    "contact": {
+      "frame": 81,
+      "ms": 2696.9
+    },
+    "follow_through": {
+      "start": 84,
+      "start_ms": 2796.7
+    },
+    "timing": {
+      "hands_peak_vs_ffd_frames": -2,
+      "hands_peak_vs_ffd_ms": -66.6,
+      "sync_status": "in_sync",
+      "backlift_to_contact_frames": 14,
+      "backlift_to_contact_ms": 466.1
+    }
+  },
+  "metadata": {
+    "fps": 30.034924330616995,
+    "width": 480,
+    "height": 848,
+    "total_frames": 129,
+    "duration_s": 4.295,
+    "video_name": "test_batting.mov",
+    "frames_with_pose": 110,
+    "detection_rate": 85.3
+  }
+}
