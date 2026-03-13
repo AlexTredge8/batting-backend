@@ -8,5 +8,13 @@ aptPkgs = [
   "libglib2.0-0",
   "libsm6",
   "libxext6",
-  "libxrender-dev"
+  "libxrender-dev",
+  "libgomp1",
+  "libgthread-2.0-0",
+  "libxi6",
+  "libxtst6",
+  "ffmpeg"
 ]
+
+[phases.build]
+cmds = ["pip install --upgrade pip", "pip install -r requirements.txt"]
