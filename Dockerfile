@@ -37,16 +37,8 @@ COPY . .
 
 RUN mkdir -p results
 
-# Validate the FULL import chain at build time: if any lib or module is broken
-# the Build fails here with a clear error rather than a silent deploy failure.
-# This also confirms /health is actually registered on the app object.
-RUN python -c "
-from api import app
-routes = [r.path for r in app.routes]
-print('Registered routes:', routes)
-assert '/health' in routes, '/health route missing from app!'
-print('Build validation OK')
-"
+# Validate full import chain at build time — Docker parses multiline RUN as
+# instructions so keep this as a single line.
+RUN python -c "from api import app; routes=[r.path for r in app.routes]; print('routes:', routes); assert '/health' in routes, 'MISSING /health'"
 
-# Use exec-form with explicit sh so \${PORT:-8000} is always shell-expanded.
-CMD ["sh", "-c", "exec uvicorn api:app --host 0.0.0.0 --port \${PORT:-8000}"]
+CMD ["sh", "-c", "exec uvicorn api:app --host 0.0.0.0 --port ${PORT:-8000}"]
