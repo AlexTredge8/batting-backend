@@ -33,14 +33,20 @@ COPY requirements.txt .
 RUN pip install --no-cache-dir --upgrade pip && \
     pip install --no-cache-dir -r requirements.txt
 
-# Validate all runtime libs are present NOW (build-time) so a missing lib
-# causes a clear Build failure instead of a silent healthcheck timeout later.
-RUN python -c "import cv2; import mediapipe; print('cv2', cv2.__version__, '+ mediapipe OK')"
-
 COPY . .
 
 RUN mkdir -p results
 
-# Use exec-form with explicit sh so ${PORT:-8000} is always shell-expanded.
-# railway.json has NO startCommand — this CMD is the single source of truth.
-CMD ["sh", "-c", "exec uvicorn api:app --host 0.0.0.0 --port ${PORT:-8000}"]
+# Validate the FULL import chain at build time: if any lib or module is broken
+# the Build fails here with a clear error rather than a silent deploy failure.
+# This also confirms /health is actually registered on the app object.
+RUN python -c "
+from api import app
+routes = [r.path for r in app.routes]
+print('Registered routes:', routes)
+assert '/health' in routes, '/health route missing from app!'
+print('Build validation OK')
+"
+
+# Use exec-form with explicit sh so \${PORT:-8000} is always shell-expanded.
+CMD ["sh", "-c", "exec uvicorn api:app --host 0.0.0.0 --port \${PORT:-8000}"]
