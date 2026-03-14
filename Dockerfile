@@ -33,8 +33,14 @@ COPY requirements.txt .
 RUN pip install --no-cache-dir --upgrade pip && \
     pip install --no-cache-dir -r requirements.txt
 
+# Validate all runtime libs are present NOW (build-time) so a missing lib
+# causes a clear Build failure instead of a silent healthcheck timeout later.
+RUN python -c "import cv2; import mediapipe; print('cv2', cv2.__version__, '+ mediapipe OK')"
+
 COPY . .
 
 RUN mkdir -p results
 
-CMD uvicorn api:app --host 0.0.0.0 --port ${PORT:-8000}
+# Use exec-form with explicit sh so ${PORT:-8000} is always shell-expanded.
+# railway.json has NO startCommand — this CMD is the single source of truth.
+CMD ["sh", "-c", "exec uvicorn api:app --host 0.0.0.0 --port ${PORT:-8000}"]
