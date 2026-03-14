@@ -8,13 +8,14 @@ Endpoints:
 
 import os
 import shutil
-import tempfile
+import traceback
 import uuid
 from pathlib import Path
 
-from fastapi import FastAPI, File, UploadFile, HTTPException
+from fastapi import FastAPI, File, Form, UploadFile, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
+from typing import Optional
 
 from run_analysis import run_full_analysis
 
@@ -53,7 +54,13 @@ def health():
 
 
 @app.post("/analyse")
-async def analyse(file: UploadFile = File(...)):
+async def analyse(
+    file: UploadFile = File(...),
+    angle: Optional[str] = Form(None),
+    name: Optional[str] = Form(None),
+    email: Optional[str] = Form(None),
+    consent: Optional[str] = Form(None),
+):
     """
     Upload a batting video and receive a full BattingIQ analysis report.
 
@@ -89,6 +96,7 @@ async def analyse(file: UploadFile = File(...)):
     except Exception as exc:
         # Clean up on failure
         shutil.rmtree(job_dir, ignore_errors=True)
-        raise HTTPException(status_code=500, detail=str(exc))
+        tb = traceback.format_exc()
+        raise HTTPException(status_code=500, detail=f"{exc}\n\n{tb}")
     finally:
         await file.close()

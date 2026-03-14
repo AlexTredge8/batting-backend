@@ -85,11 +85,15 @@ def analyse(video_path: str, output_dir: str = None, verbose: bool = True) -> di
     if verbose:
         print(f"\n  JSON report → {json_path}")
 
-    # --- Step 7: Annotated video ---
+    # --- Step 7: Annotated video (best-effort — codec may be unavailable) ---
     if verbose:
         print("  Generating annotated video...")
     video_out = out_dir / f"{stem}_battingiq_annotated.mp4"
-    annotate_video(video_path, result, metrics, str(video_out))
+    try:
+        annotate_video(video_path, result, metrics, str(video_out))
+    except Exception as ann_exc:
+        if verbose:
+            print(f"  Warning: video annotation skipped ({ann_exc})")
 
     if verbose:
         print(f"\nDone. Output in: {out_dir}/")
