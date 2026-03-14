@@ -3,6 +3,7 @@
     "builder": "dockerfile"
   },
   "deploy": {
+    "startCommand": "python start.py",
     "healthcheckPath": "/health",
     "healthcheckTimeout": 300,
     "restartPolicyType": "ON_FAILURE",
