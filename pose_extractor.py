@@ -13,6 +13,10 @@ from models import FramePose, RawLandmark
 mp_pose = mp.solutions.pose
 
 
+MAX_PROCESS_FPS = 15   # subsample to this rate — plenty for cricket phase detection
+MAX_PROCESS_WIDTH = 640  # downscale wide frames before MediaPipe inference
+
+
 def extract_poses(video_path: str, verbose: bool = True) -> tuple[list[FramePose], dict]:
     """
     Run BlazePose on every frame of *video_path*.
@@ -35,6 +39,14 @@ def extract_poses(video_path: str, verbose: bool = True) -> tuple[list[FramePose
     height = int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
     total_frames = int(cap.get(cv2.CAP_PROP_FRAME_COUNT))
 
+    # Subsample: process at most MAX_PROCESS_FPS frames per second
+    frame_step = max(1, round(fps / MAX_PROCESS_FPS))
+
+    # Downscale factor for MediaPipe input (keeps aspect ratio)
+    scale = min(1.0, MAX_PROCESS_WIDTH / width) if width > MAX_PROCESS_WIDTH else 1.0
+    proc_w = int(width * scale)
+    proc_h = int(height * scale)
+
     video_meta = {
         "fps": fps,
         "width": width,
@@ -47,13 +59,14 @@ def extract_poses(video_path: str, verbose: bool = True) -> tuple[list[FramePose
     if verbose:
         print(f"  Extracting poses: {path.name}")
         print(f"  {width}x{height} @ {fps:.0f}fps — {total_frames} frames ({video_meta['duration_s']:.1f}s)")
+        print(f"  Processing: every {frame_step} frame(s), scaled to {proc_w}x{proc_h}")
 
     frame_poses: list[FramePose] = []
     detected_count = 0
 
     with mp_pose.Pose(
         static_image_mode=False,
-        model_complexity=2,
+        model_complexity=1,
         min_detection_confidence=0.5,
         min_tracking_confidence=0.5,
         smooth_landmarks=True,
@@ -64,6 +77,13 @@ def extract_poses(video_path: str, verbose: bool = True) -> tuple[list[FramePose
             ret, frame = cap.read()
             if not ret:
                 break
+
+            if frame_idx % frame_step != 0:
+                frame_idx += 1
+                continue
+
+            if scale < 1.0:
+                frame = cv2.resize(frame, (proc_w, proc_h), interpolation=cv2.INTER_AREA)
 
             rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
             results = pose_model.process(rgb)
