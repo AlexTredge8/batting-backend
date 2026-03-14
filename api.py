@@ -12,6 +12,7 @@ import traceback
 import uuid
 from pathlib import Path
 
+import psutil
 from fastapi import FastAPI, File, Form, UploadFile, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
@@ -53,6 +54,29 @@ def health():
     return {"status": "ok", "service": "BattingIQ API", "version": "2.0.0"}
 
 
+@app.get("/diag")
+def diag():
+    """Live diagnostic — memory, disk, Python env. Hit this to understand failures."""
+    vm = psutil.virtual_memory()
+    disk = psutil.disk_usage("/")
+    return {
+        "memory": {
+            "total_mb": round(vm.total / 1e6),
+            "available_mb": round(vm.available / 1e6),
+            "used_mb": round(vm.used / 1e6),
+            "percent": vm.percent,
+        },
+        "disk": {
+            "total_gb": round(disk.total / 1e9, 1),
+            "free_gb": round(disk.free / 1e9, 1),
+        },
+        "env": {
+            "PORT": os.environ.get("PORT", "not set"),
+            "results_dir_exists": RESULTS_DIR.exists(),
+        },
+    }
+
+
 @app.post("/analyse")
 async def analyse(
     file: UploadFile = File(...),
@@ -69,7 +93,7 @@ async def analyse(
     """
     # Validate file type
     suffix = Path(file.filename).suffix.lower() if file.filename else ".mp4"
-    if suffix not in {".mp4", ".mov", ".avi", ".mkv", ".m4v"}:
+    if suffix not in {".mp4", ".mov", ".avi", ".mkv", ".m4v", ".webm"}:
         raise HTTPException(
             status_code=400,
             detail=f"Unsupported file type '{suffix}'. Accepted: mp4, mov, avi, mkv, m4v",
@@ -81,14 +105,22 @@ async def analyse(
 
     video_path = job_dir / f"input{suffix}"
 
+    def _mem_mb():
+        return round(psutil.virtual_memory().available / 1e6)
+
     try:
         # Save uploaded file
         with open(video_path, "wb") as fh:
             shutil.copyfileobj(file.file, fh)
 
+        file_mb = round(video_path.stat().st_size / 1e6, 1)
+        print(f"[analyse] job={job_id} file={file_mb}MB suffix={suffix} mem_avail={_mem_mb()}MB")
+
         # Run analysis pipeline
         output_dir = job_dir / "output"
+        print(f"[analyse] starting pipeline mem_avail={_mem_mb()}MB")
         report = run_full_analysis(str(video_path), output_dir=str(output_dir))
+        print(f"[analyse] pipeline done mem_avail={_mem_mb()}MB")
 
         report["job_id"] = job_id
         return JSONResponse(content=report)
@@ -97,6 +129,7 @@ async def analyse(
         # Clean up on failure
         shutil.rmtree(job_dir, ignore_errors=True)
         tb = traceback.format_exc()
+        print(f"[analyse] FAILED job={job_id} mem_avail={_mem_mb()}MB\n{tb}")
         raise HTTPException(status_code=500, detail=f"{exc}\n\n{tb}")
     finally:
         await file.close()
