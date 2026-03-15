@@ -111,11 +111,13 @@ def extract_poses(video_path: str, verbose: bool = True) -> tuple[list[FramePose
 
     cap.release()
 
-    detection_rate = round(detected_count / total_frames * 100, 1) if total_frames else 0
+    frames_processed = len(frame_poses)
+    detection_rate = round(detected_count / frames_processed * 100, 1) if frames_processed else 0
     video_meta["frames_with_pose"] = detected_count
+    video_meta["frames_processed"] = frames_processed
     video_meta["detection_rate"] = detection_rate
 
     if verbose:
-        print(f"  Detection rate: {detection_rate}% ({detected_count}/{total_frames} frames)")
+        print(f"  Detection rate: {detection_rate}% ({detected_count}/{frames_processed} processed frames)")
 
     return frame_poses, video_meta
