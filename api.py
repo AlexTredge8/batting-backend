@@ -122,13 +122,22 @@ async def analyse(
         report = run_full_analysis(str(video_path), output_dir=str(output_dir))
         print(f"[analyse] pipeline done mem_avail={_mem_mb()}MB")
 
-        annotated_files = sorted(output_dir.glob("*_battingiq_annotated.mp4"))
-        annotated_video_url = None
-        if annotated_files:
-            annotated_video_url = f"/results/{job_id}/output/{annotated_files[0].name}"
+        # Convert internal file paths to public relative URLs
+        def _to_url(abs_path):
+            if not abs_path:
+                return None
+            p = Path(abs_path)
+            if not p.exists():
+                return None
+            rel = p.relative_to(RESULTS_DIR)
+            return f"/results/{rel}"
 
-        report["job_id"] = job_id
+        annotated_video_url = _to_url(report.pop("_annotated_video", None))
+        storyboard_url      = _to_url(report.pop("_storyboard", None))
+
+        report["job_id"]              = job_id
         report["annotated_video_url"] = annotated_video_url
+        report["storyboard_url"]      = storyboard_url
         return JSONResponse(content=report)
 
     except Exception as exc:

@@ -11,6 +11,7 @@ Produces an annotated video with:
 
 import cv2
 import mediapipe as mp
+import numpy as np
 from pathlib import Path
 
 from models import BattingIQResult, BattingPhase, TrafficLight, FrameMetrics, PhaseResult
@@ -210,3 +211,134 @@ def annotate_video(
     cap.release()
     writer.release()
     print(f"  Annotated video → {output_path}")
+
+
+# ---------------------------------------------------------------------------
+# Storyboard
+# ---------------------------------------------------------------------------
+
+# Per-phase: which metrics to show and how to format them
+_PHASE_METRICS = {
+    BattingPhase.SETUP:           [("shoulder_openness", "Shoulder",  "{:.0f}°"),
+                                   ("stance_width",      "Stance W",  "{:.3f}")],
+    BattingPhase.BACKLIFT_STARTS: [("wrist_height",      "Wrist H",   "{:.3f}"),
+                                   ("back_knee_angle",   "Back Knee", "{:.0f}°")],
+    BattingPhase.HANDS_PEAK:      [("wrist_height",      "Wrist H",   "{:.3f}"),
+                                   ("shoulder_openness", "Shoulder",  "{:.0f}°")],
+    BattingPhase.FRONT_FOOT_DOWN: [("front_knee_angle",  "Frt Knee",  "{:.0f}°"),
+                                   ("head_offset",       "Head Off",  "{:+.3f}")],
+    BattingPhase.CONTACT:         [("shoulder_openness", "Shoulder",  "{:.0f}°"),
+                                   ("eye_tilt",          "Eye Tilt",  "{:.3f}")],
+    BattingPhase.FOLLOW_THROUGH:  [("hip_openness",      "Hip Open",  "{:.0f}°"),
+                                   ("shoulder_openness", "Shoulder",  "{:.0f}°")],
+}
+
+_THUMB_W  = 320   # px per panel
+_LABEL_H  = 68    # label bar height below the frame
+_PAD      = 8     # gap between panels
+
+
+def generate_storyboard(
+    video_path: str,
+    result: BattingIQResult,
+    metrics: list[FrameMetrics],
+    output_path: str,
+) -> None:
+    """
+    Extract the 6 key phase frames, annotate each with the pose skeleton
+    and 2 phase-specific metrics, then stitch into a single horizontal strip.
+    """
+    video_path  = Path(video_path)
+    output_path = Path(output_path)
+    output_path.parent.mkdir(parents=True, exist_ok=True)
+
+    cap     = cv2.VideoCapture(str(video_path))
+    total   = max(1, int(cap.get(cv2.CAP_PROP_FRAME_COUNT)))
+    orig_w  = int(cap.get(cv2.CAP_PROP_FRAME_WIDTH))  or 1280
+    orig_h  = int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT)) or 720
+    thumb_h = int(orig_h * _THUMB_W / orig_w)
+
+    pr = result.phases
+    key_frames = [
+        (pr.setup_end,            BattingPhase.SETUP,           "SETUP"),
+        (pr.backlift_start,       BattingPhase.BACKLIFT_STARTS, "BACKLIFT"),
+        (pr.hands_peak,           BattingPhase.HANDS_PEAK,      "HANDS PEAK"),
+        (pr.front_foot_down,      BattingPhase.FRONT_FOOT_DOWN, "FRONT FOOT"),
+        (pr.contact,              BattingPhase.CONTACT,         "CONTACT"),
+        (pr.follow_through_start, BattingPhase.FOLLOW_THROUGH,  "FOLLOW-THROUGH"),
+    ]
+
+    panels = []
+
+    with mp_pose.Pose(
+        static_image_mode=True,
+        model_complexity=1,
+        min_detection_confidence=0.4,
+    ) as pose_model:
+
+        for frame_idx, phase, label in key_frames:
+            frame_idx = max(0, min(int(frame_idx), total - 1))
+            cap.set(cv2.CAP_PROP_POS_FRAMES, frame_idx)
+            ret, frame = cap.read()
+            if not ret or frame is None:
+                frame = np.zeros((orig_h, orig_w, 3), dtype=np.uint8)
+
+            # Pose skeleton overlay
+            rgb      = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+            pose_res = pose_model.process(rgb)
+            if pose_res.pose_landmarks:
+                mp_draw.draw_landmarks(
+                    frame,
+                    pose_res.pose_landmarks,
+                    mp_pose.POSE_CONNECTIONS,
+                    landmark_drawing_spec=mp_styles.get_default_pose_landmarks_style(),
+                )
+
+            frame = cv2.resize(frame, (_THUMB_W, thumb_h))
+
+            # Panel = frame + label bar
+            panel = np.zeros((thumb_h + _LABEL_H, _THUMB_W, 3), dtype=np.uint8)
+            panel[:thumb_h] = frame
+
+            ph_colour = PHASE_COLOURS.get(phase, C_WHITE)
+
+            # Coloured left-edge accent + dark label bar
+            cv2.rectangle(panel, (0, thumb_h), (_THUMB_W, thumb_h + _LABEL_H), (18, 18, 18), -1)
+            cv2.rectangle(panel, (0, thumb_h), (4, thumb_h + _LABEL_H), ph_colour, -1)
+
+            # Phase name
+            _text(panel, label, (10, thumb_h + 20), scale=0.52, colour=ph_colour, bold=True)
+
+            # Timestamp
+            fps_val = pr.fps or 30.0
+            ts = f"{frame_idx / fps_val:.2f}s"
+            _text(panel, ts, (_THUMB_W - 60, thumb_h + 20), scale=0.38, colour=(110, 110, 110))
+
+            # 2 key metrics
+            m = metrics[frame_idx] if frame_idx < len(metrics) else None
+            if m:
+                x_cursor = 10
+                for attr, lbl, fmt in _PHASE_METRICS.get(phase, []):
+                    val = getattr(m, attr, None)
+                    if val is not None:
+                        txt = f"{lbl}: {fmt.format(val)}"
+                        _text(panel, txt, (x_cursor, thumb_h + 50),
+                              scale=0.38, colour=(190, 190, 190))
+                        x_cursor += _THUMB_W // 2
+
+            panels.append(panel)
+
+    cap.release()
+
+    # Stitch 6 panels into one horizontal strip
+    row_h   = thumb_h + _LABEL_H
+    spacer  = np.zeros((row_h, _PAD, 3), dtype=np.uint8)
+    strips  = []
+    for i, p in enumerate(panels):
+        if i > 0:
+            strips.append(spacer)
+        strips.append(p)
+
+    storyboard = np.hstack(strips)
+    cv2.imwrite(str(output_path), storyboard)
+    print(f"  Storyboard → {output_path}")

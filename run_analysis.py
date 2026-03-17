@@ -19,7 +19,7 @@ from phase_detector     import detect_phases, print_phase_summary
 from coaching_rules     import run_all_rules
 from scorer             import build_scores
 from report_generator   import save_json_report, print_report
-from video_annotator    import annotate_video
+from video_annotator    import annotate_video, generate_storyboard
 from reference_builder  import load_reference_baseline, build_reference_baseline
 from config             import REFERENCE_BASELINE_PATH
 
@@ -94,12 +94,30 @@ def analyse(video_path: str, output_dir: str = None, verbose: bool = True) -> di
     except Exception as ann_exc:
         if verbose:
             print(f"  Warning: video annotation skipped ({ann_exc})")
+        video_out = None
+
+    # --- Step 8: Storyboard (6 key phase frames as a single horizontal strip) ---
+    if verbose:
+        print("  Generating storyboard...")
+    storyboard_out = out_dir / f"{stem}_battingiq_storyboard.png"
+    try:
+        generate_storyboard(video_path, result, metrics, str(storyboard_out))
+    except Exception as sb_exc:
+        if verbose:
+            print(f"  Warning: storyboard generation skipped ({sb_exc})")
+        storyboard_out = None
 
     if verbose:
         print(f"\nDone. Output in: {out_dir}/")
 
     from report_generator import build_json_report
-    return build_json_report(result)
+    report = build_json_report(result)
+
+    # Embed file paths so the API can build public URLs (stripped before sending to client)
+    report["_annotated_video"] = str(video_out) if video_out and Path(video_out).exists() else None
+    report["_storyboard"]      = str(storyboard_out) if storyboard_out and Path(storyboard_out).exists() else None
+
+    return report
 
 
 def main():
