@@ -15,7 +15,7 @@ from pathlib import Path
 import psutil
 from fastapi import FastAPI, File, Form, UploadFile, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import JSONResponse
+from fastapi.responses import FileResponse, JSONResponse
 from typing import Optional
 
 from run_analysis import run_full_analysis
@@ -122,7 +122,13 @@ async def analyse(
         report = run_full_analysis(str(video_path), output_dir=str(output_dir))
         print(f"[analyse] pipeline done mem_avail={_mem_mb()}MB")
 
+        annotated_files = sorted(output_dir.glob("*_battingiq_annotated.mp4"))
+        annotated_video_url = None
+        if annotated_files:
+            annotated_video_url = f"/results/{job_id}/output/{annotated_files[0].name}"
+
         report["job_id"] = job_id
+        report["annotated_video_url"] = annotated_video_url
         return JSONResponse(content=report)
 
     except Exception as exc:
@@ -133,3 +139,20 @@ async def analyse(
         raise HTTPException(status_code=500, detail=f"{exc}\n\n{tb}")
     finally:
         await file.close()
+
+
+@app.get("/results/{job_id}/{file_path:path}")
+def get_result_file(job_id: str, file_path: str):
+    """Serve generated files for a completed analysis job."""
+    job_root = (RESULTS_DIR / job_id).resolve()
+    requested = (job_root / file_path).resolve()
+
+    try:
+        requested.relative_to(job_root)
+    except ValueError:
+        raise HTTPException(status_code=400, detail="Invalid file path")
+
+    if not requested.exists() or not requested.is_file():
+        raise HTTPException(status_code=404, detail="File not found")
+
+    return FileResponse(str(requested))
