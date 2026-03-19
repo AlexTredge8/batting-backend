@@ -93,6 +93,7 @@ def annotate_video(
 ) -> None:
     """
     Re-process the video, draw overlays, write annotated output.
+    No MediaPipe re-run — overlays use pre-computed metrics to avoid OOM.
     """
     video_path  = Path(video_path)
     output_path = Path(output_path)
@@ -110,103 +111,82 @@ def annotate_video(
     labels = phases.phase_labels
     n      = len(labels)
 
-    # Pre-compute pillar summary for the side panel
     pillar_names = ["access", "tracking", "stability", "flow"]
 
-    with mp_pose.Pose(
-        static_image_mode=False,
-        model_complexity=1,
-        min_detection_confidence=0.5,
-        min_tracking_confidence=0.5,
-        smooth_landmarks=True,
-    ) as pose_model:
+    frame_idx = 0
+    while cap.isOpened():
+        ret, frame = cap.read()
+        if not ret:
+            break
 
-        frame_idx = 0
-        while cap.isOpened():
-            ret, frame = cap.read()
-            if not ret:
-                break
+        m = metrics[frame_idx] if frame_idx < len(metrics) else None
+        label = labels[frame_idx] if frame_idx < n else BattingPhase.UNKNOWN
+        ph_colour = PHASE_COLOURS.get(label, C_WHITE)
 
-            rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
-            pose_result = pose_model.process(rgb)
+        # --- Contact flash (red overlay) ---
+        if label == BattingPhase.CONTACT:
+            overlay = frame.copy()
+            cv2.rectangle(overlay, (0, 0), (width, height), (0, 0, 200), -1)
+            cv2.addWeighted(overlay, 0.15, frame, 0.85, 0, frame)
 
-            m = metrics[frame_idx] if frame_idx < len(metrics) else None
-            label = labels[frame_idx] if frame_idx < n else BattingPhase.UNKNOWN
-            ph_colour = PHASE_COLOURS.get(label, C_WHITE)
+        # --- Phase label (top left) ---
+        ph_text = PHASE_LABELS.get(label, "")
+        if ph_text:
+            _panel_bg(frame, 5, 5, 230, 34)
+            _text(frame, ph_text, (12, 28), scale=0.65, colour=ph_colour, bold=True)
 
-            # --- Pose skeleton ---
-            if pose_result.pose_landmarks:
-                mp_draw.draw_landmarks(
-                    frame,
-                    pose_result.pose_landmarks,
-                    mp_pose.POSE_CONNECTIONS,
-                    landmark_drawing_spec=mp_styles.get_default_pose_landmarks_style(),
-                )
+        # --- Metrics panel (right side) ---
+        px = width - 210
+        panel_h = 200
+        _panel_bg(frame, px - 5, 5, 215, panel_h)
 
-            # --- Contact flash (red overlay) ---
-            if label == BattingPhase.CONTACT:
-                overlay = frame.copy()
-                cv2.rectangle(overlay, (0, 0), (width, height), (0, 0, 200), -1)
-                cv2.addWeighted(overlay, 0.15, frame, 0.85, 0, frame)
+        row = 25
+        lh  = 24
 
-            # --- Phase label (top left) ---
-            ph_text = PHASE_LABELS.get(label, "")
-            if ph_text:
-                _panel_bg(frame, 5, 5, 230, 34)
-                _text(frame, ph_text, (12, 28), scale=0.65, colour=ph_colour, bold=True)
+        def metric_line(label_txt, val_txt, colour=C_WHITE):
+            nonlocal row
+            _text(frame, label_txt, (px, row), scale=0.45, colour=(180, 180, 180))
+            _text(frame, val_txt,   (px + 120, row), scale=0.48, colour=colour, bold=True)
+            row += lh
 
-            # --- Metrics panel (right side) ---
-            px = width - 210
-            panel_h = 200
-            _panel_bg(frame, px - 5, 5, 215, panel_h)
+        if m:
+            metric_line("Shoulder",  f"{m.shoulder_openness:.0f}°")
+            metric_line("Hip open",  f"{m.hip_openness:.0f}°")
+            metric_line("Head off",  f"{m.head_offset:+.3f}")
+            metric_line("Eye tilt",  f"{m.eye_tilt:.3f}")
+            metric_line("Frt knee",  f"{m.front_knee_angle:.0f}°")
+            metric_line("Frt elbow", f"{m.front_elbow_angle:.0f}°")
+            metric_line("Wrist H",   f"{m.wrist_height:.3f}")
+            metric_line("Stance W",  f"{m.stance_width:.3f}")
 
-            row = 25
-            lh  = 24   # line height
+        # --- Pillar scores (bottom right) ---
+        by = height - 130
+        _panel_bg(frame, px - 5, by, 215, 125)
 
-            def metric_line(label_txt, val_txt, colour=C_WHITE):
-                nonlocal row
-                _text(frame, label_txt, (px, row), scale=0.45, colour=(180, 180, 180))
-                _text(frame, val_txt,   (px + 120, row), scale=0.48, colour=colour, bold=True)
-                row += lh
+        row = by + 20
+        for pname in pillar_names:
+            p = result.pillars.get(pname)
+            if not p:
+                continue
+            col = STATUS_COLOURS.get(p.status, C_WHITE)
+            _text(frame, f"{pname[:4].upper()}", (px, row), scale=0.45, colour=(180, 180, 180))
+            bar_len = int(p.score / p.max_score * 80)
+            cv2.rectangle(frame, (px + 45, row - 12), (px + 45 + bar_len, row + 2), col, -1)
+            _text(frame, f"{p.score}", (px + 135, row), scale=0.48, colour=col, bold=True)
+            row += lh
 
-            if m:
-                metric_line("Shoulder",  f"{m.shoulder_openness:.0f}°")
-                metric_line("Hip open",  f"{m.hip_openness:.0f}°")
-                metric_line("Head off",  f"{m.head_offset:+.3f}")
-                metric_line("Eye tilt",  f"{m.eye_tilt:.3f}")
-                metric_line("Frt knee",  f"{m.front_knee_angle:.0f}°")
-                metric_line("Frt elbow", f"{m.front_elbow_angle:.0f}°")
-                metric_line("Wrist H",   f"{m.wrist_height:.3f}")
-                metric_line("Stance W",  f"{m.stance_width:.3f}")
+        # BattingIQ score
+        score_str = f"BattingIQ: {result.battingiq_score}  [{result.score_band}]"
+        _panel_bg(frame, 5, height - 38, len(score_str) * 11, 32)
+        _text(frame, score_str, (12, height - 14), scale=0.65,
+              colour=C_GREEN if result.battingiq_score >= 70 else C_AMBER, bold=True)
 
-            # --- Pillar scores (bottom right) ---
-            by = height - 130
-            _panel_bg(frame, px - 5, by, 215, 125)
+        # Frame counter
+        _text(frame, f"f{frame_idx}", (width - 55, height - 10),
+              scale=0.4, colour=(120, 120, 120))
 
-            row = by + 20
-            for pname in pillar_names:
-                p = result.pillars.get(pname)
-                if not p:
-                    continue
-                col = STATUS_COLOURS.get(p.status, C_WHITE)
-                _text(frame, f"{pname[:4].upper()}", (px, row), scale=0.45, colour=(180, 180, 180))
-                bar_len = int(p.score / p.max_score * 80)
-                cv2.rectangle(frame, (px + 45, row - 12), (px + 45 + bar_len, row + 2), col, -1)
-                _text(frame, f"{p.score}", (px + 135, row), scale=0.48, colour=col, bold=True)
-                row += lh
-
-            # BattingIQ score
-            score_str = f"BattingIQ: {result.battingiq_score}  [{result.score_band}]"
-            _panel_bg(frame, 5, height - 38, len(score_str) * 11, 32)
-            _text(frame, score_str, (12, height - 14), scale=0.65,
-                  colour=C_GREEN if result.battingiq_score >= 70 else C_AMBER, bold=True)
-
-            # Frame counter
-            _text(frame, f"f{frame_idx}", (width - 55, height - 10),
-                  scale=0.4, colour=(120, 120, 120))
-
-            writer.write(frame)
-            frame_idx += 1
+        writer.write(frame)
+        frame_idx += 1
 
     cap.release()
     writer.release()
