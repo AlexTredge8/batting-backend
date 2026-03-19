@@ -212,13 +212,13 @@ def _fill_gaps(metrics: list[FrameMetrics]) -> None:
     last known values so velocity calculations don't get corrupted.
     """
     last_valid = None
-    for m in metrics:
+    for idx, m in enumerate(metrics):
         if m.detected:
             last_valid = m
         elif last_valid is not None:
             # Copy spatial values from last valid frame; keep frame/time
             fi, ts = m.frame_idx, m.timestamp_s
-            metrics[m.frame_idx] = FrameMetrics(
+            metrics[idx] = FrameMetrics(
                 frame_idx=fi,
                 timestamp_s=ts,
                 detected=False,
