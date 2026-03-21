@@ -130,6 +130,9 @@ class FrameMetrics:
     hip_centre_x: float = 0.0
     hip_centre_vx: float = 0.0
 
+    # Quality flags
+    low_confidence: bool = False   # True if gap-filled beyond MAX_CONFIDENT_GAP_FRAMES
+
 
 # ---------------------------------------------------------------------------
 # Phase detection results
@@ -196,3 +199,5 @@ class BattingIQResult:
     development_notes: list[str]
     phases: PhaseResult
     metadata: dict
+    handedness: str = "right"           # "right" or "left"
+    handedness_source: str = "default"  # "api", "auto", or "default"

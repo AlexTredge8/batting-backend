@@ -54,6 +54,7 @@ def extract_poses(video_path: str, verbose: bool = True) -> tuple[list[FramePose
         "total_frames": total_frames,
         "duration_s": round(total_frames / fps, 3),
         "video_name": path.name,
+        "frame_step": frame_step,
     }
 
     if verbose:

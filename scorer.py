@@ -96,6 +96,8 @@ def build_scores(
     phases: PhaseResult,
     baseline: dict,
     video_meta: dict,
+    handedness: str = "right",
+    handedness_source: str = "default",
 ) -> BattingIQResult:
     """
     Build the complete BattingIQResult from raw faults.
@@ -117,6 +119,9 @@ def build_scores(
         ],
     }
 
+    # Extract rule evaluation health (if present)
+    evaluation = fault_map.pop("_evaluation", None)
+
     for name in ["access", "tracking", "stability", "flow"]:
         faults = fault_map.get(name, [])
         score  = _score_pillar(faults)
@@ -137,6 +142,10 @@ def build_scores(
     priority = _select_priority_fix(pillars)
     dev_notes = _development_notes(pillars, phases, baseline)
 
+    # Include rule evaluation health in metadata
+    if evaluation:
+        video_meta["rule_evaluation"] = evaluation
+
     return BattingIQResult(
         battingiq_score=total,
         score_band=band,
@@ -145,4 +154,6 @@ def build_scores(
         development_notes=dev_notes,
         phases=phases,
         metadata=video_meta,
+        handedness=handedness,
+        handedness_source=handedness_source,
     )

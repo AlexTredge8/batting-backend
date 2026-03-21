@@ -84,12 +84,16 @@ async def analyse(
     name: Optional[str] = Form(None),
     email: Optional[str] = Form(None),
     consent: Optional[str] = Form(None),
+    handedness: Optional[str] = Form(None),
 ):
     """
     Upload a batting video and receive a full BattingIQ analysis report.
 
-    Returns JSON with: battingiq_score, score_band, pillars, priority_fix,
-    development_notes, phases, metadata.
+    Args:
+        handedness: "right" or "left". Defaults to "right" if not provided.
+
+    Returns JSON with: battingiq_score, score_band, handedness, pillars,
+    priority_fix, development_notes, phases, metadata.
     """
     # Validate file type
     suffix = Path(file.filename).suffix.lower() if file.filename else ".mp4"
@@ -114,12 +118,18 @@ async def analyse(
             shutil.copyfileobj(file.file, fh)
 
         file_mb = round(video_path.stat().st_size / 1e6, 1)
-        print(f"[analyse] job={job_id} file={file_mb}MB suffix={suffix} mem_avail={_mem_mb()}MB")
+        # Resolve handedness
+        h = (handedness or "").strip().lower()
+        h_source = "api" if h in ("right", "left") else "default"
+        if h not in ("right", "left"):
+            h = None  # let pipeline use default
+        print(f"[analyse] job={job_id} file={file_mb}MB suffix={suffix} handedness={h or 'default'} mem_avail={_mem_mb()}MB")
 
         # Run analysis pipeline
         output_dir = job_dir / "output"
         print(f"[analyse] starting pipeline mem_avail={_mem_mb()}MB")
-        report = run_full_analysis(str(video_path), output_dir=str(output_dir))
+        report = run_full_analysis(str(video_path), output_dir=str(output_dir),
+                                   handedness=h, handedness_source=h_source)
         print(f"[analyse] pipeline done mem_avail={_mem_mb()}MB")
 
         # Convert internal file paths to public relative URLs

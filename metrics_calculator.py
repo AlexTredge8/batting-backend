@@ -17,7 +17,7 @@ Change FRONT_SIDE in config.py for left-handed batters.
 import math
 import numpy as np
 from models import FramePose, FrameMetrics
-from config import FRONT_SIDE, METRICS_SMOOTH_WINDOW
+from config import FRONT_SIDE, METRICS_SMOOTH_WINDOW, MAX_CONFIDENT_GAP_FRAMES
 
 # ---------------------------------------------------------------------------
 # MediaPipe BlazePose landmark indices
@@ -44,33 +44,33 @@ RIGHT_KNEE = 26
 LEFT_ANKLE = 27
 RIGHT_ANKLE = 28
 
-# Side mapping
-if FRONT_SIDE == "left":
-    FRONT_SHOULDER = LEFT_SHOULDER
-    BACK_SHOULDER  = RIGHT_SHOULDER
-    FRONT_ELBOW    = LEFT_ELBOW
-    BACK_ELBOW     = RIGHT_ELBOW
-    FRONT_WRIST    = LEFT_WRIST
-    BACK_WRIST     = RIGHT_WRIST
-    FRONT_HIP      = LEFT_HIP
-    BACK_HIP       = RIGHT_HIP
-    FRONT_KNEE     = LEFT_KNEE
-    BACK_KNEE      = RIGHT_KNEE
-    FRONT_ANKLE    = LEFT_ANKLE
-    BACK_ANKLE     = RIGHT_ANKLE
-else:
-    FRONT_SHOULDER = RIGHT_SHOULDER
-    BACK_SHOULDER  = LEFT_SHOULDER
-    FRONT_ELBOW    = RIGHT_ELBOW
-    BACK_ELBOW     = LEFT_ELBOW
-    FRONT_WRIST    = RIGHT_WRIST
-    BACK_WRIST     = LEFT_WRIST
-    FRONT_HIP      = RIGHT_HIP
-    BACK_HIP       = LEFT_HIP
-    FRONT_KNEE     = RIGHT_KNEE
-    BACK_KNEE      = LEFT_KNEE
-    FRONT_ANKLE    = RIGHT_ANKLE
-    BACK_ANKLE     = LEFT_ANKLE
+
+def _build_side_map(front_side: str) -> dict:
+    """
+    Build a mapping of front/back landmark indices based on which
+    anatomical side is the front (toward the bowler).
+
+    front_side="left"  → right-handed batter (person's left = front)
+    front_side="right" → left-handed batter  (person's right = front)
+    """
+    if front_side == "left":
+        return {
+            "FRONT_SHOULDER": LEFT_SHOULDER,  "BACK_SHOULDER": RIGHT_SHOULDER,
+            "FRONT_ELBOW":    LEFT_ELBOW,     "BACK_ELBOW":    RIGHT_ELBOW,
+            "FRONT_WRIST":    LEFT_WRIST,     "BACK_WRIST":    RIGHT_WRIST,
+            "FRONT_HIP":      LEFT_HIP,       "BACK_HIP":      RIGHT_HIP,
+            "FRONT_KNEE":     LEFT_KNEE,      "BACK_KNEE":     RIGHT_KNEE,
+            "FRONT_ANKLE":    LEFT_ANKLE,     "BACK_ANKLE":    RIGHT_ANKLE,
+        }
+    else:
+        return {
+            "FRONT_SHOULDER": RIGHT_SHOULDER, "BACK_SHOULDER": LEFT_SHOULDER,
+            "FRONT_ELBOW":    RIGHT_ELBOW,    "BACK_ELBOW":    LEFT_ELBOW,
+            "FRONT_WRIST":    RIGHT_WRIST,    "BACK_WRIST":    LEFT_WRIST,
+            "FRONT_HIP":      RIGHT_HIP,      "BACK_HIP":      LEFT_HIP,
+            "FRONT_KNEE":     RIGHT_KNEE,     "BACK_KNEE":     LEFT_KNEE,
+            "FRONT_ANKLE":    RIGHT_ANKLE,    "BACK_ANKLE":    LEFT_ANKLE,
+        }
 
 
 # ---------------------------------------------------------------------------
@@ -112,7 +112,7 @@ def _hip_openness(lh, rh) -> float:
 # Per-frame calculation
 # ---------------------------------------------------------------------------
 
-def _calc_frame(fp: FramePose) -> FrameMetrics:
+def _calc_frame(fp: FramePose, side_map: dict) -> FrameMetrics:
     """Calculate all metrics for a single detected frame."""
     lm = fp.landmarks
 
@@ -129,12 +129,12 @@ def _calc_frame(fp: FramePose) -> FrameMetrics:
     nose = L(NOSE)
     ley = L(LEFT_EYE);      rey = L(RIGHT_EYE)
 
-    front_shoulder = L(FRONT_SHOULDER); back_shoulder = L(BACK_SHOULDER)
-    front_elbow    = L(FRONT_ELBOW);    back_elbow    = L(BACK_ELBOW)
-    front_wrist    = L(FRONT_WRIST);    back_wrist    = L(BACK_WRIST)
-    front_hip      = L(FRONT_HIP);      back_hip      = L(BACK_HIP)
-    front_knee     = L(FRONT_KNEE);     back_knee     = L(BACK_KNEE)
-    front_ankle    = L(FRONT_ANKLE);    back_ankle    = L(BACK_ANKLE)
+    front_shoulder = L(side_map["FRONT_SHOULDER"]); back_shoulder = L(side_map["BACK_SHOULDER"])
+    front_elbow    = L(side_map["FRONT_ELBOW"]);    back_elbow    = L(side_map["BACK_ELBOW"])
+    front_wrist    = L(side_map["FRONT_WRIST"]);    back_wrist    = L(side_map["BACK_WRIST"])
+    front_hip      = L(side_map["FRONT_HIP"]);      back_hip      = L(side_map["BACK_HIP"])
+    front_knee     = L(side_map["FRONT_KNEE"]);     back_knee     = L(side_map["BACK_KNEE"])
+    front_ankle    = L(side_map["FRONT_ANKLE"]);    back_ankle    = L(side_map["BACK_ANKLE"])
 
     # Wrist positions
     wrist_y   = (lw.y + rw.y) / 2
@@ -206,16 +206,26 @@ def _calc_frame(fp: FramePose) -> FrameMetrics:
     return m
 
 
-def _fill_gaps(metrics: list[FrameMetrics]) -> None:
+def _fill_gaps(metrics: list[FrameMetrics]) -> int:
     """
     Forward-fill metrics for frames with no detection using the
     last known values so velocity calculations don't get corrupted.
+
+    Marks frames as low_confidence if the gap since last detection
+    exceeds MAX_CONFIDENT_GAP_FRAMES.
+
+    Returns the maximum gap length encountered.
     """
     last_valid = None
+    gap_length = 0
+    max_gap = 0
     for idx, m in enumerate(metrics):
         if m.detected:
             last_valid = m
+            max_gap = max(max_gap, gap_length)
+            gap_length = 0
         elif last_valid is not None:
+            gap_length += 1
             # Copy spatial values from last valid frame; keep frame/time
             fi, ts = m.frame_idx, m.timestamp_s
             metrics[idx] = FrameMetrics(
@@ -249,7 +259,10 @@ def _fill_gaps(metrics: list[FrameMetrics]) -> None:
                 front_elbow_angle=last_valid.front_elbow_angle,
                 back_elbow_angle=last_valid.back_elbow_angle,
                 hip_centre_x=last_valid.hip_centre_x,
+                low_confidence=gap_length > MAX_CONFIDENT_GAP_FRAMES,
             )
+    max_gap = max(max_gap, gap_length)
+    return max_gap
 
 
 def _compute_velocities(metrics: list[FrameMetrics], fps: float) -> None:
@@ -291,7 +304,7 @@ def _smooth_metric(metrics: list[FrameMetrics], attr: str, window: int) -> None:
 # Public API
 # ---------------------------------------------------------------------------
 
-def calculate_metrics(frame_poses: list[FramePose], fps: float) -> list[FrameMetrics]:
+def calculate_metrics(frame_poses: list[FramePose], fps: float, front_side: str = None) -> list[FrameMetrics]:
     """
     Full metrics pipeline:
       1. Calculate per-frame metrics for detected frames
@@ -299,11 +312,19 @@ def calculate_metrics(frame_poses: list[FramePose], fps: float) -> list[FrameMet
       3. Compute velocities
       4. Smooth key signals
     Returns one FrameMetrics per input frame.
+
+    Args:
+        front_side: "left" for right-handed batter, "right" for left-handed.
+                    Defaults to config.FRONT_SIDE if not provided.
     """
+    if front_side is None:
+        front_side = FRONT_SIDE
+    side_map = _build_side_map(front_side)
+
     metrics: list[FrameMetrics] = []
     for fp in frame_poses:
         if fp.detected:
-            metrics.append(_calc_frame(fp))
+            metrics.append(_calc_frame(fp, side_map))
         else:
             metrics.append(FrameMetrics(
                 frame_idx=fp.frame_idx,
@@ -311,7 +332,9 @@ def calculate_metrics(frame_poses: list[FramePose], fps: float) -> list[FrameMet
                 detected=False,
             ))
 
-    _fill_gaps(metrics)
+    max_gap = _fill_gaps(metrics)
+    if max_gap > MAX_CONFIDENT_GAP_FRAMES:
+        print(f"  Warning: detection gap of {max_gap} frames (>{MAX_CONFIDENT_GAP_FRAMES} threshold)")
     _compute_velocities(metrics, fps)
 
     # Smooth key noisy signals
