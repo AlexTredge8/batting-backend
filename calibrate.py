@@ -74,11 +74,11 @@ def extract_scores(data):
 
 
 def main():
-    if len(sys.argv) < 2:
-        print("Usage: python3 calibrate.py /path/to/videos/folder/")
-        sys.exit(1)
-
-    folder = resolve_folder(sys.argv[1])
+    if len(sys.argv) >= 2:
+        folder = resolve_folder(sys.argv[1])
+    else:
+        folder = os.getcwd()
+        print(f"No folder specified — scanning current directory: {folder}")
 
     if not os.path.isdir(folder):
         print(f"ERROR: Folder not found: {folder}")
