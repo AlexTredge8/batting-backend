@@ -243,10 +243,13 @@ def _find_contact(
 # Public API
 # ---------------------------------------------------------------------------
 
-def detect_phases(metrics: list[FrameMetrics], fps: float) -> PhaseResult:
+def detect_phases(metrics: list[FrameMetrics], fps: float, verbose: bool = False) -> PhaseResult:
     """
     Run the full phase detection state machine.
     Returns a PhaseResult with frame labels and key event indices.
+
+    Args:
+        verbose: if True, log diagnostic detail about phase detection decisions.
     """
     n = len(metrics)
     labels = [BattingPhase.UNKNOWN] * n
@@ -254,6 +257,8 @@ def detect_phases(metrics: list[FrameMetrics], fps: float) -> PhaseResult:
     # --- Setup ---
     setup_end = _find_setup_end(metrics)
     baseline  = _setup_baseline(metrics, setup_end)
+    if verbose:
+        print(f"  [phase] setup_end={setup_end} (baseline wrist_h={baseline['wrist_height_mean']:.4f})")
 
     for i in range(0, setup_end + 1):
         labels[i] = BattingPhase.SETUP
@@ -261,6 +266,8 @@ def detect_phases(metrics: list[FrameMetrics], fps: float) -> PhaseResult:
     # --- Backlift starts ---
     backlift_start = _find_backlift_start(metrics, setup_end, baseline)
     backlift_start = max(backlift_start, setup_end + 1)
+    if verbose:
+        print(f"  [phase] backlift_start={backlift_start}")
 
     # Frames between setup_end and backlift_start → extend setup label
     for i in range(setup_end + 1, min(backlift_start, n)):
@@ -269,6 +276,9 @@ def detect_phases(metrics: list[FrameMetrics], fps: float) -> PhaseResult:
     # --- Hands Peak ---
     hands_peak = _find_hands_peak(metrics, backlift_start)
     hands_peak = max(hands_peak, backlift_start + 2)
+    if verbose:
+        wh = metrics[hands_peak].wrist_height if hands_peak < n else 0
+        print(f"  [phase] hands_peak={hands_peak} (wrist_h={wh:.4f})")
 
     for i in range(backlift_start, hands_peak):
         labels[i] = BattingPhase.BACKLIFT_STARTS
@@ -280,10 +290,14 @@ def detect_phases(metrics: list[FrameMetrics], fps: float) -> PhaseResult:
     front_foot_down = max(backlift_start + 2, min(front_foot_down, hands_peak + 10))
     if 0 <= front_foot_down < n:
         labels[front_foot_down] = BattingPhase.FRONT_FOOT_DOWN
+    if verbose:
+        print(f"  [phase] front_foot_down={front_foot_down}")
 
     # --- Contact ---
     contact = _find_contact(metrics, hands_peak)
     contact = max(hands_peak + 2, min(contact, n - 3))
+    if verbose:
+        print(f"  [phase] contact={contact}")
 
     cw_lo = max(0, contact - CONTACT_WINDOW_FRAMES)
     cw_hi = min(n, contact + CONTACT_WINDOW_FRAMES + 1)

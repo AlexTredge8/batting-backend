@@ -61,19 +61,29 @@ def analyse(video_path: str, output_dir: str = None, verbose: bool = True,
 
     # --- Load reference baseline ---
     ref_path = Path(REFERENCE_BASELINE_PATH)
+    baseline_status = "reference"  # will be included in report
     if not ref_path.exists():
         if verbose:
-            print(f"Reference baseline not found — building from {video_path} ...")
+            print(f"  WARNING: Reference baseline not found at {ref_path}")
+            print(f"  Self-calibrating from input video — scores may be less accurate")
         baseline = build_reference_baseline(video_path)
+        baseline_status = "self_calibrated"
     else:
         baseline = load_reference_baseline()
         if verbose:
             print(f"Reference baseline loaded from {ref_path}")
+        # Validate baseline has expected keys
+        if "setup" not in baseline or "contact" not in baseline:
+            if verbose:
+                print(f"  WARNING: Reference baseline is incomplete — self-calibrating")
+            baseline = build_reference_baseline(video_path)
+            baseline_status = "self_calibrated"
 
     # --- Step 1: Extract poses ---
     if verbose:
         print(f"\nAnalysing: {vpath.name}")
     frame_poses, video_meta = extract_poses(video_path, verbose=verbose)
+    video_meta["baseline_status"] = baseline_status
     fps = video_meta["fps"]
 
     # --- Step 2: Calculate metrics ---

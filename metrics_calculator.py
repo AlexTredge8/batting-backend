@@ -17,7 +17,7 @@ Change FRONT_SIDE in config.py for left-handed batters.
 import math
 import numpy as np
 from models import FramePose, FrameMetrics
-from config import FRONT_SIDE, METRICS_SMOOTH_WINDOW
+from config import FRONT_SIDE, METRICS_SMOOTH_WINDOW, MAX_CONFIDENT_GAP_FRAMES
 
 # ---------------------------------------------------------------------------
 # MediaPipe BlazePose landmark indices
@@ -206,16 +206,26 @@ def _calc_frame(fp: FramePose, side_map: dict) -> FrameMetrics:
     return m
 
 
-def _fill_gaps(metrics: list[FrameMetrics]) -> None:
+def _fill_gaps(metrics: list[FrameMetrics]) -> int:
     """
     Forward-fill metrics for frames with no detection using the
     last known values so velocity calculations don't get corrupted.
+
+    Marks frames as low_confidence if the gap since last detection
+    exceeds MAX_CONFIDENT_GAP_FRAMES.
+
+    Returns the maximum gap length encountered.
     """
     last_valid = None
+    gap_length = 0
+    max_gap = 0
     for idx, m in enumerate(metrics):
         if m.detected:
             last_valid = m
+            max_gap = max(max_gap, gap_length)
+            gap_length = 0
         elif last_valid is not None:
+            gap_length += 1
             # Copy spatial values from last valid frame; keep frame/time
             fi, ts = m.frame_idx, m.timestamp_s
             metrics[idx] = FrameMetrics(
@@ -249,7 +259,10 @@ def _fill_gaps(metrics: list[FrameMetrics]) -> None:
                 front_elbow_angle=last_valid.front_elbow_angle,
                 back_elbow_angle=last_valid.back_elbow_angle,
                 hip_centre_x=last_valid.hip_centre_x,
+                low_confidence=gap_length > MAX_CONFIDENT_GAP_FRAMES,
             )
+    max_gap = max(max_gap, gap_length)
+    return max_gap
 
 
 def _compute_velocities(metrics: list[FrameMetrics], fps: float) -> None:
@@ -319,7 +332,9 @@ def calculate_metrics(frame_poses: list[FramePose], fps: float, front_side: str 
                 detected=False,
             ))
 
-    _fill_gaps(metrics)
+    max_gap = _fill_gaps(metrics)
+    if max_gap > MAX_CONFIDENT_GAP_FRAMES:
+        print(f"  Warning: detection gap of {max_gap} frames (>{MAX_CONFIDENT_GAP_FRAMES} threshold)")
     _compute_velocities(metrics, fps)
 
     # Smooth key noisy signals

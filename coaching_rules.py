@@ -807,6 +807,9 @@ def run_all_rules(
     results: dict[str, list[Fault]] = {
         "access": [], "tracking": [], "stability": [], "flow": []
     }
+    rules_evaluated = 0
+    rules_failed = []
+
     for pillar, rule_fn in _ALL_RULES:
         try:
             if rule_fn is rule_S3:
@@ -814,7 +817,18 @@ def run_all_rules(
             else:
                 faults = rule_fn(metrics, phases, baseline)
             results[pillar].extend(faults)
+            rules_evaluated += 1
         except Exception as e:
             # Never crash the whole pipeline on a single rule
+            rule_id = rule_fn.__name__.replace("rule_", "")
+            rules_failed.append({"rule_id": rule_id, "error": str(e)})
             print(f"  Warning: rule {rule_fn.__name__} raised {e}")
+
+    # Attach evaluation health as metadata
+    results["_evaluation"] = {
+        "rules_total": len(_ALL_RULES),
+        "rules_evaluated": rules_evaluated,
+        "rules_failed": rules_failed,
+    }
+
     return results

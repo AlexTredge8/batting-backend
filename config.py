@@ -73,6 +73,11 @@ FOLLOW_THROUGH_ANALYSIS_FRAMES = 15
 # ---------------------------------------------------------------------------
 METRICS_SMOOTH_WINDOW = 3
 
+# Gap filling: if detection gap exceeds this many consecutive frames,
+# mark the filled metrics as low_confidence (forward-fill still applies
+# but downstream consumers can filter or weight accordingly)
+MAX_CONFIDENT_GAP_FRAMES = 10
+
 # ---------------------------------------------------------------------------
 # Coaching Rule Thresholds
 # ---------------------------------------------------------------------------

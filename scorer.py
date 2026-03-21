@@ -119,6 +119,9 @@ def build_scores(
         ],
     }
 
+    # Extract rule evaluation health (if present)
+    evaluation = fault_map.pop("_evaluation", None)
+
     for name in ["access", "tracking", "stability", "flow"]:
         faults = fault_map.get(name, [])
         score  = _score_pillar(faults)
@@ -138,6 +141,10 @@ def build_scores(
     band  = _score_band(total)
     priority = _select_priority_fix(pillars)
     dev_notes = _development_notes(pillars, phases, baseline)
+
+    # Include rule evaluation health in metadata
+    if evaluation:
+        video_meta["rule_evaluation"] = evaluation
 
     return BattingIQResult(
         battingiq_score=total,
