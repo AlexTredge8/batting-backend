@@ -2,16 +2,22 @@
 BattingIQ Phase 2 — Video Annotator
 ======================================
 Produces an annotated video with:
-  - MediaPipe pose skeleton overlay
   - Phase label in top-left corner
   - Live metrics panel (right side)
   - Traffic-light flash at the Contact window
   - BattingIQ watermark
+  - Pillar score bars
+
+Output uses H.264 encoding via ffmpeg for high quality web playback.
+Falls back to mp4v if ffmpeg is unavailable.
 """
 
 import cv2
 import mediapipe as mp
 import numpy as np
+import subprocess
+import tempfile
+import shutil
 from pathlib import Path
 
 from models import BattingIQResult, BattingPhase, TrafficLight, FrameMetrics, PhaseResult
@@ -62,6 +68,40 @@ STATUS_COLOURS = {
 
 
 # ---------------------------------------------------------------------------
+# Frame index mapping
+# ---------------------------------------------------------------------------
+
+def _build_frame_lookup(metrics: list[FrameMetrics]) -> dict:
+    """
+    Build a mapping from original video frame indices to metric list indices.
+
+    Metrics are subsampled (e.g., every 2nd frame at 30fps → 15fps).
+    Each FrameMetrics stores its original frame_idx. This function creates
+    a dict so every original frame can find its nearest prior metric.
+
+    Returns: {original_frame_idx: metric_list_index}
+    """
+    lookup = {}
+    last_metric_idx = 0
+    if not metrics:
+        return lookup
+
+    # Get all original frame indices that have metrics
+    metric_orig_frames = [m.frame_idx for m in metrics]
+
+    # For each original frame, find the nearest metric at or before it
+    mi = 0
+    max_orig = metric_orig_frames[-1] + 100  # cover some frames past last metric
+    for orig_f in range(max_orig):
+        # Advance metric index if next metric is at or before this frame
+        while mi + 1 < len(metric_orig_frames) and metric_orig_frames[mi + 1] <= orig_f:
+            mi += 1
+        lookup[orig_f] = mi
+
+    return lookup
+
+
+# ---------------------------------------------------------------------------
 # Drawing helpers
 # ---------------------------------------------------------------------------
 
@@ -81,6 +121,37 @@ def _traffic_dot(frame, cx, cy, r, colour):
     cv2.circle(frame, (cx, cy), r, C_WHITE, 1)
 
 
+def _ffmpeg_available() -> bool:
+    """Check if ffmpeg is available on the system."""
+    return shutil.which("ffmpeg") is not None
+
+
+def _reencode_h264(input_path: str, output_path: str, fps: float) -> bool:
+    """
+    Re-encode a video to H.264 MP4 using ffmpeg.
+    Returns True on success, False on failure.
+    """
+    try:
+        cmd = [
+            "ffmpeg", "-y",
+            "-i", str(input_path),
+            "-c:v", "libx264",
+            "-crf", "23",
+            "-preset", "medium",
+            "-pix_fmt", "yuv420p",
+            "-r", str(fps),
+            "-movflags", "+faststart",
+            "-an",  # no audio
+            str(output_path),
+        ]
+        result = subprocess.run(
+            cmd, capture_output=True, timeout=300,
+        )
+        return result.returncode == 0
+    except (subprocess.TimeoutExpired, FileNotFoundError):
+        return False
+
+
 # ---------------------------------------------------------------------------
 # Annotator
 # ---------------------------------------------------------------------------
@@ -94,6 +165,9 @@ def annotate_video(
     """
     Re-process the video, draw overlays, write annotated output.
     No MediaPipe re-run — overlays use pre-computed metrics to avoid OOM.
+
+    Uses H.264 encoding via ffmpeg for high quality output.
+    Falls back to mp4v if ffmpeg is not available.
     """
     video_path  = Path(video_path)
     output_path = Path(output_path)
@@ -104,14 +178,27 @@ def annotate_video(
     width = int(cap.get(cv2.CAP_PROP_FRAME_WIDTH))
     height = int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
 
-    fourcc = cv2.VideoWriter_fourcc(*"mp4v")
-    writer = cv2.VideoWriter(str(output_path), fourcc, fps, (width, height))
+    # Build frame index lookup: original frame → metric list index
+    frame_lookup = _build_frame_lookup(metrics)
 
     phases = result.phases
     labels = phases.phase_labels
-    n      = len(labels)
+    n_labels = len(labels)
 
     pillar_names = ["access", "tracking", "stability", "flow"]
+
+    # Determine output strategy: ffmpeg H.264 or fallback mp4v
+    use_ffmpeg = _ffmpeg_available()
+
+    if use_ffmpeg:
+        # Write to temporary MJPG AVI, then re-encode to H.264
+        tmp_dir = tempfile.mkdtemp(prefix="battingiq_")
+        tmp_path = Path(tmp_dir) / "raw.avi"
+        fourcc = cv2.VideoWriter_fourcc(*"MJPG")
+        writer = cv2.VideoWriter(str(tmp_path), fourcc, fps, (width, height))
+    else:
+        fourcc = cv2.VideoWriter_fourcc(*"mp4v")
+        writer = cv2.VideoWriter(str(output_path), fourcc, fps, (width, height))
 
     frame_idx = 0
     while cap.isOpened():
@@ -119,8 +206,11 @@ def annotate_video(
         if not ret:
             break
 
-        m = metrics[frame_idx] if frame_idx < len(metrics) else None
-        label = labels[frame_idx] if frame_idx < n else BattingPhase.UNKNOWN
+        # Map original frame index to subsampled metric index
+        metric_idx = frame_lookup.get(frame_idx, None)
+        m = metrics[metric_idx] if metric_idx is not None and metric_idx < len(metrics) else None
+        label_idx = metric_idx if metric_idx is not None else 0
+        label = labels[label_idx] if label_idx < n_labels else BattingPhase.UNKNOWN
         ph_colour = PHASE_COLOURS.get(label, C_WHITE)
 
         # --- Contact flash (red overlay) ---
@@ -190,7 +280,108 @@ def annotate_video(
 
     cap.release()
     writer.release()
-    print(f"  Annotated video → {output_path}")
+
+    if use_ffmpeg:
+        # Re-encode temp AVI to H.264 MP4
+        success = _reencode_h264(str(tmp_path), str(output_path), fps)
+        # Clean up temp files
+        shutil.rmtree(tmp_dir, ignore_errors=True)
+        if success:
+            print(f"  Annotated video (H.264) → {output_path}")
+        else:
+            # Fallback: re-render with mp4v directly
+            print(f"  Warning: ffmpeg re-encode failed, falling back to mp4v")
+            _annotate_fallback(video_path, result, metrics, output_path,
+                               frame_lookup, fps, width, height)
+    else:
+        print(f"  Annotated video (mp4v) → {output_path}")
+
+
+def _annotate_fallback(video_path, result, metrics, output_path,
+                       frame_lookup, fps, width, height):
+    """Fallback annotation using mp4v when ffmpeg is unavailable."""
+    # Already written above with mp4v — this path only runs if ffmpeg fails
+    # after we've already written to temp. In that case the mp4v path
+    # was not used. Re-run the annotation with mp4v codec.
+    cap = cv2.VideoCapture(str(video_path))
+    fourcc = cv2.VideoWriter_fourcc(*"mp4v")
+    writer = cv2.VideoWriter(str(output_path), fourcc, fps, (width, height))
+
+    phases = result.phases
+    labels = phases.phase_labels
+    n_labels = len(labels)
+    pillar_names = ["access", "tracking", "stability", "flow"]
+
+    frame_idx = 0
+    while cap.isOpened():
+        ret, frame = cap.read()
+        if not ret:
+            break
+
+        metric_idx = frame_lookup.get(frame_idx, None)
+        m = metrics[metric_idx] if metric_idx is not None and metric_idx < len(metrics) else None
+        label_idx = metric_idx if metric_idx is not None else 0
+        label = labels[label_idx] if label_idx < n_labels else BattingPhase.UNKNOWN
+        ph_colour = PHASE_COLOURS.get(label, C_WHITE)
+
+        if label == BattingPhase.CONTACT:
+            overlay = frame.copy()
+            cv2.rectangle(overlay, (0, 0), (width, height), (0, 0, 200), -1)
+            cv2.addWeighted(overlay, 0.15, frame, 0.85, 0, frame)
+
+        ph_text = PHASE_LABELS.get(label, "")
+        if ph_text:
+            _panel_bg(frame, 5, 5, 230, 34)
+            _text(frame, ph_text, (12, 28), scale=0.65, colour=ph_colour, bold=True)
+
+        px = width - 210
+        _panel_bg(frame, px - 5, 5, 215, 200)
+        row = 25
+        lh = 24
+
+        def metric_line(label_txt, val_txt, colour=C_WHITE):
+            nonlocal row
+            _text(frame, label_txt, (px, row), scale=0.45, colour=(180, 180, 180))
+            _text(frame, val_txt,   (px + 120, row), scale=0.48, colour=colour, bold=True)
+            row += lh
+
+        if m:
+            metric_line("Shoulder",  f"{m.shoulder_openness:.0f}°")
+            metric_line("Hip open",  f"{m.hip_openness:.0f}°")
+            metric_line("Head off",  f"{m.head_offset:+.3f}")
+            metric_line("Eye tilt",  f"{m.eye_tilt:.3f}")
+            metric_line("Frt knee",  f"{m.front_knee_angle:.0f}°")
+            metric_line("Frt elbow", f"{m.front_elbow_angle:.0f}°")
+            metric_line("Wrist H",   f"{m.wrist_height:.3f}")
+            metric_line("Stance W",  f"{m.stance_width:.3f}")
+
+        by = height - 130
+        _panel_bg(frame, px - 5, by, 215, 125)
+        row = by + 20
+        for pname in pillar_names:
+            p = result.pillars.get(pname)
+            if not p:
+                continue
+            col = STATUS_COLOURS.get(p.status, C_WHITE)
+            _text(frame, f"{pname[:4].upper()}", (px, row), scale=0.45, colour=(180, 180, 180))
+            bar_len = int(p.score / p.max_score * 80)
+            cv2.rectangle(frame, (px + 45, row - 12), (px + 45 + bar_len, row + 2), col, -1)
+            _text(frame, f"{p.score}", (px + 135, row), scale=0.48, colour=col, bold=True)
+            row += lh
+
+        score_str = f"BattingIQ: {result.battingiq_score}  [{result.score_band}]"
+        _panel_bg(frame, 5, height - 38, len(score_str) * 11, 32)
+        _text(frame, score_str, (12, height - 14), scale=0.65,
+              colour=C_GREEN if result.battingiq_score >= 70 else C_AMBER, bold=True)
+        _text(frame, f"f{frame_idx}", (width - 55, height - 10),
+              scale=0.4, colour=(120, 120, 120))
+
+        writer.write(frame)
+        frame_idx += 1
+
+    cap.release()
+    writer.release()
+    print(f"  Annotated video (mp4v fallback) → {output_path}")
 
 
 # ---------------------------------------------------------------------------
@@ -213,8 +404,8 @@ _PHASE_METRICS = {
                                    ("shoulder_openness", "Shoulder",  "{:.0f}°")],
 }
 
-_THUMB_W  = 320   # px per panel
-_LABEL_H  = 68    # label bar height below the frame
+_THUMB_W  = 480   # px per panel (increased from 320 for HD quality)
+_LABEL_H  = 80    # label bar height below the frame (scaled with thumb)
 _PAD      = 8     # gap between panels
 
 
@@ -227,6 +418,9 @@ def generate_storyboard(
     """
     Extract the 6 key phase frames, annotate each with the pose skeleton
     and 2 phase-specific metrics, then stitch into a single horizontal strip.
+
+    Phase indices are in subsampled metric space — this function converts
+    them to original video frame indices for correct frame extraction.
     """
     video_path  = Path(video_path)
     output_path = Path(output_path)
@@ -239,6 +433,14 @@ def generate_storyboard(
     thumb_h = int(orig_h * _THUMB_W / orig_w)
 
     pr = result.phases
+
+    # Phase indices are in metric-list space. Convert to original frame indices
+    # so we seek to the correct video position.
+    def _to_orig_frame(metric_idx: int) -> int:
+        """Convert a metric list index to the original video frame index."""
+        idx = max(0, min(int(metric_idx), len(metrics) - 1))
+        return metrics[idx].frame_idx if idx < len(metrics) else 0
+
     key_frames = [
         (pr.setup_end,            BattingPhase.SETUP,           "SETUP"),
         (pr.backlift_start,       BattingPhase.BACKLIFT_STARTS, "BACKLIFT"),
@@ -256,9 +458,12 @@ def generate_storyboard(
         min_detection_confidence=0.4,
     ) as pose_model:
 
-        for frame_idx, phase, label in key_frames:
-            frame_idx = max(0, min(int(frame_idx), total - 1))
-            cap.set(cv2.CAP_PROP_POS_FRAMES, frame_idx)
+        for metric_idx, phase, label in key_frames:
+            # Convert metric-space index to original video frame
+            orig_frame = _to_orig_frame(metric_idx)
+            orig_frame = max(0, min(orig_frame, total - 1))
+
+            cap.set(cv2.CAP_PROP_POS_FRAMES, orig_frame)
             ret, frame = cap.read()
             if not ret or frame is None:
                 frame = np.zeros((orig_h, orig_w, 3), dtype=np.uint8)
@@ -287,23 +492,24 @@ def generate_storyboard(
             cv2.rectangle(panel, (0, thumb_h), (4, thumb_h + _LABEL_H), ph_colour, -1)
 
             # Phase name
-            _text(panel, label, (10, thumb_h + 20), scale=0.52, colour=ph_colour, bold=True)
+            _text(panel, label, (10, thumb_h + 22), scale=0.55, colour=ph_colour, bold=True)
 
-            # Timestamp
+            # Timestamp (use original frame for accurate timing)
             fps_val = pr.fps or 30.0
-            ts = f"{frame_idx / fps_val:.2f}s"
-            _text(panel, ts, (_THUMB_W - 60, thumb_h + 20), scale=0.38, colour=(110, 110, 110))
+            ts = f"{orig_frame / fps_val:.2f}s"
+            _text(panel, ts, (_THUMB_W - 70, thumb_h + 22), scale=0.40, colour=(110, 110, 110))
 
-            # 2 key metrics
-            m = metrics[frame_idx] if frame_idx < len(metrics) else None
+            # 2 key metrics — use metric at the phase index
+            mi = max(0, min(int(metric_idx), len(metrics) - 1))
+            m = metrics[mi] if mi < len(metrics) else None
             if m:
                 x_cursor = 10
                 for attr, lbl, fmt in _PHASE_METRICS.get(phase, []):
                     val = getattr(m, attr, None)
                     if val is not None:
                         txt = f"{lbl}: {fmt.format(val)}"
-                        _text(panel, txt, (x_cursor, thumb_h + 50),
-                              scale=0.38, colour=(190, 190, 190))
+                        _text(panel, txt, (x_cursor, thumb_h + 55),
+                              scale=0.40, colour=(190, 190, 190))
                         x_cursor += _THUMB_W // 2
 
             panels.append(panel)
