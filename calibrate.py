@@ -32,8 +32,10 @@ LOW_DETECTION_THRESHOLD = 85.0
 
 
 def resolve_folder(path):
-    # iCloud Drive on macOS appends a colon to paths — strip it
-    path = path.rstrip(":").rstrip("/").rstrip("\\")
+    # iCloud Drive on macOS uses colons as path separators (old HFS+ format)
+    # e.g. /Users/.../battingiq-groundtruth:/videos: -> /Users/.../battingiq-groundtruth/videos
+    path = path.rstrip(":")          # strip trailing colon
+    path = path.replace(":/", "/")   # replace mid-path iCloud separator
     return os.path.abspath(path)
 
 
