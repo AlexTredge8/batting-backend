@@ -96,6 +96,8 @@ def build_scores(
     phases: PhaseResult,
     baseline: dict,
     video_meta: dict,
+    handedness: str = "right",
+    handedness_source: str = "default",
 ) -> BattingIQResult:
     """
     Build the complete BattingIQResult from raw faults.
@@ -145,4 +147,6 @@ def build_scores(
         development_notes=dev_notes,
         phases=phases,
         metadata=video_meta,
+        handedness=handedness,
+        handedness_source=handedness_source,
     )

@@ -54,6 +54,8 @@ def build_json_report(result: BattingIQResult) -> dict:
     report = {
         "battingiq_score": result.battingiq_score,
         "score_band": result.score_band,
+        "handedness": result.handedness,
+        "handedness_source": result.handedness_source,
         "pillars": {},
         "priority_fix": _fault_to_dict(result.priority_fix) if result.priority_fix else None,
         "development_notes": result.development_notes,

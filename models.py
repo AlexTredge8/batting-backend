@@ -196,3 +196,5 @@ class BattingIQResult:
     development_notes: list[str]
     phases: PhaseResult
     metadata: dict
+    handedness: str = "right"           # "right" or "left"
+    handedness_source: str = "default"  # "api", "auto", or "default"

@@ -21,10 +21,16 @@ from scorer             import build_scores
 from report_generator   import save_json_report, print_report
 from video_annotator    import annotate_video, generate_storyboard
 from reference_builder  import load_reference_baseline, build_reference_baseline
-from config             import REFERENCE_BASELINE_PATH
+from config             import REFERENCE_BASELINE_PATH, DEFAULT_HANDEDNESS
 
 
-def analyse(video_path: str, output_dir: str = None, verbose: bool = True) -> dict:
+def _handedness_to_front_side(handedness: str) -> str:
+    """Convert handedness ('right'/'left') to front_side ('left'/'right')."""
+    return "left" if handedness == "right" else "right"
+
+
+def analyse(video_path: str, output_dir: str = None, verbose: bool = True,
+            handedness: str = None, handedness_source: str = "default") -> dict:
     """
     Full BattingIQ Phase 2 analysis pipeline.
 
@@ -33,6 +39,20 @@ def analyse(video_path: str, output_dir: str = None, verbose: bool = True) -> di
     vpath = Path(video_path)
     if not vpath.exists():
         raise FileNotFoundError(f"Video not found: {video_path}")
+
+    # --- Resolve handedness ---
+    if handedness is None:
+        handedness = DEFAULT_HANDEDNESS
+        handedness_source = "default"
+    handedness = handedness.lower().strip()
+    if handedness not in ("right", "left"):
+        if verbose:
+            print(f"  Warning: unknown handedness '{handedness}', defaulting to 'right'")
+        handedness = "right"
+        handedness_source = "default"
+    front_side = _handedness_to_front_side(handedness)
+    if verbose:
+        print(f"  Handedness: {handedness} (source: {handedness_source}, front_side: {front_side})")
 
     out_dir = Path(output_dir) if output_dir else vpath.parent / "output"
     out_dir.mkdir(parents=True, exist_ok=True)
@@ -59,7 +79,7 @@ def analyse(video_path: str, output_dir: str = None, verbose: bool = True) -> di
     # --- Step 2: Calculate metrics ---
     if verbose:
         print("  Calculating metrics...")
-    metrics = calculate_metrics(frame_poses, fps)
+    metrics = calculate_metrics(frame_poses, fps, front_side=front_side)
 
     # --- Step 3: Detect phases ---
     if verbose:
@@ -71,10 +91,11 @@ def analyse(video_path: str, output_dir: str = None, verbose: bool = True) -> di
     # --- Step 4: Run coaching rules ---
     if verbose:
         print("\n  Running coaching rules...")
-    fault_map = run_all_rules(metrics, phases, baseline)
+    fault_map = run_all_rules(metrics, phases, baseline, front_side=front_side)
 
     # --- Step 5: Score ---
-    result = build_scores(fault_map, phases, baseline, video_meta)
+    result = build_scores(fault_map, phases, baseline, video_meta,
+                          handedness=handedness, handedness_source=handedness_source)
 
     # --- Step 6: Print & save JSON report ---
     if verbose:
@@ -140,6 +161,8 @@ if __name__ == "__main__":
     main()
 
 
-def run_full_analysis(video_path: str, output_dir: str = None) -> dict:
+def run_full_analysis(video_path: str, output_dir: str = None,
+                      handedness: str = None, handedness_source: str = "default") -> dict:
     """Programmatic entry point for the FastAPI wrapper. Returns the full report as a dict."""
-    return analyse(video_path, output_dir=output_dir, verbose=False)
+    return analyse(video_path, output_dir=output_dir, verbose=False,
+                   handedness=handedness, handedness_source=handedness_source)

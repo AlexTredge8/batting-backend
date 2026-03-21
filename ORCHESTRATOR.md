@@ -181,14 +181,132 @@ POST /analyse
 
 ## Decisions Made
 
-*(none yet — populate as decisions are made in this thread)*
+1. **Handedness: runtime parameter, not X-mirroring.** We considered mirroring X coordinates for LHB to convert them to RHB-equivalent space. Rejected because MediaPipe landmarks are anatomical (LEFT_SHOULDER is always the person's left, regardless of batting side). Instead, the side mapping (which landmarks are "front" vs "back") is made a runtime parameter passed through the pipeline.
+
+2. **Video codec: H.264 over mp4v.** The current `mp4v` codec (MPEG-4 Part 2) produces visibly poor quality. We switch to H.264 via ffmpeg subprocess for reliable encoding with quality control.
+
+3. **Frame index alignment: lookup table.** The annotator will build a mapping from original frame indices to subsampled metric indices, rather than assuming 1:1 correspondence.
+
+---
+
+## Implementation Plan (2026-03-21)
+
+### Phase 2 — Handedness Support
+
+**Root cause:** `FRONT_SIDE = "left"` is a module-level constant in `config.py:19`. It's consumed at import time by `metrics_calculator.py:48-73` to create module-level side-mapping constants (`FRONT_SHOULDER = LEFT_SHOULDER`, etc.). These are frozen when the server starts. Every request uses the same mapping. Left-handed batters get analyzed with wrong front/back joints.
+
+**Directional audit of all 21 rules:**
+- 20 rules are direction-safe (use `abs()`, variance, or Y-axis only)
+- **S3 (hip drift)** has a hard-coded directional X comparison (`hip_x < front_ankle_x`) that assumes RHB screen orientation — broken for LHB
+
+**Files to change:**
+
+| File | Change |
+|------|--------|
+| `config.py` | Keep `FRONT_SIDE` as default; add `DEFAULT_HANDEDNESS = "right"` |
+| `metrics_calculator.py` | Replace module-level side mapping with `_build_side_map(front_side)` function; add `front_side` param to `calculate_metrics()` and `_calc_frame()` |
+| `coaching_rules.py` | Fix S3: pass `front_side` and flip direction check for LHB |
+| `run_analysis.py` | Accept `handedness` param, derive `front_side`, thread through pipeline |
+| `api.py` | Add `handedness` form param (values: "right", "left"; default: "right") |
+| `models.py` | Add `handedness` and `handedness_source` to `BattingIQResult` |
+| `report_generator.py` | Include `handedness` in JSON report |
+
+**Handedness → front_side mapping:**
+- `handedness="right"` → `front_side="left"` (person's left side is front)
+- `handedness="left"` → `front_side="right"` (person's right side is front)
+
+**Verification:**
+- Unit test: calculate_metrics with front_side="left" vs "right" on same landmarks produces swapped front/back values
+- Unit test: S3 correctly detects drift for both RHB and LHB
+- Integration: report includes `handedness` and `handedness_source` fields
+- Regression: RHB scoring unchanged (front_side="left" is current behavior)
+
+**Risks:**
+- Reference baseline was built with RHB. LHB analysis still compares against RHB baseline. This is acceptable for Phase 2 (the rules compare joint angles/positions, which are canonical front/back regardless of handedness). But directional baseline values (head_offset_mean sign, hip_centre_x_mean) need care — all current uses are `abs()` so this is safe.
+
+---
+
+### Phase 3 — HD Video Quality
+
+**Root causes identified:**
+
+1. **Codec (`video_annotator.py:107`):** `cv2.VideoWriter_fourcc(*"mp4v")` — MPEG-4 Part 2 produces blurry output.
+2. **Frame index mismatch (`video_annotator.py:122-123`):** Annotator counts every original frame but indexes into subsampled metrics/labels array as if 1:1. At 30fps input with frame_step=2, metrics[1] is for original frame 2, but annotator shows it at original frame 1. Second half of video shows no metrics at all.
+3. **Storyboard resolution (`video_annotator.py:216`):** `_THUMB_W = 320` — thumbnails are small.
+4. **No bitrate control:** cv2.VideoWriter offers no quality settings for mp4v.
+
+**Files to change:**
+
+| File | Change |
+|------|--------|
+| `video_annotator.py` | (1) Write raw frames with overlays to temp file, then re-encode with ffmpeg to H.264 with CRF quality. (2) Build frame_idx→metric lookup from `metrics[i].frame_idx`. (3) Increase `_THUMB_W` to 480. |
+| `pose_extractor.py` | Store `frame_step` in `video_meta` so annotator knows the subsampling rate |
+
+**Approach:**
+- Render annotated frames to a temporary AVI (lossless or near-lossless with MJPG/raw)
+- Re-encode with `ffmpeg -crf 23 -preset medium -c:v libx264` to produce clean H.264 MP4
+- Fall back to current mp4v approach if ffmpeg is unavailable
+- Build a dict `{original_frame_idx: metric_list_index}` from `FrameMetrics.frame_idx` fields
+- For frames between subsampled frames, use nearest prior metric (same as gap-fill logic)
+
+**Verification:**
+- Visual comparison: output video should be sharp at original resolution
+- File size: H.264 CRF 23 should produce smaller files than mp4v at better quality
+- Frame alignment: metrics overlay should match the correct batting phase for each frame
+- Storyboard: visually larger and clearer panels
+
+**Risks:**
+- ffmpeg must be available in the container (already in Dockerfile: `ffmpeg` is installed)
+- Temporary file disk usage during encoding (mitigated: cleanup after encode)
+
+---
+
+### Phase 4 — Fragile Areas Backlog (Ranked)
+
+**4A. Phase detection fragility**
+- Add diagnostic logging: log velocity values, sign reversals, and threshold crossings
+- Add phase detection confidence/quality metrics to report
+- Consider: fall back to position-based detection when velocity is ambiguous
+
+**4B. Frame index mismatch** (addressed in Phase 3)
+
+**4C. Reference baseline dependency**
+- Make `run_analysis.py` raise a clear warning (not silently rebuild from input)
+- Add `baseline_status` field to report: "reference" | "self_calibrated" | "missing"
+- Log which baseline was used and its source video
+
+**4D. Gap filling**
+- Add max gap threshold (e.g., 10 frames). Beyond that, mark metrics as `low_confidence`
+- Add `gap_filled` boolean field to FrameMetrics
+- Include detection quality summary in report
+
+**4E. Silent rule failures**
+- Replace bare `print()` warning with structured logging
+- Add `rules_evaluated` and `rules_failed` counts to report
+- Return which rules failed and why
+
+**4F. Public results access**
+- Add UUID-based expiry (auto-delete results after 1 hour)
+- Consider signed URLs or token-based access
+- Document the exposure in API docs
+
+**Delivery order:** 4A → 4C → 4D → 4E → 4F (4B is covered by Phase 3)
 
 ---
 
 ## Current State
 
 - Codebase fully explored on 2026-03-20
+- Implementation plan written on 2026-03-21
 - No tests written; manual validation via `test_batting.mov`
 - OOM crashes previously fixed: model_complexity 2→1, frame downscaling, skip-frame processing, no MediaPipe re-run in annotator
 - Path traversal hardened in `get_result_file()` (commit 8ad17be)
 - IndexError fix in `_fill_gaps()` (commit 4a49f77)
+
+---
+
+## Change Log
+
+| Date | Phase | What Changed | Files | Notes |
+|------|-------|-------------|-------|-------|
+| 2026-03-21 | 0-1 | Exploration + plan | ORCHESTRATOR.md | Root causes identified, plan written |

@@ -16,7 +16,14 @@ Coordinate system (MediaPipe, normalised 0-1):
 # Right-handed batter from bowler's end:
 #   Front foot  = LEFT  ankle / knee / elbow
 #   Back foot   = RIGHT ankle / knee / elbow
-FRONT_SIDE = "left"   # change to "right" for a left-handed batter
+# Left-handed batter from bowler's end:
+#   Front foot  = RIGHT ankle / knee / elbow
+#   Back foot   = LEFT  ankle / knee / elbow
+#
+# Mapping:  handedness="right" → front_side="left"
+#           handedness="left"  → front_side="right"
+FRONT_SIDE = "left"           # default for right-handed batters
+DEFAULT_HANDEDNESS = "right"  # used when API caller doesn't specify
 
 # ---------------------------------------------------------------------------
 # Phase Detection thresholds
