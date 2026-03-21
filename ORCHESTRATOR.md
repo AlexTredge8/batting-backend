@@ -298,10 +298,17 @@ POST /analyse
 
 - Codebase fully explored on 2026-03-20
 - Implementation plan written on 2026-03-21
-- No tests written; manual validation via `test_batting.mov`
+- **Phase 2 complete**: Handedness support for left-handed batters. API accepts `handedness` param. 7 tests.
+- **Phase 3 complete**: HD video output via H.264/ffmpeg. Frame index alignment fixed. Storyboard 480px. 5 tests.
+- **Phase 4 partially complete**: Phase diagnostics (4A), baseline validation (4C), gap filling limits (4D), rule health reporting (4E) — all done. Remaining: 4F (auth/access control) — documented only, not implemented.
+- 12 automated tests in `tests/`
 - OOM crashes previously fixed: model_complexity 2→1, frame downscaling, skip-frame processing, no MediaPipe re-run in annotator
-- Path traversal hardened in `get_result_file()` (commit 8ad17be)
-- IndexError fix in `_fill_gaps()` (commit 4a49f77)
+
+### Remaining Work
+- **4F: Public results access** — no auth. Anyone with a job_id can download results. Recommend: UUID-based expiry + signed URLs.
+- **Auto-detection of handedness** — deferred. Explicit API param is sufficient for now. Auto-detection is fragile due to camera angle dependency.
+- **LHB reference baseline** — all rules compare against RHB baseline. LHB analysis uses canonical front/back which makes angle comparisons valid, but a dedicated LHB baseline would improve accuracy.
+- **Integration tests** — end-to-end pipeline tests with actual video require MediaPipe + OpenCV in CI.
 
 ---
 
@@ -310,3 +317,6 @@ POST /analyse
 | Date | Phase | What Changed | Files | Notes |
 |------|-------|-------------|-------|-------|
 | 2026-03-21 | 0-1 | Exploration + plan | ORCHESTRATOR.md | Root causes identified, plan written |
+| 2026-03-21 | 2 | Handedness support | config, metrics_calculator, coaching_rules, api, run_analysis, scorer, models, report_generator | Runtime side mapping, S3 fix, API param, 7 tests |
+| 2026-03-21 | 3 | HD video quality | video_annotator, pose_extractor | H.264 via ffmpeg, frame lookup, storyboard 480px, 5 tests |
+| 2026-03-21 | 4 | Fragile areas | phase_detector, run_analysis, config, models, metrics_calculator, coaching_rules, scorer | Phase diagnostics, baseline validation, gap limits, rule health |
