@@ -31,6 +31,12 @@ OUTPUT_FILE = "model_scores.csv"
 LOW_DETECTION_THRESHOLD = 85.0
 
 
+def resolve_folder(path):
+    # iCloud Drive on macOS appends a colon to paths — strip it
+    path = path.rstrip(":").rstrip("/").rstrip("\\")
+    return os.path.abspath(path)
+
+
 def find_videos(folder):
     files = []
     for f in os.listdir(folder):
@@ -70,7 +76,7 @@ def main():
         print("Usage: python3 calibrate.py /path/to/videos/folder/")
         sys.exit(1)
 
-    folder = sys.argv[1]
+    folder = resolve_folder(sys.argv[1])
 
     if not os.path.isdir(folder):
         print(f"ERROR: Folder not found: {folder}")
