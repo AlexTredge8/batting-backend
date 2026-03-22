@@ -12,6 +12,11 @@ from models import FramePose, RawLandmark
 
 mp_pose = mp.solutions.pose
 
+# ---------------------------------------------------------------------------
+# LOCAL_MODE — set True when running on your Mac for full-quality analysis.
+# Set False on Railway (lower frame_step + resolution cap saves memory/time).
+# ---------------------------------------------------------------------------
+LOCAL_MODE = True
 
 MAX_PROCESS_FPS = 15   # subsample to this rate — plenty for cricket phase detection
 MAX_PROCESS_WIDTH = 640  # downscale wide frames before MediaPipe inference
@@ -39,11 +44,15 @@ def extract_poses(video_path: str, verbose: bool = True) -> tuple[list[FramePose
     height = int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
     total_frames = int(cap.get(cv2.CAP_PROP_FRAME_COUNT))
 
-    # Subsample: process at most MAX_PROCESS_FPS frames per second
-    frame_step = max(1, round(fps / MAX_PROCESS_FPS))
+    if LOCAL_MODE:
+        # Full quality: every frame, full resolution, model_complexity=1
+        frame_step = 1
+        scale = 1.0
+    else:
+        # Railway: subsample + downscale to save memory/time
+        frame_step = max(1, round(fps / MAX_PROCESS_FPS))
+        scale = min(1.0, MAX_PROCESS_WIDTH / width) if width > MAX_PROCESS_WIDTH else 1.0
 
-    # Downscale factor for MediaPipe input (keeps aspect ratio)
-    scale = min(1.0, MAX_PROCESS_WIDTH / width) if width > MAX_PROCESS_WIDTH else 1.0
     proc_w = int(width * scale)
     proc_h = int(height * scale)
 
