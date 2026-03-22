@@ -1,15 +1,23 @@
 {
-  "battingiq_score": 100,
+  "battingiq_score": 89,
   "score_band": "Excellent",
+  "handedness": "right",
+  "handedness_source": "default",
   "pillars": {
     "access": {
-      "score": 25,
+      "score": 19,
       "max": 25,
-      "status": "green",
-      "faults": [],
-      "positives": [
-        "Good elbow bend at contact \u2014 you are creating space through the ball."
-      ]
+      "status": "amber",
+      "faults": [
+        {
+          "rule_id": "A3",
+          "fault": "Restricted contact window",
+          "deduction": 6,
+          "detail": "compression_frames=0 (ref=3)",
+          "feedback": "Your contact window is too short. The best players keep force on the ball for longer by driving their hands through the hitting zone. Work on extending through the ball rather than coming up too quickly."
+        }
+      ],
+      "positives": []
     },
     "tracking": {
       "score": 25,
@@ -30,53 +38,66 @@
       ]
     },
     "flow": {
-      "score": 25,
+      "score": 20,
       "max": 25,
       "status": "green",
-      "faults": [],
+      "faults": [
+        {
+          "rule_id": "F1",
+          "fault": "Hands Peak / Front Foot Down desync",
+          "deduction": 5,
+          "detail": "diff=+4 frames (133ms)",
+          "feedback": "Your front foot is landing before your hands are ready. Work on syncing the step and swing into one movement."
+        }
+      ],
       "positives": [
         "Smooth swing sequence \u2014 the bat is working as one connected movement."
       ]
     }
   },
-  "priority_fix": null,
+  "priority_fix": {
+    "rule_id": "A3",
+    "fault": "Restricted contact window",
+    "deduction": 6,
+    "detail": "compression_frames=0 (ref=3)",
+    "feedback": "Your contact window is too short. The best players keep force on the ball for longer by driving their hands through the hitting zone. Work on extending through the ball rather than coming up too quickly."
+  },
   "development_notes": [
-    "Your access looks clean. Focus on maintaining that elbow space through the ball as you face faster bowling.",
     "Good base stability. Work on making that planted finish a habit against full-pitched deliveries."
   ],
   "phases": {
     "setup": {
       "start": 0,
-      "end": 63,
+      "end": 67,
       "start_ms": 0,
-      "end_ms": 2097.6
+      "end_ms": 2230.7
     },
     "backlift_starts": {
-      "frame": 67,
-      "ms": 2230.7
+      "frame": 68,
+      "ms": 2264.0
     },
     "hands_peak": {
-      "frame": 76,
-      "ms": 2530.4
+      "frame": 86,
+      "ms": 2863.3
     },
     "front_foot_down": {
-      "frame": 78,
-      "ms": 2597.0
+      "frame": 82,
+      "ms": 2730.2
     },
     "contact": {
-      "frame": 81,
-      "ms": 2696.9
+      "frame": 88,
+      "ms": 2929.9
     },
     "follow_through": {
-      "start": 84,
-      "start_ms": 2796.7
+      "start": 91,
+      "start_ms": 3029.8
     },
     "timing": {
-      "hands_peak_vs_ffd_frames": -2,
-      "hands_peak_vs_ffd_ms": -66.6,
-      "sync_status": "in_sync",
-      "backlift_to_contact_frames": 14,
-      "backlift_to_contact_ms": 466.1
+      "hands_peak_vs_ffd_frames": 4,
+      "hands_peak_vs_ffd_ms": 133.2,
+      "sync_status": "feet_early",
+      "backlift_to_contact_frames": 20,
+      "backlift_to_contact_ms": 665.9
     }
   },
   "metadata": {
@@ -86,7 +107,15 @@
     "total_frames": 129,
     "duration_s": 4.295,
     "video_name": "test_batting.mov",
+    "frame_step": 1,
     "frames_with_pose": 110,
-    "detection_rate": 85.3
+    "frames_processed": 110,
+    "detection_rate": 100.0,
+    "baseline_status": "reference",
+    "rule_evaluation": {
+      "rules_total": 21,
+      "rules_evaluated": 21,
+      "rules_failed": []
+    }
   }
 }
