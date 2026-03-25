@@ -679,7 +679,7 @@ def generate_storyboard_frames(
     pose_model = _build_pose_model(static_image_mode=True)
 
     try:
-        for metric_idx, phase, label in key_frames:
+        for index, (metric_idx, phase, label) in enumerate(key_frames):
             orig_frame = max(0, min(_metric_index_to_orig_frame(metrics, metric_idx), total - 1))
             cap.set(cv2.CAP_PROP_POS_FRAMES, orig_frame)
             ret, frame = cap.read()
@@ -707,14 +707,21 @@ def generate_storyboard_frames(
             if not cv2.imwrite(str(output_path), panel):
                 raise RuntimeError(f"Could not write storyboard frame: {output_path}")
 
+            timestamp_s = round(orig_frame / fps_val, 3)
+            timestamp_ms = round(timestamp_s * 1000, 1)
             frame_items.append({
+                "index": int(index),
                 "phase": phase.value,
                 "label": label,
+                "metric_idx": int(metric_idx),
+                "original_frame_idx": int(orig_frame),
+                "timestamp_s": timestamp_s,
+                "timestamp_ms": timestamp_ms,
+                "path": str(output_path),
+                # Backwards-compatible aliases for older consumers.
                 "metric_index": int(metric_idx),
                 "frame": int(orig_frame),
-                "ms": round(orig_frame / fps_val * 1000, 1),
-                "timestamp_s": round(orig_frame / fps_val, 3),
-                "path": str(output_path),
+                "ms": timestamp_ms,
             })
     finally:
         pose_model.close()
