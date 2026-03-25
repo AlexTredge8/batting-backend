@@ -33,6 +33,8 @@ def extract_poses(video_path: str, verbose: bool = True) -> tuple[list[FramePose
     cap = cv2.VideoCapture(str(path))
     if not cap.isOpened():
         raise RuntimeError(f"Cannot open video: {video_path}")
+    if hasattr(cv2, "CAP_PROP_ORIENTATION_AUTO"):
+        cap.set(cv2.CAP_PROP_ORIENTATION_AUTO, 1)
 
     fps = cap.get(cv2.CAP_PROP_FPS) or 30.0
     width = int(cap.get(cv2.CAP_PROP_FRAME_WIDTH))

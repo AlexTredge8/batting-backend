@@ -29,22 +29,23 @@ mp_pose = mp.solutions.pose
 # ---------------------------------------------------------------------------
 C_WHITE   = (255, 255, 255)
 C_BLACK   = (0,   0,   0)
+C_TEAL    = (170, 210, 90)
+C_TEAL_LT = (220, 240, 150)
+C_BLUE    = (220, 165, 75)
 C_GREEN   = (50, 200, 50)
 C_AMBER   = (30, 165, 255)   # orange in BGR
 C_RED     = (50,  50, 230)
-C_BLUE    = (220, 120, 40)
-C_YELLOW  = (0,  220, 220)
 C_CYAN    = (200, 200, 0)
 C_DARK    = (20,  20,  20)
 
 # Phase → colour
 PHASE_COLOURS = {
     BattingPhase.SETUP:           C_WHITE,
-    BattingPhase.BACKLIFT_STARTS: C_CYAN,
-    BattingPhase.HANDS_PEAK:      C_YELLOW,
-    BattingPhase.FRONT_FOOT_DOWN: C_GREEN,
+    BattingPhase.BACKLIFT_STARTS: C_TEAL,
+    BattingPhase.HANDS_PEAK:      C_TEAL_LT,
+    BattingPhase.FRONT_FOOT_DOWN: C_BLUE,
     BattingPhase.CONTACT:         C_RED,
-    BattingPhase.FOLLOW_THROUGH:  C_BLUE,
+    BattingPhase.FOLLOW_THROUGH:  C_TEAL,
     BattingPhase.UNKNOWN:         C_WHITE,
 }
 
@@ -64,10 +65,10 @@ STATUS_COLOURS = {
     TrafficLight.RED:   C_RED,
 }
 
-POSE_CONNECTION_COLOR = (80, 220, 80)
-POSE_LANDMARK_COLOR = (245, 245, 245)
+POSE_CONNECTION_COLOR = C_TEAL
+POSE_LANDMARK_COLOR = C_TEAL_LT
 POSE_MARKER_OUTLINE = (0, 0, 0)
-POSE_MARKER_FILL = C_YELLOW
+POSE_MARKER_FILL = C_BLUE
 POSE_VISIBILITY_THRESHOLD = 0.35
 KEY_POSE_LANDMARKS = (
     mp_pose.PoseLandmark.NOSE,
@@ -99,6 +100,26 @@ def _build_pose_model(static_image_mode: bool = False):
         min_tracking_confidence=0.5,
         smooth_landmarks=True,
     )
+
+
+def _enable_auto_orientation(cap: cv2.VideoCapture) -> int:
+    """
+    Ask OpenCV to apply any embedded rotation metadata while decoding.
+
+    Returns the reported rotation metadata in degrees when available.
+    """
+    rotation_meta = 0
+    if hasattr(cv2, "CAP_PROP_ORIENTATION_META"):
+        try:
+            rotation_meta = int(round(cap.get(cv2.CAP_PROP_ORIENTATION_META) or 0))
+        except Exception:
+            rotation_meta = 0
+    if hasattr(cv2, "CAP_PROP_ORIENTATION_AUTO"):
+        try:
+            cap.set(cv2.CAP_PROP_ORIENTATION_AUTO, 1)
+        except Exception:
+            pass
+    return rotation_meta
 
 
 def _landmark_sequence(pose_landmarks):
@@ -284,9 +305,12 @@ def annotate_video(
     cap = cv2.VideoCapture(str(video_path))
     if not cap.isOpened():
         raise RuntimeError(f"Could not open video for annotation: {video_path}")
+    rotation_meta = _enable_auto_orientation(cap)
     fps   = cap.get(cv2.CAP_PROP_FPS) or 30.0
     width = int(cap.get(cv2.CAP_PROP_FRAME_WIDTH))
     height = int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
+    if rotation_meta:
+        print(f"  Video orientation metadata: {rotation_meta}° (auto-rotated)")
 
     # Build frame index lookup: original frame → metric list index
     frame_lookup = _build_frame_lookup(metrics)
@@ -392,7 +416,7 @@ def annotate_video(
             score_str = f"BattingIQ: {result.battingiq_score}  [{result.score_band}]"
             _panel_bg(frame, 5, height - 38, len(score_str) * 11, 32)
             _text(frame, score_str, (12, height - 14), scale=0.65,
-                  colour=C_GREEN if result.battingiq_score >= 70 else C_AMBER, bold=True)
+                  colour=C_TEAL if result.battingiq_score >= 70 else C_BLUE, bold=True)
 
             # Frame counter
             _text(frame, f"f{frame_idx}", (width - 55, height - 10),
@@ -433,11 +457,14 @@ def _annotate_fallback(video_path, result, metrics, output_path,
     cap = cv2.VideoCapture(str(video_path))
     if not cap.isOpened():
         raise RuntimeError(f"Could not open video for fallback annotation: {video_path}")
+    rotation_meta = _enable_auto_orientation(cap)
     fourcc = cv2.VideoWriter_fourcc(*"mp4v")
     writer = cv2.VideoWriter(str(output_path), fourcc, fps, (width, height))
     if not writer.isOpened():
         cap.release()
         raise RuntimeError(f"Could not open fallback video writer: {output_path}")
+    if rotation_meta:
+        print(f"  Video orientation metadata: {rotation_meta}° (auto-rotated)")
 
     pose_model = _build_pose_model()
 
@@ -511,7 +538,7 @@ def _annotate_fallback(video_path, result, metrics, output_path,
             score_str = f"BattingIQ: {result.battingiq_score}  [{result.score_band}]"
             _panel_bg(frame, 5, height - 38, len(score_str) * 11, 32)
             _text(frame, score_str, (12, height - 14), scale=0.65,
-                  colour=C_GREEN if result.battingiq_score >= 70 else C_AMBER, bold=True)
+                  colour=C_TEAL if result.battingiq_score >= 70 else C_BLUE, bold=True)
             _text(frame, f"f{frame_idx}", (width - 55, height - 10),
                   scale=0.4, colour=(120, 120, 120))
 
@@ -573,10 +600,13 @@ def generate_storyboard(
     cap     = cv2.VideoCapture(str(video_path))
     if not cap.isOpened():
         raise RuntimeError(f"Could not open video for storyboard generation: {video_path}")
+    rotation_meta = _enable_auto_orientation(cap)
     total   = max(1, int(cap.get(cv2.CAP_PROP_FRAME_COUNT)))
     orig_w  = int(cap.get(cv2.CAP_PROP_FRAME_WIDTH))  or 1280
     orig_h  = int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT)) or 720
     thumb_h = int(orig_h * _THUMB_W / orig_w)
+    if rotation_meta:
+        print(f"  Video orientation metadata: {rotation_meta}° (auto-rotated)")
 
     pr = result.phases
 
@@ -618,7 +648,7 @@ def generate_storyboard(
             frame = cv2.resize(frame, (_THUMB_W, thumb_h))
 
             # Panel = frame + label bar
-            panel = np.zeros((thumb_h + _LABEL_H, _THUMB_W, 3), dtype=np.uint8)
+            panel = np.full((thumb_h + _LABEL_H, _THUMB_W, 3), 8, dtype=np.uint8)
             panel[:thumb_h] = frame
 
             ph_colour = PHASE_COLOURS.get(phase, C_WHITE)
@@ -626,6 +656,7 @@ def generate_storyboard(
             # Coloured left-edge accent + dark label bar
             cv2.rectangle(panel, (0, thumb_h), (_THUMB_W, thumb_h + _LABEL_H), (18, 18, 18), -1)
             cv2.rectangle(panel, (0, thumb_h), (4, thumb_h + _LABEL_H), ph_colour, -1)
+            cv2.rectangle(panel, (0, 0), (_THUMB_W - 1, thumb_h + _LABEL_H - 1), (55, 55, 55), 1)
 
             # Phase name
             _text(panel, label, (10, thumb_h + 22), scale=0.55, colour=ph_colour, bold=True)
