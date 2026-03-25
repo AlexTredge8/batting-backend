@@ -6,8 +6,6 @@ Endpoints:
   POST /analyse  — upload video, run full pipeline, return JSON report
 """
 
-import base64
-import mimetypes
 import os
 import shutil
 import traceback
@@ -20,6 +18,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import FileResponse, JSONResponse, RedirectResponse, Response
 from typing import Optional
 
+from inline_media import file_to_data_url
 from media_storage import download_result_file, result_redirect_url, storage_config, upload_tree
 from run_analysis import run_full_analysis
 
@@ -153,20 +152,11 @@ async def analyse(
             rel = p.relative_to(RESULTS_DIR)
             return f"/results/{rel}"
 
-        def _to_inline_image_url(abs_path):
-            if not abs_path:
-                return None
-            p = Path(abs_path)
-            if not p.exists() or not p.is_file():
-                return None
-            content_type = mimetypes.guess_type(str(p))[0] or "image/png"
-            encoded = base64.b64encode(p.read_bytes()).decode("ascii")
-            return f"data:{content_type};base64,{encoded}"
-
         def _to_storyboard_frame(frame: dict) -> dict:
             public = dict(frame)
             frame_path = public.pop("path", None)
-            public["url"] = _to_inline_image_url(frame_path) or _to_url(frame_path)
+            public["url"] = _to_url(frame_path)
+            public["data_url"] = file_to_data_url(frame_path)
             return public
 
         annotated_video_path = report.pop("_annotated_video", None)
