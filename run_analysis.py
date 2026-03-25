@@ -120,11 +120,18 @@ def analyse(video_path: str, output_dir: str = None, verbose: bool = True,
     if verbose:
         print("  Generating annotated video...")
     video_out = out_dir / f"{stem}_battingiq_annotated.mp4"
+    media_generation = {
+        "annotated_video": {"status": "pending", "path": str(video_out), "error": None},
+        "storyboard": {"status": "pending", "path": str(out_dir / f"{stem}_battingiq_storyboard.png"), "error": None},
+    }
     try:
         annotate_video(video_path, result, metrics, str(video_out))
+        media_generation["annotated_video"]["status"] = "ok"
     except Exception as ann_exc:
         if verbose:
-            print(f"  Warning: video annotation skipped ({ann_exc})")
+            print(f"  Warning: annotated video generation failed ({ann_exc})")
+        media_generation["annotated_video"]["status"] = "failed"
+        media_generation["annotated_video"]["error"] = str(ann_exc)
         video_out = None
 
     # --- Step 8: Storyboard (6 key phase frames as a single horizontal strip) ---
@@ -133,13 +140,19 @@ def analyse(video_path: str, output_dir: str = None, verbose: bool = True,
     storyboard_out = out_dir / f"{stem}_battingiq_storyboard.png"
     try:
         generate_storyboard(video_path, result, metrics, str(storyboard_out))
+        media_generation["storyboard"]["status"] = "ok"
     except Exception as sb_exc:
         if verbose:
-            print(f"  Warning: storyboard generation skipped ({sb_exc})")
+            print(f"  Warning: storyboard generation failed ({sb_exc})")
+        media_generation["storyboard"]["status"] = "failed"
+        media_generation["storyboard"]["error"] = str(sb_exc)
         storyboard_out = None
 
     if verbose:
         print(f"\nDone. Output in: {out_dir}/")
+
+    result.metadata = dict(result.metadata or {})
+    result.metadata["media_generation"] = media_generation
 
     from report_generator import build_json_report
     report = build_json_report(result)
