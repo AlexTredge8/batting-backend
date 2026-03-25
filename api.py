@@ -6,6 +6,8 @@ Endpoints:
   POST /analyse  — upload video, run full pipeline, return JSON report
 """
 
+import base64
+import mimetypes
 import os
 import shutil
 import traceback
@@ -151,9 +153,20 @@ async def analyse(
             rel = p.relative_to(RESULTS_DIR)
             return f"/results/{rel}"
 
+        def _to_inline_image_url(abs_path):
+            if not abs_path:
+                return None
+            p = Path(abs_path)
+            if not p.exists() or not p.is_file():
+                return None
+            content_type = mimetypes.guess_type(str(p))[0] or "image/png"
+            encoded = base64.b64encode(p.read_bytes()).decode("ascii")
+            return f"data:{content_type};base64,{encoded}"
+
         def _to_storyboard_frame(frame: dict) -> dict:
             public = dict(frame)
-            public["url"] = _to_url(public.pop("path", None))
+            frame_path = public.pop("path", None)
+            public["url"] = _to_inline_image_url(frame_path) or _to_url(frame_path)
             return public
 
         annotated_video_path = report.pop("_annotated_video", None)
