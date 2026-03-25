@@ -18,6 +18,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import FileResponse, JSONResponse
 from typing import Optional
 
+from media_storage import SupabaseMediaStorage, upload_analysis_media
 from run_analysis import run_full_analysis
 
 # ---------------------------------------------------------------------------
@@ -43,6 +44,7 @@ app.add_middleware(
 
 RESULTS_DIR = Path("results")
 RESULTS_DIR.mkdir(exist_ok=True)
+MEDIA_STORAGE = SupabaseMediaStorage.from_env()
 
 
 # ---------------------------------------------------------------------------
@@ -73,6 +75,7 @@ def diag():
         "env": {
             "PORT": os.environ.get("PORT", "not set"),
             "results_dir_exists": RESULTS_DIR.exists(),
+            "supabase_media_storage": MEDIA_STORAGE is not None,
         },
     }
 
@@ -147,14 +150,52 @@ async def analyse(
             public["url"] = _to_url(public.pop("path", None))
             return public
 
-        annotated_video_url = _to_url(report.pop("_annotated_video", None))
-        storyboard_url      = _to_url(report.pop("_storyboard", None))
+        annotated_video_path = report.pop("_annotated_video", None)
+        storyboard_path = report.pop("_storyboard", None)
+        annotated_video_url = _to_url(annotated_video_path)
+        storyboard_url      = _to_url(storyboard_path)
         storyboard_frames   = report.pop("_storyboard_frames", [])
-        report["storyboard_frames"] = [
+        public_storyboard_frames = [
             _to_storyboard_frame(frame)
             for frame in storyboard_frames
             if isinstance(frame, dict)
         ]
+
+        try:
+            media_storage = upload_analysis_media(
+                MEDIA_STORAGE,
+                job_id=job_id,
+                annotated_video_path=annotated_video_path,
+                storyboard_path=storyboard_path,
+                storyboard_frames=storyboard_frames,
+            )
+        except Exception as storage_exc:
+            media_storage = None
+            report.setdefault("metadata", {})
+            report["metadata"]["media_storage"] = {
+                "provider": "supabase",
+                "status": "failed",
+                "error": str(storage_exc),
+            }
+
+        if media_storage:
+            annotated_video_url = media_storage.get("annotated_video_url") or annotated_video_url
+            storyboard_url = media_storage.get("storyboard_url") or storyboard_url
+            stored_frames = media_storage.get("storyboard_frames") or []
+            if stored_frames:
+                public_storyboard_frames = [
+                    frame for frame in stored_frames if isinstance(frame, dict)
+                ]
+            report.setdefault("metadata", {})
+            report["metadata"]["media_storage"] = {
+                "provider": media_storage.get("provider"),
+                "status": "ok",
+                "bucket": media_storage.get("bucket"),
+                "prefix": media_storage.get("prefix"),
+                "signed_url_ttl_seconds": getattr(MEDIA_STORAGE, "signed_url_ttl", None),
+            }
+
+        report["storyboard_frames"] = public_storyboard_frames
 
         report["job_id"]              = job_id
         report["annotated_video_url"] = annotated_video_url
