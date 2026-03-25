@@ -166,6 +166,12 @@ def analyse(video_path: str, output_dir: str = None, verbose: bool = True,
         "strip_path": str(storyboard_out) if storyboard_out and Path(storyboard_out).exists() else None,
         "frame_count": len(storyboard_frames),
         "frames": storyboard_frames,
+        "selection_mode": "stage_aware_local_refinement",
+        "selection_note": (
+            "Storyboard stills are chosen from narrow windows around the detected "
+            "phase anchors so setup/backlift/hands peak/front foot/contact/follow-through "
+            "frames can be nudged toward the clearest nearby original frame."
+        ),
     }
 
     from report_generator import build_json_report

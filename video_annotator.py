@@ -610,6 +610,320 @@ def _storyboard_slug(label: str) -> str:
     return label.lower().replace(" ", "_").replace("-", "_")
 
 
+def _storyboard_baseline(metrics: list[FrameMetrics], setup_end: int) -> dict:
+    """
+    Build a lightweight setup baseline from the early frames.
+
+    We use this to keep the setup and backlift selections anchored to a
+    calm pre-swing pose instead of drifting into later movement.
+    """
+    if not metrics:
+        return {
+            "wrist_height": 0.0,
+            "stance_width": 0.0,
+            "wrist_speed": 0.0,
+            "head_vx": 0.0,
+            "front_ankle_vy": 0.0,
+            "shoulder_openness": 0.0,
+            "hip_openness": 0.0,
+        }
+
+    seed_end = min(len(metrics), max(5, min(setup_end + 1, 12)))
+    seed = [m for m in metrics[:seed_end] if m.detected]
+    if not seed:
+        seed = metrics[:min(len(metrics), 3)]
+
+    def _mean(attr: str) -> float:
+        vals = [getattr(m, attr, 0.0) for m in seed]
+        return float(np.mean(vals)) if vals else 0.0
+
+    return {
+        "wrist_height": _mean("wrist_height"),
+        "stance_width": _mean("stance_width"),
+        "wrist_speed": _mean("wrist_speed"),
+        "head_vx": _mean("head_vx"),
+        "front_ankle_vy": _mean("front_ankle_vy"),
+        "shoulder_openness": _mean("shoulder_openness"),
+        "hip_openness": _mean("hip_openness"),
+    }
+
+
+def _clamp_window(start: int, end: int, n: int) -> tuple[int, int]:
+    """Clamp a candidate window to valid metric indices."""
+    if n <= 0:
+        return 0, 0
+    start = max(0, min(int(start), n - 1))
+    end = max(0, min(int(end), n - 1))
+    if end < start:
+        end = start
+    return start, end
+
+
+def _minmax_norm(value: float, values: list[float], invert: bool = False) -> float:
+    """Normalise a value to 0..1 inside a candidate window."""
+    if not values:
+        return 0.0
+    lo = min(values)
+    hi = max(values)
+    if abs(hi - lo) < 1e-9:
+        return 0.5
+    scaled = (value - lo) / (hi - lo)
+    return 1.0 - scaled if invert else scaled
+
+
+def _local_extrema_bonus(values: list[float], idx: int, want_max: bool) -> float:
+    """Reward a candidate that is a clear local maximum/minimum in the window."""
+    if not values:
+        return 0.0
+    left = values[max(0, idx - 1)]
+    curr = values[idx]
+    right = values[min(len(values) - 1, idx + 1)]
+    if want_max and curr >= left and curr >= right:
+        return 0.35
+    if not want_max and curr <= left and curr <= right:
+        return 0.35
+    return 0.0
+
+
+def _score_storyboard_candidate(
+    phase: BattingPhase,
+    idx: int,
+    window_start: int,
+    window_end: int,
+    window_metrics: list[FrameMetrics],
+    baseline: dict,
+    anchor_idx: int,
+) -> tuple[float, str]:
+    """
+    Score one candidate frame for a given storyboard phase.
+
+    The goal is not to reinvent phase detection. Instead, we keep the already
+    detected stage as the anchor and pick the clearest nearby frame that best
+    matches that stage's visual story.
+    """
+    local_idx = idx - window_start
+    metric = window_metrics[local_idx]
+    indices = [window_start + i for i in range(len(window_metrics))]
+
+    wrist_speeds = [abs(m.wrist_speed) for m in window_metrics]
+    wrist_vels = [m.wrist_velocity_y for m in window_metrics]
+    wrist_abs_vels = [abs(v) for v in wrist_vels]
+    wrist_heights = [m.wrist_height for m in window_metrics]
+    stance_widths = [m.stance_width for m in window_metrics]
+    head_vxs = [abs(m.head_vx) for m in window_metrics]
+    ankle_vys = [abs(m.front_ankle_vy) for m in window_metrics]
+    ankle_vzs = [abs(m.front_ankle_vz) for m in window_metrics]
+    shoulder_opens = [m.shoulder_openness for m in window_metrics]
+    hip_opens = [m.hip_openness for m in window_metrics]
+
+    # Small distance penalty keeps the refined frame near the detected anchor.
+    anchor_span = max(1, window_end - window_start)
+    distance_penalty = abs(idx - anchor_idx) / anchor_span * 0.22
+
+    if phase == BattingPhase.SETUP:
+        height_match = 1.0 - _minmax_norm(abs(metric.wrist_height - baseline["wrist_height"]),
+                                          [abs(m.wrist_height - baseline["wrist_height"]) for m in window_metrics],
+                                          invert=False)
+        stance_match = 1.0 - _minmax_norm(abs(metric.stance_width - baseline["stance_width"]),
+                                          [abs(m.stance_width - baseline["stance_width"]) for m in window_metrics],
+                                          invert=False)
+        shoulder_match = 1.0 - _minmax_norm(abs(metric.shoulder_openness - baseline["shoulder_openness"]),
+                                             [abs(m.shoulder_openness - baseline["shoulder_openness"]) for m in window_metrics],
+                                             invert=False)
+        hip_match = 1.0 - _minmax_norm(abs(metric.hip_openness - baseline["hip_openness"]),
+                                       [abs(m.hip_openness - baseline["hip_openness"]) for m in window_metrics],
+                                       invert=False)
+        calmness = 1.0 - (
+            0.35 * _minmax_norm(abs(metric.wrist_speed), wrist_speeds, invert=False) +
+            0.25 * _minmax_norm(abs(metric.head_vx), head_vxs, invert=False) +
+            0.20 * _minmax_norm(abs(metric.front_ankle_vy), ankle_vys, invert=False) +
+            0.20 * _minmax_norm(abs(metric.wrist_velocity_y), wrist_abs_vels, invert=False)
+        )
+        late_bonus = _minmax_norm(idx, indices, invert=False)
+        score = (
+            0.30 * height_match +
+            0.20 * stance_match +
+            0.20 * shoulder_match +
+            0.15 * hip_match +
+            0.15 * calmness +
+            0.10 * late_bonus -
+            distance_penalty
+        )
+        return score, "steady setup pose near the end of the pre-swing window"
+
+    if phase == BattingPhase.BACKLIFT_STARTS:
+        lift = _minmax_norm(baseline["wrist_height"] - metric.wrist_height,
+                            [baseline["wrist_height"] - m.wrist_height for m in window_metrics],
+                            invert=False)
+        downward_velocity = _minmax_norm(-metric.wrist_velocity_y,
+                                         [-m.wrist_velocity_y for m in window_metrics],
+                                         invert=False)
+        movement = 1.0 - (
+            0.35 * _minmax_norm(abs(metric.head_vx), head_vxs, invert=False) +
+            0.25 * _minmax_norm(abs(metric.front_ankle_vy), ankle_vys, invert=False) +
+            0.20 * _minmax_norm(abs(metric.wrist_speed), wrist_speeds, invert=False) +
+            0.20 * _minmax_norm(abs(metric.wrist_height - baseline["wrist_height"]),
+                                [abs(m.wrist_height - baseline["wrist_height"]) for m in window_metrics],
+                                invert=False)
+        )
+        early_bonus = 1.0 - _minmax_norm(idx, indices, invert=False)
+        score = (
+            0.35 * lift +
+            0.25 * downward_velocity +
+            0.20 * movement +
+            0.20 * early_bonus -
+            distance_penalty
+        )
+        return score, "first clear lift away from the setup baseline"
+
+    if phase == BattingPhase.HANDS_PEAK:
+        local_min = _local_extrema_bonus(wrist_heights, local_idx, want_max=False)
+        reversal = 0.35 if local_idx > 0 and local_idx < len(window_metrics) - 1 \
+            and wrist_vels[local_idx - 1] < 0.0 and wrist_vels[local_idx + 1] > 0.0 else 0.0
+        stillness = 1.0 - (
+            0.45 * _minmax_norm(abs(metric.wrist_velocity_y), wrist_abs_vels, invert=False) +
+            0.20 * _minmax_norm(abs(metric.wrist_speed), wrist_speeds, invert=False) +
+            0.20 * _minmax_norm(abs(metric.head_vx), head_vxs, invert=False) +
+            0.15 * _minmax_norm(abs(metric.front_ankle_vy), ankle_vys, invert=False)
+        )
+        score = (
+            0.45 * _minmax_norm(metric.wrist_height, wrist_heights, invert=True) +
+            0.20 * stillness +
+            local_min +
+            reversal -
+            distance_penalty
+        )
+        return score, "local wrist-height minimum with a clean rise/fall reversal"
+
+    if phase == BattingPhase.FRONT_FOOT_DOWN:
+        landing = 0.45 * _minmax_norm(metric.stance_width, stance_widths, invert=False)
+        settled = 0.30 * (1.0 - _minmax_norm(abs(metric.front_ankle_vy), ankle_vys, invert=False))
+        planted = 0.15 * (1.0 - _minmax_norm(abs(metric.front_ankle_vz), ankle_vzs, invert=False))
+        late_bonus = _minmax_norm(idx, indices, invert=False)
+        score = landing + settled + planted + 0.10 * late_bonus - distance_penalty
+        return score, "widest clean landing frame with the front ankle settled"
+
+    if phase == BattingPhase.CONTACT:
+        local_max = _local_extrema_bonus(wrist_heights, local_idx, want_max=True)
+        reversal = 0.35 if local_idx > 0 and local_idx < len(window_metrics) - 1 \
+            and wrist_vels[local_idx - 1] > 0.0 and wrist_vels[local_idx + 1] < 0.0 else 0.0
+        decisive = 1.0 - (
+            0.35 * _minmax_norm(abs(metric.wrist_velocity_y), wrist_abs_vels, invert=False) +
+            0.20 * _minmax_norm(abs(metric.wrist_speed), wrist_speeds, invert=False) +
+            0.20 * _minmax_norm(abs(metric.head_vx), head_vxs, invert=False) +
+            0.25 * _minmax_norm(abs(metric.front_ankle_vy), ankle_vys, invert=False)
+        )
+        score = (
+            0.50 * _minmax_norm(metric.wrist_height, wrist_heights, invert=False) +
+            0.20 * decisive +
+            local_max +
+            reversal -
+            distance_penalty
+        )
+        return score, "bat lowest-point contact with the clearest velocity reversal"
+
+    if phase == BattingPhase.FOLLOW_THROUGH:
+        open_body = 0.45 * _minmax_norm(metric.shoulder_openness, shoulder_opens, invert=False)
+        open_hips = 0.25 * _minmax_norm(metric.hip_openness, hip_opens, invert=False)
+        rise = 0.20 * _minmax_norm(-metric.wrist_velocity_y, [-m.wrist_velocity_y for m in window_metrics], invert=False)
+        lift = 0.10 * _minmax_norm(-metric.wrist_height, [-m.wrist_height for m in window_metrics], invert=False)
+        score = open_body + open_hips + rise + lift - distance_penalty
+        return score, "clearly opening follow-through after contact"
+
+    # Fallback for any unexpected phase.
+    score = 1.0 - distance_penalty
+    return score, "phase anchor fallback"
+
+
+def _refine_storyboard_metric_idx(
+    phase: BattingPhase,
+    anchor_idx: int,
+    window_start: int,
+    window_end: int,
+    metrics: list[FrameMetrics],
+    baseline: dict,
+) -> tuple[int, float, str]:
+    """Pick the most trustworthy frame inside a local phase window."""
+    window_start, window_end = _clamp_window(window_start, window_end, len(metrics))
+    if window_end < window_start:
+        return window_start, 0.0, "empty storyboard window"
+
+    window_metrics = metrics[window_start:window_end + 1]
+    best_idx = window_start
+    best_score = float("-inf")
+    best_reason = "phase anchor"
+
+    for idx in range(window_start, window_end + 1):
+        score, reason = _score_storyboard_candidate(
+            phase=phase,
+            idx=idx,
+            window_start=window_start,
+            window_end=window_end,
+            window_metrics=window_metrics,
+            baseline=baseline,
+            anchor_idx=anchor_idx,
+        )
+        if score > best_score or (abs(score - best_score) <= 1e-9 and idx < best_idx):
+            best_idx = idx
+            best_score = score
+            best_reason = reason
+
+    return best_idx, best_score, best_reason
+
+
+def _storyboard_selection_window(
+    phase: BattingPhase,
+    anchor_idx: int,
+    metrics_len: int,
+    result: BattingIQResult,
+    selected: dict[str, int],
+) -> tuple[int, int]:
+    """Build a narrow, stage-aware search window around one detected phase."""
+    pr = result.phases
+    span = max(4, int((result.phases.fps or 30.0) // 2))
+
+    if phase == BattingPhase.SETUP:
+        start = 0
+        end = pr.backlift_start - 1 if pr.backlift_start > 0 else anchor_idx + span
+        end = min(end, anchor_idx + max(3, span // 2))
+        return _clamp_window(start, end, metrics_len)
+
+    if phase == BattingPhase.BACKLIFT_STARTS:
+        start = max(selected.get("setup", anchor_idx), anchor_idx - span)
+        end = min(pr.hands_peak - 1 if pr.hands_peak > 0 else metrics_len - 1,
+                  anchor_idx + span)
+        return _clamp_window(start, end, metrics_len)
+
+    if phase == BattingPhase.HANDS_PEAK:
+        start = max(selected.get("backlift_starts", anchor_idx), anchor_idx - span)
+        end = min(pr.contact - 1 if pr.contact > 0 else metrics_len - 1,
+                  anchor_idx + span)
+        return _clamp_window(start, end, metrics_len)
+
+    if phase == BattingPhase.FRONT_FOOT_DOWN:
+        start = max(selected.get("backlift_starts", anchor_idx), anchor_idx - span)
+        end = min(pr.contact - 1 if pr.contact > 0 else metrics_len - 1,
+                  anchor_idx + span)
+        return _clamp_window(start, end, metrics_len)
+
+    if phase == BattingPhase.CONTACT:
+        start = max(
+            selected.get("hands_peak", anchor_idx),
+            selected.get("front_foot_down", anchor_idx),
+            anchor_idx - span,
+        )
+        end = min(pr.follow_through_start - 1 if pr.follow_through_start > 0 else metrics_len - 1,
+                  anchor_idx + span)
+        return _clamp_window(start, end, metrics_len)
+
+    if phase == BattingPhase.FOLLOW_THROUGH:
+        start = max(selected.get("contact", anchor_idx) + 1, anchor_idx - max(2, span // 2))
+        end = min(metrics_len - 1, anchor_idx + span + 2)
+        return _clamp_window(start, end, metrics_len)
+
+    return _clamp_window(max(0, anchor_idx - span), anchor_idx + span, metrics_len)
+
+
 def _render_storyboard_panel(
     frame: np.ndarray,
     phase: BattingPhase,
@@ -657,6 +971,10 @@ def generate_storyboard_frames(
 ) -> list[dict]:
     """
     Generate six separate storyboard stills and return metadata for each.
+
+    Each stage starts from the detected phase anchor, then is refined inside a
+    narrow stage-aware window so the selected still is visually closer to the
+    true setup/backlift/hands-peak/front-foot/contact/follow-through moment.
     """
     video_path = Path(video_path)
     output_dir = Path(output_dir)
@@ -677,10 +995,29 @@ def generate_storyboard_frames(
     key_frames = _storyboard_key_frames(result)
     frame_items: list[dict] = []
     pose_model = _build_pose_model(static_image_mode=True)
+    baseline = _storyboard_baseline(metrics, result.phases.setup_end)
+    selected_metric_indices: dict[str, int] = {}
 
     try:
         for index, (metric_idx, phase, label) in enumerate(key_frames):
-            orig_frame = max(0, min(_metric_index_to_orig_frame(metrics, metric_idx), total - 1))
+            window_start, window_end = _storyboard_selection_window(
+                phase=phase,
+                anchor_idx=int(metric_idx),
+                metrics_len=len(metrics),
+                result=result,
+                selected=selected_metric_indices,
+            )
+            refined_metric_idx, selection_score, selection_reason = _refine_storyboard_metric_idx(
+                phase=phase,
+                anchor_idx=int(metric_idx),
+                window_start=window_start,
+                window_end=window_end,
+                metrics=metrics,
+                baseline=baseline,
+            )
+            selected_metric_indices[phase.value] = refined_metric_idx
+
+            orig_frame = max(0, min(_metric_index_to_orig_frame(metrics, refined_metric_idx), total - 1))
             cap.set(cv2.CAP_PROP_POS_FRAMES, orig_frame)
             ret, frame = cap.read()
             if not ret or frame is None:
@@ -690,7 +1027,7 @@ def generate_storyboard_frames(
             if pose_landmarks:
                 _draw_pose_overlay(frame, pose_landmarks)
 
-            metric = metrics[max(0, min(int(metric_idx), len(metrics) - 1))] if metrics else None
+            metric = metrics[max(0, min(int(refined_metric_idx), len(metrics) - 1))] if metrics else None
             panel = _render_storyboard_panel(
                 frame=frame,
                 phase=phase,
@@ -713,13 +1050,22 @@ def generate_storyboard_frames(
                 "index": int(index),
                 "phase": phase.value,
                 "label": label,
-                "metric_idx": int(metric_idx),
+                "metric_idx": int(refined_metric_idx),
                 "original_frame_idx": int(orig_frame),
                 "timestamp_s": timestamp_s,
                 "timestamp_ms": timestamp_ms,
                 "path": str(output_path),
+                "anchor_metric_idx": int(metric_idx),
+                "anchor_original_frame_idx": int(_metric_index_to_orig_frame(metrics, metric_idx)),
+                "selection_window": {
+                    "start_metric_idx": int(window_start),
+                    "end_metric_idx": int(window_end),
+                },
+                "selection_score": round(float(selection_score), 4),
+                "selection_reason": selection_reason,
                 # Backwards-compatible aliases for older consumers.
-                "metric_index": int(metric_idx),
+                "metric_index": int(refined_metric_idx),
+                "anchor_metric_index": int(metric_idx),
                 "frame": int(orig_frame),
                 "ms": timestamp_ms,
             })
@@ -738,10 +1084,10 @@ def generate_storyboard(
 ) -> dict:
     """
     Extract the 6 key phase frames, annotate each with the pose skeleton
-    and 2 phase-specific metrics, then stitch into a single horizontal strip.
+    and 2 phase-specific metrics, then stitch them into a single horizontal strip.
 
-    Phase indices are in subsampled metric space — this function converts
-    them to original video frame indices for correct frame extraction.
+    Phase indices are detected in metric space, then refined to nearby original
+    frames before capture so the storyboard is less dependent on the raw anchor.
     """
     video_path  = Path(video_path)
     output_path = Path(output_path)
