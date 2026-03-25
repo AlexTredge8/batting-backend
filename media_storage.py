@@ -2,7 +2,7 @@ import json
 import mimetypes
 import os
 from pathlib import Path
-from typing import Dict, Iterable, Optional
+from typing import Dict, Optional
 from urllib import error, parse, request
 
 
@@ -189,3 +189,46 @@ def get_signed_result_url(relative_path: str, expires_in: int = 3600) -> Optiona
 def result_redirect_url(job_id: str, file_path: str, expires_in: int = 3600) -> Optional[str]:
     relative_path = Path(job_id) / file_path
     return get_signed_result_url(relative_path.as_posix(), expires_in=expires_in)
+
+
+def download_result_file(relative_path: str) -> Dict[str, object]:
+    cfg = storage_config()
+    object_path = storage_object_path(relative_path)
+    if not cfg["enabled"]:
+        return {
+            "status": "disabled",
+            "object_path": object_path,
+            "content": None,
+            "content_type": None,
+            "error": "storage_disabled",
+        }
+
+    url = _object_url(relative_path)
+    req = request.Request(url, method="GET", headers=_storage_headers())
+    try:
+        with request.urlopen(req, timeout=60) as resp:
+            return {
+                "status": "ok",
+                "object_path": object_path,
+                "content": resp.read(),
+                "content_type": resp.headers.get_content_type() or "application/octet-stream",
+                "error": None,
+            }
+    except error.HTTPError as exc:
+        detail = exc.read().decode("utf-8", errors="ignore")
+        return {
+            "status": "failed",
+            "object_path": object_path,
+            "content": None,
+            "content_type": None,
+            "error": f"http_{exc.code}",
+            "detail": detail[:500] or None,
+        }
+    except Exception as exc:
+        return {
+            "status": "failed",
+            "object_path": object_path,
+            "content": None,
+            "content_type": None,
+            "error": str(exc),
+        }

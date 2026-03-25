@@ -15,10 +15,10 @@ from pathlib import Path
 import psutil
 from fastapi import FastAPI, File, Form, UploadFile, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import FileResponse, JSONResponse
+from fastapi.responses import FileResponse, JSONResponse, RedirectResponse, Response
 from typing import Optional
 
-from media_storage import SupabaseMediaStorage, upload_analysis_media
+from media_storage import download_result_file, result_redirect_url, storage_config, upload_tree
 from run_analysis import run_full_analysis
 
 # ---------------------------------------------------------------------------
@@ -44,7 +44,6 @@ app.add_middleware(
 
 RESULTS_DIR = Path("results")
 RESULTS_DIR.mkdir(exist_ok=True)
-MEDIA_STORAGE = SupabaseMediaStorage.from_env()
 
 
 # ---------------------------------------------------------------------------
@@ -61,6 +60,7 @@ def diag():
     """Live diagnostic — memory, disk, Python env. Hit this to understand failures."""
     vm = psutil.virtual_memory()
     disk = psutil.disk_usage("/")
+    media_storage = storage_config()
     return {
         "memory": {
             "total_mb": round(vm.total / 1e6),
@@ -75,7 +75,13 @@ def diag():
         "env": {
             "PORT": os.environ.get("PORT", "not set"),
             "results_dir_exists": RESULTS_DIR.exists(),
-            "supabase_media_storage": MEDIA_STORAGE is not None,
+            "media_storage": {
+                "configured": bool(media_storage["enabled"]),
+                "bucket": media_storage["bucket"],
+                "prefix": media_storage["prefix"],
+                "base_url_present": bool(media_storage["base_url"]),
+                "service_key_present": bool(media_storage["service_key"]),
+            },
         },
     }
 
@@ -162,38 +168,18 @@ async def analyse(
         ]
 
         try:
-            media_storage = upload_analysis_media(
-                MEDIA_STORAGE,
-                job_id=job_id,
-                annotated_video_path=annotated_video_path,
-                storyboard_path=storyboard_path,
-                storyboard_frames=storyboard_frames,
-            )
+            storage_summary = upload_tree(output_dir, RESULTS_DIR)
         except Exception as storage_exc:
-            media_storage = None
-            report.setdefault("metadata", {})
-            report["metadata"]["media_storage"] = {
-                "provider": "supabase",
+            storage_summary = {
+                "enabled": True,
                 "status": "failed",
+                "uploaded_count": 0,
+                "failed_count": 0,
+                "skipped_count": 0,
                 "error": str(storage_exc),
             }
-
-        if media_storage:
-            annotated_video_url = media_storage.get("annotated_video_url") or annotated_video_url
-            storyboard_url = media_storage.get("storyboard_url") or storyboard_url
-            stored_frames = media_storage.get("storyboard_frames") or []
-            if stored_frames:
-                public_storyboard_frames = [
-                    frame for frame in stored_frames if isinstance(frame, dict)
-                ]
-            report.setdefault("metadata", {})
-            report["metadata"]["media_storage"] = {
-                "provider": media_storage.get("provider"),
-                "status": "ok",
-                "bucket": media_storage.get("bucket"),
-                "prefix": media_storage.get("prefix"),
-                "signed_url_ttl_seconds": getattr(MEDIA_STORAGE, "signed_url_ttl", None),
-            }
+        report.setdefault("metadata", {})
+        report["metadata"]["media_storage"] = storage_summary
 
         report["storyboard_frames"] = public_storyboard_frames
 
@@ -224,6 +210,15 @@ def get_result_file(job_id: str, file_path: str):
         raise HTTPException(status_code=400, detail="Invalid file path")
 
     if not requested.exists() or not requested.is_file():
+        redirect_url = result_redirect_url(job_id, file_path)
+        if redirect_url:
+            return RedirectResponse(url=redirect_url, status_code=307)
+        remote_file = download_result_file(f"{job_id}/{file_path}")
+        if remote_file.get("status") == "ok" and remote_file.get("content") is not None:
+            return Response(
+                content=remote_file["content"],
+                media_type=remote_file.get("content_type") or "application/octet-stream",
+            )
         raise HTTPException(status_code=404, detail="File not found")
 
     return FileResponse(str(requested))
