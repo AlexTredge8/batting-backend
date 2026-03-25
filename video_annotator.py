@@ -22,9 +22,7 @@ from pathlib import Path
 
 from models import BattingIQResult, BattingPhase, TrafficLight, FrameMetrics, PhaseResult
 
-mp_pose   = mp.solutions.pose
-mp_draw   = mp.solutions.drawing_utils
-mp_styles = mp.solutions.drawing_styles
+mp_pose = mp.solutions.pose
 
 # ---------------------------------------------------------------------------
 # Colour palette (BGR)
@@ -65,6 +63,58 @@ STATUS_COLOURS = {
     TrafficLight.AMBER: C_AMBER,
     TrafficLight.RED:   C_RED,
 }
+
+POSE_CONNECTION_COLOR = (80, 220, 80)
+POSE_LANDMARK_COLOR = (245, 245, 245)
+POSE_MARKER_OUTLINE = (0, 0, 0)
+POSE_MARKER_FILL = C_YELLOW
+POSE_VISIBILITY_THRESHOLD = 0.35
+KEY_POSE_LANDMARKS = (
+    mp_pose.PoseLandmark.NOSE,
+    mp_pose.PoseLandmark.LEFT_SHOULDER,
+    mp_pose.PoseLandmark.RIGHT_SHOULDER,
+    mp_pose.PoseLandmark.LEFT_ELBOW,
+    mp_pose.PoseLandmark.RIGHT_ELBOW,
+    mp_pose.PoseLandmark.LEFT_WRIST,
+    mp_pose.PoseLandmark.RIGHT_WRIST,
+    mp_pose.PoseLandmark.LEFT_HIP,
+    mp_pose.PoseLandmark.RIGHT_HIP,
+    mp_pose.PoseLandmark.LEFT_KNEE,
+    mp_pose.PoseLandmark.RIGHT_KNEE,
+    mp_pose.PoseLandmark.LEFT_ANKLE,
+    mp_pose.PoseLandmark.RIGHT_ANKLE,
+)
+
+
+# ---------------------------------------------------------------------------
+# Pose helpers
+# ---------------------------------------------------------------------------
+
+def _build_pose_model(static_image_mode: bool = False):
+    """Build the pose model used by the renderer."""
+    return mp_pose.Pose(
+        static_image_mode=static_image_mode,
+        model_complexity=1,
+        min_detection_confidence=0.5,
+        min_tracking_confidence=0.5,
+        smooth_landmarks=True,
+    )
+
+
+def _landmark_sequence(pose_landmarks):
+    """Return a simple indexable landmark sequence from either pose API."""
+    if pose_landmarks is None:
+        return ()
+    if hasattr(pose_landmarks, "landmark"):
+        return pose_landmarks.landmark
+    return pose_landmarks
+
+
+def _detect_pose_landmarks(pose_model, frame):
+    """Detect pose landmarks for one frame."""
+    rgb_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+    results = pose_model.process(rgb_frame)
+    return results.pose_landmarks
 
 
 # ---------------------------------------------------------------------------
@@ -121,6 +171,64 @@ def _traffic_dot(frame, cx, cy, r, colour):
     cv2.circle(frame, (cx, cy), r, C_WHITE, 1)
 
 
+def _draw_pose_overlay(frame, pose_landmarks):
+    """
+    Draw the pose skeleton plus a few bold key joint markers.
+
+    The extra joint circles make the BattingIQ overlay visibly read as an
+    annotated biomechanics video rather than just a metrics HUD.
+    """
+    landmarks = _landmark_sequence(pose_landmarks)
+    if not landmarks:
+        return
+
+    height, width = frame.shape[:2]
+    for connection in mp_pose.POSE_CONNECTIONS:
+        start_idx = getattr(connection, "start", None)
+        end_idx = getattr(connection, "end", None)
+        if start_idx is None or end_idx is None:
+            start_idx, end_idx = connection
+
+        if start_idx >= len(landmarks) or end_idx >= len(landmarks):
+            continue
+
+        start_lm = landmarks[start_idx]
+        end_lm = landmarks[end_idx]
+        if getattr(start_lm, "visibility", 1.0) < POSE_VISIBILITY_THRESHOLD:
+            continue
+        if getattr(end_lm, "visibility", 1.0) < POSE_VISIBILITY_THRESHOLD:
+            continue
+
+        start_pt = (int(start_lm.x * width), int(start_lm.y * height))
+        end_pt = (int(end_lm.x * width), int(end_lm.y * height))
+        cv2.line(frame, start_pt, end_pt, POSE_CONNECTION_COLOR, 4, cv2.LINE_AA)
+
+    for lm in landmarks:
+        if getattr(lm, "visibility", 1.0) < POSE_VISIBILITY_THRESHOLD:
+            continue
+        x = int(lm.x * width)
+        y = int(lm.y * height)
+        cv2.circle(frame, (x, y), 3, POSE_LANDMARK_COLOR, -1)
+
+    marker_radius = max(6, min(height, width) // 96)
+    outline_radius = marker_radius + 3
+
+    for landmark in KEY_POSE_LANDMARKS:
+        lm_idx = landmark.value
+        if lm_idx >= len(landmarks):
+            continue
+        lm = landmarks[lm_idx]
+        if getattr(lm, "visibility", 1.0) < POSE_VISIBILITY_THRESHOLD:
+            continue
+
+        x = int(lm.x * width)
+        y = int(lm.y * height)
+
+        cv2.circle(frame, (x, y), outline_radius, POSE_MARKER_OUTLINE, 3)
+        cv2.circle(frame, (x, y), marker_radius, POSE_MARKER_FILL, -1)
+        cv2.circle(frame, (x, y), max(2, marker_radius // 3), C_WHITE, -1)
+
+
 def _ffmpeg_available() -> bool:
     """Check if ffmpeg is available on the system."""
     return shutil.which("ffmpeg") is not None
@@ -164,7 +272,7 @@ def annotate_video(
 ) -> None:
     """
     Re-process the video, draw overlays, write annotated output.
-    No MediaPipe re-run — overlays use pre-computed metrics to avoid OOM.
+    A lightweight MediaPipe pass is used here to restore visible pose markers.
 
     Uses H.264 encoding via ffmpeg for high quality output.
     Falls back to mp4v if ffmpeg is not available.
@@ -174,6 +282,8 @@ def annotate_video(
     output_path.parent.mkdir(parents=True, exist_ok=True)
 
     cap = cv2.VideoCapture(str(video_path))
+    if not cap.isOpened():
+        raise RuntimeError(f"Could not open video for annotation: {video_path}")
     fps   = cap.get(cv2.CAP_PROP_FPS) or 30.0
     width = int(cap.get(cv2.CAP_PROP_FRAME_WIDTH))
     height = int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
@@ -200,100 +310,117 @@ def annotate_video(
         fourcc = cv2.VideoWriter_fourcc(*"mp4v")
         writer = cv2.VideoWriter(str(output_path), fourcc, fps, (width, height))
 
+    if not writer.isOpened():
+        if use_ffmpeg:
+            shutil.rmtree(tmp_dir, ignore_errors=True)
+        raise RuntimeError(f"Could not open video writer for annotated output: {output_path}")
+
     frame_idx = 0
-    while cap.isOpened():
-        ret, frame = cap.read()
-        if not ret:
-            break
+    pose_model = _build_pose_model()
 
-        # Map original frame index to subsampled metric index
-        metric_idx = frame_lookup.get(frame_idx, None)
-        m = metrics[metric_idx] if metric_idx is not None and metric_idx < len(metrics) else None
-        label_idx = metric_idx if metric_idx is not None else 0
-        label = labels[label_idx] if label_idx < n_labels else BattingPhase.UNKNOWN
-        ph_colour = PHASE_COLOURS.get(label, C_WHITE)
+    try:
+        while cap.isOpened():
+            ret, frame = cap.read()
+            if not ret:
+                break
 
-        # --- Contact flash (red overlay) ---
-        if label == BattingPhase.CONTACT:
-            overlay = frame.copy()
-            cv2.rectangle(overlay, (0, 0), (width, height), (0, 0, 200), -1)
-            cv2.addWeighted(overlay, 0.15, frame, 0.85, 0, frame)
+            # Map original frame index to subsampled metric index
+            metric_idx = frame_lookup.get(frame_idx, None)
+            m = metrics[metric_idx] if metric_idx is not None and metric_idx < len(metrics) else None
+            label_idx = metric_idx if metric_idx is not None else 0
+            label = labels[label_idx] if label_idx < n_labels else BattingPhase.UNKNOWN
+            ph_colour = PHASE_COLOURS.get(label, C_WHITE)
 
-        # --- Phase label (top left) ---
-        ph_text = PHASE_LABELS.get(label, "")
-        if ph_text:
-            _panel_bg(frame, 5, 5, 230, 34)
-            _text(frame, ph_text, (12, 28), scale=0.65, colour=ph_colour, bold=True)
+            # Re-run pose estimation for visible body markers on the annotated frame.
+            pose_landmarks = _detect_pose_landmarks(pose_model, frame)
+            if pose_landmarks:
+                _draw_pose_overlay(frame, pose_landmarks)
 
-        # --- Metrics panel (right side) ---
-        px = width - 210
-        panel_h = 200
-        _panel_bg(frame, px - 5, 5, 215, panel_h)
+            # --- Contact flash (red overlay) ---
+            if label == BattingPhase.CONTACT:
+                overlay = frame.copy()
+                cv2.rectangle(overlay, (0, 0), (width, height), (0, 0, 200), -1)
+                cv2.addWeighted(overlay, 0.15, frame, 0.85, 0, frame)
 
-        row = 25
-        lh  = 24
+            # --- Phase label (top left) ---
+            ph_text = PHASE_LABELS.get(label, "")
+            if ph_text:
+                _panel_bg(frame, 5, 5, 230, 34)
+                _text(frame, ph_text, (12, 28), scale=0.65, colour=ph_colour, bold=True)
 
-        def metric_line(label_txt, val_txt, colour=C_WHITE):
-            nonlocal row
-            _text(frame, label_txt, (px, row), scale=0.45, colour=(180, 180, 180))
-            _text(frame, val_txt,   (px + 120, row), scale=0.48, colour=colour, bold=True)
-            row += lh
+            # --- Metrics panel (right side) ---
+            px = width - 210
+            panel_h = 200
+            _panel_bg(frame, px - 5, 5, 215, panel_h)
 
-        if m:
-            metric_line("Shoulder",  f"{m.shoulder_openness:.0f}°")
-            metric_line("Hip open",  f"{m.hip_openness:.0f}°")
-            metric_line("Head off",  f"{m.head_offset:+.3f}")
-            metric_line("Eye tilt",  f"{m.eye_tilt:.3f}")
-            metric_line("Frt knee",  f"{m.front_knee_angle:.0f}°")
-            metric_line("Frt elbow", f"{m.front_elbow_angle:.0f}°")
-            metric_line("Wrist H",   f"{m.wrist_height:.3f}")
-            metric_line("Stance W",  f"{m.stance_width:.3f}")
+            row = 25
+            lh  = 24
 
-        # --- Pillar scores (bottom right) ---
-        by = height - 130
-        _panel_bg(frame, px - 5, by, 215, 125)
+            def metric_line(label_txt, val_txt, colour=C_WHITE):
+                nonlocal row
+                _text(frame, label_txt, (px, row), scale=0.45, colour=(180, 180, 180))
+                _text(frame, val_txt,   (px + 120, row), scale=0.48, colour=colour, bold=True)
+                row += lh
 
-        row = by + 20
-        for pname in pillar_names:
-            p = result.pillars.get(pname)
-            if not p:
-                continue
-            col = STATUS_COLOURS.get(p.status, C_WHITE)
-            _text(frame, f"{pname[:4].upper()}", (px, row), scale=0.45, colour=(180, 180, 180))
-            bar_len = int(p.score / p.max_score * 80)
-            cv2.rectangle(frame, (px + 45, row - 12), (px + 45 + bar_len, row + 2), col, -1)
-            _text(frame, f"{p.score}", (px + 135, row), scale=0.48, colour=col, bold=True)
-            row += lh
+            if m:
+                metric_line("Shoulder",  f"{m.shoulder_openness:.0f}°")
+                metric_line("Hip open",  f"{m.hip_openness:.0f}°")
+                metric_line("Head off",  f"{m.head_offset:+.3f}")
+                metric_line("Eye tilt",  f"{m.eye_tilt:.3f}")
+                metric_line("Frt knee",  f"{m.front_knee_angle:.0f}°")
+                metric_line("Frt elbow", f"{m.front_elbow_angle:.0f}°")
+                metric_line("Wrist H",   f"{m.wrist_height:.3f}")
+                metric_line("Stance W",  f"{m.stance_width:.3f}")
 
-        # BattingIQ score
-        score_str = f"BattingIQ: {result.battingiq_score}  [{result.score_band}]"
-        _panel_bg(frame, 5, height - 38, len(score_str) * 11, 32)
-        _text(frame, score_str, (12, height - 14), scale=0.65,
-              colour=C_GREEN if result.battingiq_score >= 70 else C_AMBER, bold=True)
+            # --- Pillar scores (bottom right) ---
+            by = height - 130
+            _panel_bg(frame, px - 5, by, 215, 125)
 
-        # Frame counter
-        _text(frame, f"f{frame_idx}", (width - 55, height - 10),
-              scale=0.4, colour=(120, 120, 120))
+            row = by + 20
+            for pname in pillar_names:
+                p = result.pillars.get(pname)
+                if not p:
+                    continue
+                col = STATUS_COLOURS.get(p.status, C_WHITE)
+                _text(frame, f"{pname[:4].upper()}", (px, row), scale=0.45, colour=(180, 180, 180))
+                bar_len = int(p.score / p.max_score * 80)
+                cv2.rectangle(frame, (px + 45, row - 12), (px + 45 + bar_len, row + 2), col, -1)
+                _text(frame, f"{p.score}", (px + 135, row), scale=0.48, colour=col, bold=True)
+                row += lh
 
-        writer.write(frame)
-        frame_idx += 1
+            # BattingIQ score
+            score_str = f"BattingIQ: {result.battingiq_score}  [{result.score_band}]"
+            _panel_bg(frame, 5, height - 38, len(score_str) * 11, 32)
+            _text(frame, score_str, (12, height - 14), scale=0.65,
+                  colour=C_GREEN if result.battingiq_score >= 70 else C_AMBER, bold=True)
 
-    cap.release()
-    writer.release()
+            # Frame counter
+            _text(frame, f"f{frame_idx}", (width - 55, height - 10),
+                  scale=0.4, colour=(120, 120, 120))
+
+            writer.write(frame)
+            frame_idx += 1
+    finally:
+        cap.release()
+        writer.release()
+        pose_model.close()
 
     if use_ffmpeg:
         # Re-encode temp AVI to H.264 MP4
         success = _reencode_h264(str(tmp_path), str(output_path), fps)
         # Clean up temp files
         shutil.rmtree(tmp_dir, ignore_errors=True)
-        if success:
+        if success and output_path.exists():
             print(f"  Annotated video (H.264) → {output_path}")
         else:
-            # Fallback: re-render with mp4v directly
             print(f"  Warning: ffmpeg re-encode failed, falling back to mp4v")
             _annotate_fallback(video_path, result, metrics, output_path,
                                frame_lookup, fps, width, height)
+            if not output_path.exists():
+                raise RuntimeError(f"Annotated video generation failed: {output_path}")
     else:
+        if not output_path.exists():
+            raise RuntimeError(f"Annotated video generation failed: {output_path}")
         print(f"  Annotated video (mp4v) → {output_path}")
 
 
@@ -304,8 +431,15 @@ def _annotate_fallback(video_path, result, metrics, output_path,
     # after we've already written to temp. In that case the mp4v path
     # was not used. Re-run the annotation with mp4v codec.
     cap = cv2.VideoCapture(str(video_path))
+    if not cap.isOpened():
+        raise RuntimeError(f"Could not open video for fallback annotation: {video_path}")
     fourcc = cv2.VideoWriter_fourcc(*"mp4v")
     writer = cv2.VideoWriter(str(output_path), fourcc, fps, (width, height))
+    if not writer.isOpened():
+        cap.release()
+        raise RuntimeError(f"Could not open fallback video writer: {output_path}")
+
+    pose_model = _build_pose_model()
 
     phases = result.phases
     labels = phases.phase_labels
@@ -313,74 +447,84 @@ def _annotate_fallback(video_path, result, metrics, output_path,
     pillar_names = ["access", "tracking", "stability", "flow"]
 
     frame_idx = 0
-    while cap.isOpened():
-        ret, frame = cap.read()
-        if not ret:
-            break
+    try:
+        while cap.isOpened():
+            ret, frame = cap.read()
+            if not ret:
+                break
 
-        metric_idx = frame_lookup.get(frame_idx, None)
-        m = metrics[metric_idx] if metric_idx is not None and metric_idx < len(metrics) else None
-        label_idx = metric_idx if metric_idx is not None else 0
-        label = labels[label_idx] if label_idx < n_labels else BattingPhase.UNKNOWN
-        ph_colour = PHASE_COLOURS.get(label, C_WHITE)
+            metric_idx = frame_lookup.get(frame_idx, None)
+            m = metrics[metric_idx] if metric_idx is not None and metric_idx < len(metrics) else None
+            label_idx = metric_idx if metric_idx is not None else 0
+            label = labels[label_idx] if label_idx < n_labels else BattingPhase.UNKNOWN
+            ph_colour = PHASE_COLOURS.get(label, C_WHITE)
 
-        if label == BattingPhase.CONTACT:
-            overlay = frame.copy()
-            cv2.rectangle(overlay, (0, 0), (width, height), (0, 0, 200), -1)
-            cv2.addWeighted(overlay, 0.15, frame, 0.85, 0, frame)
+            pose_landmarks = _detect_pose_landmarks(pose_model, frame)
+            if pose_landmarks:
+                _draw_pose_overlay(frame, pose_landmarks)
 
-        ph_text = PHASE_LABELS.get(label, "")
-        if ph_text:
-            _panel_bg(frame, 5, 5, 230, 34)
-            _text(frame, ph_text, (12, 28), scale=0.65, colour=ph_colour, bold=True)
+            if label == BattingPhase.CONTACT:
+                overlay = frame.copy()
+                cv2.rectangle(overlay, (0, 0), (width, height), (0, 0, 200), -1)
+                cv2.addWeighted(overlay, 0.15, frame, 0.85, 0, frame)
 
-        px = width - 210
-        _panel_bg(frame, px - 5, 5, 215, 200)
-        row = 25
-        lh = 24
+            ph_text = PHASE_LABELS.get(label, "")
+            if ph_text:
+                _panel_bg(frame, 5, 5, 230, 34)
+                _text(frame, ph_text, (12, 28), scale=0.65, colour=ph_colour, bold=True)
 
-        def metric_line(label_txt, val_txt, colour=C_WHITE):
-            nonlocal row
-            _text(frame, label_txt, (px, row), scale=0.45, colour=(180, 180, 180))
-            _text(frame, val_txt,   (px + 120, row), scale=0.48, colour=colour, bold=True)
-            row += lh
+            px = width - 210
+            _panel_bg(frame, px - 5, 5, 215, 200)
+            row = 25
+            lh = 24
 
-        if m:
-            metric_line("Shoulder",  f"{m.shoulder_openness:.0f}°")
-            metric_line("Hip open",  f"{m.hip_openness:.0f}°")
-            metric_line("Head off",  f"{m.head_offset:+.3f}")
-            metric_line("Eye tilt",  f"{m.eye_tilt:.3f}")
-            metric_line("Frt knee",  f"{m.front_knee_angle:.0f}°")
-            metric_line("Frt elbow", f"{m.front_elbow_angle:.0f}°")
-            metric_line("Wrist H",   f"{m.wrist_height:.3f}")
-            metric_line("Stance W",  f"{m.stance_width:.3f}")
+            def metric_line(label_txt, val_txt, colour=C_WHITE):
+                nonlocal row
+                _text(frame, label_txt, (px, row), scale=0.45, colour=(180, 180, 180))
+                _text(frame, val_txt,   (px + 120, row), scale=0.48, colour=colour, bold=True)
+                row += lh
 
-        by = height - 130
-        _panel_bg(frame, px - 5, by, 215, 125)
-        row = by + 20
-        for pname in pillar_names:
-            p = result.pillars.get(pname)
-            if not p:
-                continue
-            col = STATUS_COLOURS.get(p.status, C_WHITE)
-            _text(frame, f"{pname[:4].upper()}", (px, row), scale=0.45, colour=(180, 180, 180))
-            bar_len = int(p.score / p.max_score * 80)
-            cv2.rectangle(frame, (px + 45, row - 12), (px + 45 + bar_len, row + 2), col, -1)
-            _text(frame, f"{p.score}", (px + 135, row), scale=0.48, colour=col, bold=True)
-            row += lh
+            if m:
+                metric_line("Shoulder",  f"{m.shoulder_openness:.0f}°")
+                metric_line("Hip open",  f"{m.hip_openness:.0f}°")
+                metric_line("Head off",  f"{m.head_offset:+.3f}")
+                metric_line("Eye tilt",  f"{m.eye_tilt:.3f}")
+                metric_line("Frt knee",  f"{m.front_knee_angle:.0f}°")
+                metric_line("Frt elbow", f"{m.front_elbow_angle:.0f}°")
+                metric_line("Wrist H",   f"{m.wrist_height:.3f}")
+                metric_line("Stance W",  f"{m.stance_width:.3f}")
 
-        score_str = f"BattingIQ: {result.battingiq_score}  [{result.score_band}]"
-        _panel_bg(frame, 5, height - 38, len(score_str) * 11, 32)
-        _text(frame, score_str, (12, height - 14), scale=0.65,
-              colour=C_GREEN if result.battingiq_score >= 70 else C_AMBER, bold=True)
-        _text(frame, f"f{frame_idx}", (width - 55, height - 10),
-              scale=0.4, colour=(120, 120, 120))
+            by = height - 130
+            _panel_bg(frame, px - 5, by, 215, 125)
+            row = by + 20
+            for pname in pillar_names:
+                p = result.pillars.get(pname)
+                if not p:
+                    continue
+                col = STATUS_COLOURS.get(p.status, C_WHITE)
+                _text(frame, f"{pname[:4].upper()}", (px, row), scale=0.45, colour=(180, 180, 180))
+                bar_len = int(p.score / p.max_score * 80)
+                cv2.rectangle(frame, (px + 45, row - 12), (px + 45 + bar_len, row + 2), col, -1)
+                _text(frame, f"{p.score}", (px + 135, row), scale=0.48, colour=col, bold=True)
+                row += lh
 
-        writer.write(frame)
-        frame_idx += 1
+            score_str = f"BattingIQ: {result.battingiq_score}  [{result.score_band}]"
+            _panel_bg(frame, 5, height - 38, len(score_str) * 11, 32)
+            _text(frame, score_str, (12, height - 14), scale=0.65,
+                  colour=C_GREEN if result.battingiq_score >= 70 else C_AMBER, bold=True)
+            _text(frame, f"f{frame_idx}", (width - 55, height - 10),
+                  scale=0.4, colour=(120, 120, 120))
 
-    cap.release()
-    writer.release()
+            writer.write(frame)
+            frame_idx += 1
+    finally:
+        cap.release()
+        writer.release()
+        pose_model.close()
+
+    if not output_path.exists():
+        raise RuntimeError(f"Annotated video fallback failed to write output: {output_path}")
+
     print(f"  Annotated video (mp4v fallback) → {output_path}")
 
 
@@ -427,6 +571,8 @@ def generate_storyboard(
     output_path.parent.mkdir(parents=True, exist_ok=True)
 
     cap     = cv2.VideoCapture(str(video_path))
+    if not cap.isOpened():
+        raise RuntimeError(f"Could not open video for storyboard generation: {video_path}")
     total   = max(1, int(cap.get(cv2.CAP_PROP_FRAME_COUNT)))
     orig_w  = int(cap.get(cv2.CAP_PROP_FRAME_WIDTH))  or 1280
     orig_h  = int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT)) or 720
@@ -451,13 +597,9 @@ def generate_storyboard(
     ]
 
     panels = []
+    pose_model = _build_pose_model(static_image_mode=True)
 
-    with mp_pose.Pose(
-        static_image_mode=True,
-        model_complexity=1,
-        min_detection_confidence=0.4,
-    ) as pose_model:
-
+    try:
         for metric_idx, phase, label in key_frames:
             # Convert metric-space index to original video frame
             orig_frame = _to_orig_frame(metric_idx)
@@ -469,15 +611,9 @@ def generate_storyboard(
                 frame = np.zeros((orig_h, orig_w, 3), dtype=np.uint8)
 
             # Pose skeleton overlay
-            rgb      = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
-            pose_res = pose_model.process(rgb)
-            if pose_res.pose_landmarks:
-                mp_draw.draw_landmarks(
-                    frame,
-                    pose_res.pose_landmarks,
-                    mp_pose.POSE_CONNECTIONS,
-                    landmark_drawing_spec=mp_styles.get_default_pose_landmarks_style(),
-                )
+            pose_landmarks = _detect_pose_landmarks(pose_model, frame)
+            if pose_landmarks:
+                _draw_pose_overlay(frame, pose_landmarks)
 
             frame = cv2.resize(frame, (_THUMB_W, thumb_h))
 
@@ -513,6 +649,8 @@ def generate_storyboard(
                         x_cursor += _THUMB_W // 2
 
             panels.append(panel)
+    finally:
+        pose_model.close()
 
     cap.release()
 
@@ -526,5 +664,6 @@ def generate_storyboard(
         strips.append(p)
 
     storyboard = np.hstack(strips)
-    cv2.imwrite(str(output_path), storyboard)
+    if not cv2.imwrite(str(output_path), storyboard):
+        raise RuntimeError(f"Could not write storyboard image: {output_path}")
     print(f"  Storyboard → {output_path}")
