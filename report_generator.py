@@ -51,6 +51,7 @@ def _phases_to_dict(pr: PhaseResult) -> dict:
 
 def build_json_report(result: BattingIQResult) -> dict:
     """Return the full report as a Python dict (JSON-serialisable)."""
+    storyboard_generation = result.metadata.get("storyboard_generation", {}) if result.metadata else {}
     report = {
         "battingiq_score": result.battingiq_score,
         "score_band": result.score_band,
@@ -61,6 +62,7 @@ def build_json_report(result: BattingIQResult) -> dict:
         "development_notes": result.development_notes,
         "phases": _phases_to_dict(result.phases),
         "metadata": result.metadata,
+        "storyboard_frames": storyboard_generation.get("frames", []),
     }
 
     for name, p in result.pillars.items():

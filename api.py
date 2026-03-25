@@ -142,8 +142,19 @@ async def analyse(
             rel = p.relative_to(RESULTS_DIR)
             return f"/results/{rel}"
 
+        def _to_storyboard_frame(frame: dict) -> dict:
+            public = dict(frame)
+            public["url"] = _to_url(public.pop("path", None))
+            return public
+
         annotated_video_url = _to_url(report.pop("_annotated_video", None))
         storyboard_url      = _to_url(report.pop("_storyboard", None))
+        storyboard_frames   = report.pop("_storyboard_frames", [])
+        report["storyboard_frames"] = [
+            _to_storyboard_frame(frame)
+            for frame in storyboard_frames
+            if isinstance(frame, dict)
+        ]
 
         report["job_id"]              = job_id
         report["annotated_video_url"] = annotated_video_url

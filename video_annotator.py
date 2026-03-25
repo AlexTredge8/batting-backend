@@ -138,6 +138,11 @@ def _detect_pose_landmarks(pose_model, frame):
     return results.pose_landmarks
 
 
+def _storyboard_frame_path(output_path: Path, index: int, phase: BattingPhase) -> Path:
+    """Build a stable file name for one storyboard still."""
+    return output_path.with_name(f"{output_path.stem}_{index:02d}_{phase.value}.png")
+
+
 # ---------------------------------------------------------------------------
 # Frame index mapping
 # ---------------------------------------------------------------------------
@@ -580,12 +585,150 @@ _LABEL_H  = 80    # label bar height below the frame (scaled with thumb)
 _PAD      = 8     # gap between panels
 
 
+def _storyboard_key_frames(result: BattingIQResult) -> list[tuple[int, BattingPhase, str]]:
+    """Return key storyboard stages in metric-index space."""
+    pr = result.phases
+    return [
+        (pr.setup_end,            BattingPhase.SETUP,           "SETUP"),
+        (pr.backlift_start,       BattingPhase.BACKLIFT_STARTS, "BACKLIFT"),
+        (pr.hands_peak,           BattingPhase.HANDS_PEAK,      "HANDS PEAK"),
+        (pr.front_foot_down,      BattingPhase.FRONT_FOOT_DOWN, "FRONT FOOT"),
+        (pr.contact,              BattingPhase.CONTACT,         "CONTACT"),
+        (pr.follow_through_start, BattingPhase.FOLLOW_THROUGH,  "FOLLOW-THROUGH"),
+    ]
+
+
+def _metric_index_to_orig_frame(metrics: list[FrameMetrics], metric_idx: int) -> int:
+    """Convert a metric-list index to the corresponding original video frame."""
+    if not metrics:
+        return 0
+    idx = max(0, min(int(metric_idx), len(metrics) - 1))
+    return metrics[idx].frame_idx
+
+
+def _storyboard_slug(label: str) -> str:
+    return label.lower().replace(" ", "_").replace("-", "_")
+
+
+def _render_storyboard_panel(
+    frame: np.ndarray,
+    phase: BattingPhase,
+    label: str,
+    orig_frame: int,
+    fps_val: float,
+    metric: FrameMetrics | None,
+    thumb_w: int,
+    thumb_h: int,
+) -> np.ndarray:
+    """Render a single storyboard panel with label bar and phase metrics."""
+    frame = cv2.resize(frame, (thumb_w, thumb_h))
+
+    panel = np.full((thumb_h + _LABEL_H, thumb_w, 3), 8, dtype=np.uint8)
+    panel[:thumb_h] = frame
+
+    ph_colour = PHASE_COLOURS.get(phase, C_WHITE)
+
+    cv2.rectangle(panel, (0, thumb_h), (thumb_w, thumb_h + _LABEL_H), (18, 18, 18), -1)
+    cv2.rectangle(panel, (0, thumb_h), (4, thumb_h + _LABEL_H), ph_colour, -1)
+    cv2.rectangle(panel, (0, 0), (thumb_w - 1, thumb_h + _LABEL_H - 1), (55, 55, 55), 1)
+
+    _text(panel, label, (10, thumb_h + 22), scale=0.55, colour=ph_colour, bold=True)
+
+    ts = f"{orig_frame / fps_val:.2f}s"
+    _text(panel, ts, (thumb_w - 70, thumb_h + 22), scale=0.40, colour=(110, 110, 110))
+
+    if metric:
+        x_cursor = 10
+        for attr, lbl, fmt in _PHASE_METRICS.get(phase, []):
+            val = getattr(metric, attr, None)
+            if val is not None:
+                txt = f"{lbl}: {fmt.format(val)}"
+                _text(panel, txt, (x_cursor, thumb_h + 55), scale=0.40, colour=(190, 190, 190))
+                x_cursor += thumb_w // 2
+
+    return panel
+
+
+def generate_storyboard_frames(
+    video_path: str,
+    result: BattingIQResult,
+    metrics: list[FrameMetrics],
+    output_dir: str,
+) -> list[dict]:
+    """
+    Generate six separate storyboard stills and return metadata for each.
+    """
+    video_path = Path(video_path)
+    output_dir = Path(output_dir)
+    output_dir.mkdir(parents=True, exist_ok=True)
+
+    cap = cv2.VideoCapture(str(video_path))
+    if not cap.isOpened():
+        raise RuntimeError(f"Could not open video for storyboard frames: {video_path}")
+    rotation_meta = _enable_auto_orientation(cap)
+    total = max(1, int(cap.get(cv2.CAP_PROP_FRAME_COUNT)))
+    orig_w = int(cap.get(cv2.CAP_PROP_FRAME_WIDTH)) or 1280
+    orig_h = int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT)) or 720
+    thumb_h = int(orig_h * _THUMB_W / orig_w)
+    if rotation_meta:
+        print(f"  Video orientation metadata: {rotation_meta}° (auto-rotated)")
+
+    fps_val = result.phases.fps or 30.0
+    key_frames = _storyboard_key_frames(result)
+    frame_items: list[dict] = []
+    pose_model = _build_pose_model(static_image_mode=True)
+
+    try:
+        for metric_idx, phase, label in key_frames:
+            orig_frame = max(0, min(_metric_index_to_orig_frame(metrics, metric_idx), total - 1))
+            cap.set(cv2.CAP_PROP_POS_FRAMES, orig_frame)
+            ret, frame = cap.read()
+            if not ret or frame is None:
+                frame = np.zeros((orig_h, orig_w, 3), dtype=np.uint8)
+
+            pose_landmarks = _detect_pose_landmarks(pose_model, frame)
+            if pose_landmarks:
+                _draw_pose_overlay(frame, pose_landmarks)
+
+            metric = metrics[max(0, min(int(metric_idx), len(metrics) - 1))] if metrics else None
+            panel = _render_storyboard_panel(
+                frame=frame,
+                phase=phase,
+                label=label,
+                orig_frame=orig_frame,
+                fps_val=fps_val,
+                metric=metric,
+                thumb_w=_THUMB_W,
+                thumb_h=thumb_h,
+            )
+
+            slug = _storyboard_slug(label)
+            output_path = output_dir / f"storyboard_{slug}.png"
+            if not cv2.imwrite(str(output_path), panel):
+                raise RuntimeError(f"Could not write storyboard frame: {output_path}")
+
+            frame_items.append({
+                "phase": phase.value,
+                "label": label,
+                "metric_index": int(metric_idx),
+                "frame": int(orig_frame),
+                "ms": round(orig_frame / fps_val * 1000, 1),
+                "timestamp_s": round(orig_frame / fps_val, 3),
+                "path": str(output_path),
+            })
+    finally:
+        pose_model.close()
+        cap.release()
+
+    return frame_items
+
+
 def generate_storyboard(
     video_path: str,
     result: BattingIQResult,
     metrics: list[FrameMetrics],
     output_path: str,
-) -> None:
+) -> dict:
     """
     Extract the 6 key phase frames, annotate each with the pose skeleton
     and 2 phase-specific metrics, then stitch into a single horizontal strip.
@@ -597,96 +740,19 @@ def generate_storyboard(
     output_path = Path(output_path)
     output_path.parent.mkdir(parents=True, exist_ok=True)
 
-    cap     = cv2.VideoCapture(str(video_path))
-    if not cap.isOpened():
-        raise RuntimeError(f"Could not open video for storyboard generation: {video_path}")
-    rotation_meta = _enable_auto_orientation(cap)
-    total   = max(1, int(cap.get(cv2.CAP_PROP_FRAME_COUNT)))
-    orig_w  = int(cap.get(cv2.CAP_PROP_FRAME_WIDTH))  or 1280
-    orig_h  = int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT)) or 720
-    thumb_h = int(orig_h * _THUMB_W / orig_w)
-    if rotation_meta:
-        print(f"  Video orientation metadata: {rotation_meta}° (auto-rotated)")
-
-    pr = result.phases
-
-    # Phase indices are in metric-list space. Convert to original frame indices
-    # so we seek to the correct video position.
-    def _to_orig_frame(metric_idx: int) -> int:
-        """Convert a metric list index to the original video frame index."""
-        idx = max(0, min(int(metric_idx), len(metrics) - 1))
-        return metrics[idx].frame_idx if idx < len(metrics) else 0
-
-    key_frames = [
-        (pr.setup_end,            BattingPhase.SETUP,           "SETUP"),
-        (pr.backlift_start,       BattingPhase.BACKLIFT_STARTS, "BACKLIFT"),
-        (pr.hands_peak,           BattingPhase.HANDS_PEAK,      "HANDS PEAK"),
-        (pr.front_foot_down,      BattingPhase.FRONT_FOOT_DOWN, "FRONT FOOT"),
-        (pr.contact,              BattingPhase.CONTACT,         "CONTACT"),
-        (pr.follow_through_start, BattingPhase.FOLLOW_THROUGH,  "FOLLOW-THROUGH"),
-    ]
+    frame_items = generate_storyboard_frames(video_path, result, metrics, str(output_path.parent))
+    if not frame_items:
+        raise RuntimeError("Storyboard generation produced no frames")
 
     panels = []
-    pose_model = _build_pose_model(static_image_mode=True)
-
-    try:
-        for metric_idx, phase, label in key_frames:
-            # Convert metric-space index to original video frame
-            orig_frame = _to_orig_frame(metric_idx)
-            orig_frame = max(0, min(orig_frame, total - 1))
-
-            cap.set(cv2.CAP_PROP_POS_FRAMES, orig_frame)
-            ret, frame = cap.read()
-            if not ret or frame is None:
-                frame = np.zeros((orig_h, orig_w, 3), dtype=np.uint8)
-
-            # Pose skeleton overlay
-            pose_landmarks = _detect_pose_landmarks(pose_model, frame)
-            if pose_landmarks:
-                _draw_pose_overlay(frame, pose_landmarks)
-
-            frame = cv2.resize(frame, (_THUMB_W, thumb_h))
-
-            # Panel = frame + label bar
-            panel = np.full((thumb_h + _LABEL_H, _THUMB_W, 3), 8, dtype=np.uint8)
-            panel[:thumb_h] = frame
-
-            ph_colour = PHASE_COLOURS.get(phase, C_WHITE)
-
-            # Coloured left-edge accent + dark label bar
-            cv2.rectangle(panel, (0, thumb_h), (_THUMB_W, thumb_h + _LABEL_H), (18, 18, 18), -1)
-            cv2.rectangle(panel, (0, thumb_h), (4, thumb_h + _LABEL_H), ph_colour, -1)
-            cv2.rectangle(panel, (0, 0), (_THUMB_W - 1, thumb_h + _LABEL_H - 1), (55, 55, 55), 1)
-
-            # Phase name
-            _text(panel, label, (10, thumb_h + 22), scale=0.55, colour=ph_colour, bold=True)
-
-            # Timestamp (use original frame for accurate timing)
-            fps_val = pr.fps or 30.0
-            ts = f"{orig_frame / fps_val:.2f}s"
-            _text(panel, ts, (_THUMB_W - 70, thumb_h + 22), scale=0.40, colour=(110, 110, 110))
-
-            # 2 key metrics — use metric at the phase index
-            mi = max(0, min(int(metric_idx), len(metrics) - 1))
-            m = metrics[mi] if mi < len(metrics) else None
-            if m:
-                x_cursor = 10
-                for attr, lbl, fmt in _PHASE_METRICS.get(phase, []):
-                    val = getattr(m, attr, None)
-                    if val is not None:
-                        txt = f"{lbl}: {fmt.format(val)}"
-                        _text(panel, txt, (x_cursor, thumb_h + 55),
-                              scale=0.40, colour=(190, 190, 190))
-                        x_cursor += _THUMB_W // 2
-
-            panels.append(panel)
-    finally:
-        pose_model.close()
-
-    cap.release()
+    for item in frame_items:
+        panel = cv2.imread(item["path"])
+        if panel is None:
+            raise RuntimeError(f"Could not reload storyboard still: {item['path']}")
+        panels.append(panel)
 
     # Stitch 6 panels into one horizontal strip
-    row_h   = thumb_h + _LABEL_H
+    row_h   = panels[0].shape[0]
     spacer  = np.zeros((row_h, _PAD, 3), dtype=np.uint8)
     strips  = []
     for i, p in enumerate(panels):
@@ -698,3 +764,8 @@ def generate_storyboard(
     if not cv2.imwrite(str(output_path), storyboard):
         raise RuntimeError(f"Could not write storyboard image: {output_path}")
     print(f"  Storyboard → {output_path}")
+
+    return {
+        "strip_path": str(output_path),
+        "frames": frame_items,
+    }

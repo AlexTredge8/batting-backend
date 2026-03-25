@@ -138,14 +138,23 @@ def analyse(video_path: str, output_dir: str = None, verbose: bool = True,
     if verbose:
         print("  Generating storyboard...")
     storyboard_out = out_dir / f"{stem}_battingiq_storyboard.png"
+    storyboard_frames = []
     try:
-        generate_storyboard(video_path, result, metrics, str(storyboard_out))
+        storyboard_result = generate_storyboard(video_path, result, metrics, str(storyboard_out))
+        storyboard_frames = storyboard_result.get("frames", []) if isinstance(storyboard_result, dict) else []
+        if isinstance(storyboard_result, dict) and storyboard_result.get("strip_path"):
+            storyboard_out = Path(storyboard_result["strip_path"])
+        if not storyboard_frames:
+            raise RuntimeError("Storyboard generation returned no frames")
         media_generation["storyboard"]["status"] = "ok"
+        media_generation["storyboard"]["frame_count"] = len(storyboard_frames)
     except Exception as sb_exc:
         if verbose:
             print(f"  Warning: storyboard generation failed ({sb_exc})")
         media_generation["storyboard"]["status"] = "failed"
         media_generation["storyboard"]["error"] = str(sb_exc)
+        media_generation["storyboard"]["frame_count"] = 0
+        storyboard_frames = []
         storyboard_out = None
 
     if verbose:
@@ -153,6 +162,11 @@ def analyse(video_path: str, output_dir: str = None, verbose: bool = True,
 
     result.metadata = dict(result.metadata or {})
     result.metadata["media_generation"] = media_generation
+    result.metadata["storyboard_generation"] = {
+        "strip_path": str(storyboard_out) if storyboard_out and Path(storyboard_out).exists() else None,
+        "frame_count": len(storyboard_frames),
+        "frames": storyboard_frames,
+    }
 
     from report_generator import build_json_report
     report = build_json_report(result)
@@ -160,6 +174,7 @@ def analyse(video_path: str, output_dir: str = None, verbose: bool = True,
     # Embed file paths so the API can build public URLs (stripped before sending to client)
     report["_annotated_video"] = str(video_out) if video_out and Path(video_out).exists() else None
     report["_storyboard"]      = str(storyboard_out) if storyboard_out and Path(storyboard_out).exists() else None
+    report["_storyboard_frames"] = storyboard_frames
 
     return report
 
