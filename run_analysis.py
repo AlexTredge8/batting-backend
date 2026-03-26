@@ -15,7 +15,7 @@ from pathlib import Path
 
 from pose_extractor     import extract_poses
 from metrics_calculator import calculate_metrics
-from phase_detector     import detect_phases, print_phase_summary
+from phase_detector     import detect_phases, print_phase_summary, apply_contact_override
 from coaching_rules     import run_all_rules
 from scorer             import build_scores
 from report_generator   import save_json_report, print_report
@@ -30,7 +30,8 @@ def _handedness_to_front_side(handedness: str) -> str:
 
 
 def analyse(video_path: str, output_dir: str = None, verbose: bool = True,
-            handedness: str = None, handedness_source: str = "default") -> dict:
+            handedness: str = None, handedness_source: str = "default",
+            contact_frame: int | None = None) -> dict:
     """
     Full BattingIQ Phase 2 analysis pipeline.
 
@@ -95,6 +96,8 @@ def analyse(video_path: str, output_dir: str = None, verbose: bool = True,
     if verbose:
         print("  Detecting phases...")
     phases = detect_phases(metrics, fps)
+    if contact_frame is not None:
+        phases = apply_contact_override(phases, metrics, contact_original_frame=int(contact_frame))
     if verbose:
         print_phase_summary(phases, fps)
     video_meta["phase_diagnostics"] = {
@@ -103,10 +106,22 @@ def analyse(video_path: str, output_dir: str = None, verbose: bool = True,
         "contact_window": phases.contact_window,
         "contact_diagnostics": phases.contact_diagnostics,
     }
+    video_meta["contact_resolution"] = {
+        "estimated_frame": phases.estimated_contact_frame,
+        "estimated_original_frame": phases.estimated_contact_original_frame,
+        "resolved_frame": phases.resolved_contact_frame or phases.contact,
+        "resolved_original_frame": phases.resolved_contact_original_frame,
+        "source": phases.resolved_contact_source,
+        "status": phases.resolved_contact_status,
+    }
     if phases.contact_confidence == "low":
         video_meta["contact_notice"] = (
             "Contact confidence is low for this video, so contact-derived deductions "
             "have been softened."
+        )
+    if phases.resolved_contact_source == "manual":
+        video_meta["contact_notice"] = (
+            "Contact frame was manually validated and pinned for storyboard and scoring."
         )
 
     # --- Step 4: Run coaching rules ---
@@ -217,7 +232,9 @@ if __name__ == "__main__":
 
 
 def run_full_analysis(video_path: str, output_dir: str = None,
-                      handedness: str = None, handedness_source: str = "default") -> dict:
+                      handedness: str = None, handedness_source: str = "default",
+                      contact_frame: int | None = None) -> dict:
     """Programmatic entry point for the FastAPI wrapper. Returns the full report as a dict."""
     return analyse(video_path, output_dir=output_dir, verbose=False,
-                   handedness=handedness, handedness_source=handedness_source)
+                   handedness=handedness, handedness_source=handedness_source,
+                   contact_frame=contact_frame)

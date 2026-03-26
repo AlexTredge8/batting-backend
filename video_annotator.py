@@ -1000,24 +1000,42 @@ def generate_storyboard_frames(
 
     try:
         for index, (metric_idx, phase, label) in enumerate(key_frames):
-            window_start, window_end = _storyboard_selection_window(
-                phase=phase,
-                anchor_idx=int(metric_idx),
-                metrics_len=len(metrics),
-                result=result,
-                selected=selected_metric_indices,
-            )
-            refined_metric_idx, selection_score, selection_reason = _refine_storyboard_metric_idx(
-                phase=phase,
-                anchor_idx=int(metric_idx),
-                window_start=window_start,
-                window_end=window_end,
-                metrics=metrics,
-                baseline=baseline,
-            )
+            if phase == BattingPhase.CONTACT:
+                refined_metric_idx = int(metric_idx)
+                window_start = int(metric_idx)
+                window_end = int(metric_idx)
+                selection_score = 1.0
+                if getattr(result.phases, "resolved_contact_source", "auto") == "manual":
+                    orig_frame = max(
+                        0,
+                        min(int(getattr(result.phases, "resolved_contact_original_frame", 0)), total - 1),
+                    )
+                    selection_reason = "pinned to manually validated contact frame"
+                else:
+                    orig_frame = max(
+                        0,
+                        min(int(getattr(result.phases, "resolved_contact_original_frame", _metric_index_to_orig_frame(metrics, refined_metric_idx))), total - 1),
+                    )
+                    selection_reason = "pinned to resolved contact estimate"
+            else:
+                window_start, window_end = _storyboard_selection_window(
+                    phase=phase,
+                    anchor_idx=int(metric_idx),
+                    metrics_len=len(metrics),
+                    result=result,
+                    selected=selected_metric_indices,
+                )
+                refined_metric_idx, selection_score, selection_reason = _refine_storyboard_metric_idx(
+                    phase=phase,
+                    anchor_idx=int(metric_idx),
+                    window_start=window_start,
+                    window_end=window_end,
+                    metrics=metrics,
+                    baseline=baseline,
+                )
+                orig_frame = max(0, min(_metric_index_to_orig_frame(metrics, refined_metric_idx), total - 1))
             selected_metric_indices[phase.value] = refined_metric_idx
 
-            orig_frame = max(0, min(_metric_index_to_orig_frame(metrics, refined_metric_idx), total - 1))
             cap.set(cv2.CAP_PROP_POS_FRAMES, orig_frame)
             ret, frame = cap.read()
             if not ret or frame is None:

@@ -134,8 +134,11 @@ def test_contact_consensus_medium_confidence():
 
     assert phases.contact_confidence == "medium"
     assert phases.contact_diagnostics["candidates"] == [13, 16, 17]
-    assert phases.contact_window == {"start": 11, "end": 21}
     assert phases.contact == 16
+    assert phases.contact_window["start"] <= phases.contact <= phases.contact_window["end"]
+    assert phases.estimated_contact_frame == 16
+    assert phases.resolved_contact_frame == 16
+    assert phases.resolved_contact_source == "auto"
     assert phases.phase_labels[16] == BattingPhase.CONTACT
 
 

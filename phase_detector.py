@@ -352,6 +352,83 @@ def _resolve_contact_consensus(
     return contact, confidence, diagnostics
 
 
+def _metric_index_to_orig_frame(metrics: list[FrameMetrics], metric_idx: int) -> int:
+    if not metrics:
+        return 0
+    idx = max(0, min(metric_idx, len(metrics) - 1))
+    return int(metrics[idx].frame_idx)
+
+
+def _nearest_metric_index_for_orig_frame(metrics: list[FrameMetrics], orig_frame: int) -> int:
+    """Return the metric index whose original frame is closest to orig_frame."""
+    if not metrics:
+        return 0
+    best_idx = 0
+    best_distance = None
+    for idx, metric in enumerate(metrics):
+        distance = abs(int(metric.frame_idx) - int(orig_frame))
+        if best_distance is None or distance < best_distance:
+            best_idx = idx
+            best_distance = distance
+    return best_idx
+
+
+def apply_contact_override(
+    phases: PhaseResult,
+    metrics: list[FrameMetrics],
+    contact_original_frame: int | None = None,
+) -> PhaseResult:
+    """
+    Convert the automatically estimated contact into a resolved contact.
+
+    If contact_original_frame is provided, the resolved contact is treated as a
+    manual/validated frame. Otherwise the resolved contact simply mirrors the
+    automatic estimate and remains labelled as estimated.
+    """
+    phases.estimated_contact_frame = int(phases.contact)
+    phases.estimated_contact_original_frame = _metric_index_to_orig_frame(metrics, phases.contact)
+    phases.estimated_contact_confidence = phases.contact_confidence
+    phases.estimated_contact_candidates = dict(phases.contact_candidates or {})
+    phases.estimated_contact_window = dict(phases.contact_window or {})
+    phases.estimated_contact_diagnostics = dict(phases.contact_diagnostics or {})
+
+    if contact_original_frame is None:
+        resolved_metric_idx = int(phases.estimated_contact_frame)
+        resolved_original_frame = int(phases.estimated_contact_original_frame)
+        resolved_source = "auto"
+        resolved_status = "estimated"
+    else:
+        resolved_metric_idx = _nearest_metric_index_for_orig_frame(metrics, int(contact_original_frame))
+        resolved_original_frame = int(contact_original_frame)
+        resolved_source = "manual"
+        resolved_status = "validated"
+
+    phases.contact = resolved_metric_idx
+    phases.resolved_contact_frame = resolved_metric_idx
+    phases.resolved_contact_original_frame = resolved_original_frame
+    phases.resolved_contact_source = resolved_source
+    phases.resolved_contact_status = resolved_status
+
+    cw_lo = max(0, resolved_metric_idx - CONTACT_WINDOW_FRAMES)
+    cw_hi = min(len(metrics), resolved_metric_idx + CONTACT_WINDOW_FRAMES + 1)
+    phases.contact_window = {"start": cw_lo, "end": max(cw_lo, cw_hi - 1)}
+    phases.backlift_to_contact_frames = resolved_metric_idx - phases.backlift_start
+    phases.follow_through_start = resolved_metric_idx + CONTACT_WINDOW_FRAMES + 1
+
+    labels = list(phases.phase_labels)
+    for i in range(phases.hands_peak + 1, len(labels)):
+        labels[i] = BattingPhase.HANDS_PEAK
+    if 0 <= phases.front_foot_down < len(labels):
+        labels[phases.front_foot_down] = BattingPhase.FRONT_FOOT_DOWN
+    for i in range(cw_lo, cw_hi):
+        labels[i] = BattingPhase.CONTACT
+    for i in range(phases.follow_through_start, len(labels)):
+        labels[i] = BattingPhase.FOLLOW_THROUGH
+    phases.phase_labels = labels
+
+    return phases
+
+
 # ---------------------------------------------------------------------------
 # Public API
 # ---------------------------------------------------------------------------
@@ -439,7 +516,7 @@ def detect_phases(metrics: list[FrameMetrics], fps: float, verbose: bool = False
     diff_ms     = round(diff_frames / fps * 1000, 1)
     backlift_to_contact = contact - backlift_start
 
-    return PhaseResult(
+    phases = PhaseResult(
         phase_labels=labels,
         setup_start=0,
         setup_end=setup_end,
@@ -463,6 +540,7 @@ def detect_phases(metrics: list[FrameMetrics], fps: float, verbose: bool = False
         contact_window=contact_diagnostics["window"],
         contact_diagnostics=contact_diagnostics,
     )
+    return apply_contact_override(phases, metrics)
 
 
 def print_phase_summary(phase_result: PhaseResult, fps: float) -> None:

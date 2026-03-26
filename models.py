@@ -161,6 +161,16 @@ class PhaseResult:
     contact_candidates: dict = field(default_factory=dict)
     contact_window: dict = field(default_factory=dict)
     contact_diagnostics: dict = field(default_factory=dict)
+    estimated_contact_frame: int = 0
+    estimated_contact_original_frame: int = 0
+    estimated_contact_confidence: str = "high"
+    estimated_contact_candidates: dict = field(default_factory=dict)
+    estimated_contact_window: dict = field(default_factory=dict)
+    estimated_contact_diagnostics: dict = field(default_factory=dict)
+    resolved_contact_frame: int = 0
+    resolved_contact_original_frame: int = 0
+    resolved_contact_source: str = "auto"     # "auto" | "manual"
+    resolved_contact_status: str = "estimated"  # "estimated" | "validated"
 
 
 # ---------------------------------------------------------------------------

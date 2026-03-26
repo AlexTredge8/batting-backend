@@ -48,6 +48,8 @@ def _score_pillar(faults: list[Fault]) -> int:
 
 def _apply_contact_confidence_weight(faults: list[Fault], phases: PhaseResult) -> list[Fault]:
     """Softly reduce contact-derived deductions when contact confidence is low."""
+    if phases.resolved_contact_source == "manual":
+        return faults
     if phases.contact_confidence != "low":
         return faults
 
@@ -175,12 +177,22 @@ def build_scores(
     video_meta["contact_confidence"] = phases.contact_confidence
     video_meta["contact_candidates"] = phases.contact_candidates
     video_meta["contact_window"] = phases.contact_window
+    video_meta["estimated_contact_frame"] = phases.estimated_contact_frame
+    video_meta["estimated_contact_original_frame"] = phases.estimated_contact_original_frame
+    video_meta["resolved_contact_frame"] = phases.resolved_contact_frame or phases.contact
+    video_meta["resolved_contact_original_frame"] = phases.resolved_contact_original_frame
+    video_meta["resolved_contact_source"] = phases.resolved_contact_source
+    video_meta["resolved_contact_status"] = phases.resolved_contact_status
     if phases.contact_confidence == "low":
         video_meta["contact_notice"] = (
             "Contact confidence is low for this video, so contact-derived deductions "
             "have been softened."
         )
         video_meta["contact_confidence_weight"] = CONTACT_CONFIDENCE_LOW_WEIGHT
+    if phases.resolved_contact_source == "manual":
+        video_meta["contact_notice"] = (
+            "Contact frame was manually validated and pinned for storyboard and scoring."
+        )
 
     return BattingIQResult(
         battingiq_score=total,

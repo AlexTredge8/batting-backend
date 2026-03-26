@@ -23,6 +23,7 @@ def _phases_to_dict(pr: PhaseResult) -> dict:
     fps = pr.fps or 30.0
 
     def ms(f): return round(f / fps * 1000, 1)
+    resolved_contact_ms = round((pr.resolved_contact_original_frame or pr.contact) / fps * 1000, 1)
 
     sync_diff = pr.hands_peak_vs_ffd_diff
     sync_label = (
@@ -38,7 +39,12 @@ def _phases_to_dict(pr: PhaseResult) -> dict:
         "front_foot_down":  {"frame": pr.front_foot_down,"ms": ms(pr.front_foot_down)},
         "contact":          {
             "frame": pr.contact,
-            "ms": ms(pr.contact),
+            "ms": resolved_contact_ms,
+            "source": pr.resolved_contact_source,
+            "status": pr.resolved_contact_status,
+            "estimated_frame": pr.estimated_contact_frame,
+            "estimated_original_frame": pr.estimated_contact_original_frame,
+            "resolved_original_frame": pr.resolved_contact_original_frame,
             "confidence": pr.contact_confidence,
             "candidates": pr.contact_candidates,
             "window": pr.contact_window,
