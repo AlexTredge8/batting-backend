@@ -36,7 +36,14 @@ def _phases_to_dict(pr: PhaseResult) -> dict:
         "backlift_starts":  {"frame": pr.backlift_start, "ms": ms(pr.backlift_start)},
         "hands_peak":       {"frame": pr.hands_peak,     "ms": ms(pr.hands_peak)},
         "front_foot_down":  {"frame": pr.front_foot_down,"ms": ms(pr.front_foot_down)},
-        "contact":          {"frame": pr.contact,         "ms": ms(pr.contact)},
+        "contact":          {
+            "frame": pr.contact,
+            "ms": ms(pr.contact),
+            "confidence": pr.contact_confidence,
+            "candidates": pr.contact_candidates,
+            "window": pr.contact_window,
+            "diagnostics": pr.contact_diagnostics,
+        },
         "follow_through":   {"start": pr.follow_through_start,
                              "start_ms": ms(pr.follow_through_start)},
         "timing": {

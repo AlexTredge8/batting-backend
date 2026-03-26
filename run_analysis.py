@@ -97,6 +97,17 @@ def analyse(video_path: str, output_dir: str = None, verbose: bool = True,
     phases = detect_phases(metrics, fps)
     if verbose:
         print_phase_summary(phases, fps)
+    video_meta["phase_diagnostics"] = {
+        "contact_confidence": phases.contact_confidence,
+        "contact_candidates": phases.contact_candidates,
+        "contact_window": phases.contact_window,
+        "contact_diagnostics": phases.contact_diagnostics,
+    }
+    if phases.contact_confidence == "low":
+        video_meta["contact_notice"] = (
+            "Contact confidence is low for this video, so contact-derived deductions "
+            "have been softened."
+        )
 
     # --- Step 4: Run coaching rules ---
     if verbose:

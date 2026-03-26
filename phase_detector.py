@@ -31,6 +31,9 @@ from config import (
 )
 
 _SMALL = 1e-9
+_CONTACT_CONSENSUS_WINDOW = 8
+_CONTACT_CONFIDENCE_HIGH_SPAN = 3
+_CONTACT_CONFIDENCE_MEDIUM_SPAN = 6
 
 
 # ---------------------------------------------------------------------------
@@ -202,10 +205,10 @@ def _find_front_foot_down(
     return min(hands_peak + 5, n - 1)
 
 
-def _find_contact(
+def _find_contact_with_diagnostics(
     metrics: list[FrameMetrics],
     hands_peak: int,
-) -> int:
+) -> tuple[int, dict]:
     """
     Contact = first frame AFTER Hands Peak where wrist_velocity_y transitions
     from positive (hands descending) to negative (follow-through rising).
@@ -218,7 +221,13 @@ def _find_contact(
     search_end   = min(hands_peak + 50, n - 2)
 
     if search_start >= n - 1:
-        return n - 3
+        candidate = max(0, n - 3)
+        return candidate, {
+            "mode": "insufficient_frames",
+            "search_start": search_start,
+            "search_end": search_end,
+            "candidate": candidate,
+        }
 
     vys = [metrics[i].wrist_velocity_y for i in range(search_start, search_end + 1)]
     vys_smooth = _smooth_velocities(vys, window=3)
@@ -229,14 +238,118 @@ def _find_contact(
         prev = vys_smooth[j - 1]
         curr = vys_smooth[j]
         if prev > 0.002 and curr < 0.0:
-            return search_start + max(0, j - 1)
+            candidate = search_start + max(0, j - 1)
+            return candidate, {
+                "mode": "sign_reversal",
+                "search_start": search_start,
+                "search_end": search_end,
+                "candidate": candidate,
+                "smoothed_velocity_prev": round(float(prev), 6),
+                "smoothed_velocity_curr": round(float(curr), 6),
+            }
 
     # Fallback: local maximum of wrist_height (physical lowest point)
     whs = [metrics[i].wrist_height for i in range(search_start, search_end + 1)]
     if whs:
-        return search_start + int(np.argmax(whs))
+        candidate = search_start + int(np.argmax(whs))
+        return candidate, {
+            "mode": "wrist_height_fallback",
+            "search_start": search_start,
+            "search_end": search_end,
+            "candidate": candidate,
+            "fallback_reason": "no_clear_velocity_sign_reversal",
+        }
 
-    return min(hands_peak + 10, n - 2)
+    candidate = min(hands_peak + 10, n - 2)
+    return candidate, {
+        "mode": "empty_search_window",
+        "search_start": search_start,
+        "search_end": search_end,
+        "candidate": candidate,
+    }
+
+
+def _resolve_contact_consensus(
+    metrics: list[FrameMetrics],
+    hands_peak: int,
+) -> tuple[int, str, dict]:
+    """
+    Resolve contact from three signals:
+      A: wrist velocity reversal / wrist-height fallback anchor
+      B: front elbow maximum extension
+      C: wrist speed minimum after the peak downswing speed
+    """
+    n = len(metrics)
+    signal_a, signal_a_diag = _find_contact_with_diagnostics(metrics, hands_peak)
+
+    window_start = max(hands_peak + 2, signal_a - _CONTACT_CONSENSUS_WINDOW)
+    window_end = min(n - 2, signal_a + _CONTACT_CONSENSUS_WINDOW)
+    if window_start > window_end:
+        window_start = max(0, min(signal_a, n - 2))
+        window_end = window_start
+
+    def _window_items(start: int, end: int) -> list[int]:
+        return list(range(max(0, start), min(n - 2, end) + 1))
+
+    window_items = _window_items(window_start, window_end)
+    if not window_items:
+        window_items = [max(0, min(signal_a, n - 2))]
+
+    signal_b = max(window_items, key=lambda i: (metrics[i].front_elbow_angle, -i))
+    signal_b_angle = metrics[signal_b].front_elbow_angle
+
+    speed_start = max(window_start, hands_peak + 1)
+    speed_items = _window_items(speed_start, window_end) or window_items
+    peak_speed_idx = max(
+        speed_items,
+        key=lambda i: (metrics[i].wrist_speed, -i),
+    )
+
+    decel_items = _window_items(peak_speed_idx, window_end) or [peak_speed_idx]
+    signal_c = min(
+        decel_items,
+        key=lambda i: (metrics[i].wrist_speed, i),
+    )
+    signal_c_speed = metrics[signal_c].wrist_speed
+
+    candidates = [signal_a, signal_b, signal_c]
+    sorted_candidates = sorted(candidates)
+    contact = sorted_candidates[1]
+    span = max(candidates) - min(candidates)
+    if span <= _CONTACT_CONFIDENCE_HIGH_SPAN:
+        confidence = "high"
+    elif span <= _CONTACT_CONFIDENCE_MEDIUM_SPAN:
+        confidence = "medium"
+    else:
+        confidence = "low"
+
+    diagnostics = {
+        "window": {"start": window_start, "end": window_end},
+        "signals": {
+            "wrist_velocity_reversal": {
+                "frame": signal_a,
+                "mode": signal_a_diag.get("mode"),
+                "candidate": signal_a_diag.get("candidate", signal_a),
+                "search_start": signal_a_diag.get("search_start"),
+                "search_end": signal_a_diag.get("search_end"),
+            },
+            "front_elbow_target": {
+                "frame": signal_b,
+                "angle_deg": round(float(signal_b_angle), 3),
+                "selection": "max_extension",
+            },
+            "wrist_speed_decel": {
+                "frame": signal_c,
+                "peak_speed_frame": peak_speed_idx,
+                "speed": round(float(signal_c_speed), 6),
+            },
+        },
+        "candidates": candidates,
+        "span": span,
+        "chosen": contact,
+        "confidence": confidence,
+    }
+    return contact, confidence, diagnostics
 
 
 # ---------------------------------------------------------------------------
@@ -294,10 +407,13 @@ def detect_phases(metrics: list[FrameMetrics], fps: float, verbose: bool = False
         print(f"  [phase] front_foot_down={front_foot_down}")
 
     # --- Contact ---
-    contact = _find_contact(metrics, hands_peak)
+    contact, contact_confidence, contact_diagnostics = _resolve_contact_consensus(metrics, hands_peak)
     contact = max(hands_peak + 2, min(contact, n - 3))
     if verbose:
-        print(f"  [phase] contact={contact}")
+        print(
+            f"  [phase] contact={contact} "
+            f"(confidence={contact_confidence}, candidates={contact_diagnostics['candidates']}, span={contact_diagnostics['span']})"
+        )
 
     cw_lo = max(0, contact - CONTACT_WINDOW_FRAMES)
     cw_hi = min(n, contact + CONTACT_WINDOW_FRAMES + 1)
@@ -336,6 +452,16 @@ def detect_phases(metrics: list[FrameMetrics], fps: float, verbose: bool = False
         hands_peak_vs_ffd_ms=diff_ms,
         backlift_to_contact_frames=backlift_to_contact,
         fps=fps,
+        contact_confidence=contact_confidence,
+        contact_candidates={
+            "c_a": contact_diagnostics["signals"]["wrist_velocity_reversal"]["frame"],
+            "c_b": contact_diagnostics["signals"]["front_elbow_target"]["frame"],
+            "c_c": contact_diagnostics["signals"]["wrist_speed_decel"]["frame"],
+            "spread": contact_diagnostics["span"],
+            "selection_reason": "median_of_three_signal_consensus",
+        },
+        contact_window=contact_diagnostics["window"],
+        contact_diagnostics=contact_diagnostics,
     )
 
 
@@ -349,7 +475,7 @@ def print_phase_summary(phase_result: PhaseResult, fps: float) -> None:
     print(f"  Backlift starts:  frame  {ft(pr.backlift_start)}")
     print(f"  Hands Peak:       frame  {ft(pr.hands_peak)}")
     print(f"  Front Foot Down:  frame  {ft(pr.front_foot_down)}")
-    print(f"  Contact:          frame  {ft(pr.contact)}")
+    print(f"  Contact:          frame  {ft(pr.contact)} [{pr.contact_confidence}]")
     print(f"  Follow-Through:   frame  {ft(pr.follow_through_start)}+")
 
     diff    = pr.hands_peak_vs_ffd_diff

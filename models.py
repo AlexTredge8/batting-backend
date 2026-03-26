@@ -157,6 +157,10 @@ class PhaseResult:
     hands_peak_vs_ffd_ms: float = 0.0
     backlift_to_contact_frames: int = 0
     fps: float = 30.0
+    contact_confidence: str = "high"          # "high" | "medium" | "low"
+    contact_candidates: dict = field(default_factory=dict)
+    contact_window: dict = field(default_factory=dict)
+    contact_diagnostics: dict = field(default_factory=dict)
 
 
 # ---------------------------------------------------------------------------

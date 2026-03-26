@@ -10,6 +10,20 @@ Coordinate system (MediaPipe, normalised 0-1):
   Z: depth from camera (negative = closer to camera)
 """
 
+import os
+
+
+def _env_bool(name: str, default: bool) -> bool:
+    value = os.getenv(name)
+    if value is None:
+        return default
+    value = value.strip().lower()
+    if value in {"1", "true", "yes", "on"}:
+        return True
+    if value in {"0", "false", "no", "off"}:
+        return False
+    return default
+
 # ---------------------------------------------------------------------------
 # Camera / handedness
 # ---------------------------------------------------------------------------
@@ -24,6 +38,10 @@ Coordinate system (MediaPipe, normalised 0-1):
 #           handedness="left"  → front_side="right"
 FRONT_SIDE = "left"           # default for right-handed batters
 DEFAULT_HANDEDNESS = "right"  # used when API caller doesn't specify
+
+# LOCAL_MODE=True keeps source resolution and processes every frame.
+# LOCAL_MODE=False preserves the lighter Railway-style processing path.
+LOCAL_MODE = _env_bool("LOCAL_MODE", False)
 
 # ---------------------------------------------------------------------------
 # Phase Detection thresholds
@@ -64,6 +82,10 @@ CONTACT_DECEL_MIN_RATIO = 0.5     # decel must be this fraction of max decel
 
 # Contact window ±frames for rule evaluation
 CONTACT_WINDOW_FRAMES = 2
+
+# When contact confidence is low, damp contact-derived deductions rather
+# than pretending the exact contact estimate is trustworthy.
+CONTACT_CONFIDENCE_LOW_WEIGHT = 0.70
 
 # FOLLOW-THROUGH: frames to analyse after contact
 FOLLOW_THROUGH_ANALYSIS_FRAMES = 15
