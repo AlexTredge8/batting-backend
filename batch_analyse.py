@@ -37,6 +37,8 @@ def _total_deduction(report: dict) -> int:
 
 
 def _row_from_report(video: Path, report: dict) -> dict:
+    contact = report.get("phases", {}).get("contact", {}) or {}
+    metadata = report.get("metadata", {}) or {}
     return {
         "filename": video.name,
         "battingiq_score": report.get("battingiq_score"),
@@ -44,8 +46,14 @@ def _row_from_report(video: Path, report: dict) -> dict:
         "tracking_score": report.get("pillars", {}).get("tracking", {}).get("score"),
         "stability_score": report.get("pillars", {}).get("stability", {}).get("score"),
         "flow_score": report.get("pillars", {}).get("flow", {}).get("score"),
-        "contact_frame": report.get("phases", {}).get("contact", {}).get("frame"),
-        "contact_confidence": report.get("phases", {}).get("contact", {}).get("confidence"),
+        "contact_frame": contact.get("frame"),
+        "estimated_contact_frame": contact.get("estimated_frame"),
+        "estimated_contact_original_frame": contact.get("estimated_original_frame"),
+        "resolved_contact_original_frame": contact.get("resolved_original_frame"),
+        "resolved_contact_source": contact.get("source"),
+        "resolved_contact_status": contact.get("status"),
+        "contact_confidence": contact.get("confidence"),
+        "detector_version": contact.get("detector_version") or metadata.get("contact_detector_version") or metadata.get("detector_version"),
         "rules_fired": ",".join(_rules_fired(report)),
         "total_deduction": _total_deduction(report),
     }
@@ -75,7 +83,13 @@ def main() -> int:
         "stability_score",
         "flow_score",
         "contact_frame",
+        "estimated_contact_frame",
+        "estimated_contact_original_frame",
+        "resolved_contact_original_frame",
+        "resolved_contact_source",
+        "resolved_contact_status",
         "contact_confidence",
+        "detector_version",
         "rules_fired",
         "total_deduction",
     ]

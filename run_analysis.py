@@ -21,7 +21,11 @@ from scorer             import build_scores
 from report_generator   import save_json_report, print_report
 from video_annotator    import annotate_video, generate_storyboard
 from reference_builder  import load_reference_baseline, build_reference_baseline
-from config             import REFERENCE_BASELINE_PATH, DEFAULT_HANDEDNESS
+from config             import (
+    REFERENCE_BASELINE_PATH,
+    DEFAULT_HANDEDNESS,
+    CONTACT_DETECTOR_VERSION,
+)
 
 
 def _handedness_to_front_side(handedness: str) -> str:
@@ -114,6 +118,8 @@ def analyse(video_path: str, output_dir: str = None, verbose: bool = True,
         "source": phases.resolved_contact_source,
         "status": phases.resolved_contact_status,
     }
+    video_meta["detector_version"] = CONTACT_DETECTOR_VERSION
+    video_meta["contact_detector_version"] = CONTACT_DETECTOR_VERSION
     if phases.contact_confidence == "low":
         video_meta["contact_notice"] = (
             "Contact confidence is low for this video, so contact-derived deductions "

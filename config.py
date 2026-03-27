@@ -43,6 +43,14 @@ DEFAULT_HANDEDNESS = "right"  # used when API caller doesn't specify
 # LOCAL_MODE=False preserves the lighter Railway-style processing path.
 LOCAL_MODE = _env_bool("LOCAL_MODE", False)
 
+# Version identifier for the contact detector currently running in production.
+# Every automatic estimate should record this so validated corrections can be
+# evaluated against the exact heuristic/model version that produced them.
+CONTACT_DETECTOR_VERSION = os.getenv(
+    "CONTACT_DETECTOR_VERSION",
+    "contact-consensus-3signal-v1",
+)
+
 # ---------------------------------------------------------------------------
 # Phase Detection thresholds
 # ---------------------------------------------------------------------------

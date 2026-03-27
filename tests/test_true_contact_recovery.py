@@ -12,6 +12,7 @@ from phase_detector import apply_contact_override
 from report_generator import build_json_report
 from scorer import _apply_contact_confidence_weight
 from models import Fault, PillarScore, BattingIQResult, TrafficLight
+from evaluate_contact_labels import evaluate_rows
 
 
 def _metric(frame_idx: int) -> FrameMetrics:
@@ -105,3 +106,61 @@ def test_report_marks_contact_as_estimated_or_validated():
     assert report["phases"]["contact"]["source"] == "manual"
     assert report["phases"]["contact"]["status"] == "validated"
     assert report["phases"]["contact"]["resolved_original_frame"] == 31
+
+
+def test_report_surfaces_contact_detector_version_in_contact_phase():
+    phases = apply_contact_override(_phases(), [_metric(i * 2) for i in range(20)], None)
+    result = BattingIQResult(
+        battingiq_score=80,
+        score_band="Good",
+        pillars={
+            "access": PillarScore(name="access", score=20, status=TrafficLight.GREEN),
+            "tracking": PillarScore(name="tracking", score=20, status=TrafficLight.GREEN),
+            "stability": PillarScore(name="stability", score=20, status=TrafficLight.GREEN),
+            "flow": PillarScore(name="flow", score=20, status=TrafficLight.GREEN),
+        },
+        priority_fix=None,
+        development_notes=[],
+        phases=phases,
+        metadata={"contact_detector_version": "contact-consensus-3signal-v1"},
+    )
+
+    report = build_json_report(result)
+    assert report["metadata"]["contact_detector_version"] == "contact-consensus-3signal-v1"
+    assert report["phases"]["contact"]["detector_version"] == "contact-consensus-3signal-v1"
+
+
+def test_contact_evaluation_groups_by_detector_version_and_handedness():
+    detailed, summary = evaluate_rows([
+        {
+            "upload_id": "u1",
+            "estimated_contact_original_frame": "40",
+            "validated_contact_frame": "44",
+            "fps": "30",
+            "filming_angle": "front-on",
+            "handedness": "right",
+            "shot_family": "front_foot_drive",
+            "shot_variant": "straight",
+            "detector_version": "v1",
+            "estimated_confidence": "medium",
+        },
+        {
+            "upload_id": "u2",
+            "estimated_contact_original_frame": "52",
+            "validated_contact_frame": "50",
+            "fps": "60",
+            "filming_angle": "front-on",
+            "handedness": "left",
+            "shot_family": "front_foot_drive",
+            "shot_variant": "offside",
+            "detector_version": "v2",
+            "estimated_confidence": "high",
+        },
+    ])
+
+    assert len(detailed) == 2
+    assert summary["rows_compared"] == 2
+    assert summary["by_detector_version"]["v1"]["count"] == 1
+    assert summary["by_detector_version"]["v2"]["mean_absolute_error"] == 2.0
+    assert summary["by_handedness"]["right"]["mean_signed_error"] == -4.0
+    assert summary["by_shot_type"]["front_foot_drive:straight"]["count"] == 1

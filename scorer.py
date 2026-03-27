@@ -183,6 +183,8 @@ def build_scores(
     video_meta["resolved_contact_original_frame"] = phases.resolved_contact_original_frame
     video_meta["resolved_contact_source"] = phases.resolved_contact_source
     video_meta["resolved_contact_status"] = phases.resolved_contact_status
+    video_meta.setdefault("detector_version", video_meta.get("contact_detector_version"))
+    video_meta.setdefault("contact_detector_version", video_meta.get("detector_version"))
     if phases.contact_confidence == "low":
         video_meta["contact_notice"] = (
             "Contact confidence is low for this video, so contact-derived deductions "
