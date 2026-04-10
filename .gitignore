@@ -3,3 +3,7 @@ __pycache__/
 *.pyo
 .DS_Store
 results/
+.venv/
+.venv310/
+calibration_batch_output/
+calibration_comparison.csv
