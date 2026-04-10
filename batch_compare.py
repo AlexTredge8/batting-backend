@@ -14,10 +14,13 @@ import csv
 import os
 import sys
 import tempfile
+import uuid
 from collections import defaultdict
 from pathlib import Path
 from statistics import mean
 from typing import Iterable
+from urllib import error as urlerror
+from urllib import request as urlrequest
 from xml.etree import ElementTree as ET
 from zipfile import ZipFile
 
@@ -31,17 +34,6 @@ if sys.version_info < (3, 10):
 
 # Keep matplotlib from trying to write under a non-writable home cache directory.
 os.environ.setdefault("MPLCONFIGDIR", str(Path(tempfile.gettempdir()) / "battingiq-mplconfig"))
-
-# Force the local, full-quality processing path before importing the pipeline.
-os.environ["LOCAL_MODE"] = "1"
-
-import pose_extractor
-from run_analysis import run_full_analysis
-
-
-# Override the local BlazePose complexity for calibration runs.
-pose_extractor.LOCAL_MODEL_COMPLEXITY = 2
-
 
 VIDEO_SUFFIXES = {".mp4", ".mov", ".webm", ".m4v", ".avi", ".mkv"}
 REQUIRED_INPUT_COLUMNS = [
@@ -312,6 +304,42 @@ def match_video(filename: str, lookup: dict[str, list[Path]]) -> Path | None:
     return candidates[0]
 
 
+def discover_cached_reports(root: Path) -> list[Path]:
+    reports: list[Path] = []
+    for path in sorted(root.iterdir()):
+        if not path.is_dir():
+            continue
+        json_reports = sorted(path.glob("*_battingiq.json"))
+        if json_reports:
+            reports.append(json_reports[0])
+    return reports
+
+
+def build_cached_lookup(reports: list[Path]) -> dict[str, list[Path]]:
+    lookup: dict[str, list[Path]] = defaultdict(list)
+    for report in reports:
+        lookup[_normalise_filename(report.parent.name)].append(report)
+    return lookup
+
+
+def match_cached_report(filename: str, lookup: dict[str, list[Path]]) -> Path | None:
+    candidates = lookup.get(_normalise_filename(filename), [])
+    if not candidates:
+        return None
+
+    desired_name = Path(filename).name.casefold()
+    for candidate in candidates:
+        if candidate.parent.name.casefold() == desired_name:
+            return candidate
+
+    if len(candidates) > 1:
+        _warn(
+            f"Multiple cached reports match '{filename}' by stem; using '{candidates[0].name}' "
+            f"from {candidates[0].parent}"
+        )
+    return candidates[0]
+
+
 def _nested_get(data: dict, path: tuple[str, ...]) -> object:
     current: object = data
     for key in path:
@@ -393,7 +421,91 @@ def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description="Compare coach scores against local BattingIQ model scores.")
     parser.add_argument("--video-dir", required=True, help="Directory containing batting videos")
     parser.add_argument("--coach-csv", required=True, help="Coach source file (.csv or .xlsx)")
+    parser.add_argument(
+        "--mode",
+        choices=("local", "live", "cached"),
+        default="local",
+        help="Run the local pipeline, upload each clip to a live BattingIQ API endpoint, or rebuild from cached JSON reports",
+    )
+    parser.add_argument(
+        "--api-base",
+        default="https://web-production-e9c26.up.railway.app",
+        help="Base URL for live mode, e.g. https://battingiq-api.example.com",
+    )
     return parser.parse_args()
+
+
+def run_local_analysis(video_path: Path, output_dir: Path) -> dict:
+    # Force the local, full-quality processing path only when the local runner is used.
+    os.environ["LOCAL_MODE"] = "1"
+
+    import pose_extractor
+    from run_analysis import run_full_analysis
+
+    pose_extractor.LOCAL_MODEL_COMPLEXITY = 2
+    return run_full_analysis(str(video_path), output_dir=str(output_dir))
+
+
+def load_cached_report(report_path: Path) -> dict:
+    import json
+
+    with report_path.open(encoding="utf-8") as handle:
+        return json.load(handle)
+
+
+def _build_multipart_request(video_path: Path) -> tuple[bytes, dict[str, str]]:
+    boundary = f"----BattingIQBoundary{uuid.uuid4().hex}"
+    file_bytes = video_path.read_bytes()
+    filename = video_path.name
+    suffix = video_path.suffix.casefold()
+    content_type = {
+        ".mov": "video/quicktime",
+        ".mp4": "video/mp4",
+        ".avi": "video/x-msvideo",
+        ".mkv": "video/x-matroska",
+        ".m4v": "video/x-m4v",
+        ".webm": "video/webm",
+    }.get(suffix, "application/octet-stream")
+
+    body = bytearray()
+    body.extend(f"--{boundary}\r\n".encode("utf-8"))
+    body.extend(
+        (
+            f'Content-Disposition: form-data; name="file"; filename="{filename}"\r\n'
+            f"Content-Type: {content_type}\r\n\r\n"
+        ).encode("utf-8")
+    )
+    body.extend(file_bytes)
+    body.extend(f"\r\n--{boundary}--\r\n".encode("utf-8"))
+
+    headers = {
+        "Content-Type": f"multipart/form-data; boundary={boundary}",
+        "Content-Length": str(len(body)),
+        "User-Agent": "BattingIQ batch_compare/1.0",
+    }
+    return bytes(body), headers
+
+
+def run_live_analysis(video_path: Path, api_base: str) -> dict:
+    body, headers = _build_multipart_request(video_path)
+    endpoint = f"{api_base.rstrip('/')}/analyse"
+    request = urlrequest.Request(endpoint, data=body, headers=headers, method="POST")
+
+    try:
+        with urlrequest.urlopen(request, timeout=300) as response:
+            payload = response.read().decode("utf-8")
+    except urlerror.HTTPError as exc:
+        error_body = exc.read().decode("utf-8", errors="replace")
+        raise RuntimeError(f"Live API returned HTTP {exc.code}: {error_body}") from exc
+    except urlerror.URLError as exc:
+        raise RuntimeError(f"Could not reach live API at {endpoint}: {exc.reason}") from exc
+
+    import json
+
+    try:
+        return json.loads(payload)
+    except json.JSONDecodeError as exc:
+        raise RuntimeError(f"Live API returned invalid JSON: {payload[:300]}") from exc
 
 
 def main() -> int:
@@ -412,40 +524,77 @@ def main() -> int:
         raise SystemExit(f"Coach file not found: {coach_path}")
 
     coach_rows = load_coach_rows(coach_path)
-    videos = discover_videos(video_dir)
-    if not videos:
-        raise SystemExit(f"No supported video files found in {video_dir}")
-
-    lookup = build_video_lookup(videos)
     debug_root.mkdir(parents=True, exist_ok=True)
+
+    video_lookup: dict[str, list[Path]] | None = None
+    cached_lookup: dict[str, list[Path]] | None = None
+
+    if args.mode == "cached":
+        cached_reports = discover_cached_reports(debug_root)
+        if not cached_reports:
+            raise SystemExit(f"No cached JSON reports found in {debug_root}")
+        cached_lookup = build_cached_lookup(cached_reports)
+    else:
+        videos = discover_videos(video_dir)
+        if not videos:
+            raise SystemExit(f"No supported video files found in {video_dir}")
+        video_lookup = build_video_lookup(videos)
 
     output_rows: list[dict[str, object]] = []
     failures = 0
+    successes = 0
 
     for index, coach_row in enumerate(coach_rows, start=1):
         filename = coach_row["filename"]
         print(f"Processing {index}/{len(coach_rows)}: {filename}")
-        matched_video = match_video(filename, lookup)
+        source_path: Path | None = None
 
-        if matched_video is None:
+        try:
+            if args.mode == "cached":
+                assert cached_lookup is not None
+                matched_report = match_cached_report(filename, cached_lookup)
+                if matched_report is None:
+                    failures += 1
+                    _warn(f"Cached report not found for '{filename}' under {debug_root}")
+                    output_rows.append(build_output_row(coach_row, model_scores=None))
+                    continue
+                source_path = matched_report
+                report = load_cached_report(matched_report)
+            else:
+                assert video_lookup is not None
+                matched_video = match_video(filename, video_lookup)
+                if matched_video is None:
+                    failures += 1
+                    _warn(f"Video not found for '{filename}' under {video_dir}")
+                    output_rows.append(build_output_row(coach_row, model_scores=None))
+                    continue
+                source_path = matched_video
+
+                if args.mode == "live":
+                    report = run_live_analysis(matched_video, args.api_base)
+                else:
+                    output_dir = debug_root / matched_video.name
+                    report = run_local_analysis(matched_video, output_dir)
+
+            output_rows.append(build_output_row(coach_row, extract_model_scores(report)))
+            successes += 1
+        except Exception as exc:  # pragma: no cover - batch path should continue on failures
             failures += 1
-            _warn(f"Video not found for '{filename}' under {video_dir}")
+            _warn(f"Analysis failed for '{filename}' ({source_path}): {exc}")
             output_rows.append(build_output_row(coach_row, model_scores=None))
             continue
 
-        try:
-            output_dir = debug_root / matched_video.name
-            report = run_full_analysis(str(matched_video), output_dir=str(output_dir))
-            output_rows.append(build_output_row(coach_row, extract_model_scores(report)))
-        except Exception as exc:  # pragma: no cover - batch path should continue on failures
-            failures += 1
-            _warn(f"Analysis failed for '{filename}' ({matched_video}): {exc}")
-            output_rows.append(build_output_row(coach_row, model_scores=None))
+    if successes == 0:
+        raise SystemExit(
+            "All analyses failed. Existing calibration_comparison.csv was left untouched "
+            "so a valid comparison file is not replaced with blanks."
+        )
 
     write_output_csv(output_rows, output_path)
 
     print(f"\nSaved calibration comparison CSV to: {output_path}")
     print(f"Rows written: {len(output_rows)}")
+    print(f"Successful analyses: {successes}")
     print(f"Rows with missing video or failed analysis: {failures}")
     print_summary(output_rows)
     return 0
