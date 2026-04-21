@@ -373,6 +373,37 @@ def _nearest_metric_index_for_orig_frame(metrics: list[FrameMetrics], orig_frame
     return best_idx
 
 
+def _rebuild_phase_labels(phases: PhaseResult, metrics: list[FrameMetrics]) -> list[BattingPhase]:
+    n = len(metrics)
+    if n == 0:
+        return []
+
+    setup_end = max(0, min(phases.setup_end, n - 1))
+    backlift_start = max(setup_end, min(phases.backlift_start, n - 1))
+    hands_peak = max(backlift_start, min(phases.hands_peak, n - 1))
+    front_foot_down = max(backlift_start, min(phases.front_foot_down, n - 1))
+    contact = max(0, min(phases.contact, n - 1))
+    follow_through_start = max(contact, min(phases.follow_through_start, n - 1))
+
+    labels = [BattingPhase.UNKNOWN] * n
+    for i in range(0, setup_end + 1):
+        labels[i] = BattingPhase.SETUP
+    for i in range(backlift_start, hands_peak):
+        labels[i] = BattingPhase.BACKLIFT_STARTS
+    if 0 <= hands_peak < n:
+        labels[hands_peak] = BattingPhase.HANDS_PEAK
+    if 0 <= front_foot_down < n:
+        labels[front_foot_down] = BattingPhase.FRONT_FOOT_DOWN
+
+    cw_lo = max(0, contact - CONTACT_WINDOW_FRAMES)
+    cw_hi = min(n, contact + CONTACT_WINDOW_FRAMES + 1)
+    for i in range(cw_lo, cw_hi):
+        labels[i] = BattingPhase.CONTACT
+    for i in range(follow_through_start, n):
+        labels[i] = BattingPhase.FOLLOW_THROUGH
+    return labels
+
+
 def apply_contact_override(
     phases: PhaseResult,
     metrics: list[FrameMetrics],
@@ -415,16 +446,50 @@ def apply_contact_override(
     phases.backlift_to_contact_frames = resolved_metric_idx - phases.backlift_start
     phases.follow_through_start = resolved_metric_idx + CONTACT_WINDOW_FRAMES + 1
 
-    labels = list(phases.phase_labels)
-    for i in range(phases.hands_peak + 1, len(labels)):
-        labels[i] = BattingPhase.HANDS_PEAK
-    if 0 <= phases.front_foot_down < len(labels):
-        labels[phases.front_foot_down] = BattingPhase.FRONT_FOOT_DOWN
-    for i in range(cw_lo, cw_hi):
-        labels[i] = BattingPhase.CONTACT
-    for i in range(phases.follow_through_start, len(labels)):
-        labels[i] = BattingPhase.FOLLOW_THROUGH
-    phases.phase_labels = labels
+    phases.phase_labels = _rebuild_phase_labels(phases, metrics)
+
+    return phases
+
+
+def apply_anchor_overrides(
+    phases: PhaseResult,
+    metrics: list[FrameMetrics],
+    anchor_original_frames: dict[str, int | None] | None = None,
+) -> PhaseResult:
+    """
+    Apply original-frame overrides for any of the six anchor frames.
+
+    Supported keys:
+      setup_frame, hands_start_up_frame, front_foot_down_frame,
+      hands_peak_frame, contact_frame, follow_through_frame
+    """
+    if not anchor_original_frames:
+        return apply_contact_override(phases, metrics, None)
+
+    def _override_metric_idx(field: str, current_value: int) -> int:
+        original_frame = anchor_original_frames.get(field)
+        if original_frame is None:
+            return current_value
+        return _nearest_metric_index_for_orig_frame(metrics, int(original_frame))
+
+    phases.setup_end = _override_metric_idx("setup_frame", phases.setup_end)
+    phases.backlift_start = max(phases.setup_end, _override_metric_idx("hands_start_up_frame", phases.backlift_start))
+    phases.front_foot_down = _override_metric_idx("front_foot_down_frame", phases.front_foot_down)
+    phases.hands_peak = _override_metric_idx("hands_peak_frame", phases.hands_peak)
+
+    phases.hands_peak_vs_ffd_diff = phases.hands_peak - phases.front_foot_down
+    phases.hands_peak_vs_ffd_ms = round((phases.hands_peak_vs_ffd_diff / (phases.fps or 30.0)) * 1000, 1)
+
+    phases = apply_contact_override(
+        phases,
+        metrics,
+        contact_original_frame=anchor_original_frames.get("contact_frame"),
+    )
+
+    follow_through_override = anchor_original_frames.get("follow_through_frame")
+    if follow_through_override is not None:
+        phases.follow_through_start = _nearest_metric_index_for_orig_frame(metrics, int(follow_through_override))
+        phases.phase_labels = _rebuild_phase_labels(phases, metrics)
 
     return phases
 

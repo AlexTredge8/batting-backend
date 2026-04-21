@@ -6,6 +6,7 @@ Endpoints:
   POST /analyse  — upload video, run full pipeline, return JSON report
 """
 
+import json
 import os
 import shutil
 import traceback
@@ -107,6 +108,34 @@ def _build_analysis_response(report: dict, job_id: str, output_dir: Path) -> dic
     return report
 
 
+def _parse_anchor_frames_json(anchor_frames_json: Optional[str]) -> dict[str, int | None] | None:
+    if anchor_frames_json in (None, ""):
+        return None
+
+    try:
+        parsed = json.loads(anchor_frames_json)
+    except json.JSONDecodeError as exc:
+        raise HTTPException(status_code=400, detail=f"Invalid anchor_frames_json: {exc.msg}") from exc
+
+    if not isinstance(parsed, dict):
+        raise HTTPException(status_code=400, detail="anchor_frames_json must be a JSON object")
+
+    normalized: dict[str, int | None] = {}
+    for key, value in parsed.items():
+        if value is None or value == "":
+            normalized[str(key)] = None
+            continue
+        try:
+            normalized[str(key)] = int(value)
+        except (TypeError, ValueError) as exc:
+            raise HTTPException(
+                status_code=400,
+                detail=f"Anchor frame '{key}' must be an integer or null",
+            ) from exc
+
+    return normalized
+
+
 # ---------------------------------------------------------------------------
 # Endpoints
 # ---------------------------------------------------------------------------
@@ -156,6 +185,7 @@ async def analyse(
     consent: Optional[str] = Form(None),
     handedness: Optional[str] = Form(None),
     contact_frame: Optional[int] = Form(None),
+    anchor_frames_json: Optional[str] = Form(None),
 ):
     """
     Upload a batting video and receive a full BattingIQ analysis report.
@@ -184,6 +214,8 @@ async def analyse(
         return round(psutil.virtual_memory().available / 1e6)
 
     try:
+        anchor_frames = _parse_anchor_frames_json(anchor_frames_json)
+
         # Save uploaded file
         with open(video_path, "wb") as fh:
             shutil.copyfileobj(file.file, fh)
@@ -205,6 +237,7 @@ async def analyse(
             handedness=h,
             handedness_source=h_source,
             contact_frame=contact_frame,
+            anchor_frames=anchor_frames,
         )
         print(f"[analyse] pipeline done mem_avail={_mem_mb()}MB")
 
@@ -225,6 +258,54 @@ async def analyse(
         raise HTTPException(status_code=500, detail=f"{exc}\n\n{tb}")
     finally:
         await file.close()
+
+
+@app.post("/analyse-from-url")
+def analyse_from_url(
+    video_url: str = Form(...),
+    handedness: Optional[str] = Form(None),
+    contact_frame: Optional[int] = Form(None),
+    anchor_frames_json: Optional[str] = Form(None),
+):
+    """
+    Re-analyse an existing remote video URL, optionally with a resolved contact frame.
+
+    Intended for the admin/manual-review flow where the original upload already exists
+    in storage and the coach wants the report/storyboard regenerated from a corrected
+    contact frame.
+    """
+    suffix = Path(video_url).suffix.lower() or ".mp4"
+    if suffix not in {".mp4", ".mov", ".avi", ".mkv", ".m4v", ".webm"}:
+        suffix = ".mp4"
+
+    job_id = uuid.uuid4().hex
+    job_dir = RESULTS_DIR / job_id
+    job_dir.mkdir(parents=True, exist_ok=True)
+    video_path = job_dir / f"input{suffix}"
+
+    h = (handedness or "").strip().lower()
+    h_source = "api" if h in ("right", "left") else "default"
+    if h not in ("right", "left"):
+        h = None
+
+    try:
+        anchor_frames = _parse_anchor_frames_json(anchor_frames_json)
+        _download_video_url(video_url, video_path)
+        output_dir = job_dir / "output"
+        report = run_full_analysis(
+            str(video_path),
+            output_dir=str(output_dir),
+            handedness=h,
+            handedness_source=h_source,
+            contact_frame=contact_frame,
+            anchor_frames=anchor_frames,
+        )
+        return JSONResponse(content=_build_analysis_response(report, job_id, output_dir))
+    except Exception as exc:
+        shutil.rmtree(job_dir, ignore_errors=True)
+        tb = traceback.format_exc()
+        print(f"[analyse-from-url] FAILED job={job_id}\n{tb}")
+        raise HTTPException(status_code=500, detail=f"{exc}\n\n{tb}")
 
 
 @app.get("/results/{job_id}/{file_path:path}")

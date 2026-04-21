@@ -59,6 +59,8 @@ OUTPUT_COLUMNS = [
     "filename",
     "tier",
     "filmed_correctly",
+    "contact_detector_version",
+    "anchor_detector_version",
     "coach_access",
     "coach_tracking",
     "coach_stability",
@@ -353,12 +355,38 @@ def extract_model_scores(report: dict) -> dict[str, int | None]:
     return {field: _coerce_int(_nested_get(report, path)) for field, path in MODEL_FIELDS.items()}
 
 
-def build_output_row(coach_row: dict[str, str], model_scores: dict[str, int | None] | None) -> dict[str, object]:
+def extract_model_provenance(report: dict) -> dict[str, str]:
+    metadata = report.get("metadata", {}) or {}
+    contact = report.get("phases", {}).get("contact", {}) or {}
+    return {
+        "contact_detector_version": str(
+            contact.get("detector_version")
+            or metadata.get("contact_detector_version")
+            or metadata.get("detector_version")
+            or ""
+        ),
+        "anchor_detector_version": str(
+            metadata.get("anchor_detector_version")
+            or metadata.get("detector_version")
+            or ""
+        ),
+    }
+
+
+def build_output_row(
+    coach_row: dict[str, str],
+    model_scores: dict[str, int | None] | None,
+    model_provenance: dict[str, str] | None,
+) -> dict[str, object]:
     row: dict[str, object] = {
         "filename": coach_row["filename"],
         "tier": coach_row["tier"],
         "filmed_correctly": coach_row["filmed_correctly"],
     }
+
+    provenance = model_provenance or {}
+    row["contact_detector_version"] = provenance.get("contact_detector_version", "")
+    row["anchor_detector_version"] = provenance.get("anchor_detector_version", "")
 
     for source_field, output_field in COACH_TO_OUTPUT.items():
         row[output_field] = _coerce_int(coach_row.get(source_field))
@@ -556,7 +584,7 @@ def main() -> int:
                 if matched_report is None:
                     failures += 1
                     _warn(f"Cached report not found for '{filename}' under {debug_root}")
-                    output_rows.append(build_output_row(coach_row, model_scores=None))
+                    output_rows.append(build_output_row(coach_row, model_scores=None, model_provenance=None))
                     continue
                 source_path = matched_report
                 report = load_cached_report(matched_report)
@@ -566,7 +594,7 @@ def main() -> int:
                 if matched_video is None:
                     failures += 1
                     _warn(f"Video not found for '{filename}' under {video_dir}")
-                    output_rows.append(build_output_row(coach_row, model_scores=None))
+                    output_rows.append(build_output_row(coach_row, model_scores=None, model_provenance=None))
                     continue
                 source_path = matched_video
 
@@ -576,12 +604,18 @@ def main() -> int:
                     output_dir = debug_root / matched_video.name
                     report = run_local_analysis(matched_video, output_dir)
 
-            output_rows.append(build_output_row(coach_row, extract_model_scores(report)))
+            output_rows.append(
+                build_output_row(
+                    coach_row,
+                    extract_model_scores(report),
+                    extract_model_provenance(report),
+                )
+            )
             successes += 1
         except Exception as exc:  # pragma: no cover - batch path should continue on failures
             failures += 1
             _warn(f"Analysis failed for '{filename}' ({source_path}): {exc}")
-            output_rows.append(build_output_row(coach_row, model_scores=None))
+            output_rows.append(build_output_row(coach_row, model_scores=None, model_provenance=None))
             continue
 
     if successes == 0:
