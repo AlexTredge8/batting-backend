@@ -17,7 +17,7 @@ from urllib import request as urlrequest
 import psutil
 from fastapi import FastAPI, File, Form, UploadFile, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import FileResponse, JSONResponse, RedirectResponse, Response
+from fastapi.responses import FileResponse, JSONResponse
 from typing import Optional
 
 from inline_media import file_to_data_url
@@ -240,7 +240,15 @@ async def analyse(
             anchor_frames=anchor_frames,
         )
         print(f"[analyse] pipeline done mem_avail={_mem_mb()}MB")
-        return JSONResponse(content=_build_analysis_response(report, job_id, output_dir))
+
+        annotated_files = sorted(output_dir.glob("*_battingiq_annotated.mp4"))
+        annotated_video_url = None
+        if annotated_files:
+            annotated_video_url = f"/results/{job_id}/output/{annotated_files[0].name}"
+
+        report["job_id"] = job_id
+        report["annotated_video_url"] = annotated_video_url
+        return JSONResponse(content=report)
 
     except Exception as exc:
         # Clean up on failure
@@ -306,21 +314,9 @@ def get_result_file(job_id: str, file_path: str):
     job_root = (RESULTS_DIR / job_id).resolve()
     requested = (job_root / file_path).resolve()
 
-    try:
-        requested.relative_to(job_root)
-    except ValueError:
+    if not str(requested).startswith(str(job_root)):
         raise HTTPException(status_code=400, detail="Invalid file path")
-
     if not requested.exists() or not requested.is_file():
-        redirect_url = result_redirect_url(job_id, file_path)
-        if redirect_url:
-            return RedirectResponse(url=redirect_url, status_code=307)
-        remote_file = download_result_file(f"{job_id}/{file_path}")
-        if remote_file.get("status") == "ok" and remote_file.get("content") is not None:
-            return Response(
-                content=remote_file["content"],
-                media_type=remote_file.get("content_type") or "application/octet-stream",
-            )
         raise HTTPException(status_code=404, detail="File not found")
 
     return FileResponse(str(requested))
