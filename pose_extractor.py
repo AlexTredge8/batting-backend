@@ -9,12 +9,25 @@ import cv2
 import mediapipe as mp
 from pathlib import Path
 from models import FramePose, RawLandmark
+from config import LOCAL_MODE
 
 mp_pose = mp.solutions.pose
 
 
 MAX_PROCESS_FPS = 15   # subsample to this rate — plenty for cricket phase detection
 MAX_PROCESS_WIDTH = 640  # downscale wide frames before MediaPipe inference
+LOCAL_MODEL_COMPLEXITY = 1
+RAILWAY_MODEL_COMPLEXITY = 1
+
+
+def _processing_settings(fps: float, width: int, local_mode: bool = LOCAL_MODE) -> tuple[int, float, int]:
+    """Return (frame_step, scale, model_complexity) for the current runtime mode."""
+    if local_mode:
+        return 1, 1.0, LOCAL_MODEL_COMPLEXITY
+
+    frame_step = max(1, round(fps / MAX_PROCESS_FPS))
+    scale = min(1.0, MAX_PROCESS_WIDTH / width) if width > MAX_PROCESS_WIDTH else 1.0
+    return frame_step, scale, RAILWAY_MODEL_COMPLEXITY
 
 
 def extract_poses(video_path: str, verbose: bool = True) -> tuple[list[FramePose], dict]:
@@ -33,17 +46,16 @@ def extract_poses(video_path: str, verbose: bool = True) -> tuple[list[FramePose
     cap = cv2.VideoCapture(str(path))
     if not cap.isOpened():
         raise RuntimeError(f"Cannot open video: {video_path}")
+    if hasattr(cv2, "CAP_PROP_ORIENTATION_AUTO"):
+        cap.set(cv2.CAP_PROP_ORIENTATION_AUTO, 1)
 
     fps = cap.get(cv2.CAP_PROP_FPS) or 30.0
     width = int(cap.get(cv2.CAP_PROP_FRAME_WIDTH))
     height = int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
     total_frames = int(cap.get(cv2.CAP_PROP_FRAME_COUNT))
 
-    # Subsample: process at most MAX_PROCESS_FPS frames per second
-    frame_step = max(1, round(fps / MAX_PROCESS_FPS))
+    frame_step, scale, model_complexity = _processing_settings(fps, width, local_mode=LOCAL_MODE)
 
-    # Downscale factor for MediaPipe input (keeps aspect ratio)
-    scale = min(1.0, MAX_PROCESS_WIDTH / width) if width > MAX_PROCESS_WIDTH else 1.0
     proc_w = int(width * scale)
     proc_h = int(height * scale)
 
@@ -54,19 +66,24 @@ def extract_poses(video_path: str, verbose: bool = True) -> tuple[list[FramePose
         "total_frames": total_frames,
         "duration_s": round(total_frames / fps, 3),
         "video_name": path.name,
+        "frame_step": frame_step,
+        "local_mode": LOCAL_MODE,
     }
 
     if verbose:
         print(f"  Extracting poses: {path.name}")
         print(f"  {width}x{height} @ {fps:.0f}fps — {total_frames} frames ({video_meta['duration_s']:.1f}s)")
-        print(f"  Processing: every {frame_step} frame(s), scaled to {proc_w}x{proc_h}")
+        print(
+            f"  Processing: every {frame_step} frame(s), scaled to {proc_w}x{proc_h}, "
+            f"mode={'LOCAL' if LOCAL_MODE else 'RAILWAY'}"
+        )
 
     frame_poses: list[FramePose] = []
     detected_count = 0
 
     with mp_pose.Pose(
         static_image_mode=False,
-        model_complexity=1,
+        model_complexity=model_complexity,
         min_detection_confidence=0.5,
         min_tracking_confidence=0.5,
         smooth_landmarks=True,

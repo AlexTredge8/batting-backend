@@ -157,18 +157,23 @@ def rule_S2(metrics, phases, baseline):
     return []
 
 
-def rule_S3(metrics, phases, baseline):
+def rule_S3(metrics, phases, baseline, front_side="left"):
     """S3: Hips drifting outside the base."""
     n = len(metrics)
     fault_frames = []
     for i in range(phases.backlift_start, min(phases.follow_through_start + 5, n)):
         hip_x        = _get(metrics, i, "hip_centre_x")
         front_ankle_x = _get(metrics, i, "front_ankle_x")
-        # For left front foot (RHB from end-on), hip_centre_x should not
-        # go beyond front_ankle_x toward the off-side.
-        # From end-on, smaller X = more toward camera left.
-        # We flag if hip moves more than tolerance beyond the front ankle.
-        if abs(hip_x - front_ankle_x) > S3_HIP_DRIFT_TOLERANCE and hip_x < front_ankle_x:
+        # Hip drifting outside the base = hip moving past front ankle
+        # toward the off-side. Direction depends on handedness:
+        #   RHB (front_side="left"):  front ankle is screen-left, drift = hip_x < front_ankle_x
+        #   LHB (front_side="right"): front ankle is screen-right, drift = hip_x > front_ankle_x
+        drift = abs(hip_x - front_ankle_x)
+        if front_side == "left":
+            drifting = hip_x < front_ankle_x
+        else:
+            drifting = hip_x > front_ankle_x
+        if drift > S3_HIP_DRIFT_TOLERANCE and drifting:
             fault_frames.append(i)
 
     if len(fault_frames) >= 3:
@@ -790,19 +795,40 @@ def run_all_rules(
     metrics: list[FrameMetrics],
     phases: PhaseResult,
     baseline: dict,
+    front_side: str = "left",
 ) -> dict[str, list[Fault]]:
     """
     Run all 21 coaching rules.
     Returns dict keyed by pillar name with a list of detected faults.
+
+    Args:
+        front_side: "left" for right-handed batter, "right" for left-handed.
     """
     results: dict[str, list[Fault]] = {
         "access": [], "tracking": [], "stability": [], "flow": []
     }
+    rules_evaluated = 0
+    rules_failed = []
+
     for pillar, rule_fn in _ALL_RULES:
         try:
-            faults = rule_fn(metrics, phases, baseline)
+            if rule_fn is rule_S3:
+                faults = rule_fn(metrics, phases, baseline, front_side=front_side)
+            else:
+                faults = rule_fn(metrics, phases, baseline)
             results[pillar].extend(faults)
+            rules_evaluated += 1
         except Exception as e:
             # Never crash the whole pipeline on a single rule
+            rule_id = rule_fn.__name__.replace("rule_", "")
+            rules_failed.append({"rule_id": rule_id, "error": str(e)})
             print(f"  Warning: rule {rule_fn.__name__} raised {e}")
+
+    # Attach evaluation health as metadata
+    results["_evaluation"] = {
+        "rules_total": len(_ALL_RULES),
+        "rules_evaluated": rules_evaluated,
+        "rules_failed": rules_failed,
+    }
+
     return results

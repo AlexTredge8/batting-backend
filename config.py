@@ -10,13 +10,46 @@ Coordinate system (MediaPipe, normalised 0-1):
   Z: depth from camera (negative = closer to camera)
 """
 
+import os
+
+
+def _env_bool(name: str, default: bool) -> bool:
+    value = os.getenv(name)
+    if value is None:
+        return default
+    value = value.strip().lower()
+    if value in {"1", "true", "yes", "on"}:
+        return True
+    if value in {"0", "false", "no", "off"}:
+        return False
+    return default
+
 # ---------------------------------------------------------------------------
 # Camera / handedness
 # ---------------------------------------------------------------------------
 # Right-handed batter from bowler's end:
 #   Front foot  = LEFT  ankle / knee / elbow
 #   Back foot   = RIGHT ankle / knee / elbow
-FRONT_SIDE = "left"   # change to "right" for a left-handed batter
+# Left-handed batter from bowler's end:
+#   Front foot  = RIGHT ankle / knee / elbow
+#   Back foot   = LEFT  ankle / knee / elbow
+#
+# Mapping:  handedness="right" → front_side="left"
+#           handedness="left"  → front_side="right"
+FRONT_SIDE = "left"           # default for right-handed batters
+DEFAULT_HANDEDNESS = "right"  # used when API caller doesn't specify
+
+# LOCAL_MODE=True keeps source resolution and processes every frame.
+# LOCAL_MODE=False preserves the lighter Railway-style processing path.
+LOCAL_MODE = _env_bool("LOCAL_MODE", False)
+
+# Version identifier for the contact detector currently running in production.
+# Every automatic estimate should record this so validated corrections can be
+# evaluated against the exact heuristic/model version that produced them.
+CONTACT_DETECTOR_VERSION = os.getenv(
+    "CONTACT_DETECTOR_VERSION",
+    "contact-consensus-3signal-v1",
+)
 
 # ---------------------------------------------------------------------------
 # Phase Detection thresholds
@@ -58,6 +91,10 @@ CONTACT_DECEL_MIN_RATIO = 0.5     # decel must be this fraction of max decel
 # Contact window ±frames for rule evaluation
 CONTACT_WINDOW_FRAMES = 2
 
+# When contact confidence is low, damp contact-derived deductions rather
+# than pretending the exact contact estimate is trustworthy.
+CONTACT_CONFIDENCE_LOW_WEIGHT = 0.70
+
 # FOLLOW-THROUGH: frames to analyse after contact
 FOLLOW_THROUGH_ANALYSIS_FRAMES = 15
 
@@ -65,6 +102,11 @@ FOLLOW_THROUGH_ANALYSIS_FRAMES = 15
 # Metric smoothing
 # ---------------------------------------------------------------------------
 METRICS_SMOOTH_WINDOW = 3
+
+# Gap filling: if detection gap exceeds this many consecutive frames,
+# mark the filled metrics as low_confidence (forward-fill still applies
+# but downstream consumers can filter or weight accordingly)
+MAX_CONFIDENT_GAP_FRAMES = 10
 
 # ---------------------------------------------------------------------------
 # Coaching Rule Thresholds

@@ -130,6 +130,9 @@ class FrameMetrics:
     hip_centre_x: float = 0.0
     hip_centre_vx: float = 0.0
 
+    # Quality flags
+    low_confidence: bool = False   # True if gap-filled beyond MAX_CONFIDENT_GAP_FRAMES
+
 
 # ---------------------------------------------------------------------------
 # Phase detection results
@@ -154,6 +157,20 @@ class PhaseResult:
     hands_peak_vs_ffd_ms: float = 0.0
     backlift_to_contact_frames: int = 0
     fps: float = 30.0
+    contact_confidence: str = "high"          # "high" | "medium" | "low"
+    contact_candidates: dict = field(default_factory=dict)
+    contact_window: dict = field(default_factory=dict)
+    contact_diagnostics: dict = field(default_factory=dict)
+    estimated_contact_frame: int = 0
+    estimated_contact_original_frame: int = 0
+    estimated_contact_confidence: str = "high"
+    estimated_contact_candidates: dict = field(default_factory=dict)
+    estimated_contact_window: dict = field(default_factory=dict)
+    estimated_contact_diagnostics: dict = field(default_factory=dict)
+    resolved_contact_frame: int = 0
+    resolved_contact_original_frame: int = 0
+    resolved_contact_source: str = "auto"     # "auto" | "manual"
+    resolved_contact_status: str = "estimated"  # "estimated" | "validated"
 
 
 # ---------------------------------------------------------------------------
@@ -196,3 +213,5 @@ class BattingIQResult:
     development_notes: list[str]
     phases: PhaseResult
     metadata: dict
+    handedness: str = "right"           # "right" or "left"
+    handedness_source: str = "default"  # "api", "auto", or "default"
