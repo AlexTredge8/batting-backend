@@ -12,15 +12,22 @@ import sys
 import json
 import argparse
 from pathlib import Path
+from typing import Any
 
 from pose_extractor     import extract_poses
 from metrics_calculator import calculate_metrics
-from phase_detector     import detect_phases, print_phase_summary, apply_contact_override
+from phase_detector     import detect_phases, print_phase_summary, apply_anchor_overrides
 from coaching_rules     import run_all_rules
 from scorer             import build_scores
 from report_generator   import save_json_report, print_report
 from video_annotator    import annotate_video, generate_storyboard
 from reference_builder  import load_reference_baseline, build_reference_baseline
+from anchor_accuracy    import (
+    ANCHOR_DETECTOR_VERSION,
+    build_anchor_confidence,
+    build_anchor_frames,
+    build_anchor_quality_summary,
+)
 from config             import (
     REFERENCE_BASELINE_PATH,
     DEFAULT_HANDEDNESS,
@@ -35,7 +42,8 @@ def _handedness_to_front_side(handedness: str) -> str:
 
 def analyse(video_path: str, output_dir: str = None, verbose: bool = True,
             handedness: str = None, handedness_source: str = "default",
-            contact_frame: int | None = None) -> dict:
+            contact_frame: int | None = None,
+            anchor_frames: dict[str, int | None] | None = None) -> dict:
     """
     Full BattingIQ Phase 2 analysis pipeline.
 
@@ -99,13 +107,19 @@ def analyse(video_path: str, output_dir: str = None, verbose: bool = True,
     # --- Step 3: Detect phases ---
     if verbose:
         print("  Detecting phases...")
-    phases = detect_phases(metrics, fps)
-    if contact_frame is not None:
-        phases = apply_contact_override(phases, metrics, contact_original_frame=int(contact_frame))
+    anchor_override_frames = dict(anchor_frames or {})
+    raw_phases = detect_phases(metrics, fps)
+    if contact_frame is not None and anchor_override_frames.get("contact_frame") is None:
+        anchor_override_frames["contact_frame"] = int(contact_frame)
+    anchor_frame_map = build_anchor_frames(raw_phases, metrics)
+    anchor_confidence = build_anchor_confidence(raw_phases, metrics)
+    anchor_quality_summary = build_anchor_quality_summary(anchor_confidence)
+    phases = apply_anchor_overrides(raw_phases, metrics, anchor_override_frames or None)
     if verbose:
         print_phase_summary(phases, fps)
     video_meta["phase_diagnostics"] = {
         "contact_confidence": phases.contact_confidence,
+        "estimated_contact_confidence": phases.estimated_contact_confidence,
         "contact_candidates": phases.contact_candidates,
         "contact_window": phases.contact_window,
         "contact_diagnostics": phases.contact_diagnostics,
@@ -120,6 +134,12 @@ def analyse(video_path: str, output_dir: str = None, verbose: bool = True,
     }
     video_meta["detector_version"] = CONTACT_DETECTOR_VERSION
     video_meta["contact_detector_version"] = CONTACT_DETECTOR_VERSION
+    video_meta["anchor_detector_version"] = ANCHOR_DETECTOR_VERSION
+    video_meta["anchor_frames"] = anchor_frame_map
+    video_meta["anchor_confidence"] = anchor_confidence
+    video_meta["anchor_quality_summary"] = anchor_quality_summary
+    if anchor_override_frames:
+        video_meta["anchor_overrides"] = {key: value for key, value in anchor_override_frames.items() if value is not None}
     if phases.contact_confidence == "low":
         video_meta["contact_notice"] = (
             "Contact confidence is low for this video, so contact-derived deductions "
@@ -239,8 +259,9 @@ if __name__ == "__main__":
 
 def run_full_analysis(video_path: str, output_dir: str = None,
                       handedness: str = None, handedness_source: str = "default",
-                      contact_frame: int | None = None) -> dict:
+                      contact_frame: int | None = None,
+                      anchor_frames: dict[str, int | None] | None = None) -> dict:
     """Programmatic entry point for the FastAPI wrapper. Returns the full report as a dict."""
     return analyse(video_path, output_dir=output_dir, verbose=False,
                    handedness=handedness, handedness_source=handedness_source,
-                   contact_frame=contact_frame)
+                   contact_frame=contact_frame, anchor_frames=anchor_frames)

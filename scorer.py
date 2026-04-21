@@ -8,6 +8,7 @@ BattingIQ score, score band, and priority fix selection.
 from dataclasses import replace
 from typing import Optional
 
+from anchor_accuracy import should_suppress_rule
 from models import Fault, PillarScore, BattingIQResult, TrafficLight, PhaseResult
 from config import (
     CONTACT_CONFIDENCE_LOW_WEIGHT,
@@ -61,6 +62,34 @@ def _apply_contact_confidence_weight(faults: list[Fault], phases: PhaseResult) -
         else:
             weighted.append(fault)
     return weighted
+
+
+def _apply_anchor_confidence_suppression(
+    faults: list[Fault],
+    anchor_confidence: dict[str, str] | None,
+    suppressed_rules: list[dict],
+) -> list[Fault]:
+    if not faults or not anchor_confidence:
+        return faults
+
+    filtered: list[Fault] = []
+    seen_rule_ids = {item.get("rule_id") for item in suppressed_rules}
+
+    for fault in faults:
+        should_suppress, anchor_keys = should_suppress_rule(fault.rule_id, anchor_confidence)
+        if not should_suppress:
+            filtered.append(fault)
+            continue
+
+        if fault.rule_id not in seen_rule_ids:
+            suppressed_rules.append({
+                "rule_id": fault.rule_id,
+                "anchor_keys": anchor_keys,
+                "reason": "suppressed_due_to_low_anchor_confidence",
+            })
+            seen_rule_ids.add(fault.rule_id)
+
+    return filtered
 
 
 def _select_priority_fix(pillars: dict[str, PillarScore]) -> Optional[Fault]:
@@ -132,6 +161,12 @@ def build_scores(
     """
     pillars: dict[str, PillarScore] = {}
     video_meta = dict(video_meta or {})
+    anchor_confidence = (
+        video_meta.get("anchor_confidence")
+        if isinstance(video_meta.get("anchor_confidence"), dict)
+        else None
+    )
+    suppressed_rules: list[dict] = []
 
     pillar_positives = {
         "access": [
@@ -152,7 +187,12 @@ def build_scores(
     evaluation = fault_map.pop("_evaluation", None)
 
     for name in ["access", "tracking", "stability", "flow"]:
-        faults = _apply_contact_confidence_weight(fault_map.get(name, []), phases)
+        pillar_faults = _apply_anchor_confidence_suppression(
+            fault_map.get(name, []),
+            anchor_confidence,
+            suppressed_rules,
+        )
+        faults = _apply_contact_confidence_weight(pillar_faults, phases)
         score  = _score_pillar(faults)
         light  = _traffic_light(score)
         # Only include positives if the pillar is green
@@ -173,8 +213,17 @@ def build_scores(
 
     # Include rule evaluation health in metadata
     if evaluation:
+        evaluation = dict(evaluation)
+        evaluation["rules_suppressed"] = len(suppressed_rules)
+        evaluation["suppressed_rule_ids"] = [item["rule_id"] for item in suppressed_rules]
         video_meta["rule_evaluation"] = evaluation
+    if suppressed_rules:
+        video_meta["suppressed_rules"] = suppressed_rules
+        video_meta["suppressed_rule_notice"] = (
+            "Some rule deductions were suppressed because their anchor frames were low confidence or unresolved."
+        )
     video_meta["contact_confidence"] = phases.contact_confidence
+    video_meta["estimated_contact_confidence"] = phases.estimated_contact_confidence
     video_meta["contact_candidates"] = phases.contact_candidates
     video_meta["contact_window"] = phases.contact_window
     video_meta["estimated_contact_frame"] = phases.estimated_contact_frame
