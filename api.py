@@ -16,7 +16,7 @@ from urllib import request as urlrequest
 import psutil
 from fastapi import FastAPI, File, Form, UploadFile, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import FileResponse, JSONResponse, RedirectResponse, Response
+from fastapi.responses import FileResponse, JSONResponse
 from typing import Optional
 
 from inline_media import file_to_data_url
@@ -207,7 +207,15 @@ async def analyse(
             contact_frame=contact_frame,
         )
         print(f"[analyse] pipeline done mem_avail={_mem_mb()}MB")
-        return JSONResponse(content=_build_analysis_response(report, job_id, output_dir))
+
+        annotated_files = sorted(output_dir.glob("*_battingiq_annotated.mp4"))
+        annotated_video_url = None
+        if annotated_files:
+            annotated_video_url = f"/results/{job_id}/output/{annotated_files[0].name}"
+
+        report["job_id"] = job_id
+        report["annotated_video_url"] = annotated_video_url
+        return JSONResponse(content=report)
 
     except Exception as exc:
         # Clean up on failure
@@ -219,72 +227,15 @@ async def analyse(
         await file.close()
 
 
-@app.post("/analyse-from-url")
-def analyse_from_url(
-    video_url: str = Form(...),
-    handedness: Optional[str] = Form(None),
-    contact_frame: Optional[int] = Form(None),
-):
-    """
-    Re-analyse an existing remote video URL, optionally with a resolved contact frame.
-
-    Intended for the admin/manual-review flow where the original upload already exists
-    in storage and the coach wants the report/storyboard regenerated from a corrected
-    contact frame.
-    """
-    suffix = Path(video_url).suffix.lower() or ".mp4"
-    if suffix not in {".mp4", ".mov", ".avi", ".mkv", ".m4v", ".webm"}:
-        suffix = ".mp4"
-
-    job_id = uuid.uuid4().hex
-    job_dir = RESULTS_DIR / job_id
-    job_dir.mkdir(parents=True, exist_ok=True)
-    video_path = job_dir / f"input{suffix}"
-
-    h = (handedness or "").strip().lower()
-    h_source = "api" if h in ("right", "left") else "default"
-    if h not in ("right", "left"):
-        h = None
-
-    try:
-        _download_video_url(video_url, video_path)
-        output_dir = job_dir / "output"
-        report = run_full_analysis(
-            str(video_path),
-            output_dir=str(output_dir),
-            handedness=h,
-            handedness_source=h_source,
-            contact_frame=contact_frame,
-        )
-        return JSONResponse(content=_build_analysis_response(report, job_id, output_dir))
-    except Exception as exc:
-        shutil.rmtree(job_dir, ignore_errors=True)
-        tb = traceback.format_exc()
-        print(f"[analyse-from-url] FAILED job={job_id}\n{tb}")
-        raise HTTPException(status_code=500, detail=f"{exc}\n\n{tb}")
-
-
 @app.get("/results/{job_id}/{file_path:path}")
 def get_result_file(job_id: str, file_path: str):
     """Serve generated files for a completed analysis job."""
     job_root = (RESULTS_DIR / job_id).resolve()
     requested = (job_root / file_path).resolve()
 
-    try:
-        requested.relative_to(job_root)
-    except ValueError:
+    if not str(requested).startswith(str(job_root)):
         raise HTTPException(status_code=400, detail="Invalid file path")
-
     if not requested.exists() or not requested.is_file():
-        redirect_url = result_redirect_url(job_id, file_path)
-        if redirect_url:
-            return RedirectResponse(url=redirect_url, status_code=307)
-        remote_file = download_result_file(f"{job_id}/{file_path}")
-        if remote_file.get("status") == "ok" and remote_file.get("content") is not None:
-            return Response(
-                content=remote_file["content"],
-                media_type=remote_file.get("content_type") or "application/octet-stream",
-            )
         raise HTTPException(status_code=404, detail="File not found")
 
     return FileResponse(str(requested))
