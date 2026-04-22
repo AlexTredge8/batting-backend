@@ -40,6 +40,24 @@ def _handedness_to_front_side(handedness: str) -> str:
     return "left" if handedness == "right" else "right"
 
 
+def _parse_anchor_frames_json(anchor_frames_json: str | None) -> dict[str, int | None] | None:
+    """Parse a JSON string of anchor overrides into the dict shape used internally."""
+    if anchor_frames_json in (None, ""):
+        return None
+
+    parsed = json.loads(anchor_frames_json)
+    if not isinstance(parsed, dict):
+        raise ValueError("anchor_frames_json must decode to a JSON object")
+
+    normalized: dict[str, int | None] = {}
+    for key, value in parsed.items():
+        if value in (None, ""):
+            normalized[str(key)] = None
+            continue
+        normalized[str(key)] = int(value)
+    return normalized
+
+
 def analyse(video_path: str, output_dir: str = None, verbose: bool = True,
             handedness: str = None, handedness_source: str = "default",
             contact_frame: int | None = None,
@@ -244,13 +262,19 @@ def main():
                         help="Output directory (default: video_directory/output/)")
     parser.add_argument("--rebuild-baseline", action="store_true",
                         help="Force rebuild of reference baseline from this video")
+    parser.add_argument(
+        "--anchor-frames-json",
+        default=None,
+        help="JSON object of original-frame anchor overrides to use instead of auto-detected anchors",
+    )
     args = parser.parse_args()
 
     if args.rebuild_baseline:
         print(f"Rebuilding reference baseline from {args.video} ...")
         build_reference_baseline(args.video)
 
-    analyse(args.video, args.output_dir)
+    anchor_frames = _parse_anchor_frames_json(args.anchor_frames_json)
+    analyse(args.video, args.output_dir, anchor_frames=anchor_frames)
 
 
 if __name__ == "__main__":
