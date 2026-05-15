@@ -110,13 +110,21 @@ class FrameMetrics:
     # Shoulder midpoint
     shoulder_mid_x: float = 0.0
     shoulder_mid_y: float = 0.0
+    shoulder_mid_vy: float = 0.0
 
     # Hip midpoint
     hip_mid_x: float = 0.0
     hip_mid_y: float = 0.0
+    hip_mid_vy: float = 0.0
+
+    # Knee midpoint
+    knee_mid_y: float = 0.0
+    knee_mid_vy: float = 0.0
 
     # Torso lean (horizontal distance between shoulder and hip midpoints)
     torso_lean: float = 0.0
+    forward_weight: float = 0.0         # |shoulder_mid_x - hip_mid_x|
+    forward_weight_v: float = 0.0
 
     # Knee angles
     front_knee_angle: float = 0.0
@@ -153,6 +161,9 @@ class PhaseResult:
     follow_through_start: int = 0
 
     # Timing
+    setup_confidence: str = "high"             # "high" | "low" (v3 motion-onset plausibility)
+    hands_peak_confidence: str = "high"        # "high" | "low" (v2 plausibility check)
+    follow_through_confidence: str = "high"   # "high" | "low" (v2 post-contact peak plausibility)
     hands_peak_vs_ffd_diff: int = 0           # signed (+ = peak before FFD)
     hands_peak_vs_ffd_ms: float = 0.0
     backlift_to_contact_frames: int = 0
@@ -171,6 +182,8 @@ class PhaseResult:
     resolved_contact_original_frame: int = 0
     resolved_contact_source: str = "auto"     # "auto" | "manual"
     resolved_contact_status: str = "estimated"  # "estimated" | "validated"
+    ordering_guard_log: list[dict] = field(default_factory=list)
+    anchor_confidence_overrides: dict[str, str] = field(default_factory=dict)
 
 
 # ---------------------------------------------------------------------------

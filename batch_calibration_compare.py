@@ -7,9 +7,12 @@ local-vs-Railway comparison outputs with tier separation diagnostics.
 from __future__ import annotations
 
 import argparse
+import csv
+from datetime import datetime
 import json
 import logging
 import os
+import subprocess
 import sys
 import time
 import tempfile
@@ -29,10 +32,19 @@ DEFAULT_GROUND_TRUTH = SCRIPT_DIR / "ground_truth_scores.csv"
 FALLBACK_GROUND_TRUTH = SCRIPT_DIR / "coach_ground_truth_from_screenshot.csv"
 DEFAULT_VIDEO_DIR = SCRIPT_DIR / "ground_truth_videos"
 DEFAULT_CACHED_REPORT_ROOT = SCRIPT_DIR / "calibration_batch_output"
+DEFAULT_HELDOUT_SPLIT = SCRIPT_DIR / "heldout_split.csv"
 RAILWAY_DEFAULT = "https://web-production-e9c26.up.railway.app"
 VIDEO_SUFFIXES = {".mp4", ".mov", ".avi", ".mkv", ".m4v", ".webm"}
 PILLARS = ("access", "tracking", "stability", "flow")
 TIER_ORDER = ("Beginner", "Average", "Good Club", "Elite")
+ANCHOR_KEYS = (
+    "setup_frame",
+    "hands_start_up_frame",
+    "front_foot_down_frame",
+    "hands_peak_frame",
+    "contact_frame",
+    "follow_through_frame",
+)
 REQUIRED_COLUMNS = {
     "filename",
     "tier",
@@ -110,6 +122,26 @@ def _resolve_input_path(path_value: str) -> Path:
     raise FileNotFoundError(f"Ground-truth file not found: {path_value}")
 
 
+def _resolve_optional_input_path(path_value: str | None, label: str) -> Path | None:
+    if path_value in (None, ""):
+        return None
+
+    candidate = Path(path_value).expanduser()
+    if candidate.exists():
+        return candidate.resolve()
+
+    if not candidate.is_absolute():
+        cwd_candidate = Path.cwd() / candidate
+        if cwd_candidate.exists():
+            return cwd_candidate.resolve()
+
+        script_candidate = SCRIPT_DIR / candidate
+        if script_candidate.exists():
+            return script_candidate.resolve()
+
+    raise FileNotFoundError(f"{label} file not found: {path_value}")
+
+
 def _load_ground_truth(path: Path) -> pd.DataFrame:
     df = pd.read_csv(path, dtype=str, keep_default_na=False, encoding="utf-8-sig")
     df.columns = [str(column).strip() for column in df.columns]
@@ -124,6 +156,88 @@ def _load_ground_truth(path: Path) -> pd.DataFrame:
         df[column] = df[column].map(_clean_text)
 
     return df
+
+
+def _load_csv_rows(path: Path) -> list[dict[str, str]]:
+    with path.open(encoding="utf-8-sig", newline="") as handle:
+        reader = csv.DictReader(handle)
+        return [{key: _clean_text(value) for key, value in row.items()} for row in reader]
+
+
+def _load_heldout_split(path: Path | None) -> dict[str, str]:
+    """Return {filename.casefold(): 'tuning'|'heldout'} from heldout_split.csv.
+
+    Returns an empty dict (no-op) when path is None or the file is missing.
+    """
+    if path is None or not path.exists():
+        return {}
+    lookup: dict[str, str] = {}
+    with path.open(encoding="utf-8-sig", newline="") as handle:
+        for row in csv.DictReader(handle):
+            fn = _clean_text(row.get("filename", ""))
+            split_val = _clean_text(row.get("split", "tuning")) or "tuning"
+            if fn:
+                lookup[fn.casefold()] = split_val
+                lookup[Path(fn).stem.casefold()] = split_val
+    return lookup
+
+
+def _split_metrics_lines(df: pd.DataFrame, split_label: str) -> list[str]:
+    """Produce a metrics summary for a tuning or held-out subset."""
+    lines: list[str] = []
+    lines.append(f"BattingIQ {split_label} set — metrics summary")
+    lines.append(f"Videos in set: {len(df)}")
+    lines.append("")
+
+    # Per-tier mean overall score and MAE
+    lines.append("Per-tier mean overall (local) and mean abs error vs manual:")
+    for tier in TIER_ORDER:
+        t = df[df["tier"] == tier]
+        if t.empty:
+            continue
+        mean_local = t["local_overall"].mean()
+        mean_mae   = t["local_gap"].abs().mean() if "local_gap" in t.columns else float("nan")
+        n = len(t)
+        lines.append(f"  {tier:<12}  mean_local={_fmt(mean_local)}  mae={_fmt(mean_mae)}  n={n}")
+    lines.append("")
+
+    # Per-pillar mean abs error
+    lines.append("Per-pillar mean abs error (local vs manual):")
+    for pillar in PILLARS:
+        gap_col = f"{pillar}_local_gap"
+        if gap_col in df.columns:
+            mae = df[gap_col].abs().mean()
+            lines.append(f"  {pillar:<12}  mae={_fmt(mae)}")
+    lines.append("")
+
+    # Within ±5 counts
+    within5_overall = int((df["local_gap"].abs() <= 5).sum()) if "local_gap" in df.columns else 0
+    lines.append(f"Within ±5 overall:          {within5_overall}/{len(df)}")
+
+    pillar_gap_cols = [f"{p}_local_gap" for p in PILLARS if f"{p}_local_gap" in df.columns]
+    if len(pillar_gap_cols) == 4:
+        within5_all = int((df[pillar_gap_cols].abs() <= 5).all(axis=1).sum())
+        lines.append(f"Within ±5 on all 4 pillars: {within5_all}/{len(df)}")
+
+    return lines
+
+
+def _prepare_anchor_truth_lookup(path: Path) -> dict[str, dict[str, int | None]]:
+    rows = _load_csv_rows(path)
+    lookup: dict[str, dict[str, int | None]] = {}
+    for row in rows:
+        filename = _clean_text(row.get("filename"))
+        if not filename:
+            continue
+        corrections = {
+            anchor_key: _coerce_int(row.get(anchor_key))
+            for anchor_key in ANCHOR_KEYS
+        }
+        if not any(value is not None for value in corrections.values()):
+            continue
+        lookup[Path(filename).name.casefold()] = corrections
+        lookup[Path(filename).stem.casefold()] = corrections
+    return lookup
 
 
 def _discover_videos(video_root: Path) -> list[Path]:
@@ -184,6 +298,41 @@ def _match_cached_report(filename: str, exact_lookup: dict[str, list[Path]], ste
 def _load_cached_report(report_path: Path) -> dict[str, Any]:
     with report_path.open(encoding="utf-8") as handle:
         return json.load(handle)
+
+
+def _extract_rule_measurements(report: dict[str, Any]) -> dict[str, Any]:
+    metadata = report.get("metadata") or {}
+    rule_measurements = metadata.get("rule_measurements")
+    if isinstance(rule_measurements, dict):
+        return {str(key): value for key, value in rule_measurements.items()}
+    return {}
+
+
+def _extract_contact_confidence(report: dict[str, Any]) -> str:
+    phases = report.get("phases") or {}
+    contact = phases.get("contact") or {}
+    metadata = report.get("metadata") or {}
+    contact_resolution = metadata.get("contact_resolution") or {}
+    phase_diagnostics = metadata.get("phase_diagnostics") or {}
+
+    candidate_values = [
+        metadata.get("resolved_contact_confidence"),
+        contact_resolution.get("status"),
+        metadata.get("contact_confidence"),
+        phase_diagnostics.get("contact_confidence"),
+        contact.get("confidence"),
+        metadata.get("estimated_contact_confidence"),
+        phase_diagnostics.get("estimated_contact_confidence"),
+    ]
+
+    if _clean_text(contact_resolution.get("source")).casefold() == "manual" and not _clean_text(contact_resolution.get("status")):
+        candidate_values.insert(0, "validated")
+
+    for value in candidate_values:
+        normalised = _normalise_confidence(value)
+        if normalised:
+            return normalised
+    return ""
 
 
 def _match_video(filename: str, exact_lookup: dict[str, list[Path]], stem_lookup: dict[str, list[Path]]) -> Path | None:
@@ -247,40 +396,48 @@ def _extract_report_scores(report: dict[str, Any]) -> dict[str, Any]:
         or ""
     )
 
-    confidence = (
-        metadata.get("estimated_contact_confidence")
-        or (metadata.get("phase_diagnostics") or {}).get("estimated_contact_confidence")
-        or contact.get("confidence")
-        or ""
-    )
-
     return {
         "battingiq_score": raw_overall,
         "pillar_scores": pillar_scores,
         "overall_from_pillars": overall_from_pillars,
         "detector_version": _clean_text(detector_version),
         "anchor_detector_version": _clean_text(metadata.get("anchor_detector_version")),
-        "contact_confidence": _normalise_confidence(confidence),
+        "contact_confidence": _extract_contact_confidence(report),
     }
 
 
-def _run_local_analysis(video_path: Path, output_root: Path, run_full_analysis: Any) -> dict[str, Any]:
+def _run_local_analysis(
+    video_path: Path,
+    output_root: Path,
+    run_full_analysis: Any,
+    anchor_frames: dict[str, int | None] | None = None,
+) -> dict[str, Any]:
     output_dir = output_root / video_path.stem
     output_dir.mkdir(parents=True, exist_ok=True)
-    return run_full_analysis(str(video_path), output_dir=str(output_dir))
+    return run_full_analysis(
+        str(video_path),
+        output_dir=str(output_dir),
+        anchor_frames=anchor_frames,
+    )
 
 
 def _run_local_analysis_with_fallback(
     video_path: Path,
     output_root: Path,
     run_full_analysis: Any,
+    anchor_frames: dict[str, int | None] | None,
     cached_exact_lookup: dict[str, list[Path]],
     cached_stem_lookup: dict[str, list[Path]],
     allow_cached_fallback: bool,
     logger: logging.Logger,
 ) -> tuple[dict[str, Any] | None, str]:
     try:
-        return _run_local_analysis(video_path, output_root, run_full_analysis), "fresh"
+        return _run_local_analysis(
+            video_path,
+            output_root,
+            run_full_analysis,
+            anchor_frames=anchor_frames,
+        ), "fresh"
     except Exception as exc:  # pragma: no cover - batch path should continue on failure
         logger.exception("LOCAL FAILED %s: %s", video_path.name, exc)
         if not allow_cached_fallback:
@@ -461,6 +618,7 @@ def _build_output_columns(df: pd.DataFrame) -> list[str]:
     columns = [
         "filename",
         "tier",
+        *( ["split"] if "split" in df.columns else []),
         "filmed_correctly",
         "manual_overall",
         "local_overall",
@@ -717,11 +875,40 @@ def _summary_lines(df: pd.DataFrame, tier_summary: pd.DataFrame) -> list[str]:
     return lines
 
 
-def _write_outputs(df: pd.DataFrame, output_dir: Path) -> tuple[Path, Path, Path]:
+def _write_rule_measurements(measurement_rows: list[dict[str, Any]], output_dir: Path) -> Path | None:
+    if not measurement_rows:
+        return None
+
+    output_dir.mkdir(parents=True, exist_ok=True)
+    measurement_columns = ["filename", "tier", "manual_overall"]
+    seen_columns = set(measurement_columns)
+    for row in measurement_rows:
+        for key in row:
+            if key in seen_columns:
+                continue
+            seen_columns.add(key)
+            measurement_columns.append(key)
+
+    measurement_df = pd.DataFrame(measurement_rows)
+    measurement_path = output_dir / "rule_measurements.csv"
+    measurement_df.reindex(columns=measurement_columns).to_csv(
+        measurement_path,
+        index=False,
+        encoding="utf-8",
+    )
+    return measurement_path
+
+
+def _write_outputs(
+    df: pd.DataFrame,
+    output_dir: Path,
+    measurement_rows: list[dict[str, Any]] | None = None,
+) -> tuple[Path, Path, Path, Path | None]:
     output_dir.mkdir(parents=True, exist_ok=True)
     detailed_path = output_dir / "battingiq_calibration_comparison_detailed.csv"
     tier_summary_path = output_dir / "battingiq_calibration_tier_summary.csv"
     metrics_path = output_dir / "battingiq_calibration_metrics.txt"
+    measurements_path = None
 
     detailed_columns = _build_output_columns(df)
     df.reindex(columns=detailed_columns).to_csv(detailed_path, index=False, encoding="utf-8")
@@ -733,7 +920,26 @@ def _write_outputs(df: pd.DataFrame, output_dir: Path) -> tuple[Path, Path, Path
     metrics_lines = _summary_lines(stats_df, tier_summary)
     metrics_path.write_text("\n".join(metrics_lines) + "\n", encoding="utf-8")
 
-    return detailed_path, tier_summary_path, metrics_path
+    if measurement_rows is not None:
+        measurements_path = _write_rule_measurements(measurement_rows, output_dir)
+
+    # Write split-specific summaries when the split column is populated
+    if "split" in df.columns and df["split"].notna().any():
+        valid_split = stats_df[stats_df["split"].notna()].copy()
+        for split_label in ("tuning", "heldout"):
+            subset = valid_split[valid_split["split"] == split_label]
+            if subset.empty:
+                continue
+            split_cols = _build_output_columns(subset)
+            subset.reindex(columns=split_cols).to_csv(
+                output_dir / f"{split_label}_summary.csv", index=False, encoding="utf-8"
+            )
+            split_lines = _split_metrics_lines(subset, split_label)
+            (output_dir / f"{split_label}_metrics.txt").write_text(
+                "\n".join(split_lines) + "\n", encoding="utf-8"
+            )
+
+    return detailed_path, tier_summary_path, metrics_path, measurements_path
 
 
 def _setup_logging(output_dir: Path) -> logging.Logger:
@@ -752,6 +958,283 @@ def _setup_logging(output_dir: Path) -> logging.Logger:
     logger.addHandler(file_handler)
     logger.addHandler(stream_handler)
     return logger
+
+
+def _resolve_runtime_dir(path_value: str) -> Path:
+    candidate = Path(path_value).expanduser()
+    if candidate.is_absolute():
+        return candidate.resolve()
+    return (SCRIPT_DIR / candidate).resolve()
+
+
+def _resolve_video_dir(path_value: str) -> Path:
+    video_dir = Path(path_value).expanduser()
+    if video_dir.is_absolute():
+        return video_dir.resolve()
+
+    cwd_candidate = Path.cwd() / video_dir
+    if cwd_candidate.exists():
+        return cwd_candidate.resolve()
+
+    return (SCRIPT_DIR / video_dir).resolve()
+
+
+def _prepare_batch_context(args: argparse.Namespace) -> dict[str, Any]:
+    ground_truth_path = _resolve_input_path(args.ground_truth)
+    video_dir = _resolve_video_dir(args.video_dir)
+    if not video_dir.exists() or not video_dir.is_dir():
+        raise SystemExit(
+            f"Video directory not found: {video_dir}\n"
+            f"Provide --video-dir pointing at the raw calibration videos or create {DEFAULT_VIDEO_DIR}."
+        )
+
+    cached_root = _resolve_runtime_dir(args.cached_report_root)
+    ground_truth_df = _load_ground_truth(ground_truth_path)
+    videos = _discover_videos(video_dir)
+    if not videos:
+        raise SystemExit(f"No supported video files found in {video_dir}")
+
+    exact_lookup, stem_lookup = _build_video_lookup(videos)
+    cached_reports = _discover_cached_reports(cached_root)
+    cached_exact_lookup, cached_stem_lookup = _build_cached_lookup(cached_reports)
+
+    return {
+        "ground_truth_path": ground_truth_path,
+        "video_dir": video_dir,
+        "cached_root": cached_root,
+        "ground_truth_df": ground_truth_df,
+        "exact_lookup": exact_lookup,
+        "stem_lookup": stem_lookup,
+        "cached_exact_lookup": cached_exact_lookup,
+        "cached_stem_lookup": cached_stem_lookup,
+        "run_full_analysis": _prepare_local_runner(),
+    }
+
+
+def _resolve_git_commit() -> str | None:
+    try:
+        result = subprocess.run(
+            ["git", "-C", str(SCRIPT_DIR), "rev-parse", "HEAD"],
+            check=False,
+            capture_output=True,
+            text=True,
+        )
+    except OSError:
+        return None
+
+    commit = result.stdout.strip()
+    return commit or None
+
+
+def _resolve_config_version() -> tuple[str | None, str | None]:
+    try:
+        import config  # noqa: WPS433
+    except Exception:  # pragma: no cover - defensive metadata capture
+        return None, None
+
+    for attribute in ("CONFIG_VERSION", "VERSION", "CONTACT_DETECTOR_VERSION"):
+        value = getattr(config, attribute, None)
+        if value not in (None, ""):
+            return str(value), attribute
+    return None, None
+
+
+def _print_batch_summary(
+    valid_rows: pd.DataFrame,
+    output_dir: Path,
+    detailed_path: Path,
+    tier_summary_path: Path,
+    metrics_path: Path,
+    measurements_path: Path | None,
+) -> None:
+    print()
+    print("\n".join(_summary_lines(valid_rows, _group_tier_summary(valid_rows))))
+    print()
+    print(f"Detailed CSV: {detailed_path}")
+    print(f"Tier summary CSV: {tier_summary_path}")
+    print(f"Metrics text: {metrics_path}")
+    if measurements_path is not None:
+        print(f"Rule measurements CSV: {measurements_path}")
+    print(f"Log file: {output_dir / 'batch_calibration.log'}")
+
+
+def _run_batch(
+    context: dict[str, Any],
+    *,
+    api_base: str,
+    skip_railway: bool,
+    output_dir: Path,
+    allow_cached_fallback: bool,
+    anchor_truth_path: Path | None,
+    export_measurements: bool,
+    mode_label: str | None = None,
+    split_lookup: dict[str, str] | None = None,
+) -> dict[str, Any]:
+    output_dir.mkdir(parents=True, exist_ok=True)
+    logger = _setup_logging(output_dir)
+
+    logger.info("Ground truth CSV: %s", context["ground_truth_path"])
+    logger.info("Video directory: %s", context["video_dir"])
+    logger.info("Railway API: %s", api_base if not skip_railway else "skipped")
+    logger.info("Cached report root: %s", context["cached_root"])
+    if mode_label:
+        logger.info("Batch mode: %s", mode_label)
+
+    anchor_lookup: dict[str, dict[str, int | None]] = {}
+    if anchor_truth_path is not None:
+        anchor_lookup = _prepare_anchor_truth_lookup(anchor_truth_path)
+        logger.info("Anchor truth CSV: %s", anchor_truth_path)
+    else:
+        logger.info("Anchor truth CSV: none (auto-detected anchors)")
+
+    processed_rows: list[dict[str, Any]] = []
+    skipped_not_filmed = 0
+    skipped_missing_video = 0
+    local_success = 0
+    railway_success = 0
+    measurement_rows: list[dict[str, Any]] = []
+
+    for _, row in context["ground_truth_df"].iterrows():
+        filename = _clean_text(row.get("filename"))
+        tier = _normalise_tier(row.get("tier"))
+        filmed = _is_filmed_correctly(row.get("filmed_correctly"))
+
+        if not filmed:
+            skipped_not_filmed += 1
+            logger.info("SKIPPED %s [%s] - filmed_correctly != Y", filename, tier)
+            continue
+
+        video_path = _match_video(filename, context["exact_lookup"], context["stem_lookup"])
+        if video_path is None:
+            skipped_missing_video += 1
+            logger.error("SKIPPED %s [%s] - file not found in %s", filename, tier, context["video_dir"])
+            continue
+
+        logger.info("PROCESSING %s [%s] -> %s", filename, tier, video_path)
+        local_result: dict[str, Any] | None = None
+        railway_result: dict[str, Any] | None = None
+        anchor_frames = (
+            anchor_lookup.get(Path(filename).name.casefold())
+            or anchor_lookup.get(Path(filename).stem.casefold())
+        )
+
+        local_report, local_source = _run_local_analysis_with_fallback(
+            video_path,
+            output_dir / "local_runs",
+            context["run_full_analysis"],
+            anchor_frames,
+            context["cached_exact_lookup"],
+            context["cached_stem_lookup"],
+            allow_cached_fallback,
+            logger,
+        )
+        if local_report is not None:
+            local_result = _extract_report_scores(local_report)
+            local_success += 1
+            if export_measurements:
+                measurement_row: dict[str, Any] = {
+                    "filename": filename,
+                    "tier": tier,
+                    "manual_overall": _coerce_int(row.get("overall_score")),
+                }
+                measurement_row.update(_extract_rule_measurements(local_report))
+                measurement_rows.append(measurement_row)
+            logger.info("LOCAL OK %s [%s] (%s)", filename, tier, local_source)
+
+        railway_source = "skipped" if skip_railway else "failed"
+        if skip_railway:
+            logger.info("RAILWAY SKIPPED %s [%s]", filename, tier)
+        else:
+            try:
+                railway_report = _run_live_analysis(video_path, api_base, logger)
+                railway_result = _extract_report_scores(railway_report)
+                railway_success += 1
+                railway_source = "live"
+                logger.info("RAILWAY OK %s [%s]", filename, tier)
+            except Exception as exc:  # pragma: no cover - batch path should continue on failure
+                logger.exception("RAILWAY FAILED %s [%s]: %s", filename, tier, exc)
+
+        built_row = _build_row(row, local_result, railway_result, local_source, railway_source, logger)
+        if split_lookup is not None:
+            built_row["split"] = (
+                split_lookup.get(Path(filename).name.casefold())
+                or split_lookup.get(Path(filename).stem.casefold())
+                or "tuning"
+            )
+        processed_rows.append(built_row)
+
+    if not processed_rows:
+        raise SystemExit("No calibration rows were processed. Check the input CSV and video directory.")
+
+    detailed_df = _prepare_dataframe(processed_rows)
+    detailed_path, tier_summary_path, metrics_path, measurements_path = _write_outputs(
+        detailed_df,
+        output_dir,
+        measurement_rows if export_measurements else None,
+    )
+
+    valid_rows = detailed_df[~(detailed_df["local_overall"].isna() & detailed_df["railway_overall"].isna())]
+    if valid_rows.empty:
+        raise SystemExit("All processed videos failed both local and Railway analysis.")
+
+    logger.info("Processed rows: %s", len(detailed_df))
+    logger.info("Local successes: %s", local_success)
+    logger.info("Railway successes: %s", railway_success)
+    logger.info("Skipped not-filmed-correctly rows: %s", skipped_not_filmed)
+    logger.info("Skipped missing-video rows: %s", skipped_missing_video)
+    logger.info("Detailed CSV: %s", detailed_path)
+    logger.info("Tier summary CSV: %s", tier_summary_path)
+    logger.info("Metrics text: %s", metrics_path)
+    if measurements_path is not None:
+        logger.info("Rule measurements CSV: %s", measurements_path)
+
+    _print_batch_summary(
+        valid_rows,
+        output_dir,
+        detailed_path,
+        tier_summary_path,
+        metrics_path,
+        measurements_path,
+    )
+
+    return {
+        "mode": mode_label or "single",
+        "output_dir": output_dir,
+        "detailed_path": detailed_path,
+        "tier_summary_path": tier_summary_path,
+        "metrics_path": metrics_path,
+        "measurements_path": measurements_path,
+        "processed_rows": int(len(detailed_df)),
+        "valid_rows": int(len(valid_rows)),
+        "local_success": int(local_success),
+        "railway_success": int(railway_success),
+        "skipped_not_filmed": int(skipped_not_filmed),
+        "skipped_missing_video": int(skipped_missing_video),
+    }
+
+
+def _write_dual_run_manifest(
+    run_root: Path,
+    auto_summary: dict[str, Any],
+    validated_summary: dict[str, Any],
+) -> Path:
+    config_version, config_version_source = _resolve_config_version()
+    videos_processed = auto_summary["processed_rows"]
+    manifest: dict[str, Any] = {
+        "run_timestamp": datetime.now().astimezone().isoformat(),
+        "git_commit": _resolve_git_commit(),
+        "config_version": config_version,
+        "config_version_source": config_version_source,
+        "videos_processed": videos_processed,
+        "auto_subdir_path": str(Path(auto_summary["output_dir"]).resolve()),
+        "validated_subdir_path": str(Path(validated_summary["output_dir"]).resolve()),
+    }
+    if validated_summary["processed_rows"] != videos_processed:
+        manifest["validated_videos_processed"] = validated_summary["processed_rows"]
+
+    manifest_path = run_root / "dual_run_manifest.json"
+    manifest_path.write_text(json.dumps(manifest, indent=2) + "\n", encoding="utf-8")
+    return manifest_path
 
 
 def parse_args() -> argparse.Namespace:
@@ -786,129 +1269,87 @@ def parse_args() -> argparse.Namespace:
         action="store_true",
         help="Use cached local JSON reports if fresh local pose extraction fails.",
     )
+    parser.add_argument(
+        "--anchor-truth",
+        default=None,
+        help="Optional CSV of manual anchor corrections to pass into local analyses.",
+    )
+    parser.add_argument(
+        "--export-measurements",
+        action="store_true",
+        help="Write rule_measurements.csv from local report metadata['rule_measurements'].",
+    )
+    parser.add_argument(
+        "--dual-mode",
+        action="store_true",
+        help="Run the batch twice in one invocation: auto anchors into auto/ and anchor-truth validated anchors into validated/.",
+    )
+    parser.add_argument(
+        "--skip-railway",
+        action="store_true",
+        help="Skip Railway live analysis and write local-only comparison rows.",
+    )
+    parser.add_argument(
+        "--heldout-split",
+        default=None,
+        help="CSV with filename/tier/split columns. Defaults to heldout_split.csv if present.",
+    )
     return parser.parse_args()
 
 
 def main() -> int:
     args = parse_args()
+    anchor_truth_path = _resolve_optional_input_path(args.anchor_truth, "Anchor truth")
+    output_dir = _resolve_runtime_dir(args.output_dir)
+    context = _prepare_batch_context(args)
 
-    ground_truth_path = _resolve_input_path(args.ground_truth)
-    video_dir = Path(args.video_dir).expanduser()
-    if not video_dir.is_absolute():
-        cwd_candidate = Path.cwd() / video_dir
-        if cwd_candidate.exists():
-            video_dir = cwd_candidate
-        else:
-            video_dir = (SCRIPT_DIR / video_dir).resolve()
+    heldout_split_path = (
+        _resolve_optional_input_path(args.heldout_split, "Heldout split")
+        if args.heldout_split
+        else (DEFAULT_HELDOUT_SPLIT if DEFAULT_HELDOUT_SPLIT.exists() else None)
+    )
+    split_lookup = _load_heldout_split(heldout_split_path) or None
 
-    if not video_dir.exists() or not video_dir.is_dir():
-        raise SystemExit(
-            f"Video directory not found: {video_dir}\n"
-            f"Provide --video-dir pointing at the raw calibration videos or create {DEFAULT_VIDEO_DIR}."
+    if args.dual_mode:
+        if anchor_truth_path is None:
+            raise SystemExit("--dual-mode requires --anchor-truth so the validated pass has manual anchor corrections.")
+
+        output_dir.mkdir(parents=True, exist_ok=True)
+        auto_summary = _run_batch(
+            context,
+            api_base=args.api_base,
+            skip_railway=args.skip_railway,
+            output_dir=output_dir / "auto",
+            allow_cached_fallback=args.allow_cached_local_fallback,
+            anchor_truth_path=None,
+            export_measurements=args.export_measurements,
+            mode_label="auto",
+            split_lookup=split_lookup,
         )
-
-    output_dir = Path(args.output_dir).expanduser()
-    if not output_dir.is_absolute():
-        output_dir = (SCRIPT_DIR / output_dir).resolve()
-    output_dir.mkdir(parents=True, exist_ok=True)
-    logger = _setup_logging(output_dir)
-
-    logger.info("Ground truth CSV: %s", ground_truth_path)
-    logger.info("Video directory: %s", video_dir)
-    logger.info("Railway API: %s", args.api_base)
-    logger.info("Cached report root: %s", args.cached_report_root)
-
-    run_full_analysis = _prepare_local_runner()
-    ground_truth_df = _load_ground_truth(ground_truth_path)
-    videos = _discover_videos(video_dir)
-    if not videos:
-        raise SystemExit(f"No supported video files found in {video_dir}")
-
-    exact_lookup, stem_lookup = _build_video_lookup(videos)
-    cached_root = Path(args.cached_report_root).expanduser()
-    if not cached_root.is_absolute():
-        cached_root = (SCRIPT_DIR / cached_root).resolve()
-    cached_reports = _discover_cached_reports(cached_root)
-    cached_exact_lookup, cached_stem_lookup = _build_cached_lookup(cached_reports)
-
-    processed_rows: list[dict[str, Any]] = []
-    skipped_not_filmed = 0
-    skipped_missing_video = 0
-    local_success = 0
-    railway_success = 0
-
-    for index, row in ground_truth_df.iterrows():
-        filename = _clean_text(row.get("filename"))
-        tier = _normalise_tier(row.get("tier"))
-        filmed = _is_filmed_correctly(row.get("filmed_correctly"))
-
-        if not filmed:
-            skipped_not_filmed += 1
-            logger.info("SKIPPED %s [%s] - filmed_correctly != Y", filename, tier)
-            continue
-
-        video_path = _match_video(filename, exact_lookup, stem_lookup)
-        if video_path is None:
-            skipped_missing_video += 1
-            logger.error("SKIPPED %s [%s] - file not found in %s", filename, tier, video_dir)
-            continue
-
-        logger.info("PROCESSING %s [%s] -> %s", filename, tier, video_path)
-        local_result: dict[str, Any] | None = None
-        railway_result: dict[str, Any] | None = None
-
-        local_report, local_source = _run_local_analysis_with_fallback(
-            video_path,
-            output_dir / "local_runs",
-            run_full_analysis,
-            cached_exact_lookup,
-            cached_stem_lookup,
-            args.allow_cached_local_fallback,
-            logger,
+        validated_summary = _run_batch(
+            context,
+            api_base=args.api_base,
+            skip_railway=args.skip_railway,
+            output_dir=output_dir / "validated",
+            allow_cached_fallback=args.allow_cached_local_fallback,
+            anchor_truth_path=anchor_truth_path,
+            export_measurements=args.export_measurements,
+            mode_label="validated",
+            split_lookup=split_lookup,
         )
-        if local_report is not None:
-            local_result = _extract_report_scores(local_report)
-            local_success += 1
-            logger.info("LOCAL OK %s [%s] (%s)", filename, tier, local_source)
-
-        railway_source = "failed"
-        try:
-            railway_report = _run_live_analysis(video_path, args.api_base, logger)
-            railway_result = _extract_report_scores(railway_report)
-            railway_success += 1
-            railway_source = "live"
-            logger.info("RAILWAY OK %s [%s]", filename, tier)
-        except Exception as exc:  # pragma: no cover - batch path should continue on failure
-            logger.exception("RAILWAY FAILED %s [%s]: %s", filename, tier, exc)
-
-        processed_rows.append(_build_row(row, local_result, railway_result, local_source, railway_source, logger))
-
-    if not processed_rows:
-        raise SystemExit("No calibration rows were processed. Check the input CSV and video directory.")
-
-    detailed_df = _prepare_dataframe(processed_rows)
-    detailed_path, tier_summary_path, metrics_path = _write_outputs(detailed_df, output_dir)
-
-    valid_rows = detailed_df[~(detailed_df["local_overall"].isna() & detailed_df["railway_overall"].isna())]
-    if valid_rows.empty:
-        raise SystemExit("All processed videos failed both local and Railway analysis.")
-
-    logger.info("Processed rows: %s", len(detailed_df))
-    logger.info("Local successes: %s", local_success)
-    logger.info("Railway successes: %s", railway_success)
-    logger.info("Skipped not-filmed-correctly rows: %s", skipped_not_filmed)
-    logger.info("Skipped missing-video rows: %s", skipped_missing_video)
-    logger.info("Detailed CSV: %s", detailed_path)
-    logger.info("Tier summary CSV: %s", tier_summary_path)
-    logger.info("Metrics text: %s", metrics_path)
-
-    print()
-    print("\n".join(_summary_lines(valid_rows, _group_tier_summary(valid_rows))))
-    print()
-    print(f"Detailed CSV: {detailed_path}")
-    print(f"Tier summary CSV: {tier_summary_path}")
-    print(f"Metrics text: {metrics_path}")
-    print(f"Log file: {output_dir / 'batch_calibration.log'}")
+        manifest_path = _write_dual_run_manifest(output_dir, auto_summary, validated_summary)
+        print(f"Dual-run manifest: {manifest_path}")
+    else:
+        _run_batch(
+            context,
+            api_base=args.api_base,
+            skip_railway=args.skip_railway,
+            output_dir=output_dir,
+            allow_cached_fallback=args.allow_cached_local_fallback,
+            anchor_truth_path=anchor_truth_path,
+            export_measurements=args.export_measurements,
+            split_lookup=split_lookup,
+        )
     return 0
 
 

@@ -5,6 +5,10 @@ Converts raw fault lists into pillar scores, traffic lights,
 BattingIQ score, score band, and priority fix selection.
 """
 
+# PILLAR REBALANCE 2026-04-29: Tracking retained as one-rule pillar with normalised rule capacity
+# See calibration_output/f3c_refined_full/rebalance_options.txt for analysis
+# Previous: Access 25 / Tracking 25 / Stability 25 / Flow 25 with raw deductions
+
 from dataclasses import replace
 from typing import Optional
 
@@ -13,6 +17,7 @@ from models import Fault, PillarScore, BattingIQResult, TrafficLight, PhaseResul
 from config import (
     CONTACT_CONFIDENCE_LOW_WEIGHT,
     PILLAR_MAX,
+    PILLAR_RULE_MAX_DEDUCTION,
     TRAFFIC_GREEN_MIN,
     TRAFFIC_AMBER_MIN,
     SCORE_BANDS,
@@ -21,7 +26,7 @@ from config import (
 
 _CONTACT_DERIVED_RULE_IDS = {
     "S1", "S2", "S4",
-    "T1", "T3", "T4",
+    "T1",
     "A1", "A2", "A3", "A4", "A5",
     "F6",
 }
@@ -42,9 +47,14 @@ def _score_band(total: int) -> str:
     return "Fundamentals"
 
 
-def _score_pillar(faults: list[Fault]) -> int:
+def _score_pillar(name: str, faults: list[Fault]) -> int:
     total_deduction = sum(f.deduction for f in faults)
-    return max(0, PILLAR_MAX - total_deduction)
+    rule_max = PILLAR_RULE_MAX_DEDUCTION.get(name, {})
+    max_possible = sum(rule_max.values())
+    if max_possible <= 0:
+        return PILLAR_MAX
+    weighted_deduction = round((total_deduction / max_possible) * PILLAR_MAX)
+    return max(0, PILLAR_MAX - weighted_deduction)
 
 
 def _apply_contact_confidence_weight(faults: list[Fault], phases: PhaseResult) -> list[Fault]:
@@ -193,7 +203,7 @@ def build_scores(
             suppressed_rules,
         )
         faults = _apply_contact_confidence_weight(pillar_faults, phases)
-        score  = _score_pillar(faults)
+        score  = _score_pillar(name, faults)
         light  = _traffic_light(score)
         # Only include positives if the pillar is green
         positives = pillar_positives[name] if light == TrafficLight.GREEN else []

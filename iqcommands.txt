@@ -1,0 +1,79 @@
+# BattingIQ — Claude Code Command Shortcuts
+
+Place this file in `.claude/commands/` or reference it when starting a Codex thread.
+Each command is a self-contained task order. Paste the relevant block into a fresh Codex thread.
+
+-----
+
+## /battingiq-d0
+
+- **goal:** Confirm batch_calibration_compare.py can produce both an auto-detected run and a validated-anchor run in a single invocation, with outputs in parallel subdirectories.
+- **inputs:** `batch_calibration_compare.py`, `anchor_truth.csv`, any 3 ground-truth videos (1 Beginner, 1 Good Club, 1 Elite).
+- **tasks:**
+1. Inspect whether the script supports: (a) auto-anchor mode, (b) validated-anchor mode, (c) both in one invocation with labelled output dirs.
+1. If (c) missing: add `--dual-mode` flag writing to `calibration_output/<run_name>/auto/` and `calibration_output/<run_name>/validated/`. Do not change default behaviour when flag absent.
+1. Add `dual_run_manifest.json` per run: timestamp, git commit, config version, video count, subdir paths.
+1. Smoke test on the 3 videos. Confirm both subdirs exist with comparable outputs.
+- **constraints:** Do not modify scoring, rule, or detector logic. Do not tune thresholds. Do not delete existing output directories.
+- **deliverable:** Summary of what was already supported vs added. Smoke-test subdir paths. Manifest contents. Any blockers.
+- **final step:** Update `LATEST_DEVELOPMENTS.md` — mark D0 complete, set next task to D1.
+
+-----
+
+## /battingiq-d1
+
+- **goal:** Produce `drift_report.csv` and `drift_summary.txt` showing per-video, per-anchor frame delta (auto vs validated) and resulting pillar score delta.
+- **inputs:** `batch_calibration_compare.py` with `--dual-mode`, `ground_truth_scores.csv`, `anchor_truth.csv`. All 17 ground-truth videos. Output dir: `diagnostics_d1_drift`.
+- **tasks:**
+1. Run `--dual-mode` on all 17 videos.
+1. Write `generate_drift_report.py` reading from `auto/` and `validated/` subdirs.
+1. Emit `drift_report.csv`: one row per video — filename, tier, 6 anchor frame deltas (auto − validated), mean_abs_frame_delta, auto/validated overall and 4 pillar scores, score deltas.
+1. Emit `drift_summary.csv`: aggregated by tier.
+1. Emit `drift_summary.txt`: worst anchor overall, worst anchor per tier, tier with largest score delta, pillar with largest score delta, flag any video where any anchor delta > 8 frames as “extreme”.
+- **constraints:** Do not modify scoring, rule, or detector logic. Negative delta = auto detected earlier than validated — document this convention.
+- **deliverable:** Paths to all three outputs. `drift_summary.txt` pasted inline. Any videos that failed comparison and why.
+- **final step:** Update `LATEST_DEVELOPMENTS.md` — mark D1 complete, set next task to D2.
+
+-----
+
+## /battingiq-d2
+
+- **goal:** Produce `concordance_report.csv` and `concordance_ranking.txt` measuring │system − manual│ per pillar per video, in both auto and validated modes.
+- **inputs:** `calibration_output/diagnostics_d1_drift/` (from D1, or re-run if stale). `ground_truth_scores.csv` for Alex’s manual pillar scores.
+- **tasks:**
+1. Write `generate_concordance_report.py` emitting `concordance_report.csv`: filename, tier, manual overall + 4 pillars, auto abs errors (overall + 4 pillars), validated abs errors (overall + 4 pillars).
+1. Emit `concordance_summary.csv`: aggregated by tier for both modes.
+1. Emit `concordance_ranking.txt`: top 5 worst video×pillar in auto mode; top 5 in validated mode; count of videos meeting ±5 overall in each mode; count meeting ±5 on ALL FOUR pillars simultaneously; worst tier+pillar combo in auto mode.
+1. Bonus: emit `concordance_bias.csv` with signed error (system − manual) to reveal systematic over/under-scoring.
+- **constraints:** Use absolute error for ranking. Do not modify scoring, rule, or detector logic.
+- **deliverable:** Paths to all four CSVs. `concordance_ranking.txt` pasted inline.
+- **final step:** Update `LATEST_DEVELOPMENTS.md` — mark D2 complete, set next task to D3.
+
+-----
+
+## /battingiq-d3
+
+- **goal:** Audit all 14 active coaching rules by firing rate per tier in auto-detected mode. Flag rules that are flat, inverted, or sparse.
+- **inputs:** `calibration_output/diagnostics_d1_drift/auto/` (from D1). `ground_truth_scores.csv` for tier labels. `coaching_rules.py` for active rule list.
+- **tasks:**
+1. Write `generate_rule_health.py` emitting `rule_health.csv`: rule_id, rule_name, firing rate per tier (Beginner/Average/Good Club/Elite), mean deduction per tier, discrimination_score (beginner_mean_deduction − elite_mean_deduction), status_flag.
+1. Classification: flat = |beginner_rate − elite_rate| < 0.25 AND |discrimination_score| < 1.0; inverted = elite_rate > beginner_rate + 0.25 OR discrimination_score < −1.0; sparse = both rates < 0.4; healthy = none of above.
+1. Emit `rule_health_summary.txt`: counts per status, listed rule IDs per category, rules to investigate first (inverted → flat → sparse), note any rules healthy on validated but flat/inverted on auto.
+1. Include the 7 suspended rules (A2, A4, T1, T3, T4, T5, S3, F2) with flag “suspended” — report their underlying measurement signal even if deducting 0.
+- **constraints:** Do not modify scoring, rule, or detector logic. Report per-pillar breakdown in `rule_health_summary.txt`.
+- **deliverable:** Paths to `rule_health.csv` and `rule_health_summary.txt`. Summary pasted inline.
+- **final step:** Update `LATEST_DEVELOPMENTS.md` — mark D3 complete, set next task to D4.
+
+-----
+
+## /battingiq-d4
+
+- **goal:** Confirm the pipeline is deterministic — identical video produces identical scores across runs.
+- **inputs:** `run_analysis.py`. One Good Club video, one Beginner video, one Elite video from the ground truth set.
+- **tasks:**
+1. Run each of the three videos three times, writing to separate output subdirs each run.
+1. Compare across runs: overall score, 4 pillar scores, 6 detected anchor frames, per-rule raw measurement values. All must be identical.
+1. Emit `determinism_report.txt`: PASS or FAIL per video; if FAIL, which field varied and by how much; likely source of variance (MediaPipe init, random seed, video decode order, filesystem iteration).
+- **constraints:** Do not change any config. Run in the same environment and session. If randomness exists, report it — do not silence it.
+- **deliverable:** `determinism_report.txt` pasted inline. Three run directories listed for reference.
+- **final step:** Update `LATEST_DEVELOPMENTS.md` — mark D4 complete, note PASS/FAIL status, flag next step as “bring all D-track outputs to hub for R1 decision”.

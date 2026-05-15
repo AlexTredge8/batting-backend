@@ -17,7 +17,7 @@ from typing import Any
 from pose_extractor     import extract_poses
 from metrics_calculator import calculate_metrics
 from phase_detector     import detect_phases, print_phase_summary, apply_anchor_overrides
-from coaching_rules     import run_all_rules
+from coaching_rules     import run_all_rules, collect_rule_measurements
 from scorer             import build_scores
 from report_generator   import save_json_report, print_report
 from video_annotator    import annotate_video, generate_storyboard
@@ -32,6 +32,7 @@ from config             import (
     REFERENCE_BASELINE_PATH,
     DEFAULT_HANDEDNESS,
     CONTACT_DETECTOR_VERSION,
+    SETUP_DETECTOR_VERSION,
 )
 
 
@@ -126,21 +127,29 @@ def analyse(video_path: str, output_dir: str = None, verbose: bool = True,
     if verbose:
         print("  Detecting phases...")
     anchor_override_frames = dict(anchor_frames or {})
-    raw_phases = detect_phases(metrics, fps)
+    raw_phases = detect_phases(metrics, fps, video_path=video_path)
     if contact_frame is not None and anchor_override_frames.get("contact_frame") is None:
         anchor_override_frames["contact_frame"] = int(contact_frame)
-    anchor_frame_map = build_anchor_frames(raw_phases, metrics)
-    anchor_confidence = build_anchor_confidence(raw_phases, metrics)
-    anchor_quality_summary = build_anchor_quality_summary(anchor_confidence)
     phases = apply_anchor_overrides(raw_phases, metrics, anchor_override_frames or None)
+    anchor_frame_map = build_anchor_frames(phases, metrics)
+    anchor_confidence = build_anchor_confidence(phases, metrics)
+    if anchor_override_frames:
+        for anchor_key, anchor_value in anchor_override_frames.items():
+            if anchor_value is not None:
+                anchor_confidence[anchor_key] = "validated"
+    anchor_quality_summary = build_anchor_quality_summary(anchor_confidence)
     if verbose:
         print_phase_summary(phases, fps)
     video_meta["phase_diagnostics"] = {
+        "contact_method": phases.contact_diagnostics.get("method"),
+        "contact_method_reason": phases.contact_diagnostics.get("reason"),
+        "audio_contact_confidence": phases.contact_diagnostics.get("audio_confidence"),
         "contact_confidence": phases.contact_confidence,
         "estimated_contact_confidence": phases.estimated_contact_confidence,
         "contact_candidates": phases.contact_candidates,
         "contact_window": phases.contact_window,
         "contact_diagnostics": phases.contact_diagnostics,
+        "ordering_guard_log": phases.ordering_guard_log,
     }
     video_meta["contact_resolution"] = {
         "estimated_frame": phases.estimated_contact_frame,
@@ -152,10 +161,12 @@ def analyse(video_path: str, output_dir: str = None, verbose: bool = True,
     }
     video_meta["detector_version"] = CONTACT_DETECTOR_VERSION
     video_meta["contact_detector_version"] = CONTACT_DETECTOR_VERSION
+    video_meta["setup_detector_version"] = SETUP_DETECTOR_VERSION
     video_meta["anchor_detector_version"] = ANCHOR_DETECTOR_VERSION
     video_meta["anchor_frames"] = anchor_frame_map
     video_meta["anchor_confidence"] = anchor_confidence
     video_meta["anchor_quality_summary"] = anchor_quality_summary
+    video_meta["ordering_guard_log"] = phases.ordering_guard_log
     if anchor_override_frames:
         video_meta["anchor_overrides"] = {key: value for key, value in anchor_override_frames.items() if value is not None}
     if phases.contact_confidence == "low":
@@ -172,6 +183,12 @@ def analyse(video_path: str, output_dir: str = None, verbose: bool = True,
     if verbose:
         print("\n  Running coaching rules...")
     fault_map = run_all_rules(metrics, phases, baseline, front_side=front_side)
+    video_meta["rule_measurements"] = collect_rule_measurements(
+        metrics,
+        phases,
+        baseline,
+        front_side=front_side,
+    )
 
     # --- Step 5: Score ---
     result = build_scores(fault_map, phases, baseline, video_meta,

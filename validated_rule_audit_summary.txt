@@ -1,0 +1,108 @@
+======================================================================
+VALIDATED RULE AUDIT SUMMARY
+Source: calibration_output/diagnostics_d1_drift/validated (17 videos)
+Anchors: anchor_truth.csv (validated frames)
+======================================================================
+
+── SECTION A — BEGINNER TIER BREAKDOWN ─────────────────────────────
+
+  Drive_Beginner 2.MOV
+    Overall:  system=74  manual=50  gap=+24
+    Access       sys=22  man=12  gap=+10  total_deducted=3  fired=['A5']  not_fired=['A1', 'A3', 'A6']
+    Tracking     sys=22  man=14  gap=+8  total_deducted=3  fired=['T2']  not_fired=[]
+    Stability    sys=13  man=12  gap=+1  total_deducted=12  fired=['S1', 'S2']  not_fired=['S4']
+    Flow         sys=17  man=12  gap=+5  total_deducted=8  fired=['F3', 'F6']  not_fired=['F1', 'F4', 'F5']
+    >> OVER-SCORING: system deducts too little vs manual
+
+  Drive_Beginner 3.MOV
+    Overall:  system=53  manual=26  gap=+27
+    Access       sys= 9  man= 6  gap=+3  total_deducted=16  fired=['A1', 'A5']  not_fired=['A3', 'A6']
+    Tracking     sys=22  man= 8  gap=+14  total_deducted=3  fired=['T2']  not_fired=[]
+    Stability    sys=14  man= 6  gap=+8  total_deducted=11  fired=['S1', 'S4']  not_fired=['S2']
+    Flow         sys= 8  man= 6  gap=+2  total_deducted=17  fired=['F3', 'F4', 'F5']  not_fired=['F1', 'F6']
+    >> OVER-SCORING: system deducts too little vs manual
+
+  Drive_Beginner 4.MOV
+    Overall:  system=61  manual=35  gap=+26
+    Access       sys=22  man= 9  gap=+13  total_deducted=3  fired=['A5']  not_fired=['A1', 'A3', 'A6']
+    Tracking     sys=16  man=10  gap=+6  total_deducted=9  fired=['T2']  not_fired=[]
+    Stability    sys= 7  man= 9  gap=-2  total_deducted=18  fired=['S1', 'S4']  not_fired=['S2']
+    Flow         sys=16  man= 7  gap=+9  total_deducted=9  fired=['F3', 'F4']  not_fired=['F1', 'F5', 'F6']
+    >> OVER-SCORING: system deducts too little vs manual
+
+  Drive_beginner.MOV
+    Overall:  system=71  manual=18  gap=+53
+    Access       sys=19  man= 2  gap=+17  total_deducted=6  fired=['A1']  not_fired=['A3', 'A5', 'A6']
+    Tracking     sys=22  man= 3  gap=+19  total_deducted=3  fired=['T2']  not_fired=[]
+    Stability    sys=25  man= 7  gap=+18  total_deducted=0  fired=[]  not_fired=['S1', 'S2', 'S4']
+    Flow         sys= 5  man= 6  gap=-1  total_deducted=20  fired=['F3', 'F4', 'F5']  not_fired=['F1', 'F6']
+    >> OVER-SCORING: system deducts too little vs manual
+
+  Oscar V_Beginner.mp4
+    Overall:  system=72  manual=30  gap=+42
+    Access       sys=15  man= 5  gap=+10  total_deducted=10  fired=['A1']  not_fired=['A3', 'A5', 'A6']
+    Tracking     sys=19  man= 8  gap=+11  total_deducted=6  fired=['T2']  not_fired=[]
+    Stability    sys=22  man= 8  gap=+14  total_deducted=3  fired=['S1']  not_fired=['S2', 'S4']
+    Flow         sys=16  man= 9  gap=+7  total_deducted=9  fired=['F5', 'F6']  not_fired=['F1', 'F3', 'F4']
+    >> OVER-SCORING: system deducts too little vs manual
+
+── SECTION B — RULES WITH INVERTED FIRING (validated frames) ────────
+
+  Rule  Pillar        Beginner   Average  Good Club    Elite  Verdict
+  A1    access            4.40      4.50       3.00     1.50  ok
+  A3    access            0.00      0.00       0.00     0.00  INVERTED ◄
+  A5    access            3.20      0.00       3.25     0.75  INVERTED ◄
+  A6    access            0.00      0.00       0.00     1.50  INVERTED ◄
+  F1    flow              0.00      0.00       1.50     0.00  INVERTED ◄
+  F3    flow              5.40      4.50       7.50     6.75  INVERTED ◄
+  F4    flow              3.00      4.50       2.25     2.25  ok
+  F5    flow              3.00      2.50       2.50     1.25  ok
+  F6    flow              1.20      3.50       3.00     0.50  INVERTED ◄
+  S1    stability         4.40      6.50       5.00     8.25  INVERTED ◄
+  S2    stability         0.40      0.50       2.50     1.00  INVERTED ◄
+  S4    stability         4.00      1.00       3.00     0.00  ok
+  T2    tracking          4.80      0.75       2.25     2.25  ok
+
+── SECTION C — ZERO-DISCRIMINATION RULES (validated frames) ─────────
+
+  Rules where mean deduction varies ≤ 1pt across all four tiers:
+
+  A3    access       Compression frames                   span=0.00  values=[0.0, 0.0, 0.0, 0.0]
+
+── SECTION D — PILLAR-LEVEL GAP TABLE ───────────────────────────────
+
+  Tier         Pillar        Mean sys  Mean man  Mean gap  Mean|err|
+  Beginner     access            17.4       6.8     +10.6       10.6
+  Beginner     tracking          20.2       8.6     +11.6       11.6
+  Beginner     stability         16.2       8.4      +7.8        8.6
+  Beginner     flow              12.4       8.0      +4.4        4.8
+
+  Average      access            20.5      13.5      +7.0        7.0
+  Average      tracking          24.2      14.8      +9.5        9.5
+  Average      stability         17.0      14.5      +2.5        3.0
+  Average      flow              10.0      15.0      -5.0        5.0
+
+  Good Club    access            18.8      18.2      +0.5        2.0
+  Good Club    tracking          22.8      18.5      +4.2        4.2
+  Good Club    stability         14.8      19.2      -4.5        5.5
+  Good Club    flow               8.2      20.2     -12.0       12.0
+
+  Elite        access            21.2      22.8      -1.5        2.5
+  Elite        tracking          22.8      21.2      +1.5        2.0
+  Elite        stability         15.8      23.5      -7.8        7.8
+  Elite        flow              14.2      22.8      -8.5        8.5
+
+── SECTION E — TOP 3 RULE CHANGES TO REDUCE BEGINNER ERROR ─────────
+
+  1. A3 (access) — Compression frames
+     Action:  INCREASE deduction / lower threshold
+     Evidence: Mean pillar gap=+10.6 (system too high), fires on 0/5 Beginner videos, mean_ded=0.0
+
+  2. A6 (access) — Early opening fraction
+     Action:  INCREASE deduction / lower threshold
+     Evidence: Mean pillar gap=+10.6 (system too high), fires on 0/5 Beginner videos, mean_ded=0.0
+
+  3. S2 (stability) — Post-contact instability
+     Action:  INCREASE deduction / lower threshold
+     Evidence: Mean pillar gap=+7.8 (system too high), fires on 1/5 Beginner videos, mean_ded=0.4
+

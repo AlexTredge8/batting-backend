@@ -14,6 +14,8 @@ from collections import defaultdict
 from pathlib import Path
 from typing import Any
 
+import requests
+
 
 SCRIPT_DIR = Path(__file__).resolve().parent
 OUTPUT_DIR = SCRIPT_DIR / "calibration_output"
@@ -21,6 +23,7 @@ DEFAULT_ANCHOR_TRUTH = SCRIPT_DIR / "anchor_truth.csv"
 DEFAULT_GROUND_TRUTH = SCRIPT_DIR / "ground_truth_scores.csv"
 FALLBACK_GROUND_TRUTH = SCRIPT_DIR / "coach_ground_truth_from_screenshot.csv"
 DEFAULT_VIDEO_DIR = SCRIPT_DIR / "ground_truth_videos"
+DEFAULT_API_BASE = "https://web-production-e9c26.up.railway.app"
 VIDEO_SUFFIXES = {".mp4", ".mov", ".avi", ".mkv", ".m4v", ".webm"}
 PILLARS = ("access", "tracking", "stability", "flow")
 ANCHOR_KEYS = (
@@ -36,12 +39,6 @@ TIER_ORDER = {"Elite": 0, "Good Club": 1, "Average": 2, "Beginner": 3}
 os.environ.setdefault("MPLCONFIGDIR", str(Path(tempfile.gettempdir()) / "battingiq-mplconfig"))
 os.environ.setdefault("MEDIAPIPE_DISABLE_GPU", "1")
 os.environ.setdefault("LOCAL_MODE", "1")
-
-import pose_extractor  # noqa: E402
-
-pose_extractor.LOCAL_MODEL_COMPLEXITY = 2
-
-from run_analysis import run_full_analysis  # noqa: E402
 
 
 def _clean_text(value: Any) -> str:
@@ -139,6 +136,35 @@ def _read_report_scores(report: dict[str, Any]) -> dict[str, Any]:
     }
 
 
+def _run_live_analysis(
+    video_path: Path,
+    api_base: str,
+    anchor_frames: dict[str, int | None] | None = None,
+) -> dict[str, Any]:
+    endpoint = f"{api_base.rstrip('/')}/analyse"
+    content_type = {
+        ".mp4": "video/mp4",
+        ".mov": "video/quicktime",
+        ".avi": "video/x-msvideo",
+        ".mkv": "video/x-matroska",
+        ".m4v": "video/x-m4v",
+        ".webm": "video/webm",
+    }.get(video_path.suffix.casefold(), "application/octet-stream")
+
+    with video_path.open("rb") as handle:
+        files = {"file": (video_path.name, handle, content_type)}
+        data: dict[str, str] = {}
+        if anchor_frames is not None:
+            data["anchor_frames_json"] = json.dumps(anchor_frames)
+        response = requests.post(endpoint, files=files, data=data, timeout=240)
+
+    response.raise_for_status()
+    payload = response.json()
+    if not isinstance(payload, dict):
+        raise RuntimeError(f"Unexpected /analyse response for {video_path.name}")
+    return payload
+
+
 def _anchor_map_to_original_frames(anchor_frames: dict[str, dict[str, Any]]) -> dict[str, int | None]:
     result: dict[str, int | None] = {}
     for anchor_key in ANCHOR_KEYS:
@@ -220,6 +246,11 @@ def main() -> int:
         default=str(OUTPUT_DIR),
         help="Directory for the comparison CSV.",
     )
+    parser.add_argument(
+        "--api-base",
+        default=DEFAULT_API_BASE,
+        help="Live BattingIQ API base URL used for scoring.",
+    )
     args = parser.parse_args()
 
     anchor_truth_path = Path(args.anchor_truth).expanduser()
@@ -278,15 +309,15 @@ def main() -> int:
         tier = _clean_text(manual_row.get("tier"))
         manual_overall = _coerce_int(manual_row.get("overall_score"))
 
-        auto_report = run_full_analysis(str(video_path), output_dir=str(output_dir / "auto_runs" / video_path.stem))
+        auto_report = _run_live_analysis(video_path, args.api_base, None)
         auto_scores = _read_report_scores(auto_report)
         auto_anchor_frames = _anchor_map_to_original_frames((auto_report.get("metadata", {}) or {}).get("anchor_frames", {}) or {})
 
         corrected_anchor_frames = _merge_anchor_overrides(auto_anchor_frames, corrections)
-        corrected_report = run_full_analysis(
-            str(video_path),
-            output_dir=str(output_dir / "corrected_runs" / video_path.stem),
-            anchor_frames=corrected_anchor_frames,
+        corrected_report = _run_live_analysis(
+            video_path,
+            args.api_base,
+            corrected_anchor_frames,
         )
         corrected_scores = _read_report_scores(corrected_report)
 

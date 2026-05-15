@@ -33,9 +33,11 @@ def _phases_to_dict(pr: PhaseResult) -> dict:
 
     return {
         "setup":            {"start": 0,              "end": pr.setup_end,
-                             "start_ms": 0,           "end_ms": ms(pr.setup_end)},
+                             "start_ms": 0,           "end_ms": ms(pr.setup_end),
+                             "confidence": pr.setup_confidence},
         "backlift_starts":  {"frame": pr.backlift_start, "ms": ms(pr.backlift_start)},
-        "hands_peak":       {"frame": pr.hands_peak,     "ms": ms(pr.hands_peak)},
+        "hands_peak":       {"frame": pr.hands_peak, "ms": ms(pr.hands_peak),
+                             "confidence": pr.hands_peak_confidence},
         "front_foot_down":  {"frame": pr.front_foot_down,"ms": ms(pr.front_foot_down)},
         "contact":          {
             "frame": pr.contact,

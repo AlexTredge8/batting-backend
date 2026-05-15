@@ -13,7 +13,7 @@ from pathlib import Path
 import cv2
 import mediapipe as mp
 
-from config import LOCAL_MODE
+from config import LOCAL_MODE, MEDIAPIPE_STATIC_IMAGE_MODE
 from models import FramePose, RawLandmark
 
 mp_pose = mp.solutions.pose
@@ -199,7 +199,7 @@ def _extract_with_legacy_pose(video_path: str, verbose: bool = True) -> tuple[li
     detected_count = 0
 
     with mp_pose.Pose(
-        static_image_mode=False,
+        static_image_mode=MEDIAPIPE_STATIC_IMAGE_MODE,
         model_complexity=model_complexity,
         min_detection_confidence=0.5,
         min_tracking_confidence=0.5,

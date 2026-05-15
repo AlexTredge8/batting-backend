@@ -1,13 +1,13 @@
 # ORCHESTRATOR.md — BattingIQ Backend Living Memory
 
 > This file is maintained by the orchestrator Claude thread. Update it after every significant change.
-> Last updated: 2026-03-20
+> Last updated: 2026-04-29
 
 ---
 
 ## What This Repo Is
 
-**BattingIQ Backend** — a Python video analysis service that accepts cricket batting videos, runs MediaPipe pose extraction, computes 30+ coaching metrics per frame, runs 21 rule-based coaching checks across 4 pillars, and returns a scored JSON report + annotated video + storyboard.
+**BattingIQ Backend** — a Python video analysis service that accepts cricket batting videos, runs MediaPipe pose extraction, computes 30+ coaching metrics per frame, runs the v2.0.0 coaching rule set across 4 pillars, and returns a scored JSON report + annotated video + storyboard.
 
 **Deployed on:** Railway.app
 **Tech stack:** Python 3.10 + FastAPI + MediaPipe 0.10.9 + OpenCV + NumPy
@@ -25,7 +25,7 @@ batting-backend/
 ├── pose_extractor.py           # MediaPipe BlazePose → list[FramePose]
 ├── metrics_calculator.py       # Per-frame metrics → list[FrameMetrics]
 ├── phase_detector.py           # State machine → PhaseResult (7 phases)
-├── coaching_rules.py           # 21 coaching rules → dict[pillar: list[Fault]]
+├── coaching_rules.py           # v2.0.0 rule engine → dict[pillar: list[Fault]]
 ├── scorer.py                   # Pillar scores + BattingIQ score → BattingIQResult
 ├── report_generator.py         # JSON report assembly + console print
 ├── video_annotator.py          # Frame overlays + storyboard PNG
@@ -101,15 +101,15 @@ POST /analyse
 
 ### coaching_rules.py
 - `run_all_rules(metrics, phases, baseline)` → `dict[pillar: list[Fault]]`
-- **4 Pillars, 21 Rules:**
-  - Stability (S1–S4, max 25): weight transfer, post-contact stability, hip drift, body rotation
-  - Tracking (T1–T5, max 25): head line, early head move, head stillness, eye level, setup composure
-  - Access (A1–A6, max 25): bat path, elbow angle, compression window, torso lean, shoulder lag, early opening
-  - Flow (F1–F6, max 25): peak/FFD sync, jerky accel, timing range, pause at peak, mid-swing hitch, follow-through
+- **Current stage: R4-partial + R3 complete (2026-04-29).**
+- Active rules: A1, A3, A5, T2, S2, S4, F1, F3, F4, F5, F6 (11 active)
+- Suspended rules: A2, A4, T1, S1, S3, F2 (6 suspended; F2 is suspended, not deleted)
+- Deleted rules: A6, T3, T4, T5
+- Pillar weights: Option B3 — Access/Tracking/Stability/Flow remain 25 each, with each pillar normalised by active rule capacity
 
 ### scorer.py
 - `build_scores(fault_map, phases, baseline, video_meta)` → `BattingIQResult`
-- Pillar score = 25 − sum(fault deductions)
+- Pillar score = 25 − normalised active-rule deduction share
 - Traffic lights: Green ≥20, Amber 12–19, Red <12
 - BattingIQ = sum of 4 pillars (0–100)
 - Bands: Excellent 85–100, Good 70–84, Developing 55–69, Work Needed 40–54, Fundamentals <40
@@ -306,6 +306,7 @@ POST /analyse
 
 ### Remaining Work
 - **4F: Public results access** — no auth. Anyone with a job_id can download results. Recommend: UUID-based expiry + signed URLs.
+- **Calibration/held-out split:** 4 videos locked as held-out (Drive_Average.MOV, Drive_Beginner 2.MOV, Viv P_Offdrive Elite.mov, AlexT_Ondrive Good.MOV). All R-track and F-track deliverables must report tuning MAE and held-out MAE side by side. See `heldout_discipline.md`.
 - **Auto-detection of handedness** — deferred. Explicit API param is sufficient for now. Auto-detection is fragile due to camera angle dependency.
 - **LHB reference baseline** — all rules compare against RHB baseline. LHB analysis uses canonical front/back which makes angle comparisons valid, but a dedicated LHB baseline would improve accuracy.
 - **Integration tests** — end-to-end pipeline tests with actual video require MediaPipe + OpenCV in CI.
@@ -320,3 +321,4 @@ POST /analyse
 | 2026-03-21 | 2 | Handedness support | config, metrics_calculator, coaching_rules, api, run_analysis, scorer, models, report_generator | Runtime side mapping, S3 fix, API param, 7 tests |
 | 2026-03-21 | 3 | HD video quality | video_annotator, pose_extractor | H.264 via ffmpeg, frame lookup, storyboard 480px, 5 tests |
 | 2026-03-21 | 4 | Fragile areas | phase_detector, run_analysis, config, models, metrics_calculator, coaching_rules, scorer | Phase diagnostics, baseline validation, gap limits, rule health |
+| 2026-04-25 | HO1 | Held-out validation split | heldout_split.csv, batch_calibration_compare.py, heldout_discipline.md, CLAUDE.md | 4 videos locked as permanent held-out set (one per tier); batch emits tuning/heldout split summaries automatically |

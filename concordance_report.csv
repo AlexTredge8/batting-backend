@@ -1,0 +1,18 @@
+filename,tier,manual_overall,manual_access,manual_tracking,manual_stability,manual_flow,auto_overall_abs_err,auto_access_abs_err,auto_tracking_abs_err,auto_stability_abs_err,auto_flow_abs_err,validated_overall_abs_err,validated_access_abs_err,validated_tracking_abs_err,validated_stability_abs_err,validated_flow_abs_err
+Dan P_Offdrive Average.MOV,Average,67.0,15.0,16.0,18.0,18.0,1.0,10.0,9.0,0.0,18.0,14.0,4.0,9.0,2.0,1.0
+Drive_Average 2.MOV,Average,57.0,13.0,15.0,12.0,17.0,9.0,9.0,10.0,7.0,17.0,13.0,6.0,10.0,6.0,9.0
+Drive_Average.MOV,Average,58.0,13.0,14.0,16.0,15.0,6.0,9.0,11.0,1.0,13.0,15.0,12.0,11.0,1.0,7.0
+Straight Drive_Beginner.mp4,Average,49.0,13.0,14.0,12.0,10.0,32.0,12.0,8.0,13.0,1.0,14.0,6.0,8.0,3.0,3.0
+Drive_Beginner 2.MOV,Beginner,50.0,12.0,14.0,12.0,12.0,47.0,13.0,8.0,13.0,13.0,24.0,10.0,8.0,1.0,5.0
+Drive_Beginner 3.MOV,Beginner,26.0,6.0,8.0,6.0,6.0,46.0,13.0,14.0,13.0,6.0,27.0,3.0,14.0,8.0,2.0
+Drive_Beginner 4.MOV,Beginner,35.0,9.0,10.0,9.0,7.0,65.0,16.0,15.0,16.0,18.0,26.0,13.0,6.0,2.0,9.0
+Drive_beginner.MOV,Beginner,18.0,2.0,3.0,7.0,6.0,67.0,20.0,22.0,18.0,7.0,53.0,17.0,19.0,18.0,1.0
+Oscar V_Beginner.mp4,Beginner,30.0,5.0,8.0,8.0,9.0,54.0,20.0,17.0,17.0,0.0,42.0,10.0,11.0,14.0,7.0
+Cam T_LH Offdrive Elite.mov,Elite,89.0,23.0,21.0,24.0,21.0,2.0,2.0,4.0,1.0,9.0,11.0,2.0,1.0,9.0,5.0
+Cam T_Offdrive Elite.mp4,Elite,92.0,23.0,21.0,24.0,24.0,1.0,2.0,4.0,1.0,6.0,21.0,1.0,4.0,13.0,11.0
+Cam T_Ondrive Elite.mov,Elite,86.0,21.0,20.0,22.0,23.0,2.0,4.0,2.0,3.0,7.0,16.0,5.0,1.0,7.0,3.0
+Viv P_Offdrive Elite.mov,Elite,94.0,24.0,23.0,24.0,23.0,0.0,1.0,2.0,1.0,4.0,17.0,2.0,2.0,2.0,15.0
+Alex T_Straightdrive Good.MOV,Good Club,79.0,21.0,19.0,21.0,18.0,10.0,2.0,6.0,4.0,18.0,9.0,2.0,3.0,2.0,8.0
+AlexT_Ondrive Good.MOV,Good Club,80.0,18.0,19.0,23.0,20.0,2.0,7.0,6.0,2.0,17.0,6.0,4.0,6.0,2.0,18.0
+Cam T_Offdrive Good.mp4,Good Club,74.0,18.0,19.0,16.0,21.0,4.0,7.0,0.0,9.0,12.0,14.0,1.0,0.0,1.0,14.0
+Ollie P_Offdrive Average.mov,Good Club,72.0,16.0,17.0,17.0,22.0,4.0,1.0,5.0,2.0,6.0,18.0,1.0,8.0,17.0,8.0

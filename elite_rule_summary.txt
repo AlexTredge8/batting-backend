@@ -1,0 +1,203 @@
+==============================================================================
+ELITE RULE CONTRIBUTION BREAKDOWN — POST-F5b + S2/F5 SUSPENSION
+Config: USE_HANDS_PEAK_V3=True, S2 suspended, F5 suspended
+Auto source:      calibration_output/s2_f5_suspended/local_runs/
+Validated source: calibration_output/diagnostics_post_f5b/validated/local_runs/
+Elite auto MAE = 10.75 pts   |   Elite validated MAE = 4.25 pts
+==============================================================================
+
+NOTES ON VALIDATED MODE
+  - Validated pass uses all 6 phase frames from anchor_truth.csv (ground truth).
+  - post_f5b/validated run still has S2 active (fires on Cam T_Offdrive, -4 stab)
+    and F5 active (fires on Cam T_Ondrive, -5 flow). These rules are outside the
+    active analysis set (A1,A3,A5,T2,S4,F1,F3,F4,F6) but affect sys_pillar_score.
+
+── SECTION A — Per-rule mean deductions across 4 Elite videos ──────────────────
+
+  Rule   rule_name                      auto_mean val_mean  auto%  val% delta(A-V)
+  ----------------------------------------------------------------------------------
+  F3     Timing ratio                        7.50     1.50   100%   50%       6.00
+  F1     Hands Peak / FFD desync             6.25     0.00   100%    0%       6.25
+  A1     Bat path around body                3.25     1.50    50%   25%       1.75
+  F4     Pause at backswing top              1.50     2.25    50%   50%      -0.75
+  S4     Post-contact body rotation          1.00     0.00    25%    0%       1.00
+  A3     Compression frames                  0.75     0.00    25%    0%       0.75
+  A5     Shoulder-hip gap                    0.75     0.75    25%   25%       0.00
+  T2     Early head change                   0.75     2.25    25%   50%      -1.50
+  F6     Follow-through frames               0.00     0.00     0%    0%       0.00
+
+  Videos (columns for deduction vectors): LH=Cam T_LH Offdrive, OD=Cam T_Offdrive,
+                                          ON=Cam T_Ondrive, VP=Viv P_Offdrive
+
+── SECTION B — Rules ranked by auto_mean_deduction (largest Elite penalty) ──────
+
+  Rank  Rule  auto_mean  auto_fire%  annotation
+  ----------------------------------------------------------------------
+  1     F3         7.50        100%  ← LARGEST; fires 4/4 auto, 2/4 validated; driven by wrong HP frame
+  2     F1         6.25        100%  ← fires 4/4 auto, 0/4 validated; HP/FFD sync corrupted by F5b
+  3     A1         3.25         50%  ← fires 2/4 auto; 10-pt max on Cam T_Ondrive
+  4     F4         1.50         50%  ← fires 2/4 auto; NOT HP-dependent, lower delta vs validated
+  5     S4         1.00         25%  ← fires 1/4 auto (Cam T_Offdrive); absent in validated
+  6     A3         0.75         25%  ← fires 1/4 auto (Cam T_Offdrive); absent in validated
+  7     A5         0.75         25%  ← fires 1/4 both modes; genuine signal (same in both)
+  8     T2         0.75         25%  ← UNDER-fires in auto vs validated; auto actually misses T2 deductions
+  9     F6         0.00          0%  ← zero deductions both modes
+
+── SECTION C — F3: rule logic, thresholds, and Elite raw measurements ────────────
+
+  WHAT F3 MEASURES:
+    Timing ratio = actual_backlift_to_contact_frames / ref_frames (ref=14f).
+    Measures how long the shot downswing phase takes vs. reference timing.
+    Ideal ratio = 1.0 (exact match to reference); deduction scaled by deviation.
+
+  F3 CODE (coaching_rules.py, rule_F3 function):
+
+    def rule_F3(metrics, phases, baseline):
+        ref_frames    = baseline['timing']['backlift_to_contact_frames']  # = 14
+        actual_frames = phases.backlift_to_contact_frames
+        if ref_frames <= 0:
+            return []
+        ratio     = actual_frames / ref_frames
+        deviation = abs(ratio - 1.0)                    # 0.0 = perfect
+        if   deviation <= 0.15:  deduction = 0          # ±2.1 frames of ref
+        elif deviation <= 0.30:  deduction = 3          # ±4.2 frames of ref
+        elif deviation <= 0.45:  deduction = 6          # ±6.3 frames of ref
+        else:                    deduction = 9  # SEVERE
+        # label: 'rushed' if ratio<1.0, 'too early' if ratio>1.0
+
+  TRIGGER: deviation > 0.15  →  actual must be within 11.9f–16.1f of ref=14f
+           to score full marks.  deviation > 0.45  →  below 7.7f or above 20.3f.
+
+  ELITE AUTO MODE — raw F3 measurements:
+
+    Video                         actual_f  ref_f  ratio  deviation  deduction
+    --------------------------------------------------------------------------
+    Cam T_LH Offdrive Elite           -2f   14f  -0.14       1.14  -9  [NEGATIVE — HP detected after contact]
+    Cam T_Offdrive Elite               0f   14f   0.00       1.00  -9  [ZERO — HP = contact frame]
+    Cam T_Ondrive Elite               -2f   14f  -0.14       1.14  -9  [NEGATIVE — HP detected after contact]
+    Viv P_Offdrive Elite              18f   14f   1.29       0.29  -3  [only PARTIAL — correct phase detection]
+
+  ELITE VALIDATED MODE — raw F3 measurements (correct phase frames):
+
+    Video                         actual_f  ref_f  ratio  deviation  deduction
+    --------------------------------------------------------------------------
+    Cam T_LH Offdrive Elite       17f  14f   1.21  0.21       -3  partial
+    Cam T_Offdrive Elite          within +-15% of ref                  0  no fire
+    Cam T_Ondrive Elite           11f  14f   0.79  0.21       -3  partial
+    Viv P_Offdrive Elite          within +-15% of ref                  0  no fire
+
+  CONCLUSION: Auto mode corrupts backlift_to_contact because HP is placed wrongly.
+  With correct HP frames (validated), only 2 Elite videos have any F3 deduction,
+  and both are mild partial deductions (-3), not severe (-9).
+
+── SECTION D — Auto/validated gap attribution ───────────────────────────────────
+
+  Elite overall auto MAE  = 10.75 pts
+  Elite overall val MAE   =  4.25 pts
+  Overall gap to explain  =  6.50 pts (auto over-penalises by this amount)
+
+  Pillar-level MAE (auto vs validated):
+    Pillar      Auto MAE  Val MAE  Gap (A-V)
+    ----------------------------------------
+    flow          9.25     2.00     +7.25 ← primary driver
+    stability     3.00     2.50     +0.50
+    access        2.75     2.25     +0.50
+    tracking      3.25     5.50     -2.25 (auto UNDER-deducts tracking)
+
+  Per-rule raw-deduction gap (auto_mean − validated_mean):
+  Rules with positive delta are OVER-deducting in auto vs validated.
+
+  Rule   auto_mean val_mean delta(A-V)  pillar  attribution
+  --------------------------------------------------------------------------------
+  F1          6.25     0.00       6.25  flow        HP/FFD desync fires 4/4 auto, 0/4 val
+  F3          7.50     1.50       6.00  flow        Timing ratio fires 4/4 auto, 2/4 val (3x deduction)
+  A1          3.25     1.50       1.75  access      Bat path partly real; overcounted auto Cam T_Ondrive
+  S4          1.00     0.00       1.00  stability   Body rotation — auto-only; may be HP cascade
+  A3          0.75     0.00       0.75  access      Compression — auto-only 1 video
+  A5          0.75     0.75       0.00  access      Shoulder-hip — equal both; genuine signal
+  T2          0.75     2.25      -1.50  tracking    Head change — UNDER-fires auto (misses real faults)
+  F4          1.50     2.25      -0.75  flow        Pause — slightly MORE in validated (genuine signal)
+  F6          0.00     0.00       0.00  flow        Zero deductions both modes
+
+  Sum of positive deltas (over-penalisation): F1+F3+A1+S4+A3 = 15.75 raw pts
+  These raw deductions are normalised via pillar scoring formula, so they don't
+  sum to 6.50 directly. The flow pillar absorbs F1+F3 and explains 7.25 pts of
+  the overall gap. The remaining gap is partially offset by tracking under-firing.
+
+── SECTION E — Largest-gap Elite videos: rule-level forensics ───────────────────
+
+  Ranked by auto gap (manual - auto):
+  1. Cam T_Ondrive Elite.mov    manual=86  auto=69  gap=-17  validated=71  val_gap=-15
+  2. Cam T_Offdrive Elite.mp4   manual=92  auto=77  gap=-15  validated=92  val_gap=  0
+  3. Cam T_LH Offdrive Elite    manual=89  auto=83  gap= -6  validated=90  val_gap= +1
+
+  ── Cam T_Ondrive Elite.mov  (gap=-17) ──
+  Rule  Pillar     AutoDed  Fires auto vs validated?
+  --------------------------------------------------------------------
+  A1    access          10  auto=-10  val=-6   BOTH fire; auto deduction 4 pts higher
+  T2    tracking         3  auto=-3   val=-6   BOTH fire; AUTO UNDERESTIMATES head change
+  F1    flow             7  auto=-7   val= 0   AUTO-ONLY  [HP cascade]
+  F3    flow             9  auto=-9   val=-3   BOTH fire; auto 3x more severe [HP cascade]
+
+  ── Cam T_Offdrive Elite.mp4  (gap=-15) ──
+  Rule  Pillar     AutoDed  Fires auto vs validated?
+  --------------------------------------------------------------------
+  A3    access           3  auto=-3   val= 0   AUTO-ONLY
+  S4    stability        4  auto=-4   val= 0   AUTO-ONLY  (S2 fires val=-4, different rule)
+  F1    flow             7  auto=-7   val= 0   AUTO-ONLY  [HP cascade]
+  F3    flow             9  auto=-9   val= 0   AUTO-ONLY  [HP cascade]
+
+  ── Cam T_LH Offdrive Elite.mov  (gap=-6) ──
+  Rule  Pillar     AutoDed  Fires auto vs validated?
+  --------------------------------------------------------------------
+  A1    access           3  auto=-3   val= 0   AUTO-ONLY
+  F1    flow             7  auto=-7   val= 0   AUTO-ONLY  [HP cascade]
+  F3    flow             9  auto=-9   val=-3   BOTH fire; auto 3x more severe [HP cascade]
+  F4    flow             3  auto=-3   val= 0   AUTO-ONLY  [may be HP cascade]
+
+  HIGHLIGHTED: rules that fire AUTO-ONLY for these videos (auto but NOT validated):
+    F1 — fires auto-only in ALL THREE (7/7/7 pts). Largest single auto-only rule.
+    F3 — fires auto-only or 3x overcounted in ALL THREE. Largest raw deduction.
+    A1 — auto-only on LH and higher-deduction auto than validated on Ondrive.
+    S4 — auto-only on Offdrive (-4).
+    A3 — auto-only on Offdrive (-3).
+    F4 — auto-only on LH (-3).
+
+── SECTION F — F3 fire rate across all 4 tiers (auto mode) ─────────────────────
+
+  Tier        Videos  Fired   Fire%  Mean ded  All at max (-9) deduction?
+  --------------------------------------------------------------------
+  Beginner       5     4/5    80%     8.20     NO — Drive_Beginner 4 doesn't fire
+  Average        4     4/4   100%     9.00     YES — all at max (-9)
+  Good Club      4     4/4   100%     9.00     YES — all at max (-9)
+  Elite          4     4/4   100%     7.50     NO — Viv P at partial (-3)
+
+  VERDICT: F3 fires on every non-Beginner tier at 100%. Combined with 4/5
+  Beginner, it is effectively a universal-penalty rule in auto mode (17/17
+  dataset videos minus 1 Beginner outlier). It does not discriminate between
+  tiers. Average and Good Club are penalised MORE than Elite (all at -9 vs
+  Elite average -7.5). The root cause is backlift_to_contact values being
+  physically implausible (negative or near-zero) due to F5b HP detection
+  placing the hands_peak frame at or after the contact frame.
+
+==============================================================================
+DELIVERABLE ANSWERS
+==============================================================================
+
+1. LARGEST CONTRIBUTOR to Elite over-penalisation in auto mode:
+   → F3 (Timing ratio): auto_mean_deduction = 7.50 pts (highest absolute deduction)
+     F1 (HP/FFD desync): auto/validated delta  = 6.25 pts (largest gap to validated)
+     Both are driven by the same root cause: F5b HP detection placing hands_peak
+     wrongly. F3 deducts more in absolute terms; F1 has the largest gap to truth.
+
+2. DOES F3 FIRE ON ALL 4 ELITE VIDEOS?
+   → AUTO:      YES — 4/4 (fire rate = 100%)
+   → VALIDATED: NO  — 2/4 (Cam T_LH Offdrive and Cam T_Ondrive, both at -3 only)
+     The 4/4 auto firing is a false positive — negative/zero backlift_to_contact
+     frames from wrong HP detection trigger the max -9 deduction on 3/4 videos.
+
+3. F3 ON ALL NON-BEGINNER TIERS:
+   → YES: F3 fires at 100% on Average, Good Club, and Elite in auto mode.
+     It is not a tier-discriminating rule in its current auto-mode state.
+
+==============================================================================
