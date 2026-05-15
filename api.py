@@ -81,6 +81,7 @@ def _build_analysis_response(report: dict, job_id: str, output_dir: Path) -> dic
     storyboard_path = report.pop("_storyboard", None)
     annotated_video_url = _to_url(annotated_video_path)
     storyboard_url = _to_url(storyboard_path)
+    storyboard_keyframes = report.pop("_storyboard_keyframes", None)
     storyboard_frames = report.pop("_storyboard_frames", [])
     public_storyboard_frames = [
         _to_storyboard_frame(frame)
@@ -101,7 +102,17 @@ def _build_analysis_response(report: dict, job_id: str, output_dir: Path) -> dic
         }
     report.setdefault("metadata", {})
     report["metadata"]["media_storage"] = storage_summary
-    report["storyboard_frames"] = public_storyboard_frames
+    report["metadata"]["storyboard_frame_items"] = public_storyboard_frames
+    if not isinstance(storyboard_keyframes, dict):
+        storyboard_keyframes = {
+            "setup": None,
+            "hands_start_up": None,
+            "front_foot_down": None,
+            "hands_peak": None,
+            "contact": None,
+            "follow_through": None,
+        }
+    report["storyboard_frames"] = storyboard_keyframes
     report["job_id"] = job_id
     report["annotated_video_url"] = annotated_video_url
     report["storyboard_url"] = storyboard_url

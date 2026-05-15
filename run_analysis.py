@@ -11,8 +11,11 @@ Run  python reference_builder.py test_batting.mov  to generate it first.
 import sys
 import json
 import argparse
+import base64
 from pathlib import Path
 from typing import Any
+
+import cv2
 
 from pose_extractor     import extract_poses
 from metrics_calculator import calculate_metrics
@@ -57,6 +60,66 @@ def _parse_anchor_frames_json(anchor_frames_json: str | None) -> dict[str, int |
             continue
         normalized[str(key)] = int(value)
     return normalized
+
+
+STORYBOARD_FRAME_KEYS = (
+    ("setup", "setup_end"),
+    ("hands_start_up", "backlift_start"),
+    ("front_foot_down", "front_foot_down"),
+    ("hands_peak", "hands_peak"),
+    ("contact", "contact"),
+    ("follow_through", "follow_through_start"),
+)
+
+
+def _metric_index_to_original_frame(metrics: list[Any], metric_index: int | None) -> int | None:
+    if metric_index is None or not metrics:
+        return None
+    idx = int(metric_index)
+    if idx < 0 or idx >= len(metrics):
+        return None
+    return int(getattr(metrics[idx], "frame_idx", idx))
+
+
+def _encode_video_frame_jpeg_base64(cap: cv2.VideoCapture, frame_index: int, total_frames: int) -> str | None:
+    if frame_index < 0 or frame_index >= total_frames:
+        return None
+
+    cap.set(cv2.CAP_PROP_POS_FRAMES, int(frame_index))
+    ok, frame = cap.read()
+    if not ok or frame is None:
+        return None
+
+    height, width = frame.shape[:2]
+    if width > 320:
+        scale = 320 / float(width)
+        frame = cv2.resize(frame, (320, max(1, int(round(height * scale)))), interpolation=cv2.INTER_AREA)
+
+    ok, buffer = cv2.imencode(".jpg", frame, [cv2.IMWRITE_JPEG_QUALITY, 75])
+    if not ok:
+        return None
+    return base64.b64encode(buffer).decode("utf-8")
+
+
+def generate_storyboard_keyframe_images(video_path: str, phases: Any, metrics: list[Any]) -> dict[str, str | None]:
+    """Return six 320px-wide JPEG keyframes as raw base64 strings keyed by phase."""
+    frames: dict[str, str | None] = {key: None for key, _ in STORYBOARD_FRAME_KEYS}
+    cap = cv2.VideoCapture(str(video_path))
+    if not cap.isOpened():
+        return frames
+
+    try:
+        total_frames = max(0, int(cap.get(cv2.CAP_PROP_FRAME_COUNT)))
+        for key, phase_attr in STORYBOARD_FRAME_KEYS:
+            metric_idx = getattr(phases, phase_attr, None)
+            original_frame = _metric_index_to_original_frame(metrics, metric_idx)
+            if original_frame is None:
+                continue
+            frames[key] = _encode_video_frame_jpeg_base64(cap, original_frame, total_frames)
+    finally:
+        cap.release()
+
+    return frames
 
 
 def analyse(video_path: str, output_dir: str = None, verbose: bool = True,
@@ -226,6 +289,7 @@ def analyse(video_path: str, output_dir: str = None, verbose: bool = True,
         print("  Generating storyboard...")
     storyboard_out = out_dir / f"{stem}_battingiq_storyboard.png"
     storyboard_frames = []
+    storyboard_keyframes = generate_storyboard_keyframe_images(video_path, phases, metrics)
     try:
         storyboard_result = generate_storyboard(video_path, result, metrics, str(storyboard_out))
         storyboard_frames = storyboard_result.get("frames", []) if isinstance(storyboard_result, dict) else []
@@ -268,6 +332,8 @@ def analyse(video_path: str, output_dir: str = None, verbose: bool = True,
     report["_annotated_video"] = str(video_out) if video_out and Path(video_out).exists() else None
     report["_storyboard"]      = str(storyboard_out) if storyboard_out and Path(storyboard_out).exists() else None
     report["_storyboard_frames"] = storyboard_frames
+    report["_storyboard_keyframes"] = storyboard_keyframes
+    report["storyboard_frames"] = storyboard_keyframes
 
     return report
 
