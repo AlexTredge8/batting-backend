@@ -7,6 +7,7 @@ from __future__ import annotations
 from typing import Any
 
 from models import FrameMetrics, PhaseResult
+from config import SETUP_DETECTOR_VERSION
 
 
 ANCHOR_KEYS = (
@@ -19,7 +20,7 @@ ANCHOR_KEYS = (
 )
 
 ANCHOR_CONFIDENCE_LOW = {"low", "missing", "unresolved"}
-ANCHOR_DETECTOR_VERSION = "anchor-heuristics-v1"
+ANCHOR_DETECTOR_VERSION = f"anchor-heuristics-{SETUP_DETECTOR_VERSION}"
 
 RULE_ANCHOR_DEPENDENCIES: dict[str, tuple[str, ...]] = {
     "A1": ("hands_peak_frame", "contact_frame"),
@@ -36,7 +37,10 @@ RULE_ANCHOR_DEPENDENCIES: dict[str, tuple[str, ...]] = {
     "S1": ("contact_frame",),
     "S2": ("contact_frame", "follow_through_frame"),
     "S3": ("hands_start_up_frame", "follow_through_frame"),
-    "S4": ("contact_frame", "follow_through_frame"),
+    # S4 REVISED 2026-05-14: rule measures contact + fixed post-contact offset,
+    # not the detected follow_through anchor; do not suppress valid S4 faults
+    # when follow_through confidence is low.
+    "S4": ("contact_frame",),
     "F1": ("hands_peak_frame", "front_foot_down_frame"),
     "F2": ("hands_start_up_frame", "contact_frame"),
     "F3": ("hands_start_up_frame", "contact_frame"),
@@ -90,13 +94,14 @@ def build_anchor_frames(phases: PhaseResult, metrics: list[FrameMetrics]) -> dic
 
 def build_anchor_confidence(phases: PhaseResult, metrics: list[FrameMetrics]) -> dict[str, str]:
     confidences = {
-        "setup_frame": _metric_index_confidence(metrics, phases.setup_end),
+        "setup_frame": phases.setup_confidence or _metric_index_confidence(metrics, phases.setup_end),
         "hands_start_up_frame": _metric_index_confidence(metrics, phases.backlift_start),
         "front_foot_down_frame": _metric_index_confidence(metrics, phases.front_foot_down),
-        "hands_peak_frame": _metric_index_confidence(metrics, phases.hands_peak),
+        "hands_peak_frame": phases.hands_peak_confidence or _metric_index_confidence(metrics, phases.hands_peak),
         "contact_frame": phases.contact_confidence or _metric_index_confidence(metrics, phases.contact),
-        "follow_through_frame": _metric_index_confidence(metrics, phases.follow_through_start),
+        "follow_through_frame": phases.follow_through_confidence or _metric_index_confidence(metrics, phases.follow_through_start),
     }
+    confidences.update(getattr(phases, "anchor_confidence_overrides", {}) or {})
     if phases.resolved_contact_source == "manual":
         confidences["contact_frame"] = "validated"
     return confidences
@@ -120,4 +125,10 @@ def should_suppress_rule(rule_id: str, anchor_confidence: dict[str, str] | None)
         return False, []
 
     failing = [anchor for anchor in dependencies if anchor_confidence.get(anchor) in ANCHOR_CONFIDENCE_LOW]
+    if rule_id == "T2":
+        # GATE RELAX 2026-05-11: AND instead of OR — T2 is window-averaged,
+        # robust to single-anchor noise. See t2_gate_analysis.txt.
+        setup_low = anchor_confidence.get("setup_frame") in ANCHOR_CONFIDENCE_LOW
+        hands_start_low = anchor_confidence.get("hands_start_up_frame") in ANCHOR_CONFIDENCE_LOW
+        return setup_low and hands_start_low, failing
     return bool(failing), failing

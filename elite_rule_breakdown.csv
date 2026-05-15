@@ -1,0 +1,73 @@
+video,mode,rule_id,rule_name,fired,raw_deduction,pillar,manual_pillar_score,system_pillar_score
+Cam T_LH Offdrive Elite,auto,A1,Bat path around body,1,3,access,23,22
+Cam T_LH Offdrive Elite,auto,A3,Compression frames,0,0,access,23,22
+Cam T_LH Offdrive Elite,auto,A5,Shoulder-hip gap,0,0,access,23,22
+Cam T_LH Offdrive Elite,auto,T2,Early head change,0,0,tracking,21,25
+Cam T_LH Offdrive Elite,auto,S4,Post-contact body rotation,0,0,stability,24,25
+Cam T_LH Offdrive Elite,auto,F1,Hands Peak / FFD desync,1,7,flow,21,11
+Cam T_LH Offdrive Elite,auto,F3,Timing ratio,1,9,flow,21,11
+Cam T_LH Offdrive Elite,auto,F4,Pause at backswing top,1,3,flow,21,11
+Cam T_LH Offdrive Elite,auto,F6,Follow-through frames,0,0,flow,21,11
+Cam T_LH Offdrive Elite,validated,A1,Bat path around body,0,0,access,23,25
+Cam T_LH Offdrive Elite,validated,A3,Compression frames,0,0,access,23,25
+Cam T_LH Offdrive Elite,validated,A5,Shoulder-hip gap,0,0,access,23,25
+Cam T_LH Offdrive Elite,validated,T2,Early head change,1,3,tracking,21,17
+Cam T_LH Offdrive Elite,validated,S4,Post-contact body rotation,0,0,stability,24,25
+Cam T_LH Offdrive Elite,validated,F1,Hands Peak / FFD desync,0,0,flow,21,23
+Cam T_LH Offdrive Elite,validated,F3,Timing ratio,1,3,flow,21,23
+Cam T_LH Offdrive Elite,validated,F4,Pause at backswing top,0,0,flow,21,23
+Cam T_LH Offdrive Elite,validated,F6,Follow-through frames,0,0,flow,21,23
+Cam T_Offdrive Elite,auto,A1,Bat path around body,0,0,access,23,22
+Cam T_Offdrive Elite,auto,A3,Compression frames,1,3,access,23,22
+Cam T_Offdrive Elite,auto,A5,Shoulder-hip gap,0,0,access,23,22
+Cam T_Offdrive Elite,auto,T2,Early head change,0,0,tracking,21,25
+Cam T_Offdrive Elite,auto,S4,Post-contact body rotation,1,4,stability,24,17
+Cam T_Offdrive Elite,auto,F1,Hands Peak / FFD desync,1,7,flow,24,13
+Cam T_Offdrive Elite,auto,F3,Timing ratio,1,9,flow,24,13
+Cam T_Offdrive Elite,auto,F4,Pause at backswing top,0,0,flow,24,13
+Cam T_Offdrive Elite,auto,F6,Follow-through frames,0,0,flow,24,13
+Cam T_Offdrive Elite,validated,A1,Bat path around body,0,0,access,23,25
+Cam T_Offdrive Elite,validated,A3,Compression frames,0,0,access,23,25
+Cam T_Offdrive Elite,validated,A5,Shoulder-hip gap,0,0,access,23,25
+Cam T_Offdrive Elite,validated,T2,Early head change,0,0,tracking,21,25
+Cam T_Offdrive Elite,validated,S4,Post-contact body rotation,0,0,stability,24,19
+Cam T_Offdrive Elite,validated,F1,Hands Peak / FFD desync,0,0,flow,24,23
+Cam T_Offdrive Elite,validated,F3,Timing ratio,0,0,flow,24,23
+Cam T_Offdrive Elite,validated,F4,Pause at backswing top,1,3,flow,24,23
+Cam T_Offdrive Elite,validated,F6,Follow-through frames,0,0,flow,24,23
+Cam T_Ondrive Elite,auto,A1,Bat path around body,1,10,access,21,14
+Cam T_Ondrive Elite,auto,A3,Compression frames,0,0,access,21,14
+Cam T_Ondrive Elite,auto,A5,Shoulder-hip gap,0,0,access,21,14
+Cam T_Ondrive Elite,auto,T2,Early head change,1,3,tracking,20,17
+Cam T_Ondrive Elite,auto,S4,Post-contact body rotation,0,0,stability,22,25
+Cam T_Ondrive Elite,auto,F1,Hands Peak / FFD desync,1,7,flow,23,13
+Cam T_Ondrive Elite,auto,F3,Timing ratio,1,9,flow,23,13
+Cam T_Ondrive Elite,auto,F4,Pause at backswing top,0,0,flow,23,13
+Cam T_Ondrive Elite,auto,F6,Follow-through frames,0,0,flow,23,13
+Cam T_Ondrive Elite,validated,A1,Bat path around body,1,6,access,21,18
+Cam T_Ondrive Elite,validated,A3,Compression frames,0,0,access,21,18
+Cam T_Ondrive Elite,validated,A5,Shoulder-hip gap,0,0,access,21,18
+Cam T_Ondrive Elite,validated,T2,Early head change,1,6,tracking,20,8
+Cam T_Ondrive Elite,validated,S4,Post-contact body rotation,0,0,stability,22,25
+Cam T_Ondrive Elite,validated,F1,Hands Peak / FFD desync,0,0,flow,23,20
+Cam T_Ondrive Elite,validated,F3,Timing ratio,1,3,flow,23,20
+Cam T_Ondrive Elite,validated,F4,Pause at backswing top,0,0,flow,23,20
+Cam T_Ondrive Elite,validated,F6,Follow-through frames,0,0,flow,23,20
+Viv P_Offdrive Elite,auto,A1,Bat path around body,0,0,access,24,22
+Viv P_Offdrive Elite,auto,A3,Compression frames,0,0,access,24,22
+Viv P_Offdrive Elite,auto,A5,Shoulder-hip gap,1,3,access,24,22
+Viv P_Offdrive Elite,auto,T2,Early head change,0,0,tracking,23,25
+Viv P_Offdrive Elite,auto,S4,Post-contact body rotation,0,0,stability,24,25
+Viv P_Offdrive Elite,auto,F1,Hands Peak / FFD desync,1,4,flow,23,17
+Viv P_Offdrive Elite,auto,F3,Timing ratio,1,3,flow,23,17
+Viv P_Offdrive Elite,auto,F4,Pause at backswing top,1,3,flow,23,17
+Viv P_Offdrive Elite,auto,F6,Follow-through frames,0,0,flow,23,17
+Viv P_Offdrive Elite,validated,A1,Bat path around body,0,0,access,24,22
+Viv P_Offdrive Elite,validated,A3,Compression frames,0,0,access,24,22
+Viv P_Offdrive Elite,validated,A5,Shoulder-hip gap,1,3,access,24,22
+Viv P_Offdrive Elite,validated,T2,Early head change,0,0,tracking,23,25
+Viv P_Offdrive Elite,validated,S4,Post-contact body rotation,0,0,stability,24,25
+Viv P_Offdrive Elite,validated,F1,Hands Peak / FFD desync,0,0,flow,23,21
+Viv P_Offdrive Elite,validated,F3,Timing ratio,0,0,flow,23,21
+Viv P_Offdrive Elite,validated,F4,Pause at backswing top,1,6,flow,23,21
+Viv P_Offdrive Elite,validated,F6,Follow-through frames,0,0,flow,23,21

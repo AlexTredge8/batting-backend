@@ -43,7 +43,7 @@ def build_reference_baseline(video_path: str, output_path: str = None) -> dict:
     frame_poses, meta = extract_poses(video_path, verbose=True)
     fps = meta["fps"]
     metrics = calculate_metrics(frame_poses, fps)
-    phases  = detect_phases(metrics, fps)
+    phases  = detect_phases(metrics, fps, video_path=video_path)
     print_phase_summary(phases, fps)
 
     labels = phases.phase_labels

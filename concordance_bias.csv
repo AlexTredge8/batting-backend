@@ -1,0 +1,18 @@
+filename,tier,auto_overall_bias,auto_access_bias,auto_tracking_bias,auto_stability_bias,auto_flow_bias,validated_overall_bias,validated_access_bias,validated_tracking_bias,validated_stability_bias,validated_flow_bias
+Dan P_Offdrive Average.MOV,Average,1.0,10.0,9.0,0.0,-18.0,14.0,4.0,9.0,2.0,-1.0
+Drive_Average 2.MOV,Average,9.0,9.0,10.0,7.0,-17.0,13.0,6.0,10.0,6.0,-9.0
+Drive_Average.MOV,Average,6.0,9.0,11.0,-1.0,-13.0,15.0,12.0,11.0,-1.0,-7.0
+Straight Drive_Beginner.mp4,Average,32.0,12.0,8.0,13.0,-1.0,14.0,6.0,8.0,3.0,-3.0
+Drive_Beginner 2.MOV,Beginner,47.0,13.0,8.0,13.0,13.0,24.0,10.0,8.0,1.0,5.0
+Drive_Beginner 3.MOV,Beginner,46.0,13.0,14.0,13.0,6.0,27.0,3.0,14.0,8.0,2.0
+Drive_Beginner 4.MOV,Beginner,65.0,16.0,15.0,16.0,18.0,26.0,13.0,6.0,-2.0,9.0
+Drive_beginner.MOV,Beginner,67.0,20.0,22.0,18.0,7.0,53.0,17.0,19.0,18.0,-1.0
+Oscar V_Beginner.mp4,Beginner,54.0,20.0,17.0,17.0,0.0,42.0,10.0,11.0,14.0,7.0
+Cam T_LH Offdrive Elite.mov,Elite,-2.0,2.0,4.0,1.0,-9.0,-11.0,2.0,1.0,-9.0,-5.0
+Cam T_Offdrive Elite.mp4,Elite,1.0,2.0,4.0,1.0,-6.0,-21.0,-1.0,4.0,-13.0,-11.0
+Cam T_Ondrive Elite.mov,Elite,2.0,4.0,2.0,3.0,-7.0,-16.0,-5.0,-1.0,-7.0,-3.0
+Viv P_Offdrive Elite.mov,Elite,0.0,1.0,2.0,1.0,-4.0,-17.0,-2.0,2.0,-2.0,-15.0
+Alex T_Straightdrive Good.MOV,Good Club,-10.0,-2.0,6.0,4.0,-18.0,-9.0,-2.0,3.0,-2.0,-8.0
+AlexT_Ondrive Good.MOV,Good Club,-2.0,7.0,6.0,2.0,-17.0,-6.0,4.0,6.0,2.0,-18.0
+Cam T_Offdrive Good.mp4,Good Club,4.0,7.0,0.0,9.0,-12.0,-14.0,1.0,0.0,-1.0,-14.0
+Ollie P_Offdrive Average.mov,Good Club,-4.0,-1.0,5.0,-2.0,-6.0,-18.0,-1.0,8.0,-17.0,-8.0

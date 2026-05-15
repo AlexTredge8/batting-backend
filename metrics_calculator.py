@@ -147,6 +147,7 @@ def _calc_frame(fp: FramePose, side_map: dict) -> FrameMetrics:
     shoulder_mid_y = (ls.y + rs.y) / 2
     hip_mid_x      = (lh.x + rh.x) / 2
     hip_mid_y      = (lh.y + rh.y) / 2
+    knee_mid_y     = (lk.y + rk.y) / 2
 
     # Head
     head_offset = nose.x - hip_mid_x
@@ -159,6 +160,7 @@ def _calc_frame(fp: FramePose, side_map: dict) -> FrameMetrics:
 
     # Torso lean (horizontal distance between shoulder mid and hip mid)
     torso_lean = abs(shoulder_mid_x - hip_mid_x)
+    forward_weight = torso_lean
 
     # Stance width
     stance_width = abs(la.x - ra.x)
@@ -196,7 +198,9 @@ def _calc_frame(fp: FramePose, side_map: dict) -> FrameMetrics:
         shoulder_mid_y=shoulder_mid_y,
         hip_mid_x=hip_mid_x,
         hip_mid_y=hip_mid_y,
+        knee_mid_y=knee_mid_y,
         torso_lean=torso_lean,
+        forward_weight=forward_weight,
         front_knee_angle=front_knee_ang,
         back_knee_angle=back_knee_ang,
         front_elbow_angle=front_elbow_ang,
@@ -253,7 +257,9 @@ def _fill_gaps(metrics: list[FrameMetrics]) -> int:
                 shoulder_mid_y=last_valid.shoulder_mid_y,
                 hip_mid_x=last_valid.hip_mid_x,
                 hip_mid_y=last_valid.hip_mid_y,
+                knee_mid_y=last_valid.knee_mid_y,
                 torso_lean=last_valid.torso_lean,
+                forward_weight=last_valid.forward_weight,
                 front_knee_angle=last_valid.front_knee_angle,
                 back_knee_angle=last_valid.back_knee_angle,
                 front_elbow_angle=last_valid.front_elbow_angle,
@@ -284,6 +290,10 @@ def _compute_velocities(metrics: list[FrameMetrics], fps: float) -> None:
         curr.head_vx = curr.head_x - prev.head_x
         curr.head_vy = curr.head_y - prev.head_y
 
+        curr.shoulder_mid_vy = curr.shoulder_mid_y - prev.shoulder_mid_y
+        curr.hip_mid_vy = curr.hip_mid_y - prev.hip_mid_y
+        curr.knee_mid_vy = curr.knee_mid_y - prev.knee_mid_y
+        curr.forward_weight_v = curr.forward_weight - prev.forward_weight
         curr.hip_centre_vx = curr.hip_centre_x - prev.hip_centre_x
 
 
@@ -344,6 +354,10 @@ def calculate_metrics(frame_poses: list[FramePose], fps: float, front_side: str 
         "wrist_speed",
         "shoulder_openness",
         "hip_openness",
+        "shoulder_mid_y",
+        "hip_mid_y",
+        "knee_mid_y",
+        "forward_weight",
         "front_ankle_y",
         "front_ankle_z",
         "stance_width",

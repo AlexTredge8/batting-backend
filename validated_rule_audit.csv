@@ -1,0 +1,358 @@
+filename,tier,rule_id,rule_name,pillar,suspended,fired,points_deducted,system_pillar_score,manual_pillar_score,pillar_abs_error,system_overall,manual_overall,overall_abs_error
+Alex T_Straightdrive Good.MOV,Good Club,A1,Bat path around body,access,False,True,6,19,21,2,70,79,9
+Alex T_Straightdrive Good.MOV,Good Club,A2,Elbow angle at contact,access,True,False,0,19,21,2,70,79,9
+Alex T_Straightdrive Good.MOV,Good Club,A3,Compression frames,access,False,False,0,19,21,2,70,79,9
+Alex T_Straightdrive Good.MOV,Good Club,A4,Torso lean,access,True,False,0,19,21,2,70,79,9
+Alex T_Straightdrive Good.MOV,Good Club,A5,Shoulder-hip gap,access,False,False,0,19,21,2,70,79,9
+Alex T_Straightdrive Good.MOV,Good Club,A6,Early opening fraction,access,False,False,0,19,21,2,70,79,9
+Alex T_Straightdrive Good.MOV,Good Club,T1,Head offset,tracking,True,False,0,22,19,3,70,79,9
+Alex T_Straightdrive Good.MOV,Good Club,T2,Early head change,tracking,False,True,3,22,19,3,70,79,9
+Alex T_Straightdrive Good.MOV,Good Club,T3,Head position variance,tracking,True,False,0,22,19,3,70,79,9
+Alex T_Straightdrive Good.MOV,Good Club,T4,Eye tilt,tracking,True,False,0,22,19,3,70,79,9
+Alex T_Straightdrive Good.MOV,Good Club,T5,Setup head variance,tracking,True,False,0,22,19,3,70,79,9
+Alex T_Straightdrive Good.MOV,Good Club,S1,Hip shift,stability,False,False,0,19,21,2,70,79,9
+Alex T_Straightdrive Good.MOV,Good Club,S2,Post-contact instability,stability,False,True,6,19,21,2,70,79,9
+Alex T_Straightdrive Good.MOV,Good Club,S3,Hip drift frames,stability,True,False,0,19,21,2,70,79,9
+Alex T_Straightdrive Good.MOV,Good Club,S4,Post-contact body rotation,stability,False,False,0,19,21,2,70,79,9
+Alex T_Straightdrive Good.MOV,Good Club,F1,Sync frames,flow,False,False,0,10,18,8,70,79,9
+Alex T_Straightdrive Good.MOV,Good Club,F2,Velocity direction changes,flow,True,False,0,10,18,8,70,79,9
+Alex T_Straightdrive Good.MOV,Good Club,F3,Timing ratio,flow,False,True,6,10,18,8,70,79,9
+Alex T_Straightdrive Good.MOV,Good Club,F4,Pause frames,flow,False,False,0,10,18,8,70,79,9
+Alex T_Straightdrive Good.MOV,Good Club,F5,Mid-downswing hitch,flow,False,True,5,10,18,8,70,79,9
+Alex T_Straightdrive Good.MOV,Good Club,F6,Follow-through frames,flow,False,True,4,10,18,8,70,79,9
+AlexT_Ondrive Good.MOV,Good Club,A1,Bat path around body,access,False,False,0,22,18,4,74,80,6
+AlexT_Ondrive Good.MOV,Good Club,A2,Elbow angle at contact,access,True,False,0,22,18,4,74,80,6
+AlexT_Ondrive Good.MOV,Good Club,A3,Compression frames,access,False,False,0,22,18,4,74,80,6
+AlexT_Ondrive Good.MOV,Good Club,A4,Torso lean,access,True,False,0,22,18,4,74,80,6
+AlexT_Ondrive Good.MOV,Good Club,A5,Shoulder-hip gap,access,False,True,3,22,18,4,74,80,6
+AlexT_Ondrive Good.MOV,Good Club,A6,Early opening fraction,access,False,False,0,22,18,4,74,80,6
+AlexT_Ondrive Good.MOV,Good Club,T1,Head offset,tracking,True,False,0,25,19,6,74,80,6
+AlexT_Ondrive Good.MOV,Good Club,T2,Early head change,tracking,False,False,0,25,19,6,74,80,6
+AlexT_Ondrive Good.MOV,Good Club,T3,Head position variance,tracking,True,False,0,25,19,6,74,80,6
+AlexT_Ondrive Good.MOV,Good Club,T4,Eye tilt,tracking,True,False,0,25,19,6,74,80,6
+AlexT_Ondrive Good.MOV,Good Club,T5,Setup head variance,tracking,True,False,0,25,19,6,74,80,6
+AlexT_Ondrive Good.MOV,Good Club,S1,Hip shift,stability,False,False,0,25,23,2,74,80,6
+AlexT_Ondrive Good.MOV,Good Club,S2,Post-contact instability,stability,False,False,0,25,23,2,74,80,6
+AlexT_Ondrive Good.MOV,Good Club,S3,Hip drift frames,stability,True,False,0,25,23,2,74,80,6
+AlexT_Ondrive Good.MOV,Good Club,S4,Post-contact body rotation,stability,False,False,0,25,23,2,74,80,6
+AlexT_Ondrive Good.MOV,Good Club,F1,Sync frames,flow,False,True,4,2,20,18,74,80,6
+AlexT_Ondrive Good.MOV,Good Club,F2,Velocity direction changes,flow,True,False,0,2,20,18,74,80,6
+AlexT_Ondrive Good.MOV,Good Club,F3,Timing ratio,flow,False,True,9,2,20,18,74,80,6
+AlexT_Ondrive Good.MOV,Good Club,F4,Pause frames,flow,False,True,6,2,20,18,74,80,6
+AlexT_Ondrive Good.MOV,Good Club,F5,Mid-downswing hitch,flow,False,False,0,2,20,18,74,80,6
+AlexT_Ondrive Good.MOV,Good Club,F6,Follow-through frames,flow,False,True,4,2,20,18,74,80,6
+Cam T_LH Offdrive Elite.mov,Elite,A1,Bat path around body,access,False,False,0,25,23,2,78,89,11
+Cam T_LH Offdrive Elite.mov,Elite,A2,Elbow angle at contact,access,True,False,0,25,23,2,78,89,11
+Cam T_LH Offdrive Elite.mov,Elite,A3,Compression frames,access,False,False,0,25,23,2,78,89,11
+Cam T_LH Offdrive Elite.mov,Elite,A4,Torso lean,access,True,False,0,25,23,2,78,89,11
+Cam T_LH Offdrive Elite.mov,Elite,A5,Shoulder-hip gap,access,False,False,0,25,23,2,78,89,11
+Cam T_LH Offdrive Elite.mov,Elite,A6,Early opening fraction,access,False,False,0,25,23,2,78,89,11
+Cam T_LH Offdrive Elite.mov,Elite,T1,Head offset,tracking,True,False,0,22,21,1,78,89,11
+Cam T_LH Offdrive Elite.mov,Elite,T2,Early head change,tracking,False,True,3,22,21,1,78,89,11
+Cam T_LH Offdrive Elite.mov,Elite,T3,Head position variance,tracking,True,False,0,22,21,1,78,89,11
+Cam T_LH Offdrive Elite.mov,Elite,T4,Eye tilt,tracking,True,False,0,22,21,1,78,89,11
+Cam T_LH Offdrive Elite.mov,Elite,T5,Setup head variance,tracking,True,False,0,22,21,1,78,89,11
+Cam T_LH Offdrive Elite.mov,Elite,S1,Hip shift,stability,False,True,10,15,24,9,78,89,11
+Cam T_LH Offdrive Elite.mov,Elite,S2,Post-contact instability,stability,False,False,0,15,24,9,78,89,11
+Cam T_LH Offdrive Elite.mov,Elite,S3,Hip drift frames,stability,True,False,0,15,24,9,78,89,11
+Cam T_LH Offdrive Elite.mov,Elite,S4,Post-contact body rotation,stability,False,False,0,15,24,9,78,89,11
+Cam T_LH Offdrive Elite.mov,Elite,F1,Sync frames,flow,False,False,0,16,21,5,78,89,11
+Cam T_LH Offdrive Elite.mov,Elite,F2,Velocity direction changes,flow,True,False,0,16,21,5,78,89,11
+Cam T_LH Offdrive Elite.mov,Elite,F3,Timing ratio,flow,False,True,9,16,21,5,78,89,11
+Cam T_LH Offdrive Elite.mov,Elite,F4,Pause frames,flow,False,False,0,16,21,5,78,89,11
+Cam T_LH Offdrive Elite.mov,Elite,F5,Mid-downswing hitch,flow,False,False,0,16,21,5,78,89,11
+Cam T_LH Offdrive Elite.mov,Elite,F6,Follow-through frames,flow,False,False,0,16,21,5,78,89,11
+Cam T_Offdrive Elite.mp4,Elite,A1,Bat path around body,access,False,False,0,22,23,1,71,92,21
+Cam T_Offdrive Elite.mp4,Elite,A2,Elbow angle at contact,access,True,False,0,22,23,1,71,92,21
+Cam T_Offdrive Elite.mp4,Elite,A3,Compression frames,access,False,False,0,22,23,1,71,92,21
+Cam T_Offdrive Elite.mp4,Elite,A4,Torso lean,access,True,False,0,22,23,1,71,92,21
+Cam T_Offdrive Elite.mp4,Elite,A5,Shoulder-hip gap,access,False,False,0,22,23,1,71,92,21
+Cam T_Offdrive Elite.mp4,Elite,A6,Early opening fraction,access,False,True,3,22,23,1,71,92,21
+Cam T_Offdrive Elite.mp4,Elite,T1,Head offset,tracking,True,False,0,25,21,4,71,92,21
+Cam T_Offdrive Elite.mp4,Elite,T2,Early head change,tracking,False,False,0,25,21,4,71,92,21
+Cam T_Offdrive Elite.mp4,Elite,T3,Head position variance,tracking,True,False,0,25,21,4,71,92,21
+Cam T_Offdrive Elite.mp4,Elite,T4,Eye tilt,tracking,True,False,0,25,21,4,71,92,21
+Cam T_Offdrive Elite.mp4,Elite,T5,Setup head variance,tracking,True,False,0,25,21,4,71,92,21
+Cam T_Offdrive Elite.mp4,Elite,S1,Hip shift,stability,False,True,10,11,24,13,71,92,21
+Cam T_Offdrive Elite.mp4,Elite,S2,Post-contact instability,stability,False,True,4,11,24,13,71,92,21
+Cam T_Offdrive Elite.mp4,Elite,S3,Hip drift frames,stability,True,False,0,11,24,13,71,92,21
+Cam T_Offdrive Elite.mp4,Elite,S4,Post-contact body rotation,stability,False,False,0,11,24,13,71,92,21
+Cam T_Offdrive Elite.mp4,Elite,F1,Sync frames,flow,False,False,0,13,24,11,71,92,21
+Cam T_Offdrive Elite.mp4,Elite,F2,Velocity direction changes,flow,True,False,0,13,24,11,71,92,21
+Cam T_Offdrive Elite.mp4,Elite,F3,Timing ratio,flow,False,True,9,13,24,11,71,92,21
+Cam T_Offdrive Elite.mp4,Elite,F4,Pause frames,flow,False,True,3,13,24,11,71,92,21
+Cam T_Offdrive Elite.mp4,Elite,F5,Mid-downswing hitch,flow,False,False,0,13,24,11,71,92,21
+Cam T_Offdrive Elite.mp4,Elite,F6,Follow-through frames,flow,False,False,0,13,24,11,71,92,21
+Cam T_Offdrive Good.mp4,Good Club,A1,Bat path around body,access,False,True,6,19,18,1,60,74,14
+Cam T_Offdrive Good.mp4,Good Club,A2,Elbow angle at contact,access,True,False,0,19,18,1,60,74,14
+Cam T_Offdrive Good.mp4,Good Club,A3,Compression frames,access,False,False,0,19,18,1,60,74,14
+Cam T_Offdrive Good.mp4,Good Club,A4,Torso lean,access,True,False,0,19,18,1,60,74,14
+Cam T_Offdrive Good.mp4,Good Club,A5,Shoulder-hip gap,access,False,False,0,19,18,1,60,74,14
+Cam T_Offdrive Good.mp4,Good Club,A6,Early opening fraction,access,False,False,0,19,18,1,60,74,14
+Cam T_Offdrive Good.mp4,Good Club,T1,Head offset,tracking,True,False,0,19,19,0,60,74,14
+Cam T_Offdrive Good.mp4,Good Club,T2,Early head change,tracking,False,True,6,19,19,0,60,74,14
+Cam T_Offdrive Good.mp4,Good Club,T3,Head position variance,tracking,True,False,0,19,19,0,60,74,14
+Cam T_Offdrive Good.mp4,Good Club,T4,Eye tilt,tracking,True,False,0,19,19,0,60,74,14
+Cam T_Offdrive Good.mp4,Good Club,T5,Setup head variance,tracking,True,False,0,19,19,0,60,74,14
+Cam T_Offdrive Good.mp4,Good Club,S1,Hip shift,stability,False,True,10,15,16,1,60,74,14
+Cam T_Offdrive Good.mp4,Good Club,S2,Post-contact instability,stability,False,False,0,15,16,1,60,74,14
+Cam T_Offdrive Good.mp4,Good Club,S3,Hip drift frames,stability,True,False,0,15,16,1,60,74,14
+Cam T_Offdrive Good.mp4,Good Club,S4,Post-contact body rotation,stability,False,False,0,15,16,1,60,74,14
+Cam T_Offdrive Good.mp4,Good Club,F1,Sync frames,flow,False,True,2,7,21,14,60,74,14
+Cam T_Offdrive Good.mp4,Good Club,F2,Velocity direction changes,flow,True,False,0,7,21,14,60,74,14
+Cam T_Offdrive Good.mp4,Good Club,F3,Timing ratio,flow,False,True,9,7,21,14,60,74,14
+Cam T_Offdrive Good.mp4,Good Club,F4,Pause frames,flow,False,False,0,7,21,14,60,74,14
+Cam T_Offdrive Good.mp4,Good Club,F5,Mid-downswing hitch,flow,False,True,5,7,21,14,60,74,14
+Cam T_Offdrive Good.mp4,Good Club,F6,Follow-through frames,flow,False,True,2,7,21,14,60,74,14
+Cam T_Ondrive Elite.mov,Elite,A1,Bat path around body,access,False,True,6,16,21,5,70,86,16
+Cam T_Ondrive Elite.mov,Elite,A2,Elbow angle at contact,access,True,False,0,16,21,5,70,86,16
+Cam T_Ondrive Elite.mov,Elite,A3,Compression frames,access,False,False,0,16,21,5,70,86,16
+Cam T_Ondrive Elite.mov,Elite,A4,Torso lean,access,True,False,0,16,21,5,70,86,16
+Cam T_Ondrive Elite.mov,Elite,A5,Shoulder-hip gap,access,False,False,0,16,21,5,70,86,16
+Cam T_Ondrive Elite.mov,Elite,A6,Early opening fraction,access,False,True,3,16,21,5,70,86,16
+Cam T_Ondrive Elite.mov,Elite,T1,Head offset,tracking,True,False,0,19,20,1,70,86,16
+Cam T_Ondrive Elite.mov,Elite,T2,Early head change,tracking,False,True,6,19,20,1,70,86,16
+Cam T_Ondrive Elite.mov,Elite,T3,Head position variance,tracking,True,False,0,19,20,1,70,86,16
+Cam T_Ondrive Elite.mov,Elite,T4,Eye tilt,tracking,True,False,0,19,20,1,70,86,16
+Cam T_Ondrive Elite.mov,Elite,T5,Setup head variance,tracking,True,False,0,19,20,1,70,86,16
+Cam T_Ondrive Elite.mov,Elite,S1,Hip shift,stability,False,True,10,15,22,7,70,86,16
+Cam T_Ondrive Elite.mov,Elite,S2,Post-contact instability,stability,False,False,0,15,22,7,70,86,16
+Cam T_Ondrive Elite.mov,Elite,S3,Hip drift frames,stability,True,False,0,15,22,7,70,86,16
+Cam T_Ondrive Elite.mov,Elite,S4,Post-contact body rotation,stability,False,False,0,15,22,7,70,86,16
+Cam T_Ondrive Elite.mov,Elite,F1,Sync frames,flow,False,False,0,20,23,3,70,86,16
+Cam T_Ondrive Elite.mov,Elite,F2,Velocity direction changes,flow,True,False,0,20,23,3,70,86,16
+Cam T_Ondrive Elite.mov,Elite,F3,Timing ratio,flow,False,False,0,20,23,3,70,86,16
+Cam T_Ondrive Elite.mov,Elite,F4,Pause frames,flow,False,False,0,20,23,3,70,86,16
+Cam T_Ondrive Elite.mov,Elite,F5,Mid-downswing hitch,flow,False,True,5,20,23,3,70,86,16
+Cam T_Ondrive Elite.mov,Elite,F6,Follow-through frames,flow,False,False,0,20,23,3,70,86,16
+Dan P_Offdrive Average.MOV,Average,A1,Bat path around body,access,False,True,6,19,15,4,81,67,14
+Dan P_Offdrive Average.MOV,Average,A2,Elbow angle at contact,access,True,False,0,19,15,4,81,67,14
+Dan P_Offdrive Average.MOV,Average,A3,Compression frames,access,False,False,0,19,15,4,81,67,14
+Dan P_Offdrive Average.MOV,Average,A4,Torso lean,access,True,False,0,19,15,4,81,67,14
+Dan P_Offdrive Average.MOV,Average,A5,Shoulder-hip gap,access,False,False,0,19,15,4,81,67,14
+Dan P_Offdrive Average.MOV,Average,A6,Early opening fraction,access,False,False,0,19,15,4,81,67,14
+Dan P_Offdrive Average.MOV,Average,T1,Head offset,tracking,True,False,0,25,16,9,81,67,14
+Dan P_Offdrive Average.MOV,Average,T2,Early head change,tracking,False,False,0,25,16,9,81,67,14
+Dan P_Offdrive Average.MOV,Average,T3,Head position variance,tracking,True,False,0,25,16,9,81,67,14
+Dan P_Offdrive Average.MOV,Average,T4,Eye tilt,tracking,True,False,0,25,16,9,81,67,14
+Dan P_Offdrive Average.MOV,Average,T5,Setup head variance,tracking,True,False,0,25,16,9,81,67,14
+Dan P_Offdrive Average.MOV,Average,S1,Hip shift,stability,False,True,3,20,18,2,81,67,14
+Dan P_Offdrive Average.MOV,Average,S2,Post-contact instability,stability,False,True,2,20,18,2,81,67,14
+Dan P_Offdrive Average.MOV,Average,S3,Hip drift frames,stability,True,False,0,20,18,2,81,67,14
+Dan P_Offdrive Average.MOV,Average,S4,Post-contact body rotation,stability,False,False,0,20,18,2,81,67,14
+Dan P_Offdrive Average.MOV,Average,F1,Sync frames,flow,False,False,0,17,18,1,81,67,14
+Dan P_Offdrive Average.MOV,Average,F2,Velocity direction changes,flow,True,False,0,17,18,1,81,67,14
+Dan P_Offdrive Average.MOV,Average,F3,Timing ratio,flow,False,False,0,17,18,1,81,67,14
+Dan P_Offdrive Average.MOV,Average,F4,Pause frames,flow,False,True,6,17,18,1,81,67,14
+Dan P_Offdrive Average.MOV,Average,F5,Mid-downswing hitch,flow,False,False,0,17,18,1,81,67,14
+Dan P_Offdrive Average.MOV,Average,F6,Follow-through frames,flow,False,True,2,17,18,1,81,67,14
+Drive_Average 2.MOV,Average,A1,Bat path around body,access,False,True,6,19,13,6,70,57,13
+Drive_Average 2.MOV,Average,A2,Elbow angle at contact,access,True,False,0,19,13,6,70,57,13
+Drive_Average 2.MOV,Average,A3,Compression frames,access,False,False,0,19,13,6,70,57,13
+Drive_Average 2.MOV,Average,A4,Torso lean,access,True,False,0,19,13,6,70,57,13
+Drive_Average 2.MOV,Average,A5,Shoulder-hip gap,access,False,False,0,19,13,6,70,57,13
+Drive_Average 2.MOV,Average,A6,Early opening fraction,access,False,False,0,19,13,6,70,57,13
+Drive_Average 2.MOV,Average,T1,Head offset,tracking,True,False,0,25,15,10,70,57,13
+Drive_Average 2.MOV,Average,T2,Early head change,tracking,False,False,0,25,15,10,70,57,13
+Drive_Average 2.MOV,Average,T3,Head position variance,tracking,True,False,0,25,15,10,70,57,13
+Drive_Average 2.MOV,Average,T4,Eye tilt,tracking,True,False,0,25,15,10,70,57,13
+Drive_Average 2.MOV,Average,T5,Setup head variance,tracking,True,False,0,25,15,10,70,57,13
+Drive_Average 2.MOV,Average,S1,Hip shift,stability,False,True,3,18,12,6,70,57,13
+Drive_Average 2.MOV,Average,S2,Post-contact instability,stability,False,False,0,18,12,6,70,57,13
+Drive_Average 2.MOV,Average,S3,Hip drift frames,stability,True,False,0,18,12,6,70,57,13
+Drive_Average 2.MOV,Average,S4,Post-contact body rotation,stability,False,True,4,18,12,6,70,57,13
+Drive_Average 2.MOV,Average,F1,Sync frames,flow,False,False,0,8,17,9,70,57,13
+Drive_Average 2.MOV,Average,F2,Velocity direction changes,flow,True,False,0,8,17,9,70,57,13
+Drive_Average 2.MOV,Average,F3,Timing ratio,flow,False,True,3,8,17,9,70,57,13
+Drive_Average 2.MOV,Average,F4,Pause frames,flow,False,True,9,8,17,9,70,57,13
+Drive_Average 2.MOV,Average,F5,Mid-downswing hitch,flow,False,True,5,8,17,9,70,57,13
+Drive_Average 2.MOV,Average,F6,Follow-through frames,flow,False,False,0,8,17,9,70,57,13
+Drive_Average.MOV,Average,A1,Bat path around body,access,False,False,0,25,13,12,73,58,15
+Drive_Average.MOV,Average,A2,Elbow angle at contact,access,True,False,0,25,13,12,73,58,15
+Drive_Average.MOV,Average,A3,Compression frames,access,False,False,0,25,13,12,73,58,15
+Drive_Average.MOV,Average,A4,Torso lean,access,True,False,0,25,13,12,73,58,15
+Drive_Average.MOV,Average,A5,Shoulder-hip gap,access,False,False,0,25,13,12,73,58,15
+Drive_Average.MOV,Average,A6,Early opening fraction,access,False,False,0,25,13,12,73,58,15
+Drive_Average.MOV,Average,T1,Head offset,tracking,True,False,0,25,14,11,73,58,15
+Drive_Average.MOV,Average,T2,Early head change,tracking,False,False,0,25,14,11,73,58,15
+Drive_Average.MOV,Average,T3,Head position variance,tracking,True,False,0,25,14,11,73,58,15
+Drive_Average.MOV,Average,T4,Eye tilt,tracking,True,False,0,25,14,11,73,58,15
+Drive_Average.MOV,Average,T5,Setup head variance,tracking,True,False,0,25,14,11,73,58,15
+Drive_Average.MOV,Average,S1,Hip shift,stability,False,True,10,15,16,1,73,58,15
+Drive_Average.MOV,Average,S2,Post-contact instability,stability,False,False,0,15,16,1,73,58,15
+Drive_Average.MOV,Average,S3,Hip drift frames,stability,True,False,0,15,16,1,73,58,15
+Drive_Average.MOV,Average,S4,Post-contact body rotation,stability,False,False,0,15,16,1,73,58,15
+Drive_Average.MOV,Average,F1,Sync frames,flow,False,False,0,8,15,7,73,58,15
+Drive_Average.MOV,Average,F2,Velocity direction changes,flow,True,False,0,8,15,7,73,58,15
+Drive_Average.MOV,Average,F3,Timing ratio,flow,False,True,9,8,15,7,73,58,15
+Drive_Average.MOV,Average,F4,Pause frames,flow,False,False,0,8,15,7,73,58,15
+Drive_Average.MOV,Average,F5,Mid-downswing hitch,flow,False,False,0,8,15,7,73,58,15
+Drive_Average.MOV,Average,F6,Follow-through frames,flow,False,True,8,8,15,7,73,58,15
+Drive_Beginner 2.MOV,Beginner,A1,Bat path around body,access,False,False,0,22,12,10,74,50,24
+Drive_Beginner 2.MOV,Beginner,A2,Elbow angle at contact,access,True,False,0,22,12,10,74,50,24
+Drive_Beginner 2.MOV,Beginner,A3,Compression frames,access,False,False,0,22,12,10,74,50,24
+Drive_Beginner 2.MOV,Beginner,A4,Torso lean,access,True,False,0,22,12,10,74,50,24
+Drive_Beginner 2.MOV,Beginner,A5,Shoulder-hip gap,access,False,True,3,22,12,10,74,50,24
+Drive_Beginner 2.MOV,Beginner,A6,Early opening fraction,access,False,False,0,22,12,10,74,50,24
+Drive_Beginner 2.MOV,Beginner,T1,Head offset,tracking,True,False,0,22,14,8,74,50,24
+Drive_Beginner 2.MOV,Beginner,T2,Early head change,tracking,False,True,3,22,14,8,74,50,24
+Drive_Beginner 2.MOV,Beginner,T3,Head position variance,tracking,True,False,0,22,14,8,74,50,24
+Drive_Beginner 2.MOV,Beginner,T4,Eye tilt,tracking,True,False,0,22,14,8,74,50,24
+Drive_Beginner 2.MOV,Beginner,T5,Setup head variance,tracking,True,False,0,22,14,8,74,50,24
+Drive_Beginner 2.MOV,Beginner,S1,Hip shift,stability,False,True,10,13,12,1,74,50,24
+Drive_Beginner 2.MOV,Beginner,S2,Post-contact instability,stability,False,True,2,13,12,1,74,50,24
+Drive_Beginner 2.MOV,Beginner,S3,Hip drift frames,stability,True,False,0,13,12,1,74,50,24
+Drive_Beginner 2.MOV,Beginner,S4,Post-contact body rotation,stability,False,False,0,13,12,1,74,50,24
+Drive_Beginner 2.MOV,Beginner,F1,Sync frames,flow,False,False,0,17,12,5,74,50,24
+Drive_Beginner 2.MOV,Beginner,F2,Velocity direction changes,flow,True,False,0,17,12,5,74,50,24
+Drive_Beginner 2.MOV,Beginner,F3,Timing ratio,flow,False,True,6,17,12,5,74,50,24
+Drive_Beginner 2.MOV,Beginner,F4,Pause frames,flow,False,False,0,17,12,5,74,50,24
+Drive_Beginner 2.MOV,Beginner,F5,Mid-downswing hitch,flow,False,False,0,17,12,5,74,50,24
+Drive_Beginner 2.MOV,Beginner,F6,Follow-through frames,flow,False,True,2,17,12,5,74,50,24
+Drive_Beginner 3.MOV,Beginner,A1,Bat path around body,access,False,True,6,9,6,3,53,26,27
+Drive_Beginner 3.MOV,Beginner,A2,Elbow angle at contact,access,True,False,0,9,6,3,53,26,27
+Drive_Beginner 3.MOV,Beginner,A3,Compression frames,access,False,False,0,9,6,3,53,26,27
+Drive_Beginner 3.MOV,Beginner,A4,Torso lean,access,True,False,0,9,6,3,53,26,27
+Drive_Beginner 3.MOV,Beginner,A5,Shoulder-hip gap,access,False,True,10,9,6,3,53,26,27
+Drive_Beginner 3.MOV,Beginner,A6,Early opening fraction,access,False,False,0,9,6,3,53,26,27
+Drive_Beginner 3.MOV,Beginner,T1,Head offset,tracking,True,False,0,22,8,14,53,26,27
+Drive_Beginner 3.MOV,Beginner,T2,Early head change,tracking,False,True,3,22,8,14,53,26,27
+Drive_Beginner 3.MOV,Beginner,T3,Head position variance,tracking,True,False,0,22,8,14,53,26,27
+Drive_Beginner 3.MOV,Beginner,T4,Eye tilt,tracking,True,False,0,22,8,14,53,26,27
+Drive_Beginner 3.MOV,Beginner,T5,Setup head variance,tracking,True,False,0,22,8,14,53,26,27
+Drive_Beginner 3.MOV,Beginner,S1,Hip shift,stability,False,True,3,14,6,8,53,26,27
+Drive_Beginner 3.MOV,Beginner,S2,Post-contact instability,stability,False,False,0,14,6,8,53,26,27
+Drive_Beginner 3.MOV,Beginner,S3,Hip drift frames,stability,True,False,0,14,6,8,53,26,27
+Drive_Beginner 3.MOV,Beginner,S4,Post-contact body rotation,stability,False,True,8,14,6,8,53,26,27
+Drive_Beginner 3.MOV,Beginner,F1,Sync frames,flow,False,False,0,8,6,2,53,26,27
+Drive_Beginner 3.MOV,Beginner,F2,Velocity direction changes,flow,True,False,0,8,6,2,53,26,27
+Drive_Beginner 3.MOV,Beginner,F3,Timing ratio,flow,False,True,9,8,6,2,53,26,27
+Drive_Beginner 3.MOV,Beginner,F4,Pause frames,flow,False,True,3,8,6,2,53,26,27
+Drive_Beginner 3.MOV,Beginner,F5,Mid-downswing hitch,flow,False,True,5,8,6,2,53,26,27
+Drive_Beginner 3.MOV,Beginner,F6,Follow-through frames,flow,False,False,0,8,6,2,53,26,27
+Drive_Beginner 4.MOV,Beginner,A1,Bat path around body,access,False,False,0,22,9,13,61,35,26
+Drive_Beginner 4.MOV,Beginner,A2,Elbow angle at contact,access,True,False,0,22,9,13,61,35,26
+Drive_Beginner 4.MOV,Beginner,A3,Compression frames,access,False,False,0,22,9,13,61,35,26
+Drive_Beginner 4.MOV,Beginner,A4,Torso lean,access,True,False,0,22,9,13,61,35,26
+Drive_Beginner 4.MOV,Beginner,A5,Shoulder-hip gap,access,False,True,3,22,9,13,61,35,26
+Drive_Beginner 4.MOV,Beginner,A6,Early opening fraction,access,False,False,0,22,9,13,61,35,26
+Drive_Beginner 4.MOV,Beginner,T1,Head offset,tracking,True,False,0,16,10,6,61,35,26
+Drive_Beginner 4.MOV,Beginner,T2,Early head change,tracking,False,True,9,16,10,6,61,35,26
+Drive_Beginner 4.MOV,Beginner,T3,Head position variance,tracking,True,False,0,16,10,6,61,35,26
+Drive_Beginner 4.MOV,Beginner,T4,Eye tilt,tracking,True,False,0,16,10,6,61,35,26
+Drive_Beginner 4.MOV,Beginner,T5,Setup head variance,tracking,True,False,0,16,10,6,61,35,26
+Drive_Beginner 4.MOV,Beginner,S1,Hip shift,stability,False,True,6,7,9,2,61,35,26
+Drive_Beginner 4.MOV,Beginner,S2,Post-contact instability,stability,False,False,0,7,9,2,61,35,26
+Drive_Beginner 4.MOV,Beginner,S3,Hip drift frames,stability,True,False,0,7,9,2,61,35,26
+Drive_Beginner 4.MOV,Beginner,S4,Post-contact body rotation,stability,False,True,12,7,9,2,61,35,26
+Drive_Beginner 4.MOV,Beginner,F1,Sync frames,flow,False,False,0,16,7,9,61,35,26
+Drive_Beginner 4.MOV,Beginner,F2,Velocity direction changes,flow,True,False,0,16,7,9,61,35,26
+Drive_Beginner 4.MOV,Beginner,F3,Timing ratio,flow,False,True,3,16,7,9,61,35,26
+Drive_Beginner 4.MOV,Beginner,F4,Pause frames,flow,False,True,6,16,7,9,61,35,26
+Drive_Beginner 4.MOV,Beginner,F5,Mid-downswing hitch,flow,False,False,0,16,7,9,61,35,26
+Drive_Beginner 4.MOV,Beginner,F6,Follow-through frames,flow,False,False,0,16,7,9,61,35,26
+Drive_beginner.MOV,Beginner,A1,Bat path around body,access,False,True,6,19,2,17,71,18,53
+Drive_beginner.MOV,Beginner,A2,Elbow angle at contact,access,True,False,0,19,2,17,71,18,53
+Drive_beginner.MOV,Beginner,A3,Compression frames,access,False,False,0,19,2,17,71,18,53
+Drive_beginner.MOV,Beginner,A4,Torso lean,access,True,False,0,19,2,17,71,18,53
+Drive_beginner.MOV,Beginner,A5,Shoulder-hip gap,access,False,False,0,19,2,17,71,18,53
+Drive_beginner.MOV,Beginner,A6,Early opening fraction,access,False,False,0,19,2,17,71,18,53
+Drive_beginner.MOV,Beginner,T1,Head offset,tracking,True,False,0,22,3,19,71,18,53
+Drive_beginner.MOV,Beginner,T2,Early head change,tracking,False,True,3,22,3,19,71,18,53
+Drive_beginner.MOV,Beginner,T3,Head position variance,tracking,True,False,0,22,3,19,71,18,53
+Drive_beginner.MOV,Beginner,T4,Eye tilt,tracking,True,False,0,22,3,19,71,18,53
+Drive_beginner.MOV,Beginner,T5,Setup head variance,tracking,True,False,0,22,3,19,71,18,53
+Drive_beginner.MOV,Beginner,S1,Hip shift,stability,False,False,0,25,7,18,71,18,53
+Drive_beginner.MOV,Beginner,S2,Post-contact instability,stability,False,False,0,25,7,18,71,18,53
+Drive_beginner.MOV,Beginner,S3,Hip drift frames,stability,True,False,0,25,7,18,71,18,53
+Drive_beginner.MOV,Beginner,S4,Post-contact body rotation,stability,False,False,0,25,7,18,71,18,53
+Drive_beginner.MOV,Beginner,F1,Sync frames,flow,False,False,0,5,6,1,71,18,53
+Drive_beginner.MOV,Beginner,F2,Velocity direction changes,flow,True,False,0,5,6,1,71,18,53
+Drive_beginner.MOV,Beginner,F3,Timing ratio,flow,False,True,9,5,6,1,71,18,53
+Drive_beginner.MOV,Beginner,F4,Pause frames,flow,False,True,6,5,6,1,71,18,53
+Drive_beginner.MOV,Beginner,F5,Mid-downswing hitch,flow,False,True,5,5,6,1,71,18,53
+Drive_beginner.MOV,Beginner,F6,Follow-through frames,flow,False,False,0,5,6,1,71,18,53
+Ollie P_Offdrive Average.mov,Good Club,A1,Bat path around body,access,False,False,0,15,16,1,54,72,18
+Ollie P_Offdrive Average.mov,Good Club,A2,Elbow angle at contact,access,True,False,0,15,16,1,54,72,18
+Ollie P_Offdrive Average.mov,Good Club,A3,Compression frames,access,False,False,0,15,16,1,54,72,18
+Ollie P_Offdrive Average.mov,Good Club,A4,Torso lean,access,True,False,0,15,16,1,54,72,18
+Ollie P_Offdrive Average.mov,Good Club,A5,Shoulder-hip gap,access,False,True,10,15,16,1,54,72,18
+Ollie P_Offdrive Average.mov,Good Club,A6,Early opening fraction,access,False,False,0,15,16,1,54,72,18
+Ollie P_Offdrive Average.mov,Good Club,T1,Head offset,tracking,True,False,0,25,17,8,54,72,18
+Ollie P_Offdrive Average.mov,Good Club,T2,Early head change,tracking,False,False,0,25,17,8,54,72,18
+Ollie P_Offdrive Average.mov,Good Club,T3,Head position variance,tracking,True,False,0,25,17,8,54,72,18
+Ollie P_Offdrive Average.mov,Good Club,T4,Eye tilt,tracking,True,False,0,25,17,8,54,72,18
+Ollie P_Offdrive Average.mov,Good Club,T5,Setup head variance,tracking,True,False,0,25,17,8,54,72,18
+Ollie P_Offdrive Average.mov,Good Club,S1,Hip shift,stability,False,True,10,0,17,17,54,72,18
+Ollie P_Offdrive Average.mov,Good Club,S2,Post-contact instability,stability,False,True,4,0,17,17,54,72,18
+Ollie P_Offdrive Average.mov,Good Club,S3,Hip drift frames,stability,True,False,0,0,17,17,54,72,18
+Ollie P_Offdrive Average.mov,Good Club,S4,Post-contact body rotation,stability,False,True,12,0,17,17,54,72,18
+Ollie P_Offdrive Average.mov,Good Club,F1,Sync frames,flow,False,False,0,14,22,8,54,72,18
+Ollie P_Offdrive Average.mov,Good Club,F2,Velocity direction changes,flow,True,False,0,14,22,8,54,72,18
+Ollie P_Offdrive Average.mov,Good Club,F3,Timing ratio,flow,False,True,6,14,22,8,54,72,18
+Ollie P_Offdrive Average.mov,Good Club,F4,Pause frames,flow,False,True,3,14,22,8,54,72,18
+Ollie P_Offdrive Average.mov,Good Club,F5,Mid-downswing hitch,flow,False,False,0,14,22,8,54,72,18
+Ollie P_Offdrive Average.mov,Good Club,F6,Follow-through frames,flow,False,True,2,14,22,8,54,72,18
+Oscar V_Beginner.mp4,Beginner,A1,Bat path around body,access,False,True,10,15,5,10,72,30,42
+Oscar V_Beginner.mp4,Beginner,A2,Elbow angle at contact,access,True,False,0,15,5,10,72,30,42
+Oscar V_Beginner.mp4,Beginner,A3,Compression frames,access,False,False,0,15,5,10,72,30,42
+Oscar V_Beginner.mp4,Beginner,A4,Torso lean,access,True,False,0,15,5,10,72,30,42
+Oscar V_Beginner.mp4,Beginner,A5,Shoulder-hip gap,access,False,False,0,15,5,10,72,30,42
+Oscar V_Beginner.mp4,Beginner,A6,Early opening fraction,access,False,False,0,15,5,10,72,30,42
+Oscar V_Beginner.mp4,Beginner,T1,Head offset,tracking,True,False,0,19,8,11,72,30,42
+Oscar V_Beginner.mp4,Beginner,T2,Early head change,tracking,False,True,6,19,8,11,72,30,42
+Oscar V_Beginner.mp4,Beginner,T3,Head position variance,tracking,True,False,0,19,8,11,72,30,42
+Oscar V_Beginner.mp4,Beginner,T4,Eye tilt,tracking,True,False,0,19,8,11,72,30,42
+Oscar V_Beginner.mp4,Beginner,T5,Setup head variance,tracking,True,False,0,19,8,11,72,30,42
+Oscar V_Beginner.mp4,Beginner,S1,Hip shift,stability,False,True,3,22,8,14,72,30,42
+Oscar V_Beginner.mp4,Beginner,S2,Post-contact instability,stability,False,False,0,22,8,14,72,30,42
+Oscar V_Beginner.mp4,Beginner,S3,Hip drift frames,stability,True,False,0,22,8,14,72,30,42
+Oscar V_Beginner.mp4,Beginner,S4,Post-contact body rotation,stability,False,False,0,22,8,14,72,30,42
+Oscar V_Beginner.mp4,Beginner,F1,Sync frames,flow,False,False,0,16,9,7,72,30,42
+Oscar V_Beginner.mp4,Beginner,F2,Velocity direction changes,flow,True,False,0,16,9,7,72,30,42
+Oscar V_Beginner.mp4,Beginner,F3,Timing ratio,flow,False,False,0,16,9,7,72,30,42
+Oscar V_Beginner.mp4,Beginner,F4,Pause frames,flow,False,False,0,16,9,7,72,30,42
+Oscar V_Beginner.mp4,Beginner,F5,Mid-downswing hitch,flow,False,True,5,16,9,7,72,30,42
+Oscar V_Beginner.mp4,Beginner,F6,Follow-through frames,flow,False,True,4,16,9,7,72,30,42
+Straight Drive_Beginner.mp4,Average,A1,Bat path around body,access,False,True,6,19,13,6,63,49,14
+Straight Drive_Beginner.mp4,Average,A2,Elbow angle at contact,access,True,False,0,19,13,6,63,49,14
+Straight Drive_Beginner.mp4,Average,A3,Compression frames,access,False,False,0,19,13,6,63,49,14
+Straight Drive_Beginner.mp4,Average,A4,Torso lean,access,True,False,0,19,13,6,63,49,14
+Straight Drive_Beginner.mp4,Average,A5,Shoulder-hip gap,access,False,False,0,19,13,6,63,49,14
+Straight Drive_Beginner.mp4,Average,A6,Early opening fraction,access,False,False,0,19,13,6,63,49,14
+Straight Drive_Beginner.mp4,Average,T1,Head offset,tracking,True,False,0,22,14,8,63,49,14
+Straight Drive_Beginner.mp4,Average,T2,Early head change,tracking,False,True,3,22,14,8,63,49,14
+Straight Drive_Beginner.mp4,Average,T3,Head position variance,tracking,True,False,0,22,14,8,63,49,14
+Straight Drive_Beginner.mp4,Average,T4,Eye tilt,tracking,True,False,0,22,14,8,63,49,14
+Straight Drive_Beginner.mp4,Average,T5,Setup head variance,tracking,True,False,0,22,14,8,63,49,14
+Straight Drive_Beginner.mp4,Average,S1,Hip shift,stability,False,True,10,15,12,3,63,49,14
+Straight Drive_Beginner.mp4,Average,S2,Post-contact instability,stability,False,False,0,15,12,3,63,49,14
+Straight Drive_Beginner.mp4,Average,S3,Hip drift frames,stability,True,False,0,15,12,3,63,49,14
+Straight Drive_Beginner.mp4,Average,S4,Post-contact body rotation,stability,False,False,0,15,12,3,63,49,14
+Straight Drive_Beginner.mp4,Average,F1,Sync frames,flow,False,False,0,7,10,3,63,49,14
+Straight Drive_Beginner.mp4,Average,F2,Velocity direction changes,flow,True,False,0,7,10,3,63,49,14
+Straight Drive_Beginner.mp4,Average,F3,Timing ratio,flow,False,True,6,7,10,3,63,49,14
+Straight Drive_Beginner.mp4,Average,F4,Pause frames,flow,False,True,3,7,10,3,63,49,14
+Straight Drive_Beginner.mp4,Average,F5,Mid-downswing hitch,flow,False,True,5,7,10,3,63,49,14
+Straight Drive_Beginner.mp4,Average,F6,Follow-through frames,flow,False,True,4,7,10,3,63,49,14
+Viv P_Offdrive Elite.mov,Elite,A1,Bat path around body,access,False,False,0,22,24,2,77,94,17
+Viv P_Offdrive Elite.mov,Elite,A2,Elbow angle at contact,access,True,False,0,22,24,2,77,94,17
+Viv P_Offdrive Elite.mov,Elite,A3,Compression frames,access,False,False,0,22,24,2,77,94,17
+Viv P_Offdrive Elite.mov,Elite,A4,Torso lean,access,True,False,0,22,24,2,77,94,17
+Viv P_Offdrive Elite.mov,Elite,A5,Shoulder-hip gap,access,False,True,3,22,24,2,77,94,17
+Viv P_Offdrive Elite.mov,Elite,A6,Early opening fraction,access,False,False,0,22,24,2,77,94,17
+Viv P_Offdrive Elite.mov,Elite,T1,Head offset,tracking,True,False,0,25,23,2,77,94,17
+Viv P_Offdrive Elite.mov,Elite,T2,Early head change,tracking,False,False,0,25,23,2,77,94,17
+Viv P_Offdrive Elite.mov,Elite,T3,Head position variance,tracking,True,False,0,25,23,2,77,94,17
+Viv P_Offdrive Elite.mov,Elite,T4,Eye tilt,tracking,True,False,0,25,23,2,77,94,17
+Viv P_Offdrive Elite.mov,Elite,T5,Setup head variance,tracking,True,False,0,25,23,2,77,94,17
+Viv P_Offdrive Elite.mov,Elite,S1,Hip shift,stability,False,True,3,22,24,2,77,94,17
+Viv P_Offdrive Elite.mov,Elite,S2,Post-contact instability,stability,False,False,0,22,24,2,77,94,17
+Viv P_Offdrive Elite.mov,Elite,S3,Hip drift frames,stability,True,False,0,22,24,2,77,94,17
+Viv P_Offdrive Elite.mov,Elite,S4,Post-contact body rotation,stability,False,False,0,22,24,2,77,94,17
+Viv P_Offdrive Elite.mov,Elite,F1,Sync frames,flow,False,False,0,8,23,15,77,94,17
+Viv P_Offdrive Elite.mov,Elite,F2,Velocity direction changes,flow,True,False,0,8,23,15,77,94,17
+Viv P_Offdrive Elite.mov,Elite,F3,Timing ratio,flow,False,True,9,8,23,15,77,94,17
+Viv P_Offdrive Elite.mov,Elite,F4,Pause frames,flow,False,True,6,8,23,15,77,94,17
+Viv P_Offdrive Elite.mov,Elite,F5,Mid-downswing hitch,flow,False,False,0,8,23,15,77,94,17
+Viv P_Offdrive Elite.mov,Elite,F6,Follow-through frames,flow,False,True,2,8,23,15,77,94,17

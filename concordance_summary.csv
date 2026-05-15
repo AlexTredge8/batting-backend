@@ -1,0 +1,6 @@
+tier,n,mean_auto_overall_abs_err,mean_auto_access_abs_err,mean_auto_tracking_abs_err,mean_auto_stability_abs_err,mean_auto_flow_abs_err,mean_validated_overall_abs_err,mean_validated_access_abs_err,mean_validated_tracking_abs_err,mean_validated_stability_abs_err,mean_validated_flow_abs_err
+Beginner,5,55.8,16.4,15.2,15.4,8.8,34.4,10.6,11.6,8.6,4.8
+Average,4,12.0,10.0,9.5,5.25,12.25,14.0,7.0,9.5,3.0,5.0
+Good Club,4,5.0,4.25,4.25,4.25,13.25,11.75,2.0,4.25,5.5,12.0
+Elite,4,1.25,2.25,3.0,1.5,6.5,16.25,2.5,2.0,7.75,8.5
+ALL,17,20.71,8.71,8.41,7.12,10.12,20.0,5.82,7.12,6.35,7.41
