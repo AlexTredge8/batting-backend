@@ -41,9 +41,27 @@ def _env_bool(name: str, default: bool) -> bool:
 FRONT_SIDE = "left"           # default for right-handed batters
 DEFAULT_HANDEDNESS = "right"  # used when API caller doesn't specify
 
-# LOCAL_MODE=True keeps source resolution and processes every frame.
-# LOCAL_MODE=False preserves the lighter Railway-style processing path.
-LOCAL_MODE = _env_bool("LOCAL_MODE", False)
+# Processing mode
+# ---------------
+# LOCAL_MODE=True  → full frame rate, source resolution. This is the path every
+#                    calibration batch (R-track, F-track, D-track) was measured on.
+# LOCAL_MODE=False → legacy "fast" path: every 2nd frame at 30fps + 640px cap.
+#
+# DECISION 2026-09-04: production now runs the calibrated full-rate path.
+# Measured on test_batting.mov (LOCAL vs fast, anchors in ORIGINAL frames):
+#   setup_frame 60 → 20 (−40), hands_start_up 61 → 26 (−35), hands_peak 73 → 68 (−5),
+#   A5 shoulder_hip_gap −28.7° → −15.0° (A5 stopped firing), A2 elbow 130.9° → 91.7°,
+#   F4 pause 3 → 0, A3 compression 3 → 0, score 92 → 100.
+# The fast path was never calibrated; shipping it meant shipping different anchors
+# and different rule measurements from the ones every threshold was tuned on.
+# Set FAST_MODE=1 (or LOCAL_MODE=0) only as an emergency capacity fallback.
+FAST_MODE = _env_bool("FAST_MODE", False)
+LOCAL_MODE = _env_bool("LOCAL_MODE", not FAST_MODE)
+PROCESSING_MODE = "full_rate_calibrated" if LOCAL_MODE else "fast_subsampled"
+
+# Reject clips longer than this before running the pipeline. The detectors assume a
+# single shot; long clips produce meaningless anchors and multi-minute requests.
+MAX_VIDEO_DURATION_S = float(os.getenv("MAX_VIDEO_DURATION_S", "30"))
 
 # Set True for deterministic frame-by-frame inference.
 # False uses temporal tracking (non-deterministic across sessions).
@@ -463,4 +481,7 @@ PILLAR_TIEBREAK_ORDER = ["stability", "tracking", "access", "flow"]
 # ---------------------------------------------------------------------------
 # Reference baseline path
 # ---------------------------------------------------------------------------
-REFERENCE_BASELINE_PATH = "reference/reference_baseline.json"
+# Anchored to this file so the baseline resolves regardless of the process CWD.
+REFERENCE_BASELINE_PATH = os.path.join(
+    os.path.dirname(os.path.abspath(__file__)), "reference", "reference_baseline.json"
+)

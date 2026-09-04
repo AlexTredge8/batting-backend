@@ -34,6 +34,7 @@ BattingIQ analyses cricket batting technique from video. A user uploads a video;
 ### Frontend (Lovable)
 
 - Result shape: `result.analysis.battingiq_score`, `.pillar_scores`, `.coaching_points`, `.storyboard_frames`
+- Backend `/analyse` response now also carries `analysis_quality` (audio/contact/anchor reliability, processing mode) and `warnings` (plain-English, safe to show to the user). Storyboard stills come back as `storyboard_frames[].url` + `.data_url`.
 - Backend URL: `https://web-production-e9c26.up.railway.app`
 
 
@@ -59,7 +60,7 @@ Beginner → Average → Good Club → Elite (target monotonic ordering)
 1. **Do not bundle multiple task IDs** into one Codex thread.
 1. **Do not run R2 until R1 (hub decision) exists.**
 1. **Do not run F3 until F2 (hub design note) exists.**
-1. **Railway optimisations** (model_complexity=1, frame_step=2, 640px cap) are production settings — do not change them. Local calibration uses full quality.
+1. **Production runs the calibrated full-rate path** (`PROCESSING_MODE=full_rate_calibrated`, frame_step=1, source resolution, mp.tasks heavy landmarker). Do not re-introduce frame subsampling or downscaling in production: on `test_batting.mov` the old fast path moved setup by −40 and hands_start_up by −35 original frames and changed A5/A2/F4 measurements (see config.py). `FAST_MODE=1` exists only as an emergency capacity fallback and is flagged in `analysis_quality.warnings`.
 
 -----
 

@@ -33,6 +33,7 @@ from config             import (
     DEFAULT_HANDEDNESS,
     CONTACT_DETECTOR_VERSION,
     SETUP_DETECTOR_VERSION,
+    PROCESSING_MODE,
 )
 
 
@@ -57,6 +58,82 @@ def _parse_anchor_frames_json(anchor_frames_json: str | None) -> dict[str, int |
             continue
         normalized[str(key)] = int(value)
     return normalized
+
+
+def _build_analysis_quality(result, video_meta: dict) -> tuple[dict, list[str]]:
+    """
+    Summarise how trustworthy this analysis is, in one place, with plain-English
+    warnings the frontend can show. Every field already exists deeper in the
+    report; this block makes degraded results impossible to miss.
+    """
+    phases = result.phases
+    diag = phases.contact_diagnostics or {}
+    contact_method = str(diag.get("method") or "unknown")
+    audio_available = contact_method.startswith("audio")
+    audio_status = None
+    audio_diag = diag.get("audio_diagnostics") or {}
+    if isinstance(audio_diag, dict):
+        audio_status = audio_diag.get("status") or (audio_diag.get("extract") or {}).get("status")
+    anchor_quality = video_meta.get("anchor_quality_summary") or {}
+    low_anchors = list(anchor_quality.get("low_confidence_anchors") or [])
+    detection_rate = float(video_meta.get("detection_rate") or 0.0)
+    processing_mode = video_meta.get("processing_mode") or PROCESSING_MODE
+
+    warnings: list[str] = []
+    if not audio_available and phases.resolved_contact_source != "manual":
+        warnings.append(
+            "No usable audio was found in this clip, so bat-on-ball contact was estimated "
+            "from body movement alone. Contact-based scores are less reliable — record with "
+            "sound on and avoid compression that strips the audio track."
+        )
+    if phases.contact_confidence == "low" and phases.resolved_contact_source != "manual":
+        warnings.append(
+            "Contact confidence is low for this video, so contact-derived deductions have been softened."
+        )
+    if low_anchors:
+        pretty = ", ".join(a.replace("_frame", "").replace("_", " ") for a in low_anchors)
+        warnings.append(
+            f"Some key moments could not be pinned confidently ({pretty}); rules that depend on "
+            "them were suppressed or softened."
+        )
+    if detection_rate and detection_rate < 80.0:
+        warnings.append(
+            f"The batter was only detected in {detection_rate:.0f}% of frames. Film the full body "
+            "from behind the bowler's arm with good light for a more reliable analysis."
+        )
+    baseline_status = video_meta.get("baseline_status") or "reference"
+    if baseline_status != "reference":
+        warnings.append(
+            "The reference baseline was unavailable on the server, so this clip was compared "
+            "against itself. Scores are not comparable to other analyses."
+        )
+    if processing_mode != "full_rate_calibrated":
+        warnings.append(
+            "This analysis ran in fast (subsampled) mode, which was not used for calibration; "
+            "anchors and scores may differ from the calibrated pipeline."
+        )
+
+    quality = {
+        "processing_mode": processing_mode,
+        "frame_step": video_meta.get("frame_step"),
+        "frames_processed": video_meta.get("frames_processed"),
+        "total_frames": video_meta.get("total_frames"),
+        "detection_rate": detection_rate,
+        "audio_available": audio_available,
+        "audio_status": audio_status,
+        "contact_method": contact_method,
+        "contact_confidence": phases.contact_confidence,
+        "contact_source": phases.resolved_contact_source,
+        "low_confidence_anchors": low_anchors,
+        "all_anchors_high_confidence": bool(anchor_quality.get("all_high_confidence", False)),
+        "rules_suppressed": (video_meta.get("rule_evaluation") or {}).get("rules_suppressed", 0),
+        "baseline_status": baseline_status,
+        "reliable": bool(
+            audio_available or phases.resolved_contact_source == "manual"
+        ) and not low_anchors and detection_rate >= 80.0 and baseline_status == "reference"
+        and processing_mode == "full_rate_calibrated",
+    }
+    return quality, warnings
 
 
 def analyse(video_path: str, output_dir: str = None, verbose: bool = True,
@@ -94,11 +171,15 @@ def analyse(video_path: str, output_dir: str = None, verbose: bool = True,
     # --- Load reference baseline ---
     ref_path = Path(REFERENCE_BASELINE_PATH)
     baseline_status = "reference"  # will be included in report
+    # A self-calibrated baseline is written next to this job's outputs, NEVER to the
+    # reference path: persisting a user's upload as the gold standard would silently
+    # re-baseline every later analysis on the server.
+    self_cal_path = str(out_dir / f"{stem}_self_calibrated_baseline.json")
     if not ref_path.exists():
         if verbose:
             print(f"  WARNING: Reference baseline not found at {ref_path}")
             print(f"  Self-calibrating from input video — scores may be less accurate")
-        baseline = build_reference_baseline(video_path)
+        baseline = build_reference_baseline(video_path, output_path=self_cal_path)
         baseline_status = "self_calibrated"
     else:
         baseline = load_reference_baseline()
@@ -108,7 +189,7 @@ def analyse(video_path: str, output_dir: str = None, verbose: bool = True,
         if "setup" not in baseline or "contact" not in baseline:
             if verbose:
                 print(f"  WARNING: Reference baseline is incomplete — self-calibrating")
-            baseline = build_reference_baseline(video_path)
+            baseline = build_reference_baseline(video_path, output_path=self_cal_path)
             baseline_status = "self_calibrated"
 
     # --- Step 1: Extract poses ---
@@ -212,7 +293,7 @@ def analyse(video_path: str, output_dir: str = None, verbose: bool = True,
         "storyboard": {"status": "pending", "path": str(out_dir / f"{stem}_battingiq_storyboard.png"), "error": None},
     }
     try:
-        annotate_video(video_path, result, metrics, str(video_out))
+        annotate_video(video_path, result, metrics, str(video_out), frame_poses=frame_poses)
         media_generation["annotated_video"]["status"] = "ok"
     except Exception as ann_exc:
         if verbose:
@@ -227,7 +308,7 @@ def analyse(video_path: str, output_dir: str = None, verbose: bool = True,
     storyboard_out = out_dir / f"{stem}_battingiq_storyboard.png"
     storyboard_frames = []
     try:
-        storyboard_result = generate_storyboard(video_path, result, metrics, str(storyboard_out))
+        storyboard_result = generate_storyboard(video_path, result, metrics, str(storyboard_out), frame_poses=frame_poses)
         storyboard_frames = storyboard_result.get("frames", []) if isinstance(storyboard_result, dict) else []
         if isinstance(storyboard_result, dict) and storyboard_result.get("strip_path"):
             storyboard_out = Path(storyboard_result["strip_path"])
@@ -262,7 +343,12 @@ def analyse(video_path: str, output_dir: str = None, verbose: bool = True,
     }
 
     from report_generator import build_json_report
+    quality, warnings = _build_analysis_quality(result, result.metadata)
+    result.metadata["analysis_quality"] = quality
+    result.metadata["warnings"] = warnings
     report = build_json_report(result)
+    report["analysis_quality"] = quality
+    report["warnings"] = warnings
 
     # Embed file paths so the API can build public URLs (stripped before sending to client)
     report["_annotated_video"] = str(video_out) if video_out and Path(video_out).exists() else None

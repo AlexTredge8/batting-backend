@@ -56,7 +56,7 @@ batting-backend/
 | GET | `/results/{job_id}/{file_path}` | Download annotated video / storyboard |
 
 `POST /analyse` accepts multipart form: `file` (video), `angle?`, `name?`, `email?`, `consent?`
-Returns: `battingiq_score`, `score_band`, `pillars`, `priority_fix`, `development_notes`, `phases`, `metadata`, `job_id`, `annotated_video_url`, `storyboard_url`
+Returns: `battingiq_score`, `score_band`, `pillars`, `priority_fix`, `development_notes`, `phases`, `metadata`, `job_id`, `annotated_video_url`, `storyboard_url`, `storyboard_frames[]` (`url`, `data_url`, `original_frame_idx`, `timestamp_ms`, …), `analysis_quality`, `warnings`. Clips longer than `MAX_VIDEO_DURATION_S` (30s) are rejected with 422 `video_too_long`.
 
 **CORS allowed origins:** `https://battingiq.lovable.app`, `https://*.lovable.app`, `https://*.lovableproject.com`, `http://localhost:3000`, `http://localhost:8080`
 
@@ -85,8 +85,9 @@ POST /analyse
 
 ### pose_extractor.py
 - `extract_poses(video_path, verbose=True)` → `(list[FramePose], video_meta)`
-- Subsamples to 15 fps max, downscales to 640px width (OOM prevention)
-- model_complexity=1 (was 2, downgraded for memory)
+- Primary path: `mp.tasks` PoseLandmarker (heavy, bundled in `assets/`), RunningMode.VIDEO; legacy `mp.solutions` as fallback
+- Production = calibration path: every frame, source resolution (`PROCESSING_MODE=full_rate_calibrated`). `FAST_MODE=1` restores the old 15fps/640px path for emergencies only
+- `video_meta` carries `frame_step`, `effective_fps`, `processing_mode`
 
 ### metrics_calculator.py
 - `calculate_metrics(frame_poses, fps)` → `list[FrameMetrics]`
@@ -147,7 +148,7 @@ POST /analyse
 1. **Phase detection** — relies on wrist velocity sign reversals; noisy video/lighting can confuse it. Mitigated by 3–5 frame smoothing.
 2. **Gap filling** — forward-fills missing detections with last-known value. Long gaps (>10 frames) can propagate stale data.
 3. **Y-axis inversion** — MediaPipe Y: smaller = higher. Phase/metric code must account for this everywhere.
-4. **Frame index vs subsampled index** — video annotator uses original frame count; phases detected on 15fps subsampled frames. Off-by-one risk if indexing mixes these.
+4. **Frame index vs subsampled index** — RESOLVED 2026-09-04: production processes every frame (frame_step=1) so metric indices == original frames. The report still carries both (`frame` = metric index, `original_frame` = video frame) and all `ms` values derive from original frames, so `FAST_MODE` output stays self-consistent.
 5. **Reference baseline dependency** — all rules silently degrade if baseline is wrong/missing.
 6. **Coaching rules fail silently** — each rule wrapped in try-catch; failure logs a warning but skips that fault.
 7. **No auth** — API is fully public. Results are accessible by anyone who knows the job_id.
@@ -321,4 +322,5 @@ POST /analyse
 | 2026-03-21 | 2 | Handedness support | config, metrics_calculator, coaching_rules, api, run_analysis, scorer, models, report_generator | Runtime side mapping, S3 fix, API param, 7 tests |
 | 2026-03-21 | 3 | HD video quality | video_annotator, pose_extractor | H.264 via ffmpeg, frame lookup, storyboard 480px, 5 tests |
 | 2026-03-21 | 4 | Fragile areas | phase_detector, run_analysis, config, models, metrics_calculator, coaching_rules, scorer | Phase diagnostics, baseline validation, gap limits, rule health |
+| 2026-09-04 | Drift fix | Production switched to calibrated full-rate path; annotator draws analysis landmarks (no 2nd model); `/analyse` returns storyboard URLs/data URLs via `_build_analysis_response`; report timings in original frames; `analysis_quality`+`warnings`; duration guard; gap-free phase labels; baseline path absolute + self-calibration isolated | config, pose_extractor, run_analysis, api, report_generator, video_annotator, phase_detector, tests | Measured LOCAL-vs-fast drift on test_batting.mov: setup −40f, hands_start_up −35f, HP −5f, A5 −28.7°→−15.0°; determinism PASS |
 | 2026-04-25 | HO1 | Held-out validation split | heldout_split.csv, batch_calibration_compare.py, heldout_discipline.md, CLAUDE.md | 4 videos locked as permanent held-out set (one per tier); batch emits tuning/heldout split summaries automatically |

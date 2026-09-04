@@ -3,7 +3,7 @@ Tests for handedness support.
 
 Validates:
 1. Side mapping produces correct front/back assignments
-2. S3 directional check works for both RHB and LHB
+2. S3 drift measurement direction works for both RHB and LHB (rule itself is suspended)
 3. Handedness flows through the pipeline and appears in reports
 """
 import sys
@@ -44,18 +44,15 @@ def test_handedness_to_front_side():
     print("  PASS: handedness_to_front_side")
 
 
-def test_s3_direction_rhb():
-    """S3 for RHB: hip drifting left of front ankle = fault."""
-    from coaching_rules import rule_S3
+def _drift_fixture(front_ankle_x: float, hip_x: float):
     from models import FrameMetrics, PhaseResult, BattingPhase
 
     n = 30
     metrics = []
     for i in range(n):
         m = FrameMetrics(frame_idx=i, timestamp_s=i / 30, detected=True)
-        # RHB: front ankle at x=0.4, hip drifts to x=0.3 (left of ankle = outside base)
-        m.front_ankle_x = 0.4
-        m.hip_centre_x = 0.30
+        m.front_ankle_x = front_ankle_x
+        m.hip_centre_x = hip_x
         metrics.append(m)
 
     phases = PhaseResult(
@@ -65,64 +62,44 @@ def test_s3_direction_rhb():
         follow_through_start=20,
         contact=15,
     )
-
-    faults = rule_S3(metrics, phases, {}, front_side="left")
-    assert len(faults) > 0, "S3 should fire for RHB with hip drifting left"
-    print("  PASS: S3 direction RHB")
+    baseline = {"setup": {"hip_centre_x_mean": hip_x}, "timing": {"backlift_to_contact_frames": 15}}
+    return metrics, phases, baseline
 
 
-def test_s3_direction_lhb():
-    """S3 for LHB: hip drifting right of front ankle = fault."""
+def test_s3_rule_is_suspended():
+    """S3 is intentionally suspended (2026-04-29): the rule must not deduct for any handedness."""
     from coaching_rules import rule_S3
-    from models import FrameMetrics, PhaseResult, BattingPhase
 
-    n = 30
-    metrics = []
-    for i in range(n):
-        m = FrameMetrics(frame_idx=i, timestamp_s=i / 30, detected=True)
-        # LHB: front ankle at x=0.6, hip drifts to x=0.7 (right of ankle = outside base)
-        m.front_ankle_x = 0.6
-        m.hip_centre_x = 0.70
-        metrics.append(m)
-
-    phases = PhaseResult(
-        phase_labels=[BattingPhase.SETUP] * 5 + [BattingPhase.BACKLIFT_STARTS] * 10 +
-                     [BattingPhase.CONTACT] * 5 + [BattingPhase.FOLLOW_THROUGH] * 10,
-        backlift_start=5,
-        follow_through_start=20,
-        contact=15,
-    )
-
-    faults = rule_S3(metrics, phases, {}, front_side="right")
-    assert len(faults) > 0, "S3 should fire for LHB with hip drifting right"
-    print("  PASS: S3 direction LHB")
+    metrics, phases, baseline = _drift_fixture(front_ankle_x=0.4, hip_x=0.30)
+    assert rule_S3(metrics, phases, baseline, front_side="left") == []
+    assert rule_S3(metrics, phases, baseline, front_side="right") == []
 
 
-def test_s3_no_false_positive_lhb():
-    """S3 for LHB: hip drifting LEFT of front ankle is NOT a fault (that's toward the body)."""
-    from coaching_rules import rule_S3
-    from models import FrameMetrics, PhaseResult, BattingPhase
+def test_s3_measurement_direction_rhb():
+    """RHB: hip drifting LEFT of the front ankle counts as drift (outside the base)."""
+    from coaching_rules import collect_rule_measurements
 
-    n = 30
-    metrics = []
-    for i in range(n):
-        m = FrameMetrics(frame_idx=i, timestamp_s=i / 30, detected=True)
-        # LHB: front ankle at x=0.6, hip at x=0.5 (left of ankle = toward body, not outside)
-        m.front_ankle_x = 0.6
-        m.hip_centre_x = 0.50
-        metrics.append(m)
+    metrics, phases, baseline = _drift_fixture(front_ankle_x=0.4, hip_x=0.30)
+    measurements = collect_rule_measurements(metrics, phases, baseline, front_side="left")
+    assert measurements["S3_hip_drift_frames"] > 0
 
-    phases = PhaseResult(
-        phase_labels=[BattingPhase.SETUP] * 5 + [BattingPhase.BACKLIFT_STARTS] * 10 +
-                     [BattingPhase.CONTACT] * 5 + [BattingPhase.FOLLOW_THROUGH] * 10,
-        backlift_start=5,
-        follow_through_start=20,
-        contact=15,
-    )
 
-    faults = rule_S3(metrics, phases, {}, front_side="right")
-    assert len(faults) == 0, "S3 should NOT fire for LHB with hip toward body"
-    print("  PASS: S3 no false positive LHB")
+def test_s3_measurement_direction_lhb():
+    """LHB: hip drifting RIGHT of the front ankle counts as drift (outside the base)."""
+    from coaching_rules import collect_rule_measurements
+
+    metrics, phases, baseline = _drift_fixture(front_ankle_x=0.6, hip_x=0.70)
+    measurements = collect_rule_measurements(metrics, phases, baseline, front_side="right")
+    assert measurements["S3_hip_drift_frames"] > 0
+
+
+def test_s3_measurement_no_false_positive_lhb():
+    """LHB: hip toward the body (left of front ankle) is NOT drift."""
+    from coaching_rules import collect_rule_measurements
+
+    metrics, phases, baseline = _drift_fixture(front_ankle_x=0.6, hip_x=0.50)
+    measurements = collect_rule_measurements(metrics, phases, baseline, front_side="right")
+    assert measurements["S3_hip_drift_frames"] == 0
 
 
 def test_report_includes_handedness():
@@ -162,8 +139,9 @@ if __name__ == "__main__":
     test_side_map_right_handed()
     test_side_map_left_handed()
     test_handedness_to_front_side()
-    test_s3_direction_rhb()
-    test_s3_direction_lhb()
-    test_s3_no_false_positive_lhb()
+    test_s3_rule_is_suspended()
+    test_s3_measurement_direction_rhb()
+    test_s3_measurement_direction_lhb()
+    test_s3_measurement_no_false_positive_lhb()
     test_report_includes_handedness()
     print("\nAll handedness tests passed!")

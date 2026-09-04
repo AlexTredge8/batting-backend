@@ -14,6 +14,7 @@ import uuid
 from pathlib import Path
 from urllib import request as urlrequest
 
+import cv2
 import psutil
 from fastapi import FastAPI, File, Form, UploadFile, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
@@ -23,6 +24,7 @@ from typing import Optional
 from inline_media import file_to_data_url
 from media_storage import download_result_file, result_redirect_url, storage_config, upload_tree
 from run_analysis import run_full_analysis
+from config import MAX_VIDEO_DURATION_S, PROCESSING_MODE
 
 # ---------------------------------------------------------------------------
 # App setup
@@ -57,6 +59,42 @@ def _download_video_url(video_url: str, destination: Path) -> None:
     )
     with urlrequest.urlopen(req, timeout=60) as response, open(destination, "wb") as fh:
         shutil.copyfileobj(response, fh)
+
+
+def _probe_video(path: Path) -> dict | None:
+    """Cheap container probe: fps, frame count, duration. None if unreadable."""
+    try:
+        cap = cv2.VideoCapture(str(path))
+        if not cap.isOpened():
+            return None
+        fps = cap.get(cv2.CAP_PROP_FPS) or 0.0
+        frames = int(cap.get(cv2.CAP_PROP_FRAME_COUNT) or 0)
+        cap.release()
+    except Exception:
+        return None
+    if fps <= 0 or frames <= 0:
+        return None
+    return {"fps": round(fps, 3), "frames": frames, "duration_s": round(frames / fps, 3)}
+
+
+def _enforce_duration_guard(video_path: Path) -> dict | None:
+    """Reject clips the single-shot pipeline cannot analyse meaningfully."""
+    probe = _probe_video(video_path)
+    if probe and probe["duration_s"] > MAX_VIDEO_DURATION_S:
+        raise HTTPException(
+            status_code=422,
+            detail={
+                "error": "video_too_long",
+                "message": (
+                    f"Clip is {probe['duration_s']:.1f}s long; the analysis expects a single "
+                    f"shot of at most {MAX_VIDEO_DURATION_S:.0f}s. Trim the clip to the delivery "
+                    "and re-upload."
+                ),
+                "duration_s": probe["duration_s"],
+                "max_duration_s": MAX_VIDEO_DURATION_S,
+            },
+        )
+    return probe
 
 
 def _build_analysis_response(report: dict, job_id: str, output_dir: Path) -> dict:
@@ -162,6 +200,11 @@ def diag():
             "total_gb": round(disk.total / 1e9, 1),
             "free_gb": round(disk.free / 1e9, 1),
         },
+        "processing": {
+            "mode": PROCESSING_MODE,
+            "max_video_duration_s": MAX_VIDEO_DURATION_S,
+            "ffmpeg_available": shutil.which("ffmpeg") is not None,
+        },
         "env": {
             "PORT": os.environ.get("PORT", "not set"),
             "results_dir_exists": RESULTS_DIR.exists(),
@@ -221,12 +264,16 @@ async def analyse(
             shutil.copyfileobj(file.file, fh)
 
         file_mb = round(video_path.stat().st_size / 1e6, 1)
+        probe = _enforce_duration_guard(video_path)
         # Resolve handedness
         h = (handedness or "").strip().lower()
         h_source = "api" if h in ("right", "left") else "default"
         if h not in ("right", "left"):
             h = None  # let pipeline use default
-        print(f"[analyse] job={job_id} file={file_mb}MB suffix={suffix} handedness={h or 'default'} mem_avail={_mem_mb()}MB")
+        print(
+            f"[analyse] job={job_id} file={file_mb}MB suffix={suffix} handedness={h or 'default'} "
+            f"probe={probe} mode={PROCESSING_MODE} mem_avail={_mem_mb()}MB"
+        )
 
         # Run analysis pipeline
         output_dir = job_dir / "output"
@@ -241,15 +288,12 @@ async def analyse(
         )
         print(f"[analyse] pipeline done mem_avail={_mem_mb()}MB")
 
-        annotated_files = sorted(output_dir.glob("*_battingiq_annotated.mp4"))
-        annotated_video_url = None
-        if annotated_files:
-            annotated_video_url = f"/results/{job_id}/output/{annotated_files[0].name}"
+        return JSONResponse(content=_build_analysis_response(report, job_id, output_dir))
 
-        report["job_id"] = job_id
-        report["annotated_video_url"] = annotated_video_url
-        return JSONResponse(content=report)
-
+    except HTTPException:
+        # Validation / guard errors keep their status code; nothing to analyse.
+        shutil.rmtree(job_dir, ignore_errors=True)
+        raise
     except Exception as exc:
         # Clean up on failure
         shutil.rmtree(job_dir, ignore_errors=True)
@@ -291,6 +335,7 @@ def analyse_from_url(
     try:
         anchor_frames = _parse_anchor_frames_json(anchor_frames_json)
         _download_video_url(video_url, video_path)
+        _enforce_duration_guard(video_path)
         output_dir = job_dir / "output"
         report = run_full_analysis(
             str(video_path),
@@ -301,6 +346,9 @@ def analyse_from_url(
             anchor_frames=anchor_frames,
         )
         return JSONResponse(content=_build_analysis_response(report, job_id, output_dir))
+    except HTTPException:
+        shutil.rmtree(job_dir, ignore_errors=True)
+        raise
     except Exception as exc:
         shutil.rmtree(job_dir, ignore_errors=True)
         tb = traceback.format_exc()

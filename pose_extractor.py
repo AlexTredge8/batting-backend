@@ -13,7 +13,7 @@ from pathlib import Path
 import cv2
 import mediapipe as mp
 
-from config import LOCAL_MODE, MEDIAPIPE_STATIC_IMAGE_MODE
+from config import LOCAL_MODE, MEDIAPIPE_STATIC_IMAGE_MODE, PROCESSING_MODE
 from models import FramePose, RawLandmark
 
 mp_pose = mp.solutions.pose
@@ -59,7 +59,9 @@ def _build_video_meta(path: Path, fps: float, width: int, height: int, total_fra
         "duration_s": round(total_frames / fps, 3),
         "video_name": path.name,
         "frame_step": frame_step,
+        "effective_fps": round(fps / max(1, frame_step), 4),
         "local_mode": LOCAL_MODE,
+        "processing_mode": PROCESSING_MODE,
     }
 
 
@@ -87,7 +89,7 @@ def _extract_with_tasks(video_path: str, verbose: bool = True) -> tuple[list[Fra
         print(f"  {width}x{height} @ {fps:.0f}fps - {total_frames} frames ({video_meta['duration_s']:.1f}s)")
         print(
             f"  Processing: every {frame_step} frame(s), scaled to {proc_w}x{proc_h}, "
-            f"mode={'LOCAL' if LOCAL_MODE else 'RAILWAY'}"
+            f"mode={PROCESSING_MODE}"
         )
 
     model_path = _ensure_pose_landmarker_model()
@@ -192,7 +194,7 @@ def _extract_with_legacy_pose(video_path: str, verbose: bool = True) -> tuple[li
         print(f"  {width}x{height} @ {fps:.0f}fps - {total_frames} frames ({video_meta['duration_s']:.1f}s)")
         print(
             f"  Processing: every {frame_step} frame(s), scaled to {proc_w}x{proc_h}, "
-            f"mode={'LOCAL' if LOCAL_MODE else 'RAILWAY'}"
+            f"mode={PROCESSING_MODE}"
         )
 
     frame_poses: list[FramePose] = []

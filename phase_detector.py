@@ -1140,6 +1140,19 @@ def _nearest_metric_index_for_orig_frame(metrics: list[FrameMetrics], orig_frame
 
 
 def _rebuild_phase_labels(phases: PhaseResult, metrics: list[FrameMetrics]) -> list[BattingPhase]:
+    """
+    Rebuild per-frame phase labels from the (possibly overridden) anchors.
+
+    Mirrors the labelling in detect_phases() and never leaves UNKNOWN gaps:
+      SETUP            0 .. backlift_start-1
+      BACKLIFT_STARTS  backlift_start .. hands_peak-1
+      HANDS_PEAK       hands_peak, plus the downswing up to the contact window
+      FRONT_FOOT_DOWN  single-frame marker
+      CONTACT          contact ± CONTACT_WINDOW_FRAMES
+      FOLLOW_THROUGH   every frame after the contact window. The follow_through_start
+                       anchor (v2) marks the wrist-height PEAK of the follow-through,
+                       not its onset, so it must not delay the phase label.
+    """
     n = len(metrics)
     if n == 0:
         return []
@@ -1149,28 +1162,30 @@ def _rebuild_phase_labels(phases: PhaseResult, metrics: list[FrameMetrics]) -> l
     hands_peak = max(backlift_start, min(phases.hands_peak, n - 1))
     front_foot_down = max(backlift_start, min(phases.front_foot_down, n - 1))
     contact = max(0, min(phases.contact, n - 1))
-    follow_through_start = max(contact, min(phases.follow_through_start, n - 1))
 
     labels = [BattingPhase.UNKNOWN] * n
-    for i in range(0, setup_end + 1):
+    for i in range(0, min(backlift_start, n)):
         labels[i] = BattingPhase.SETUP
     for i in range(backlift_start, hands_peak):
         labels[i] = BattingPhase.BACKLIFT_STARTS
     if 0 <= hands_peak < n:
         labels[hands_peak] = BattingPhase.HANDS_PEAK
-    if 0 <= front_foot_down < n:
-        labels[front_foot_down] = BattingPhase.FRONT_FOOT_DOWN
 
     cw_lo = max(0, contact - CONTACT_WINDOW_FRAMES)
     cw_hi = min(n, contact + CONTACT_WINDOW_FRAMES + 1)
+    for i in range(hands_peak + 1, cw_lo):
+        labels[i] = BattingPhase.HANDS_PEAK  # downswing, labelled as post-peak
+    if 0 <= front_foot_down < n and front_foot_down < cw_lo:
+        labels[front_foot_down] = BattingPhase.FRONT_FOOT_DOWN
     for i in range(cw_lo, cw_hi):
         labels[i] = BattingPhase.CONTACT
-    for i in range(follow_through_start, n):
+    for i in range(cw_hi, n):
         labels[i] = BattingPhase.FOLLOW_THROUGH
+
+    for i in range(n):
+        if labels[i] == BattingPhase.UNKNOWN:
+            labels[i] = labels[i - 1] if i > 0 else BattingPhase.SETUP
     return labels
-
-
-
 
 
 def _find_follow_through_v1(contact_frame: int, n_frames: int) -> tuple[int, str]:

@@ -20,7 +20,7 @@ import tempfile
 import shutil
 from pathlib import Path
 
-from models import BattingIQResult, BattingPhase, TrafficLight, FrameMetrics, PhaseResult
+from models import BattingIQResult, BattingPhase, TrafficLight, FrameMetrics, FramePose, PhaseResult
 
 mp_pose = mp.solutions.pose
 
@@ -177,6 +177,28 @@ def _build_frame_lookup(metrics: list[FrameMetrics]) -> dict:
     return lookup
 
 
+def _build_landmark_lookup(frame_poses: list[FramePose] | None) -> dict:
+    """
+    Map every original video frame to the landmarks the ANALYSIS actually used.
+
+    Returns {original_frame_idx: list[RawLandmark] | None}. Frames between
+    processed frames (frame_step > 1) reuse the nearest prior processed frame.
+    An empty dict means no stored landmarks are available and callers should
+    fall back to a live pose model.
+    """
+    if not frame_poses:
+        return {}
+    processed = sorted(frame_poses, key=lambda fp: fp.frame_idx)
+    lookup: dict = {}
+    pi = 0
+    max_orig = processed[-1].frame_idx + 100
+    for orig_f in range(max_orig):
+        while pi + 1 < len(processed) and processed[pi + 1].frame_idx <= orig_f:
+            pi += 1
+        lookup[orig_f] = processed[pi].landmarks
+    return lookup
+
+
 # ---------------------------------------------------------------------------
 # Drawing helpers
 # ---------------------------------------------------------------------------
@@ -295,10 +317,15 @@ def annotate_video(
     result: BattingIQResult,
     metrics: list[FrameMetrics],
     output_path: str,
+    frame_poses: list[FramePose] | None = None,
 ) -> None:
     """
     Re-process the video, draw overlays, write annotated output.
-    A lightweight MediaPipe pass is used here to restore visible pose markers.
+
+    When ``frame_poses`` (the landmarks produced by the analysis pass) are
+    supplied, the skeleton is drawn from them so the overlay shows exactly what
+    the analysis saw and no second pose model is run. Without them a lightweight
+    MediaPipe pass is used as a fallback.
 
     Uses H.264 encoding via ffmpeg for high quality output.
     Falls back to mp4v if ffmpeg is not available.
@@ -319,6 +346,7 @@ def annotate_video(
 
     # Build frame index lookup: original frame → metric list index
     frame_lookup = _build_frame_lookup(metrics)
+    landmark_lookup = _build_landmark_lookup(frame_poses)
 
     phases = result.phases
     labels = phases.phase_labels
@@ -345,7 +373,7 @@ def annotate_video(
         raise RuntimeError(f"Could not open video writer for annotated output: {output_path}")
 
     frame_idx = 0
-    pose_model = _build_pose_model()
+    pose_model = None if landmark_lookup else _build_pose_model()
 
     try:
         while cap.isOpened():
@@ -360,8 +388,11 @@ def annotate_video(
             label = labels[label_idx] if label_idx < n_labels else BattingPhase.UNKNOWN
             ph_colour = PHASE_COLOURS.get(label, C_WHITE)
 
-            # Re-run pose estimation for visible body markers on the annotated frame.
-            pose_landmarks = _detect_pose_landmarks(pose_model, frame)
+            # Skeleton: prefer the landmarks the analysis used; otherwise re-run pose.
+            if landmark_lookup:
+                pose_landmarks = landmark_lookup.get(frame_idx)
+            else:
+                pose_landmarks = _detect_pose_landmarks(pose_model, frame)
             if pose_landmarks:
                 _draw_pose_overlay(frame, pose_landmarks)
 
@@ -392,12 +423,12 @@ def annotate_video(
                 row += lh
 
             if m:
-                metric_line("Shoulder",  f"{m.shoulder_openness:.0f}°")
-                metric_line("Hip open",  f"{m.hip_openness:.0f}°")
+                metric_line("Shoulder",  f"{m.shoulder_openness:.0f} deg")
+                metric_line("Hip open",  f"{m.hip_openness:.0f} deg")
                 metric_line("Head off",  f"{m.head_offset:+.3f}")
                 metric_line("Eye tilt",  f"{m.eye_tilt:.3f}")
-                metric_line("Frt knee",  f"{m.front_knee_angle:.0f}°")
-                metric_line("Frt elbow", f"{m.front_elbow_angle:.0f}°")
+                metric_line("Frt knee",  f"{m.front_knee_angle:.0f} deg")
+                metric_line("Frt elbow", f"{m.front_elbow_angle:.0f} deg")
                 metric_line("Wrist H",   f"{m.wrist_height:.3f}")
                 metric_line("Stance W",  f"{m.stance_width:.3f}")
 
@@ -432,7 +463,8 @@ def annotate_video(
     finally:
         cap.release()
         writer.release()
-        pose_model.close()
+        if pose_model is not None:
+            pose_model.close()
 
     if use_ffmpeg:
         # Re-encode temp AVI to H.264 MP4
@@ -444,7 +476,8 @@ def annotate_video(
         else:
             print(f"  Warning: ffmpeg re-encode failed, falling back to mp4v")
             _annotate_fallback(video_path, result, metrics, output_path,
-                               frame_lookup, fps, width, height)
+                               frame_lookup, fps, width, height,
+                               landmark_lookup=landmark_lookup)
             if not output_path.exists():
                 raise RuntimeError(f"Annotated video generation failed: {output_path}")
     else:
@@ -454,7 +487,7 @@ def annotate_video(
 
 
 def _annotate_fallback(video_path, result, metrics, output_path,
-                       frame_lookup, fps, width, height):
+                       frame_lookup, fps, width, height, landmark_lookup=None):
     """Fallback annotation using mp4v when ffmpeg is unavailable."""
     # Already written above with mp4v — this path only runs if ffmpeg fails
     # after we've already written to temp. In that case the mp4v path
@@ -471,7 +504,8 @@ def _annotate_fallback(video_path, result, metrics, output_path,
     if rotation_meta:
         print(f"  Video orientation metadata: {rotation_meta}° (auto-rotated)")
 
-    pose_model = _build_pose_model()
+    landmark_lookup = landmark_lookup or {}
+    pose_model = None if landmark_lookup else _build_pose_model()
 
     phases = result.phases
     labels = phases.phase_labels
@@ -491,7 +525,10 @@ def _annotate_fallback(video_path, result, metrics, output_path,
             label = labels[label_idx] if label_idx < n_labels else BattingPhase.UNKNOWN
             ph_colour = PHASE_COLOURS.get(label, C_WHITE)
 
-            pose_landmarks = _detect_pose_landmarks(pose_model, frame)
+            if landmark_lookup:
+                pose_landmarks = landmark_lookup.get(frame_idx)
+            else:
+                pose_landmarks = _detect_pose_landmarks(pose_model, frame)
             if pose_landmarks:
                 _draw_pose_overlay(frame, pose_landmarks)
 
@@ -517,12 +554,12 @@ def _annotate_fallback(video_path, result, metrics, output_path,
                 row += lh
 
             if m:
-                metric_line("Shoulder",  f"{m.shoulder_openness:.0f}°")
-                metric_line("Hip open",  f"{m.hip_openness:.0f}°")
+                metric_line("Shoulder",  f"{m.shoulder_openness:.0f} deg")
+                metric_line("Hip open",  f"{m.hip_openness:.0f} deg")
                 metric_line("Head off",  f"{m.head_offset:+.3f}")
                 metric_line("Eye tilt",  f"{m.eye_tilt:.3f}")
-                metric_line("Frt knee",  f"{m.front_knee_angle:.0f}°")
-                metric_line("Frt elbow", f"{m.front_elbow_angle:.0f}°")
+                metric_line("Frt knee",  f"{m.front_knee_angle:.0f} deg")
+                metric_line("Frt elbow", f"{m.front_elbow_angle:.0f} deg")
                 metric_line("Wrist H",   f"{m.wrist_height:.3f}")
                 metric_line("Stance W",  f"{m.stance_width:.3f}")
 
@@ -552,7 +589,8 @@ def _annotate_fallback(video_path, result, metrics, output_path,
     finally:
         cap.release()
         writer.release()
-        pose_model.close()
+        if pose_model is not None:
+            pose_model.close()
 
     if not output_path.exists():
         raise RuntimeError(f"Annotated video fallback failed to write output: {output_path}")
@@ -566,18 +604,18 @@ def _annotate_fallback(video_path, result, metrics, output_path,
 
 # Per-phase: which metrics to show and how to format them
 _PHASE_METRICS = {
-    BattingPhase.SETUP:           [("shoulder_openness", "Shoulder",  "{:.0f}°"),
+    BattingPhase.SETUP:           [("shoulder_openness", "Shoulder",  "{:.0f} deg"),
                                    ("stance_width",      "Stance W",  "{:.3f}")],
     BattingPhase.BACKLIFT_STARTS: [("wrist_height",      "Wrist H",   "{:.3f}"),
-                                   ("back_knee_angle",   "Back Knee", "{:.0f}°")],
+                                   ("back_knee_angle",   "Back Knee", "{:.0f} deg")],
     BattingPhase.HANDS_PEAK:      [("wrist_height",      "Wrist H",   "{:.3f}"),
-                                   ("shoulder_openness", "Shoulder",  "{:.0f}°")],
-    BattingPhase.FRONT_FOOT_DOWN: [("front_knee_angle",  "Frt Knee",  "{:.0f}°"),
+                                   ("shoulder_openness", "Shoulder",  "{:.0f} deg")],
+    BattingPhase.FRONT_FOOT_DOWN: [("front_knee_angle",  "Frt Knee",  "{:.0f} deg"),
                                    ("head_offset",       "Head Off",  "{:+.3f}")],
-    BattingPhase.CONTACT:         [("shoulder_openness", "Shoulder",  "{:.0f}°"),
+    BattingPhase.CONTACT:         [("shoulder_openness", "Shoulder",  "{:.0f} deg"),
                                    ("eye_tilt",          "Eye Tilt",  "{:.3f}")],
-    BattingPhase.FOLLOW_THROUGH:  [("hip_openness",      "Hip Open",  "{:.0f}°"),
-                                   ("shoulder_openness", "Shoulder",  "{:.0f}°")],
+    BattingPhase.FOLLOW_THROUGH:  [("hip_openness",      "Hip Open",  "{:.0f} deg"),
+                                   ("shoulder_openness", "Shoulder",  "{:.0f} deg")],
 }
 
 _THUMB_W  = 480   # px per panel (increased from 320 for HD quality)
@@ -968,6 +1006,7 @@ def generate_storyboard_frames(
     result: BattingIQResult,
     metrics: list[FrameMetrics],
     output_dir: str,
+    frame_poses: list[FramePose] | None = None,
 ) -> list[dict]:
     """
     Generate six separate storyboard stills and return metadata for each.
@@ -994,7 +1033,8 @@ def generate_storyboard_frames(
     fps_val = result.phases.fps or 30.0
     key_frames = _storyboard_key_frames(result)
     frame_items: list[dict] = []
-    pose_model = _build_pose_model(static_image_mode=True)
+    landmark_lookup = _build_landmark_lookup(frame_poses)
+    pose_model = None if landmark_lookup else _build_pose_model(static_image_mode=True)
     baseline = _storyboard_baseline(metrics, result.phases.setup_end)
     selected_metric_indices: dict[str, int] = {}
 
@@ -1041,7 +1081,10 @@ def generate_storyboard_frames(
             if not ret or frame is None:
                 frame = np.zeros((orig_h, orig_w, 3), dtype=np.uint8)
 
-            pose_landmarks = _detect_pose_landmarks(pose_model, frame)
+            if landmark_lookup:
+                pose_landmarks = landmark_lookup.get(int(orig_frame))
+            else:
+                pose_landmarks = _detect_pose_landmarks(pose_model, frame)
             if pose_landmarks:
                 _draw_pose_overlay(frame, pose_landmarks)
 
@@ -1088,7 +1131,8 @@ def generate_storyboard_frames(
                 "ms": timestamp_ms,
             })
     finally:
-        pose_model.close()
+        if pose_model is not None:
+            pose_model.close()
         cap.release()
 
     return frame_items
@@ -1099,6 +1143,7 @@ def generate_storyboard(
     result: BattingIQResult,
     metrics: list[FrameMetrics],
     output_path: str,
+    frame_poses: list[FramePose] | None = None,
 ) -> dict:
     """
     Extract the 6 key phase frames, annotate each with the pose skeleton
@@ -1111,7 +1156,7 @@ def generate_storyboard(
     output_path = Path(output_path)
     output_path.parent.mkdir(parents=True, exist_ok=True)
 
-    frame_items = generate_storyboard_frames(video_path, result, metrics, str(output_path.parent))
+    frame_items = generate_storyboard_frames(video_path, result, metrics, str(output_path.parent), frame_poses=frame_poses)
     if not frame_items:
         raise RuntimeError("Storyboard generation produced no frames")
 
