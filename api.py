@@ -18,7 +18,7 @@ import cv2
 import psutil
 from fastapi import FastAPI, File, Form, UploadFile, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import FileResponse, JSONResponse
+from fastapi.responses import FileResponse, JSONResponse, RedirectResponse, Response
 from typing import Optional
 
 from media_storage import download_result_file, result_redirect_url, storage_config, upload_tree
@@ -377,9 +377,24 @@ def get_result_file(job_id: str, file_path: str):
     job_root = (RESULTS_DIR / job_id).resolve()
     requested = (job_root / file_path).resolve()
 
-    if not str(requested).startswith(str(job_root)):
+    try:
+        requested.relative_to(job_root)
+    except ValueError:
         raise HTTPException(status_code=400, detail="Invalid file path")
-    if not requested.exists() or not requested.is_file():
-        raise HTTPException(status_code=404, detail="File not found")
 
-    return FileResponse(str(requested))
+    if requested.exists() and requested.is_file():
+        return FileResponse(str(requested))
+
+    # Railway's disk is wiped on every redeploy/restart, so files for older jobs are
+    # gone locally. Every job's output is uploaded to Supabase storage when the
+    # analysis finishes (see _build_analysis_response); serve it from there.
+    redirect_url = result_redirect_url(job_id, file_path)
+    if redirect_url:
+        return RedirectResponse(url=redirect_url, status_code=307)
+    remote_file = download_result_file(f"{job_id}/{file_path}")
+    if remote_file.get("status") == "ok" and remote_file.get("content") is not None:
+        return Response(
+            content=remote_file["content"],
+            media_type=remote_file.get("content_type") or "application/octet-stream",
+        )
+    raise HTTPException(status_code=404, detail="File not found")

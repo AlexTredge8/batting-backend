@@ -120,3 +120,29 @@ def test_diag_reports_processing_mode(client):
     body = client.get("/diag").json()
     assert body["processing"]["mode"] in {"full_rate_calibrated", "fast_subsampled"}
     assert "ffmpeg_available" in body["processing"]
+
+
+def test_results_falls_back_to_storage_when_local_file_is_gone(client, monkeypatch):
+    """After a Railway redeploy the local file is gone; the URL must still resolve."""
+    body = _post(client).json()
+    url = body["annotated_video_url"]
+    local = api.RESULTS_DIR / url[len("/results/"):]
+    local.unlink()  # simulate the container disk being wiped
+
+    monkeypatch.setattr(api, "result_redirect_url", lambda job_id, path: f"https://storage.example/{job_id}/{path}")
+    resp = client.get(url, follow_redirects=False)
+    assert resp.status_code == 307
+    assert resp.headers["location"].endswith("input_battingiq_annotated.mp4")
+
+    monkeypatch.setattr(api, "result_redirect_url", lambda job_id, path: None)
+    monkeypatch.setattr(api, "download_result_file",
+                        lambda rel: {"status": "ok", "content": b"mp4bytes", "content_type": "video/mp4"})
+    resp = client.get(url)
+    assert resp.status_code == 200 and resp.content == b"mp4bytes"
+
+    monkeypatch.setattr(api, "download_result_file", lambda rel: {"status": "disabled", "content": None})
+    assert client.get(url).status_code == 404
+
+
+def test_results_rejects_path_traversal(client):
+    assert client.get("/results/abc/..%2F..%2Fapi.py").status_code in (400, 404)
