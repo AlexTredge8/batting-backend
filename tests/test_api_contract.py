@@ -40,9 +40,12 @@ def _fake_pipeline(video_path: str, output_dir: str = None, **kwargs):
         "_annotated_video": str(out / "input_battingiq_annotated.mp4"),
         "_storyboard": None,
         "_storyboard_frames": stills,
-        "_storyboard_keyframes": {k: ("QUJD" if k in ("setup", "contact") else None)
-                                  for k in ("setup", "hands_start_up", "front_foot_down",
-                                            "hands_peak", "contact", "follow_through")},
+        "_storyboard_keyframes": {
+            "setup": {"phase": "setup", "available": True, "image": "data:image/jpeg;base64,QUJD",
+                      "frame": 0, "_path": stills[0]["path"]},
+            "contact": {"phase": "contact", "available": True, "image": "data:image/jpeg;base64,QUJD",
+                        "frame": 10, "_path": stills[1]["path"]},
+        },
     }
 
 
@@ -69,18 +72,23 @@ def test_analyse_returns_public_media_and_quality(client):
     assert body["annotated_video_url"].startswith(f"/results/{body['job_id']}/output/")
     assert body["analysis_quality"]["audio_available"] is True
     assert body["warnings"] == []
-    # Frontend contract (main 24b6135): six base64 JPEG keyframes keyed by phase.
+    # Frontend contract: six phase-keyed objects carrying image + frame numbers.
     keyframes = body["storyboard_frames"]
     assert set(keyframes) == {"setup", "hands_start_up", "front_foot_down",
                               "hands_peak", "contact", "follow_through"}
-    assert keyframes["contact"] == "QUJD"
+    assert keyframes["contact"]["image"].startswith("data:image/jpeg;base64,")
+    assert keyframes["contact"]["frame"] == 10
+    assert keyframes["contact"]["url"].startswith(f"/results/{body['job_id']}/output/")
+    assert "_path" not in keyframes["contact"]
+    # phases the pipeline could not produce still come back as objects, flagged unavailable
+    assert keyframes["hands_peak"]["available"] is False
     # Rich per-still items live in metadata, with public URLs and no leaked paths.
     frames = body["metadata"]["storyboard_frame_items"]
     assert len(frames) == 2
     for fr in frames:
         assert "path" not in fr, "internal filesystem paths must not leak"
         assert fr["url"].startswith(f"/results/{body['job_id']}/output/storyboard_")
-        assert fr["data_url"].startswith("data:image/png;base64,")
+        assert "data_url" not in fr, "full-size stills are served by URL, not inlined"
     for key in ("_annotated_video", "_storyboard", "_storyboard_frames", "_storyboard_keyframes"):
         assert key not in body
     # the file the URL points at is actually served

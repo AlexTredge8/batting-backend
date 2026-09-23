@@ -158,45 +158,133 @@ def _metric_index_to_original_frame(metrics: list[Any], metric_index: int | None
     return int(getattr(metrics[idx], "frame_idx", idx))
 
 
-def _encode_video_frame_jpeg_base64(cap: cv2.VideoCapture, frame_index: int, total_frames: int) -> str | None:
-    if frame_index < 0 or frame_index >= total_frames:
+# Storyboard phase key (frontend contract) -> storyboard still phase value
+_KEYFRAME_TO_STILL_PHASE = {
+    "setup": "setup",
+    "hands_start_up": "backlift_starts",
+    "front_foot_down": "front_foot_down",
+    "hands_peak": "hands_peak",
+    "contact": "contact",
+    "follow_through": "follow_through",
+}
+_KEYFRAME_LABELS = {
+    "setup": "Setup",
+    "hands_start_up": "Hands Up",
+    "front_foot_down": "Front Foot Down",
+    "hands_peak": "Hands Peak",
+    "contact": "Contact",
+    "follow_through": "Follow Through",
+}
+_KEYFRAME_WIDTH = 400
+_KEYFRAME_JPEG_QUALITY = 78
+
+
+def _jpeg_b64(image) -> str | None:
+    """Resize to _KEYFRAME_WIDTH and encode as raw base64 JPEG (small payload)."""
+    if image is None or getattr(image, "size", 0) == 0:
         return None
-
-    cap.set(cv2.CAP_PROP_POS_FRAMES, int(frame_index))
-    ok, frame = cap.read()
-    if not ok or frame is None:
-        return None
-
-    height, width = frame.shape[:2]
-    if width > 320:
-        scale = 320 / float(width)
-        frame = cv2.resize(frame, (320, max(1, int(round(height * scale)))), interpolation=cv2.INTER_AREA)
-
-    ok, buffer = cv2.imencode(".jpg", frame, [cv2.IMWRITE_JPEG_QUALITY, 75])
-    if not ok:
-        return None
-    return base64.b64encode(buffer).decode("utf-8")
+    height, width = image.shape[:2]
+    if width > _KEYFRAME_WIDTH:
+        scale = _KEYFRAME_WIDTH / float(width)
+        image = cv2.resize(image, (_KEYFRAME_WIDTH, max(1, int(round(height * scale)))),
+                           interpolation=cv2.INTER_AREA)
+    ok, buffer = cv2.imencode(".jpg", image, [cv2.IMWRITE_JPEG_QUALITY, _KEYFRAME_JPEG_QUALITY])
+    return base64.b64encode(buffer).decode("ascii") if ok else None
 
 
-def generate_storyboard_keyframe_images(video_path: str, phases: Any, metrics: list[Any]) -> dict[str, str | None]:
-    """Return six 320px-wide JPEG keyframes as raw base64 strings keyed by phase."""
-    frames: dict[str, str | None] = {key: None for key, _ in STORYBOARD_FRAME_KEYS}
+def _read_video_frame(video_path: str, frame_index: int):
+    """Read one frame, honouring phone rotation metadata (portrait clips)."""
     cap = cv2.VideoCapture(str(video_path))
-    if not cap.isOpened():
-        return frames
-
     try:
-        total_frames = max(0, int(cap.get(cv2.CAP_PROP_FRAME_COUNT)))
-        for key, phase_attr in STORYBOARD_FRAME_KEYS:
-            metric_idx = getattr(phases, phase_attr, None)
-            original_frame = _metric_index_to_original_frame(metrics, metric_idx)
-            if original_frame is None:
-                continue
-            frames[key] = _encode_video_frame_jpeg_base64(cap, original_frame, total_frames)
+        if not cap.isOpened():
+            return None
+        if hasattr(cv2, "CAP_PROP_ORIENTATION_AUTO"):
+            cap.set(cv2.CAP_PROP_ORIENTATION_AUTO, 1)
+        total = int(cap.get(cv2.CAP_PROP_FRAME_COUNT) or 0)
+        idx = max(0, min(int(frame_index), max(0, total - 1)))
+        cap.set(cv2.CAP_PROP_POS_FRAMES, idx)
+        ok, frame = cap.read()
+        return frame if ok else None
     finally:
         cap.release()
 
-    return frames
+
+def _still_image_without_label_bar(path: str | None):
+    """Load an annotated storyboard still and crop off its label bar."""
+    if not path or not Path(path).exists():
+        return None
+    panel = cv2.imread(str(path))
+    if panel is None:
+        return None
+    from video_annotator import _LABEL_H
+    if panel.shape[0] > _LABEL_H + 10:
+        panel = panel[: panel.shape[0] - _LABEL_H]
+    return panel
+
+
+def build_storyboard_keyframes(
+    video_path: str,
+    phases: Any,
+    metrics: list[Any],
+    storyboard_items: list[dict],
+    fps: float,
+) -> dict[str, dict]:
+    """
+    The frontend storyboard contract: an object keyed by phase
+    (setup, hands_start_up, front_foot_down, hands_peak, contact, follow_through),
+    each value an object carrying the image AND the frame numbers.
+
+    The image is the annotated still (pose skeleton drawn) when available, else the
+    raw rotated video frame. It is exposed under several common field names
+    (image, image_url, data_url, all the same data URI) so any
+    reasonable frontend lookup finds it. The API layer adds ``url``.
+    """
+    fps = fps or 30.0
+    items_by_phase = {item.get("phase"): item for item in (storyboard_items or []) if isinstance(item, dict)}
+    keyframes: dict[str, dict] = {}
+
+    for key, phase_attr in STORYBOARD_FRAME_KEYS:
+        item = items_by_phase.get(_KEYFRAME_TO_STILL_PHASE[key])
+        if item is not None:
+            original_frame = int(item.get("original_frame_idx", 0))
+            metric_idx = int(item.get("metric_idx", original_frame))
+            image = _still_image_without_label_bar(item.get("path"))
+            source = "annotated_still"
+        else:
+            metric_idx = getattr(phases, phase_attr, None)
+            original_frame = _metric_index_to_original_frame(metrics, metric_idx)
+            image = None
+            source = "raw_frame"
+        if image is None and original_frame is not None:
+            image = _read_video_frame(video_path, original_frame)
+            source = "raw_frame"
+
+        b64 = _jpeg_b64(image)
+        data_uri = f"data:image/jpeg;base64,{b64}" if b64 else None
+        frame_no = int(original_frame) if original_frame is not None else None
+        timestamp_ms = round(frame_no / fps * 1000, 1) if frame_no is not None else None
+        keyframes[key] = {
+            "phase": key,
+            "label": _KEYFRAME_LABELS[key],
+            "available": data_uri is not None,
+            # image as a data URI, under the three most common field names
+            "image": data_uri,
+            "image_url": data_uri,
+            "data_url": data_uri,
+            "mime_type": "image/jpeg",
+            # frame numbers (original video frames) — aliases on purpose
+            "frame": frame_no,
+            "frame_index": frame_no,
+            "frame_idx": frame_no,
+            "original_frame": frame_no,
+            "original_frame_idx": frame_no,
+            "metric_idx": int(metric_idx) if metric_idx is not None else None,
+            "timestamp_ms": timestamp_ms,
+            "timestamp_s": round(timestamp_ms / 1000, 3) if timestamp_ms is not None else None,
+            "image_source": source,
+            "_path": item.get("path") if item else None,
+        }
+    return keyframes
 
 
 def analyse(video_path: str, output_dir: str = None, verbose: bool = True,
@@ -370,7 +458,6 @@ def analyse(video_path: str, output_dir: str = None, verbose: bool = True,
         print("  Generating storyboard...")
     storyboard_out = out_dir / f"{stem}_battingiq_storyboard.png"
     storyboard_frames = []
-    storyboard_keyframes = generate_storyboard_keyframe_images(video_path, phases, metrics)
     try:
         storyboard_result = generate_storyboard(video_path, result, metrics, str(storyboard_out), frame_poses=frame_poses)
         storyboard_frames = storyboard_result.get("frames", []) if isinstance(storyboard_result, dict) else []
@@ -388,6 +475,10 @@ def analyse(video_path: str, output_dir: str = None, verbose: bool = True,
         media_generation["storyboard"]["frame_count"] = 0
         storyboard_frames = []
         storyboard_out = None
+
+    storyboard_keyframes = build_storyboard_keyframes(
+        video_path, phases, metrics, storyboard_frames, video_meta.get("fps") or fps
+    )
 
     if verbose:
         print(f"\nDone. Output in: {out_dir}/")
@@ -419,7 +510,8 @@ def analyse(video_path: str, output_dir: str = None, verbose: bool = True,
     report["_storyboard"]      = str(storyboard_out) if storyboard_out and Path(storyboard_out).exists() else None
     report["_storyboard_frames"] = storyboard_frames
     report["_storyboard_keyframes"] = storyboard_keyframes
-    report["storyboard_frames"] = storyboard_keyframes
+    report["storyboard_frames"] = {k: {kk: vv for kk, vv in v.items() if kk != "_path"}
+                                   for k, v in storyboard_keyframes.items()}
 
     return report
 

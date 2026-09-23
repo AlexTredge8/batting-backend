@@ -21,7 +21,6 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import FileResponse, JSONResponse
 from typing import Optional
 
-from inline_media import file_to_data_url
 from media_storage import download_result_file, result_redirect_url, storage_config, upload_tree
 from run_analysis import run_full_analysis
 from config import MAX_VIDEO_DURATION_S, PROCESSING_MODE
@@ -112,7 +111,8 @@ def _build_analysis_response(report: dict, job_id: str, output_dir: Path) -> dic
         public = dict(frame)
         frame_path = public.pop("path", None)
         public["url"] = _to_url(frame_path)
-        public["data_url"] = file_to_data_url(frame_path)
+        # Inline images live in storyboard_frames (compact JPEG); the full-size PNG
+        # stills are served by URL only, keeping the response small.
         return public
 
     annotated_video_path = report.pop("_annotated_video", None)
@@ -141,15 +141,19 @@ def _build_analysis_response(report: dict, job_id: str, output_dir: Path) -> dic
     report.setdefault("metadata", {})
     report["metadata"]["media_storage"] = storage_summary
     report["metadata"]["storyboard_frame_items"] = public_storyboard_frames
+    keyframe_keys = ("setup", "hands_start_up", "front_foot_down",
+                     "hands_peak", "contact", "follow_through")
     if not isinstance(storyboard_keyframes, dict):
-        storyboard_keyframes = {
-            "setup": None,
-            "hands_start_up": None,
-            "front_foot_down": None,
-            "hands_peak": None,
-            "contact": None,
-            "follow_through": None,
-        }
+        storyboard_keyframes = {}
+    public_keyframes = {}
+    for key in keyframe_keys:
+        entry = storyboard_keyframes.get(key)
+        if not isinstance(entry, dict):
+            entry = {"phase": key, "available": False, "image": None, "frame": None}
+        entry = dict(entry)
+        entry["url"] = _to_url(entry.pop("_path", None))
+        public_keyframes[key] = entry
+    storyboard_keyframes = public_keyframes
     report["storyboard_frames"] = storyboard_keyframes
     report["job_id"] = job_id
     report["annotated_video_url"] = annotated_video_url

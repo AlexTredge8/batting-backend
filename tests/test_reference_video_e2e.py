@@ -78,3 +78,19 @@ def test_media_and_quality_block_present(report):
     assert q["processing_mode"] == "full_rate_calibrated"
     assert q["contact_method"].startswith("audio"), "ffmpeg/audio must be available for the reference run"
     assert report["phases"]["contact"]["original_frame"] == report["metadata"]["anchor_frames"]["contact_frame"]["original_frame"]
+
+
+def test_storyboard_keyframes_contract(report):
+    keys = ("setup", "hands_start_up", "front_foot_down", "hands_peak", "contact", "follow_through")
+    kf = report["storyboard_frames"]
+    assert tuple(kf) == keys
+    anchors = report["metadata"]["anchor_frames"]
+    for key in keys:
+        entry = kf[key]
+        assert entry["available"] is True, key
+        assert entry["image"].startswith("data:image/jpeg;base64,")
+        assert len(entry["image"]) > 5_000
+        assert isinstance(entry["frame"], int) and entry["frame"] > 0, key
+        assert "_path" not in entry
+    # contact keyframe is pinned to the resolved contact frame
+    assert kf["contact"]["frame"] == anchors["contact_frame"]["original_frame"]
