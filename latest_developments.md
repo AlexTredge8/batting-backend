@@ -1,11 +1,13 @@
 # BattingIQ — Latest Developments (Working Memory)
 
 *Update this file at the end of every Codex task.*
-*Last updated: 11 May 2026*
+*Last updated: 4 Sep 2026*
 
 -----
 
 ## Current stage
+
+**PRODUCTION DRIFT CLOSED (4 Sep 2026).** The Railway path processed every 2nd frame at 640px while every calibration batch ran full-rate at source resolution — the "Railway vs local drift" risk listed below was never measured. Measured on `test_batting.mov` (anchors in original frames, fast → local): setup 20→60 (−40f), hands_start_up 26→61 (−35f), hands_peak 68→73 (−5f), contact 80→81, FFD 78→77; A5 gap −15.0°→−28.7° (A5 stopped firing in fast mode), A2 elbow 91.7°→130.9°, A3 compression 0→3, F4 pause 0→3; score 100→92. Determinism: PASS (byte-identical anchors + rule measurements across two runs in both modes, and across processes). **Production now runs the calibrated path** (`PROCESSING_MODE=full_rate_calibrated`, frame_step=1, source res; `FAST_MODE=1` emergency fallback, flagged in `warnings`). Also shipped: annotated video/storyboard draw the analysis landmarks (no second pose model); `/analyse` now returns `storyboard_frames[].url/.data_url` (previously only `/analyse-from-url` did); report `ms` values derived from original frames + `original_frame` on every anchor; `analysis_quality` + `warnings` block (audio-less clips → pose-only contact is now visible); 422 guard for clips > 30s; gap-free phase labels (follow-through label no longer blank after the contact window); reference baseline path absolute and self-calibrated baselines no longer overwrite the reference. New regression: `BATTINGIQ_E2E=1 pytest tests/test_reference_video_e2e.py` pins the calibrated anchors (60/61/77/73/81/109). **Action for the hub:** re-run the all-17 batch — `local_vs_railway_drift` should now be ~0, so R/F-track results transfer to production unchanged. **Risk to verify in the frontend:** the client-side MediaRecorder/WebM compression must preserve the audio track, otherwise every production upload falls back to pose contact (MAE ~30f) — check `analysis_quality.audio_available` on a real upload.
 
 **A2 UNSUSPENSION ANALYSIS (13 May 2026). RECOMMENDATION: KEEP SUSPENDED. Distribution is non-monotonic in both auto and validated modes (Average mean 141° > Elite 127° > Beginner 114° > Good Club 105°). No threshold achieves ≥80% Beginner fire AND ≤25% Elite AND ≤50% Good Club simultaneously. Metric is contact-frame-sensitive (mean |auto−val| delta 13.3°, max 51.4°). Best-case gap gain: +1.1 pts — not worth the Good Club false-positive. Redesign prerequisites: contact MAE <1.0f, consider two-sided rule (<90° too bent AND >160° over-extended), n≥25 videos. Output: calibration_output/a2_unsuspension_analysis.txt**
 
@@ -177,6 +179,7 @@ All R-track and F-track deliverables must report tuning-set MAE and held-out MAE
 
 |Task|Date|Output|
 |----|----|------|
+|Drift fix|2026-09-04|Production → calibrated full-rate path; drift measured on test_batting.mov (setup −40f, hands_start_up −35f, HP −5f, A5 flip); determinism PASS; annotator uses analysis landmarks; /analyse media contract fixed; analysis_quality+warnings; e2e regression test pins anchors 60/61/77/73/81/109|
 |—   |—   |—     |
 |S2+F5 suspend|2026-05-11|calibration_output/s2_f5_suspended/s2_f5_suspension_check.txt — Elite MAE 14.0→10.75 (−3.25); ±5 overall 4/17 (↑1); tier ordering monotonic; Good Club Stability regressed +2.0; 9.5 pts Elite deficit remains unexplained|
 |D2+D3 post-F5b|2026-05-10|calibration_output/diagnostics_post_f5b/ — 17/17 processed; Beginner Overall MAE 55.8→36.4 (−19.4); Elite Overall MAE 1.25→14.0 (+12.75 regression); ±5 overall 8→3/17; S4/A5/F6/F4 now Healthy; S2+F5 newly Inverted; A1 Healthy→Flat|
