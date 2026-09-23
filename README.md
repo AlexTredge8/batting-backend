@@ -68,7 +68,8 @@ Response (top level):
 | `analysis_quality` | `reliable`, `audio_available`, `contact_method`, `contact_confidence`, `low_confidence_anchors`, `detection_rate`, `processing_mode`, `baseline_status` |
 | `warnings[]` | plain-English notices safe to show the user (no audio, low contact confidence, fast mode, …) |
 | `annotated_video_url`, `storyboard_url` | relative URLs under `/results/` |
-| `storyboard_frames[]` | one per phase: `label`, `url`, `data_url` (inline PNG), `original_frame_idx`, `timestamp_ms`, selection diagnostics |
+| `storyboard_frames` | object keyed `setup`, `hands_start_up`, `front_foot_down`, `hands_peak`, `contact`, `follow_through` → raw base64 JPEG (320px) or `null` |
+| `metadata.storyboard_frame_items[]` | annotated stills with skeleton: `label`, `url`, `data_url` (PNG), `original_frame_idx`, `timestamp_ms`, selection diagnostics |
 | `metadata` | everything else: anchor frames/confidence, rule measurements, detector versions, media/storage status |
 
 ## Configuration (environment)

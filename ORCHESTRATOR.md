@@ -56,7 +56,7 @@ batting-backend/
 | GET | `/results/{job_id}/{file_path}` | Download annotated video / storyboard |
 
 `POST /analyse` accepts multipart form: `file` (video), `angle?`, `name?`, `email?`, `consent?`
-Returns: `battingiq_score`, `score_band`, `pillars`, `priority_fix`, `development_notes`, `phases`, `metadata`, `job_id`, `annotated_video_url`, `storyboard_url`, `storyboard_frames[]` (`url`, `data_url`, `original_frame_idx`, `timestamp_ms`, …), `analysis_quality`, `warnings`. Clips longer than `MAX_VIDEO_DURATION_S` (30s) are rejected with 422 `video_too_long`.
+Returns: `battingiq_score`, `score_band`, `pillars`, `priority_fix`, `development_notes`, `phases`, `metadata`, `job_id`, `annotated_video_url`, `storyboard_url`, `storyboard_frames` (phase → base64 JPEG), `metadata.storyboard_frame_items[]` (`url`, `data_url`, …), `analysis_quality`, `warnings`. Clips longer than `MAX_VIDEO_DURATION_S` (30s) are rejected with 422 `video_too_long`.
 
 **CORS allowed origins:** `https://battingiq.lovable.app`, `https://*.lovable.app`, `https://*.lovableproject.com`, `http://localhost:3000`, `http://localhost:8080`
 

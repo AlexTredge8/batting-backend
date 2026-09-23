@@ -34,7 +34,7 @@ BattingIQ analyses cricket batting technique from video. A user uploads a video;
 ### Frontend (Lovable)
 
 - Result shape: `result.analysis.battingiq_score`, `.pillar_scores`, `.coaching_points`, `.storyboard_frames`
-- Backend `/analyse` response now also carries `analysis_quality` (audio/contact/anchor reliability, processing mode) and `warnings` (plain-English, safe to show to the user). Storyboard stills come back as `storyboard_frames[].url` + `.data_url`.
+- Backend `/analyse` response now also carries `analysis_quality` (audio/contact/anchor reliability, processing mode) and `warnings` (plain-English, safe to show to the user). `storyboard_frames` is an object of six base64 JPEG keyframes keyed by phase; annotated stills with URLs are in `metadata.storyboard_frame_items`.
 - Backend URL: `https://web-production-e9c26.up.railway.app`
 
 

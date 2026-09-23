@@ -40,6 +40,9 @@ def _fake_pipeline(video_path: str, output_dir: str = None, **kwargs):
         "_annotated_video": str(out / "input_battingiq_annotated.mp4"),
         "_storyboard": None,
         "_storyboard_frames": stills,
+        "_storyboard_keyframes": {k: ("QUJD" if k in ("setup", "contact") else None)
+                                  for k in ("setup", "hands_start_up", "front_foot_down",
+                                            "hands_peak", "contact", "follow_through")},
     }
 
 
@@ -66,13 +69,19 @@ def test_analyse_returns_public_media_and_quality(client):
     assert body["annotated_video_url"].startswith(f"/results/{body['job_id']}/output/")
     assert body["analysis_quality"]["audio_available"] is True
     assert body["warnings"] == []
-    frames = body["storyboard_frames"]
+    # Frontend contract (main 24b6135): six base64 JPEG keyframes keyed by phase.
+    keyframes = body["storyboard_frames"]
+    assert set(keyframes) == {"setup", "hands_start_up", "front_foot_down",
+                              "hands_peak", "contact", "follow_through"}
+    assert keyframes["contact"] == "QUJD"
+    # Rich per-still items live in metadata, with public URLs and no leaked paths.
+    frames = body["metadata"]["storyboard_frame_items"]
     assert len(frames) == 2
     for fr in frames:
         assert "path" not in fr, "internal filesystem paths must not leak"
         assert fr["url"].startswith(f"/results/{body['job_id']}/output/storyboard_")
         assert fr["data_url"].startswith("data:image/png;base64,")
-    for key in ("_annotated_video", "_storyboard", "_storyboard_frames"):
+    for key in ("_annotated_video", "_storyboard", "_storyboard_frames", "_storyboard_keyframes"):
         assert key not in body
     # the file the URL points at is actually served
     served = client.get(body["annotated_video_url"])
