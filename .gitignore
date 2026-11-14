@@ -12,3 +12,7 @@ calibration_output/
 determinism_static/
 determinism_test/
 anchor_frame_review/
+
+# Phase 0: private player key (names, ages, consent) never goes in the public repo
+*_PRIVATE.csv
+calibration_output/pose_cache/

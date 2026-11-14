@@ -1,0 +1,19 @@
+filename,tier_csv,coach_overall,split,duration_s,avg_fps,nb_frames,implied_fps,codec,width,height,rotation,bitrate_kbps,audio_streams,audio_codec,audio_sample_rate,md5,pose_backend,pose_detection_rate,batter_height_px,batter_height_pct,height_window,player_id,scorer_in_clip,handedness,drive_type,feed,line,venue,camera_position,others_in_frame,flags_confirmed,flags_hub,hub_secs,hub_fps,hub_batter_px
+Cam T_LH Offdrive Elite.mov,Elite,89,tuning,,,,,,,,,,,,,,,,,,,,Cam,left,off,,,,,,,,4.2,30,1400
+Cam T_Offdrive Elite.mp4,Elite,92,tuning,,,,,,,,,,,,,,,,,,,,Cam,,off,,,,,,,,5.4,30,215
+Cam T_Ondrive Elite.mov,Elite,86,tuning,,,,,,,,,,,,,,,,,,,,Cam,,on,,,,,,,,5.5,30,1000
+Viv P_Offdrive Elite.mov,Elite,94,reference,,,,,,,,,,,,,,,,,,,,Viv,,off,,,,,,,same file as reference clip,3.7,30,260
+Alex T_Straightdrive Good.MOV,Good Club,79,tuning,,,,,,,,,,,,,,,,,,,,Alex,,straight,,,,,,,under 2 s,1.8,30,290
+AlexT_Ondrive Good.MOV,Good Club,80,heldout,,,,,,,,,,,,,,,,,,,,Alex,,on,,,,,,,,2.2,30,270
+Cam T_Offdrive Good.mp4,Good Club,74,tuning,,,,,,,,,,,,,,,,,,,,Cam,,off,,,,,,,,8.4,30,380
+Ollie P_Offdrive Average.mov,Good Club,72,tuning,,,,,,,,,,,,,,,,,,,,,,off,,,,,,,no audio; two figures; small; black bars,3.9,39,140
+Dan P_Offdrive Average.MOV,Average,67,tuning,,,,,,,,,,,,,,,,,,,,,,off,,,,,,,,3.2,30,235
+Drive_Average 2.MOV,Average,57,tuning,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,3.7,30,215
+Drive_Average.MOV,Average,58,heldout,,,,,,,,,,,,,,,,,,,,,,,,,,,,,angle; others in shot,4.4,30,370
+Female_Average.mp4,Average,60,tuning,,,,,,,,,,,,,,,,,,,,,,,,,,,,,small; filmed_correctly = N,10.6,30,145
+Drive_Beginner 2.MOV,Beginner,50,heldout,,,,,,,,,,,,,,,,,,,,,,,,,,,,,angle; others in shot,3.1,30,390
+Drive_Beginner 3.MOV,Beginner,26,tuning,,,,,,,,,,,,,,,,,,,,,,,,,,,,,angle; under 2 s,1.7,26,510
+Drive_Beginner 4.MOV,Beginner,35,tuning,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,2.2,26,295
+Drive_beginner.MOV,Beginner,18,tuning,,,,,,,,,,,,,,,,,,,,,,,,,,,,,angle; under 2 s; 42 frames,1.2,26,470
+Oscar V_Beginner.mp4,Beginner,30,tuning,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,5.9,30,235
+Straight Drive_Beginner.mp4,Average,49,tuning,,,,,,,,,,,,,,,,,,,,,,straight,,,,,,,small,6.0,30,135
