@@ -1,0 +1,159 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'unsafe-inline'; style-src 'unsafe-inline'; media-src blob: data:; img-src data:">
+<title>Which Drive Is Better</title>
+<style>
+/* Offline file: no fonts, scripts or anything else from the internet (the CSP above blocks it). */
+:root{--bg:#f3f5f2;--surface:#fff;--fg:#17201b;--muted:#5d6b63;--line:#d5ddd7;--turf:#1f6a45;--turf-fg:#fff;--turf-soft:#dcefe4;--ball:#a8322d;
+  --display:"Avenir Next Condensed","Arial Narrow","Roboto Condensed",Arial,sans-serif;--body:-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;color-scheme:light}
+@media (prefers-color-scheme:dark){:root{--bg:#111613;--surface:#1a211d;--fg:#e7eee9;--muted:#9aa9a0;--line:#2f3a34;--turf:#4cb882;--turf-fg:#0b1a12;--turf-soft:#1d3428;--ball:#e0726a;color-scheme:dark}}
+*{box-sizing:border-box}[hidden]{display:none!important}
+html,body{margin:0}body{background:var(--bg);color:var(--fg);font:16px/1.5 var(--body)}
+.wrap{max-width:1000px;margin:0 auto;padding:max(16px,env(safe-area-inset-top)) max(16px,env(safe-area-inset-right)) 40px max(16px,env(safe-area-inset-left));display:flex;flex-direction:column;gap:14px}
+h1{font:700 34px/1.05 var(--display);margin:0;letter-spacing:.01em}
+h2{font:700 20px/1.2 var(--display);margin:0;text-transform:uppercase;letter-spacing:.03em}
+p{margin:0}.muted{color:var(--muted)}.small{font-size:14px}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:16px;display:flex;flex-direction:column;gap:12px}
+.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+button,select,input,textarea{font:inherit;color:var(--fg);background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:9px 12px}
+button{cursor:pointer}button.go{background:var(--turf);color:var(--turf-fg);border-color:var(--turf);font-weight:600}button.on{background:var(--turf-soft);border-color:var(--turf)}
+button:focus-visible,select:focus-visible,input:focus-visible{outline:3px solid var(--turf);outline-offset:2px}
+.choices{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:8px}.choices button{text-align:left;padding:12px}
+.score{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap}.overs{font:700 40px/1 var(--display);font-variant-numeric:tabular-nums}
+.bar{height:6px;background:var(--line);border-radius:3px;overflow:hidden;flex:1 1 160px}.bar>i{display:block;height:100%;width:0;background:var(--turf)}
+.pair{display:grid;grid-template-columns:1fr 1fr;gap:10px;touch-action:pan-y}
+.clip{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:8px;display:flex;flex-direction:column;gap:8px;min-width:0;transition:border-color .15s,box-shadow .15s}
+.clip.flash{border-color:var(--turf);box-shadow:0 0 0 3px var(--turf-soft)}
+video{width:100%;max-height:62vh;background:#000;border-radius:8px;display:block}
+.pick{font:700 20px/1 var(--display);text-transform:uppercase;letter-spacing:.03em;padding:14px 6px;width:100%}
+.tag{font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+textarea{width:100%;font:13px/1.4 ui-monospace,Menlo,Consolas,monospace;word-break:break-all}
+.notice{border-left:3px solid var(--ball);padding:8px 12px;background:var(--surface);border-radius:0 8px 8px 0}
+@media (max-width:600px){h1{font-size:28px}.pick{font-size:16px;padding:12px 4px}}
+@media (prefers-reduced-motion:reduce){.clip{transition:none}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header><h1>Which drive is better?</h1>
+  <p class="muted">You will see two front-foot drives side by side. Pick the better drive each time. There are no wrong answers: we want your honest eye. About 10 minutes.</p></header>
+
+  <section class="panel" id="who">
+    <h2>About you</h2>
+    <p class="small muted">This helps us compare opinions. Your name is optional.</p>
+    <div class="choices" id="roles">
+      <button data-role="Q">Qualified cricket coach</button><button data-role="T">Coach, not yet qualified</button>
+      <button data-role="P">Cricketer</button><button data-role="A">Parent or supporter</button><button data-role="O">Other</button>
+    </div>
+    <div class="row"><label for="level">Highest level you have played or coached</label>
+      <select id="level"><option value="">Choose…</option><option value="n">None</option><option value="s">School or junior club</option><option value="c">Adult club</option><option value="p">County, academy or above</option></select></div>
+    <div class="row"><label for="name">Name or initials (optional)</label><input id="name" maxlength="30" autocomplete="off"></div>
+    <div class="row"><button class="go" id="start" disabled>Start</button></div>
+    <p class="small muted">Everything stays on this device. Nothing is sent anywhere unless you send Alex your answer code at the end.</p>
+  </section>
+
+  <section class="panel" id="session" hidden>
+    <div class="score"><span class="overs" id="overs">0.0</span><span class="muted">overs of <span id="totOvers"></span> (<span id="totPairs"></span> pairs)</span><div class="bar"><i id="prog"></i></div><span class="small muted" id="pairNo"></span></div>
+    <div class="pair" id="pair">
+      <div class="clip" id="cardL"><span class="tag">Left</span><video id="vL" muted loop playsinline autoplay></video><button class="go pick" data-pick="L">Left is better</button></div>
+      <div class="clip" id="cardR"><span class="tag">Right</span><video id="vR" muted loop playsinline autoplay></video><button class="go pick" data-pick="R">Right is better</button></div>
+    </div>
+    <div class="row"><button id="restart">Restart both</button><button data-rate="1" class="on">1×</button><button data-rate="0.5">0.5×</button><button data-rate="0.25">0.25×</button><button id="back">← Previous pair</button></div>
+    <p class="small muted">Swipe towards the better drive, tap its button, or press ← / →. Faces are blurred on purpose.</p>
+  </section>
+
+  <section class="panel" id="done" hidden>
+    <h2>Thank you</h2>
+    <p>Copy your answer code and send it to Alex (WhatsApp, text or email). That is all.</p>
+    <textarea id="code" rows="5" readonly></textarea>
+    <div class="row"><button class="go" id="copy">Copy my answer code</button><button id="save">Save it as a file</button><button id="review">Go back over my answers</button></div>
+    <p class="small muted" id="copyNote"></p>
+  </section>
+</div>
+<script>
+const DATA = /*__PAYLOAD__*/null;
+const $ = id => document.getElementById(id);
+const ids = DATA.clips.map(c => c.id).sort();
+const urls = {};
+DATA.clips.forEach(c => { const bin = atob(c.b64), u8 = new Uint8Array(bin.length); for (let k = 0; k < bin.length; k++) u8[k] = bin.charCodeAt(k); urls[c.id] = URL.createObjectURL(new Blob([u8], {type: "video/mp4"})); });
+// Every unordered pair has a fixed index (i<j over the sorted codes); the answer code records index + which clip won.
+const combos = []; for (let a = 0; a < ids.length; a++) for (let b = a + 1; b < ids.length; b++) combos.push([ids[a], ids[b]]);
+const STORE = "biq_offline_" + DATA.build;
+function load(){ try { return JSON.parse(localStorage.getItem(STORE) || "null"); } catch(e){ return null; } }
+function save(){ try { localStorage.setItem(STORE, JSON.stringify(state)); } catch(e){} }
+let state = load() || {role: "", level: "", name: "", pairs: [], picks: {}, i: 0};
+
+function schedule(n){
+  const pool = combos.map((p, k) => k).sort(() => Math.random() - 0.5), count = Object.fromEntries(ids.map(x => [x, 0])), out = [];
+  while (out.length < Math.min(n, combos.length)){
+    let best = 0, bk = Infinity;
+    pool.forEach((k, p) => { const [a, b] = combos[k]; const v = (count[a] + count[b]) * 100 + Math.max(count[a], count[b]); if (v < bk){ bk = v; best = p; } });
+    const k = pool.splice(best, 1)[0]; count[combos[k][0]]++; count[combos[k][1]]++;
+    out.push({k, flip: Math.random() < 0.5});
+  }
+  return out.sort(() => Math.random() - 0.5);
+}
+function lr(p){ const [a, b] = combos[p.k]; return p.flip ? [b, a] : [a, b]; }
+
+document.querySelectorAll("#roles button").forEach(b => b.onclick = () => { state.role = b.dataset.role; document.querySelectorAll("#roles button").forEach(x => x.classList.toggle("on", x === b)); $("start").disabled = false; });
+$("start").onclick = () => {
+  state.level = $("level").value; state.name = $("name").value.trim().replace(/[^\w .'-]/g, "").slice(0, 30);
+  if (!state.pairs.length){ state.pairs = schedule(DATA.pairs); state.picks = {}; state.i = 0; }
+  save(); $("who").hidden = true; $("session").hidden = false; show();
+};
+function overs(n){ return Math.floor(n / 6) + "." + (n % 6); }
+let rate = 1;
+function show(){
+  const n = Object.keys(state.picks).length, tot = state.pairs.length;
+  $("overs").textContent = overs(n); $("totOvers").textContent = overs(tot).replace(/\.0$/, ""); $("totPairs").textContent = tot; $("prog").style.width = (100 * n / tot) + "%";
+  if (state.i >= tot){ finish(); return; }
+  const p = state.pairs[state.i], [l, r] = lr(p);
+  $("pairNo").textContent = "Pair " + (state.i + 1) + " of " + tot;
+  if ($("vL").dataset.id !== l){ $("vL").src = urls[l]; $("vL").dataset.id = l; }
+  if ($("vR").dataset.id !== r){ $("vR").src = urls[r]; $("vR").dataset.id = r; }
+  ["vL","vR"].forEach(v => { $(v).playbackRate = rate; const pr = $(v).play(); if (pr) pr.catch(() => {}); });
+  const won = state.picks[p.k]; $("cardL").classList.toggle("flash", won === l); $("cardR").classList.toggle("flash", won === r);
+}
+function pick(side){
+  if ($("session").hidden) return;
+  const p = state.pairs[state.i], [l, r] = lr(p); state.picks[p.k] = side === "L" ? l : r;
+  $(side === "L" ? "cardL" : "cardR").classList.add("flash");
+  setTimeout(() => {
+    state.i += 1;
+    if (state.i >= state.pairs.length){ const next = state.pairs.findIndex(q => !(q.k in state.picks)); if (next >= 0) state.i = next; }
+    save(); show();
+  }, 170);
+}
+document.querySelectorAll("[data-pick]").forEach(b => b.onclick = () => pick(b.dataset.pick));
+document.querySelectorAll("[data-rate]").forEach(b => b.onclick = () => { rate = +b.dataset.rate; document.querySelectorAll("[data-rate]").forEach(x => x.classList.toggle("on", x === b)); show(); });
+$("restart").onclick = () => { ["vL","vR"].forEach(v => { $(v).currentTime = 0; }); };
+$("back").onclick = () => { state.i = Math.max(0, state.i - 1); show(); };
+document.addEventListener("keydown", e => { if (e.target.matches("input,select,textarea")) return;
+  if (e.key === "ArrowLeft") pick("L"); if (e.key === "ArrowRight") pick("R"); });
+let tx = null, ty = null;
+$("pair").addEventListener("touchstart", e => { tx = e.touches[0].clientX; ty = e.touches[0].clientY; }, {passive: true});
+$("pair").addEventListener("touchend", e => { if (tx === null) return; const dx = e.changedTouches[0].clientX - tx, dy = e.changedTouches[0].clientY - ty; tx = null;
+  if (Math.abs(dx) > 60 && Math.abs(dx) > 1.5 * Math.abs(dy)) pick(dx < 0 ? "L" : "R"); }, {passive: true});
+
+function answerCode(){
+  // BIQ1.<build>.<role><level>.<name>.<picks>.<check>; each pick = pair index (2 base-36 chars) + a/b (first/second clip of the pair won)
+  const picks = state.pairs.filter(p => p.k in state.picks).map(p => p.k.toString(36).padStart(2, "0") + (state.picks[p.k] === combos[p.k][0] ? "a" : "b")).join("");
+  const body = ["BIQ1", DATA.build, state.role + (state.level || "x"), encodeURIComponent(state.name || "-"), picks].join(".");
+  let sum = 0; for (const ch of body) sum = (sum + ch.charCodeAt(0)) % 36;
+  return body + "." + sum.toString(36);
+}
+function finish(){ $("session").hidden = true; $("done").hidden = false; $("code").value = answerCode(); }
+$("copy").onclick = async () => {
+  try { await navigator.clipboard.writeText($("code").value); $("copyNote").textContent = "Copied. Paste it into a message to Alex."; }
+  catch(e){ $("code").focus(); $("code").select(); $("copyNote").textContent = "Your code is selected: copy it (Cmd+C or Ctrl+C) and paste it into a message to Alex."; }
+};
+$("save").onclick = () => { const a = document.createElement("a"); a.href = URL.createObjectURL(new Blob([$("code").value + "\n"], {type: "text/plain"}));
+  a.download = "batting_iq_answers_" + (state.name || "anon").replace(/\W+/g, "_") + ".txt"; document.body.appendChild(a); a.click(); a.remove(); };
+$("review").onclick = () => { state.i = 0; $("done").hidden = true; $("session").hidden = false; show(); };
+if (state.pairs.length && state.role){ $("who").hidden = true; $("session").hidden = false; show(); }
+</script>
+</body>
+</html>

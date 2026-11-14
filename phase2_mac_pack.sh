@@ -18,10 +18,13 @@ PACK="$(cd "$VIDS/.." && pwd)/blind_pack_$(date +%F)"
 "$PY" phase2_blind_pack.py --video-dir "$VIDS" --out "$PACK"
 REPORTS="$(ls -d baselines/phase0_*/reports/auto 2>/dev/null | tail -1 || true)"
 "$PY" phase2_model_pack.py --pack "$PACK" --video-dir "$VIDS" ${REPORTS:+--baseline-reports "$REPORTS"}
+OFFLINE="$PACK/BattingIQ_which_drive.html"
+"$PY" phase2_offline_pairs.py --video-dir "$VIDS" --out "$OFFLINE"
 
 echo
 echo "Done. In $PACK:"
+echo "  BattingIQ_which_drive.html                the offline file for anyone: clips built in, faces blurred, no sound"
 echo "  for_Alex.zip, for_Cam.zip, for_Viv.zip   send each coach their own zip (AirDrop or a private Drive link)"
 echo "  model_inputs/                             choose this folder on the Fourth coach test page"
-echo "  blind_key_PRIVATE.csv                     KEEP PRIVATE: never send it to anyone"
+echo "  blind_key_PRIVATE.csv, *_key_PRIVATE.csv  KEEP PRIVATE: never send them to anyone"
 open "$PACK" 2>/dev/null || true

@@ -96,17 +96,86 @@ def _read_judgements(pairs_dir: Path) -> tuple[list[tuple[str, str]], dict[str, 
     return judgements, per_coach
 
 
+ROLES = {"Q": "qualified_coach", "T": "coach_not_qualified", "P": "cricketer", "A": "parent_supporter", "O": "other"}
+LEVELS = {"n": "none", "s": "school_junior", "c": "adult_club", "p": "county_academy_plus", "x": "not_given"}
+
+
+def parse_code(code: str, ids: list[str], build: str) -> dict:
+    """BIQ1.<build>.<role><level>.<name>.<picks>.<check> -> dict, or raise ValueError with the reason."""
+    import re
+    from urllib.parse import unquote
+    m = re.search(r"BIQ1\.[0-9A-F]{6}\.[A-Z][a-z]\.[^.\s]*\.[0-9a-z]*\.[0-9a-z]", code)
+    if not m:
+        raise ValueError("no answer code found")
+    text = m.group(0)
+    body, check = text.rsplit(".", 1)
+    if np.base_repr(sum(map(ord, body)) % 36, 36).lower() != check:
+        raise ValueError("checksum does not match (code copied incompletely?)")
+    _, b, rl, name, picks = body.split(".")
+    if b != build:
+        raise ValueError(f"code is for build {b}, this key is build {build}")
+    combos = list(itertools.combinations(sorted(ids), 2))
+    out = []
+    for k in range(0, len(picks), 3):
+        idx, side = int(picks[k:k + 2], 36), picks[k + 2]
+        a, bb = combos[idx]
+        out.append((a, bb, "L" if side == "a" else "R"))
+    return {"role": ROLES.get(rl[0], rl[0]), "level": LEVELS.get(rl[1], rl[1]), "name": unquote(name), "picks": out}
+
+
+def _from_codes(codes_file: Path, key_file: Path, out: Path) -> int:
+    with key_file.open(encoding="utf-8-sig", newline="") as h:
+        key = list(csv.DictReader(h))
+    ids, build = [r["clip_id"] for r in key], key[0]["build_id"]
+    out.mkdir(parents=True, exist_ok=True)
+    raters, seen = [], set()
+    for n, line in enumerate(codes_file.read_text(encoding="utf-8").splitlines(), 1):
+        if "BIQ1." not in line:
+            continue
+        try:
+            d = parse_code(line, ids, build)
+        except ValueError as exc:
+            print(f"line {n}: skipped ({exc})")
+            continue
+        sig = tuple(d["picks"])
+        if sig in seen:
+            print(f"line {n}: skipped (duplicate of an earlier code)")
+            continue
+        seen.add(sig)
+        rid = f"R{len(raters) + 1:03d}_{d['role']}"
+        with (out / f"{rid}_pairs.csv").open("w", newline="", encoding="utf-8") as h:
+            w = csv.writer(h)
+            w.writerow(["pair_no", "left_id", "right_id", "better", "confidence", "notes"])
+            for i, (a, b, better) in enumerate(d["picks"], 1):
+                w.writerow([i, a, b, better, "", ""])
+        raters.append({"rater": rid, "role": d["role"], "level": d["level"], "name": d["name"], "pairs": len(d["picks"])})
+    if raters:
+        with (out / "raters_PRIVATE.csv").open("w", newline="", encoding="utf-8") as h:
+            w = csv.DictWriter(h, fieldnames=list(raters[0].keys()))
+            w.writeheader()
+            w.writerows(raters)
+    print(f"{len(raters)} raters: " + ", ".join(f"{r['role']} {r['pairs']}" for r in raters))
+    return 0
+
+
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     sub = parser.add_subparsers(dest="cmd", required=True)
     j = sub.add_parser("from-artifact", help="turn the 'Which drive is better?' link's saved answers into <coach>_pairs.csv sheets")
     j.add_argument("--json-dir", required=True, help="folder of answers/*.json documents saved with ArtifactData list out_dir")
     j.add_argument("--out", required=True, help="pairs folder to write <coach>_pairs.csv into")
+    c = sub.add_parser("from-codes", help="turn answer codes from the offline file into pairs sheets")
+    c.add_argument("--codes", required=True, help="text file: paste every message in; lines without BIQ1. are ignored")
+    c.add_argument("--key", required=True, help="the offline file's *_key_PRIVATE.csv")
+    c.add_argument("--out", required=True)
     f = sub.add_parser("fit")
     f.add_argument("--pairs-dir", required=True)
     f.add_argument("--key", required=True, help="blind_key_PRIVATE.csv")
     f.add_argument("--out", required=True)
     args = parser.parse_args(argv)
+
+    if args.cmd == "from-codes":
+        return _from_codes(Path(args.codes), Path(args.key), Path(args.out))
 
     if args.cmd == "from-artifact":
         import json
