@@ -164,7 +164,8 @@ def spearman_ci(x: list[float], y: list[float], seed: int = 0, reps: int = 2000)
         return np.nan, np.nan, np.nan
 
     def rho(u: np.ndarray, v: np.ndarray) -> float:
-        ru, rv = u.argsort().argsort(), v.argsort().argsort()
+        import pandas as pd  # average ranks for ties (argsort ranks break ties arbitrarily)
+        ru, rv = pd.Series(u).rank().to_numpy(), pd.Series(v).rank().to_numpy()
         if ru.std() == 0 or rv.std() == 0:
             return np.nan
         return float(np.corrcoef(ru, rv)[0, 1])
