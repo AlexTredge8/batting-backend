@@ -63,12 +63,6 @@ def _parse_anchor_frames_json(anchor_frames_json: str | None) -> dict[str, int |
     return normalized
 
 
-_RULE_MEASUREMENT_KEY = {
-    "A5": "A5_shoulder_hip_gap_deg",
-    "T2": "T2_early_head_change",
-    "S4": "S4_post_contact_rotation_deg",
-    "F4": "F4_pause_frames",
-}
 # Capture checks are WARNINGS only (provisional, Phase 3 sets real thresholds from data):
 CAPTURE_MIN_BATTER_HEIGHT_FRAC = 0.12   # nose-to-ankle span at set-up, share of frame height
 CAPTURE_MIN_DURATION_S = 2.0
@@ -96,26 +90,20 @@ def _capture_checks(metrics, phases, video_meta: dict) -> tuple[dict, list[str]]
 
 
 def _annotate_pillar_evidence(report: dict) -> None:
-    """Say how each pillar score was reached. A pillar whose rule could not measure, or was
-    suppressed, still shows 25 today; `assessed: false` lets the app say "not assessed"."""
-    md = report.get("metadata") or {}
-    measurements = md.get("rule_measurements") or {}
-    suppressed = set((md.get("rule_evaluation") or {}).get("suppressed_rule_ids") or [])
+    """Say how each pillar score was reached (decided in scorer.build_scores). An unknown pillar
+    (not_measured / suppressed) shows the average of the measured pillars, flagged imputed."""
     from config import PILLAR_RULE_MAX_DEDUCTION
+    md = report.get("metadata") or {}
+    basis = md.get("pillar_basis") or {}
+    imputed = md.get("imputed_pillars") or {}
     for pillar, info in (report.get("pillars") or {}).items():
-        rules = list(PILLAR_RULE_MAX_DEDUCTION.get(pillar, {}).keys())
-        fault_ids = {f.get("rule_id") for f in info.get("faults") or []}
-        if any(r in suppressed for r in rules):
-            basis = "suppressed"
-        elif rules and all(measurements.get(_RULE_MEASUREMENT_KEY.get(r, "")) is None for r in rules):
-            basis = "not_measured"
-        elif fault_ids & set(rules):
-            basis = "fault_found"
-        else:
-            basis = "no_fault_found"
-        info["basis"] = basis
-        info["assessed"] = basis in ("fault_found", "no_fault_found")
-        info["rules"] = rules
+        b = basis.get(pillar, "no_fault_found")
+        info["basis"] = b
+        info["assessed"] = b in ("fault_found", "no_fault_found")
+        info["imputed"] = pillar in imputed
+        if pillar in imputed:
+            info["raw_score"] = imputed[pillar]["raw_score"]
+        info["rules"] = list(PILLAR_RULE_MAX_DEDUCTION.get(pillar, {}).keys())
 
 
 def _build_analysis_quality(result, video_meta: dict) -> tuple[dict, list[str]]:

@@ -32,6 +32,27 @@ _CONTACT_DERIVED_RULE_IDS = {
 }
 
 
+# Measurement exported for each active rule (coaching_rules.collect_rule_measurements).
+RULE_MEASUREMENT_KEY = {
+    "A5": "A5_shoulder_hip_gap_deg",
+    "T2": "T2_early_head_change",
+    "S4": "S4_post_contact_rotation_deg",
+    "F4": "F4_pause_frames",
+}
+
+
+def pillar_basis(name: str, faults: list[Fault], suppressed_ids: set, measurements: dict) -> str:
+    """How a pillar score was reached: fault_found, no_fault_found, not_measured or suppressed."""
+    rules = list(PILLAR_RULE_MAX_DEDUCTION.get(name, {}).keys())
+    if any(f.rule_id in rules for f in faults):
+        return "fault_found"
+    if any(r in suppressed_ids for r in rules):
+        return "suppressed"
+    if rules and all(measurements.get(RULE_MEASUREMENT_KEY.get(r, "")) is None for r in rules):
+        return "not_measured"
+    return "no_fault_found"
+
+
 def _traffic_light(score: int) -> TrafficLight:
     if score >= TRAFFIC_GREEN_MIN:
         return TrafficLight.GREEN
@@ -215,6 +236,29 @@ def build_scores(
             faults=faults,
             positives=positives,
         )
+
+    # UNKNOWN PILLARS (Alex, 14 Nov 2026): a pillar whose rule could not measure, or was suppressed,
+    # used to score full marks by default. It now takes the average of the pillars that were
+    # measured. A pillar measured with no fault found keeps its score: on the Phase 0 clips
+    # averaging those too raised the overall error from 19.6 to 26.8 points.
+    suppressed_ids = {item.get("rule_id") for item in suppressed_rules}
+    measurements = video_meta.get("rule_measurements") or {}
+    basis = {name: pillar_basis(name, p.faults, suppressed_ids, measurements) for name, p in pillars.items()}
+    known = [pillars[n].score for n, b in basis.items() if b in ("fault_found", "no_fault_found")]
+    unknown = [n for n, b in basis.items() if b in ("not_measured", "suppressed")]
+    imputed: dict[str, dict] = {}
+    if unknown and known:
+        fill = int(round(sum(known) / len(known)))
+        for n in unknown:
+            imputed[n] = {"raw_score": pillars[n].score, "imputed_score": fill, "basis": basis[n]}
+            light = _traffic_light(fill)
+            pillars[n] = replace(pillars[n], score=fill, status=light, positives=[])
+    elif unknown:
+        video_meta["no_pillar_assessed"] = True
+        for n in unknown:
+            pillars[n] = replace(pillars[n], positives=[])
+    video_meta["pillar_basis"] = basis
+    video_meta["imputed_pillars"] = imputed
 
     total = sum(p.score for p in pillars.values())
     band  = _score_band(total)

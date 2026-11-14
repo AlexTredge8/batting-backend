@@ -1,5 +1,12 @@
 # Rules Changelog
 
+## 2.3.0 — 2026-11-14
+
+- Unknown pillars no longer score full marks. A pillar whose rule could not measure (`not_measured`) or was suppressed for a low-confidence anchor (`suppressed`) now takes the average of the measured pillars, rounded, and is flagged `imputed` with its `raw_score` kept. If no pillar was measured, scores are left unchanged and `no_pillar_assessed` is set. Decided by Alex.
+- A pillar measured with no fault found keeps its score. On the Phase 0 clips, averaging those as well raised the overall mean error from 19.6 to 26.8 points.
+- Effect on the 17 Phase 0 clips: none. Every pillar there was measured. The change protects live uploads where a key moment cannot be found.
+- Rule logic and thresholds are unchanged.
+
 ## 2.2.0 — 2026-11-14 (records changes made 13–15 May 2026)
 
 These changes were in the code from 13–15 May 2026 but were not logged. Dates and reasons are from the comments in `config.py` and `coaching_rules.py`. No rule logic or threshold changed on 2026-11-14. Only `RULES_VERSION` moved, from 2.0.0 to 2.2.0.
