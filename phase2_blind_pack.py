@@ -5,6 +5,7 @@ Phase 2 blind pack.
 Builds the pack the coaches score blind:
   clips/<ID>.mp4                 every clip, renamed to a random ID, container metadata
                                  stripped (names, dates, location), audio kept
+  <coach>_scoring.html, <coach>_pairs.html  offline pages the coaches use (phase2_coach_pages.py)
   sheets/<coach>_score_sheet.csv one row per clip in a fresh random order per coach;
                                  a coach never gets a clip of themselves (clip_sheet.csv
                                  column scorer_in_clip)
@@ -124,12 +125,14 @@ def build(args: argparse.Namespace) -> int:
     (out / "README_for_coaches.txt").write_text(f"""Batting IQ blind scoring pack ({date.today().isoformat()})
 
 1. Score on your own. Do not discuss clips or scores with the other coaches until everyone has sent their sheets back.
-2. Use the rubric (rubric v0.1). Work down your sheet in the order given. It is in a random order made for you.
+2. Open <your name>_scoring.html in Chrome or Safari (double-click it; keep it in this folder so it can find the clips). It shows one clip at a time with the rubric. Work in the order given; it is a random order made for you. At the end, click "Download results" and send the file to Alex.
 3. For each clip: rate C01-C12 as 2 (done well), 1 (partly), 0 (clear fault) or X (cannot judge from this clip). Then give the four pillar scores (0-25) and an overall score (0-100) on its own; do not add up the pillars. Then pick ONE priority fault (F01-F12), your confidence, and the minutes you took.
-4. Pairwise sheet: for each pair, put L or R in "better" for the better drive, and your confidence (low/medium/high). About 25 minutes for 60 pairs. Do it on a different day from the scoring.
+4. Open <your name>_pairs.html: two drives side by side; click the better one (or press L or R). About 25 minutes for 60 pairs. Do it on a different day from the scoring. Then "Download results" and send the file to Alex.
 5. The clip names tell you nothing on purpose. If you recognise a player, say so in "notes" and score anyway.
 6. Some clips show junior players. Do not share, upload or forward any clip.
 """, encoding="utf-8")
+    from phase2_coach_pages import build as build_pages
+    build_pages(out)
     print(f"Pack written to {out}\n  clips: {len(key_rows)}  coaches: {', '.join(coaches)}  pairs per coach: {args.pairs_per_coach}")
     print(f"  KEEP PRIVATE: {out / 'blind_key_PRIVATE.csv'}")
     return 0

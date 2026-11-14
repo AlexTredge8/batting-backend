@@ -43,6 +43,9 @@ def test_bradley_terry_recovers_order():
     assert rho > 0.9
     assert 0 < ssr <= 1
     assert np.all(np.isfinite(se))
+    # a clip in no pair gets no se and does not wreck the reliability figure
+    theta2, se2, ssr2 = fit_bradley_terry(ids + ["UNSEEN"], judgements)
+    assert np.isnan(se2[-1]) and 0 < ssr2 <= 1
 
 
 def test_icc_perfect_and_noisy():

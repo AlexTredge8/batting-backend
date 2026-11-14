@@ -73,9 +73,12 @@ def fit_bradley_terry(ids: Sequence[str], judgements: Sequence[tuple[str, str]],
     theta -= theta.mean()
     prob = p[:, None] / (p[:, None] + p[None, :])
     info = (games * prob * (1 - prob)).sum(axis=1)
-    se = 1 / np.sqrt(np.maximum(info, 1e-9))
-    var_theta = theta.var(ddof=1) if n > 1 else 0.0
-    ssr = float((var_theta - np.mean(se ** 2)) / var_theta) if var_theta > 0 else float("nan")
+    seen = games.sum(axis=1) > 0  # a clip in no pair has no information: no se, not in the SSR
+    se = np.full(n, np.nan)
+    se[seen] = 1 / np.sqrt(np.maximum(info[seen], 1e-9))
+    th = theta[seen]
+    var_theta = th.var(ddof=1) if len(th) > 1 else 0.0
+    ssr = float((var_theta - np.mean(se[seen] ** 2)) / var_theta) if var_theta > 0 else float("nan")
     return theta, se, ssr
 
 
@@ -114,7 +117,7 @@ def main(argv: list[str] | None = None) -> int:
         w = csv.writer(h)
         w.writerow(["rank", "clip_id", "filename", "theta", "se"])
         for rank, i in enumerate(order, 1):
-            w.writerow([rank, ids[i], key[ids[i]], round(float(theta[i]), 3), round(float(se[i]), 3)])
+            w.writerow([rank, ids[i], key[ids[i]], round(float(theta[i]), 3), "" if np.isnan(se[i]) else round(float(se[i]), 3)])
     print(f"Judgements: {len(judgements)} ({', '.join(f'{c} {n}' for c, n in per_coach.items())}); "
           f"scale separation reliability {ssr:.2f}. Wrote {out / 'pairwise_scale.csv'}")
     return 0
