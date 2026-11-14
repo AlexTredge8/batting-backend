@@ -57,7 +57,7 @@ td.mono{font-family:var(--font-mono);font-size:13px}
   <section class="panel">
     <h2>2. Score</h2>
     <p class="small" id="plan">Waiting for the frames.</p>
-    <div class="row"><button class="go" id="run" disabled>Score all clips</button><button id="stop" disabled>Stop</button><button id="dl" disabled>Save Model_score_sheet.csv</button></div>
+    <div class="row"><button class="go" id="run" disabled>Score all clips (failed ones again)</button><button id="stop" disabled>Stop</button><button id="dl" disabled>Save Model_score_sheet.csv</button></div>
     <div class="scroll"><table><thead><tr><th>Clip</th><th>Status</th><th>Overall</th><th>Acc</th><th>Trk</th><th>Stab</th><th>Flow</th><th>Priority fault</th><th>Conf.</th></tr></thead>
     <tbody id="rows"><tr><td colspan="9" class="muted">Clips appear here once the folder is loaded. Results already saved show straight away.</td></tr></tbody></table></div>
   </section>
@@ -97,7 +97,8 @@ function render(){
     const st = document.createElement("td"); const pill = document.createElement("span");
     pill.className = "pill" + (r && r.error ? " err" : r ? " ok" : ""); pill.textContent = refIds.has(id) ? "reference" : r ? (r.error ? "failed" : "scored") : "to do";
     st.appendChild(pill); tr.appendChild(st);
-    ["overall","access","tracking","stability","flow","priority_fault","confidence"].forEach(k => tr.appendChild(cell(r && !r.error ? r[k] : "")));
+    if (r && r.error){ const td = cell(r.error + (r.message ? ": " + r.message : ""), "small"); td.colSpan = 7; td.style.whiteSpace = "normal"; tr.appendChild(td); }
+    else ["overall","access","tracking","stability","flow","priority_fault","confidence"].forEach(k => tr.appendChild(cell(r ? r[k] : "")));
     body.appendChild(tr);
   });
   $("dl").disabled = !Object.values(results).some(r => !r.error);
@@ -119,30 +120,49 @@ $("folder").onchange = async e => {
   if (!sample){ warn("Claude is not available in this view, so nothing can be scored here. Open the page in claude.ai while signed in."); }
   else {
     const max = limits && limits.images ? limits.images.maxCount : 0;
-    $("plan").textContent = toScore + " clips to score, one request each" + (max ? ", up to " + max + " frames per request" : "") + ". Reference clips are shown to Claude as worked examples and are not scored.";
+    $("plan").textContent = toScore + " clips to score, one request each" + (max ? ", frames laid out as up to " + Math.min(max, 3) + " contact sheets per request" : "") + ". Reference clips are shown to Claude as worked examples and are not scored.";
     $("run").disabled = !max;
     if (!max) warn("This view cannot send images to Claude.");
   }
   render();
 };
 
-function pickImages(id, max){
-  const imgs = [], labels = [];
-  const useRefs = max >= 3 * REF_STILLS.length + 10 ? refs : [];
-  useRefs.forEach((r, k) => REF_STILLS.forEach(s => { const f = clips[r.clip_id] && clips[r.clip_id].stills[s];
-    if (f){ imgs.push(f); labels.push("Reference " + "ABC"[k] + ", " + s.replace(/_/g, " ")); } }));
-  const c = clips[id];
-  STILLS.forEach(s => { if (c.stills[s]){ imgs.push(c.stills[s]); labels.push("This clip, " + s.replace(/_/g, " ")); } });
-  const room = Math.max(0, max - imgs.length), strip = c.strip;
-  const step = strip.length > room ? strip.length / room : 1;
-  for (let k = 0; k < strip.length && imgs.length < max; k += step){ const [fr, f] = strip[Math.floor(k)]; imgs.push(f); labels.push("This clip, frame " + fr + " (around contact)"); }
-  return {imgs, labels, useRefs};
+// The page may send only a few images per request (limits().images.maxCount, 4 when tested), so frames
+// are laid out as contact sheets: one picture holds several numbered tiles.
+async function sheet(items, cols){
+  const bmps = []; for (const it of items) bmps.push({bmp: await createImageBitmap(it.file), label: it.label});
+  const th = 420, tw = Math.round(th * bmps[0].bmp.width / bmps[0].bmp.height), rows = Math.ceil(bmps.length / cols);
+  const c = document.createElement("canvas"); c.width = tw * cols; c.height = th * rows;
+  const g = c.getContext("2d"); g.fillStyle = "#000"; g.fillRect(0, 0, c.width, c.height);
+  bmps.forEach((b, k) => {
+    const x = (k % cols) * tw, y = Math.floor(k / cols) * th; g.drawImage(b.bmp, x, y, tw, th);
+    g.fillStyle = "rgba(0,0,0,.7)"; g.fillRect(x, y, tw, 30); g.fillStyle = "#fff"; g.font = "bold 20px sans-serif"; g.fillText(b.label, x + 6, y + 22);
+  });
+  return await new Promise(res => c.toBlob(res, "image/jpeg", 0.88));
+}
+async function buildImages(id, max){
+  const c = clips[id], blobs = [], labels = [];
+  const useRefs = max >= 3 ? refs.filter(r => clips[r.clip_id]) : [];
+  if (useRefs.length){
+    const items = []; useRefs.forEach((r, k) => REF_STILLS.forEach(st => { const f = clips[r.clip_id].stills[st]; if (f) items.push({file: f, label: "Ref " + "ABC"[k] + " " + st.replace(/_/g, " ")}); }));
+    blobs.push(await sheet(items, REF_STILLS.length));
+    labels.push("Picture " + blobs.length + ": reference clips A, B and C, one row each, left to right: hands peak, contact, follow-through.");
+  }
+  const st = STILLS.filter(s => c.stills[s]).map((s, k) => ({file: c.stills[s], label: (k + 1) + " " + s.replace(/_/g, " ")}));
+  blobs.push(await sheet(st, 3));
+  labels.push("Picture " + blobs.length + ": THIS clip's six key moments in order, tiles 1-6: " + STILLS.join(", ").replace(/_/g, " ") + ".");
+  if (c.strip.length && blobs.length < max){
+    const sp = c.strip.map(([fr, f], k) => ({file: f, label: "f" + fr}));
+    blobs.push(await sheet(sp, 5));
+    labels.push("Picture " + blobs.length + ": THIS clip, every frame around contact, in order (tile label = frame number).");
+  }
+  return {blobs, labels, useRefs};
 }
 
 function buildPrompt(id, labels, useRefs){
   const lines = [];
   lines.push("You are a qualified cricket batting coach scoring ONE front-foot drive, filmed from behind the bowler's arm. Score this shot, not the player.");
-  lines.push("The images, in order:"); labels.forEach((l, k) => lines.push("Image " + (k + 1) + ": " + l));
+  lines.push("The pictures, in order:"); labels.forEach(l => lines.push(l));
   if (useRefs.length){
     lines.push("The reference clips were scored by a qualified coach. Use them to calibrate your scale:");
     useRefs.forEach((r, k) => lines.push("Reference " + "ABC"[k] + ": overall " + r.overall + "; access " + r.access + ", tracking " + r.tracking + ", stability " + r.stability + ", flow " + r.flow + " (each out of 25)."));
@@ -153,8 +173,8 @@ function buildPrompt(id, labels, useRefs){
   lines.push("Pillar anchors (0-25 each): " + RUBRIC.anchors);
   lines.push("Faults in chain order. Pick ONE priority fault: the one that, fixed first, helps most; usually the earliest in the chain.");
   RUBRIC.faults.forEach(f => lines.push(f[0] + ": " + f[1]));
-  lines.push("Give the overall score (0-100) on its own; do not add up the pillars. Name the image number that shows each fault you mark 0. If you cannot see something, rate X.");
-  lines.push('Answer with JSON only, exactly these keys: {"C01":"2|1|0|X", ... "C12":"...", "access":0-25, "tracking":0-25, "stability":0-25, "flow":0-25, "overall":0-100, "priority_fault":"F01".."F12", "second_fault":"F..|", "confidence":"low|medium|high", "cannot_judge_reason":"", "evidence":{"F..":"image number"}, "notes":"one sentence"}');
+  lines.push("Give the overall score (0-100) on its own; do not add up the pillars. Name the picture and tile that shows each fault you mark 0. If you cannot see something, rate X.");
+  lines.push('Answer with JSON only, exactly these keys: {"C01":"2|1|0|X", ... "C12":"...", "access":0-25, "tracking":0-25, "stability":0-25, "flow":0-25, "overall":0-100, "priority_fault":"F01".."F12", "second_fault":"F..|", "confidence":"low|medium|high", "cannot_judge_reason":"", "evidence":{"F..":"picture and tile"}, "notes":"one sentence"}');
   return lines.join("\n");
 }
 
@@ -170,6 +190,25 @@ function clean(id, o){
   return out;
 }
 
+async function toJpeg(file){
+  // Re-encode every frame as a plain JPEG of at most 1000 px on the long side (type and size always valid).
+  const bmp = await createImageBitmap(file);
+  const sc = Math.min(1, 1000 / Math.max(bmp.width, bmp.height));
+  const c = document.createElement("canvas"); c.width = Math.round(bmp.width * sc); c.height = Math.round(bmp.height * sc);
+  c.getContext("2d").drawImage(bmp, 0, 0, c.width, c.height);
+  return await new Promise(res => c.toBlob(res, "image/jpeg", 0.88));
+}
+function parseLoose(text){
+  const t = String(text || ""); const a = t.indexOf("{"), b = t.lastIndexOf("}");
+  if (a < 0 || b <= a) throw {code: "invalid_json", message: "no JSON object in the reply"};
+  return JSON.parse(t.slice(a, b + 1));
+}
+async function scoreOne(id, max){
+  const {blobs, labels, useRefs} = await buildImages(id, max);
+  const res = await sample(buildPrompt(id, labels, useRefs), {images: blobs, modelTier: "complex", cache: false});
+  return {o: parseLoose(res.text), n: blobs.length, refs: useRefs.length};
+}
+
 $("run").onclick = async () => {
   stopFlag = false; $("run").disabled = true; $("stop").disabled = false;
   const refIds = new Set(refs.map(r => r.clip_id));
@@ -177,12 +216,17 @@ $("run").onclick = async () => {
   for (const id of todo){
     if (stopFlag) break;
     const started = Date.now();
-    const {imgs, labels, useRefs} = pickImages(id, limits.images.maxCount);
     try {
-      const o = await sample.json(buildPrompt(id, labels, useRefs), {images: imgs, modelTier: "complex", cache: false});
-      results[id] = Object.assign(clean(id, o || {}), {minutes_taken: ((Date.now() - started) / 60000).toFixed(1), images_sent: imgs.length, references: useRefs.length});
+      let out;
+      try { out = await scoreOne(id, limits.images.maxCount); }
+      catch(e1){
+        // One fallback, never a loop: if the images or the size were the problem, send the six stills only.
+        if (!e1 || !["image_rejected","prompt_too_large","invalid_json","empty_completion","upstream_error"].includes(e1.code)) throw e1;
+        out = await scoreOne(id, 1);
+      }
+      results[id] = Object.assign(clean(id, out.o || {}), {minutes_taken: ((Date.now() - started) / 60000).toFixed(1), images_sent: out.n, references: out.refs});
     } catch(err){
-      results[id] = {clip_id: id, error: (err && err.code) || "failed"};
+      results[id] = {clip_id: id, error: (err && err.code) || "failed", message: String((err && err.message) || "").slice(0, 160)};
       if (err && (err.code === "not_granted" || err.code === "rate_limited")){ warn(err.code === "rate_limited" ? "Claude asked for a pause. Press Score again in a few minutes to carry on." : "Permission to ask Claude was not given."); render(); break; }
     }
     if (db && !results[id].error){ try { await db.doc("model/" + id).set(results[id]); } catch(e){} }
