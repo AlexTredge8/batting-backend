@@ -1,0 +1,15 @@
+filename,tier,alex_overall,model_overall,four_rule_auto_overall,alex_access,alex_tracking,alex_stability,alex_flow,model_access,model_tracking,model_stability,model_flow,model_priority_fault,model_second_fault,model_confidence,C01,C02,C03,C04,C05,C06,C07,C08,C09,C10,C11,C12
+AlexT_Ondrive Good.MOV,Good Club,80,75,84,18,19,23,20,18,18,19,20,F04,F07,medium,2,2,1,1,1,1,1,2,2,1,2,2
+Cam T_Offdrive Elite.mp4,Elite,92,75,100,23,21,24,24,17,19,19,20,F04,F07,low,2,2,1,1,1,1,1,1,2,2,2,2
+Straight Drive_Beginner.mp4,Average,49,72,75,13,14,12,10,17,18,18,20,F04,F07,low,2,2,2,1,1,1,1,2,2,2,2,2
+Oscar V_Beginner.mp4,Beginner,30,65,75,5,8,8,9,15,17,18,17,F05,F07,low,2,2,1,1,1,1,1,1,1,2,2,2
+Ollie P_Offdrive Average.mov,Good Club,72,66,50,16,17,17,22,15,16,18,19,F04,F07,low,2,2,1,1,1,1,1,1,2,1,2,2
+Drive_Average 2.MOV,Average,57,72,59,13,15,12,17,17,17,19,21,F07,F04,low,2,2,1,1,X,1,1,2,2,1,2,2
+Drive_Beginner 2.MOV,Beginner,50,42,84,12,14,12,12,9,15,16,15,F07,F08,medium,2,2,1,1,1,1,0,0,2,1,2,1
+Drive_Average.MOV,Average,58,50,92,13,14,16,15,12,15,13,12,F03,F12,low,1,1,1,1,1,1,1,1,1,2,1,1
+Drive_Beginner 4.MOV,Beginner,35,60,25,9,10,9,7,14,15,15,17,F07,F06,low,1,2,1,1,X,1,1,1,2,1,1,2
+Cam T_Ondrive Elite.mov,Elite,86,79,83,21,20,22,23,19,21,21,21,F07,F05,medium,2,2,1,2,1,2,1,2,2,2,2,2
+Drive_Beginner 3.MOV,Beginner,26,45,50,6,8,6,6,10,12,14,13,F05,F04,low,2,2,1,1,0,1,1,1,1,1,1,1
+Cam T_Offdrive Good.mp4,Good Club,74,80,100,18,19,16,21,19,21,20,21,F05,F07,medium,2,2,2,2,1,1,1,2,2,2,2,2
+Alex T_Straightdrive Good.MOV,Good Club,79,78,100,21,19,21,18,18,20,20,21,F05,F07,low,2,2,X,1,1,1,1,1,2,2,2,2
+Cam T_LH Offdrive Elite.mov,Elite,89,80,100,23,21,24,21,18,22,22,21,F03,F07,medium,2,2,1,2,1,2,1,1,2,2,2,2
