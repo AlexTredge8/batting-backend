@@ -42,6 +42,7 @@ os.environ.setdefault("MEDIAPIPE_DISABLE_GPU", "1")
 from phase0_baseline_table import find_video, key_of, load_csv  # noqa: E402
 
 TEMPLATE = SCRIPT_DIR / "docs" / "phase2" / "offline_pairs_template.html"
+QUICK_TEMPLATE = SCRIPT_DIR / "docs" / "phase2" / "offline_quick_template.html"
 NOSE, L_EAR, R_EAR, L_SH, R_SH = 0, 7, 8, 11, 12
 
 
@@ -128,16 +129,19 @@ def encode_clip(video: Path, start: int, end: int, max_side: int, blur: bool, ca
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     parser.add_argument("--video-dir", required=True)
-    parser.add_argument("--out", required=True, help="the HTML file to write; must be outside the repo")
+    parser.add_argument("--out", default=None, help="the swipe HTML file to write; must be outside the repo")
     parser.add_argument("--ground-truth", default=str(SCRIPT_DIR / "coach_ground_truth_from_screenshot.csv"))
     parser.add_argument("--anchor-truth", default=str(SCRIPT_DIR / "anchor_truth.csv"))
     parser.add_argument("--cache-dir", default=str(SCRIPT_DIR / "calibration_output" / "pose_cache"))
     parser.add_argument("--pairs", type=int, default=40, help="pairs each person judges (about 20 seconds each)")
     parser.add_argument("--max-side", type=int, default=640)
     parser.add_argument("--no-blur", action="store_true", help="keep faces visible (only for a coaches-only file)")
+    parser.add_argument("--quick-out", default=None, help="also write the quick coach check (score + main fault per clip), same clips and key")
     args = parser.parse_args(argv)
 
-    out = Path(args.out).expanduser().resolve()
+    if not args.out and not args.quick_out:
+        raise SystemExit("Give --out (swipe file), --quick-out (quick coach check), or both.")
+    out = Path(args.out or args.quick_out).expanduser().resolve()
     if SCRIPT_DIR in out.parents:
         raise SystemExit("Write the file outside the repo: it holds the clips.")
     video_dir = Path(args.video_dir).expanduser()
@@ -163,15 +167,21 @@ def main(argv: list[str] | None = None) -> int:
         print(f"{code}  {len(data) / 1024:6.0f} KB  {info['size']}  {info['frames']} frames")
 
     payload = {"build": build_id, "pairs": args.pairs, "clips": clips}
-    html = TEMPLATE.read_text().replace("/*__PAYLOAD__*/null", json.dumps(payload))
     out.parent.mkdir(parents=True, exist_ok=True)
-    out.write_text(html, encoding="utf-8")
+    if args.out:
+        out.write_text(TEMPLATE.read_text().replace("/*__PAYLOAD__*/null", json.dumps(payload)), encoding="utf-8")
+    if args.quick_out:
+        quick = Path(args.quick_out).expanduser().resolve()
+        if SCRIPT_DIR in quick.parents:
+            raise SystemExit("Write the quick file outside the repo: it holds the clips.")
+        quick.write_text(QUICK_TEMPLATE.read_text().replace("/*__PAYLOAD__*/null", json.dumps(payload)), encoding="utf-8")
+        print(f"Wrote {quick} (quick coach check, same build {build_id})")
     key_path = out.with_name(out.stem + "_key_PRIVATE.csv")
     with key_path.open("w", newline="", encoding="utf-8") as h:
         w = csv.DictWriter(h, fieldnames=list(key_rows[0].keys()))
         w.writeheader()
         w.writerows(key_rows)
-    print(f"\nWrote {out} ({out.stat().st_size / 1e6:.1f} MB, build {build_id}, {args.pairs} pairs per person, "
+    print(f"\nBuilt {out} ({out.stat().st_size / 1e6:.1f} MB, build {build_id}, {args.pairs} pairs per person, "
           f"faces {'visible' if args.no_blur else 'blurred'})\nKEEP PRIVATE: {key_path}")
     return 0
 
