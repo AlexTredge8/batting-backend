@@ -1,0 +1,127 @@
+"""Phase 5 checkpoint measurements and entry tests, on synthetic landmarks (no video needed)."""
+
+import csv
+import sys
+from pathlib import Path
+
+import numpy as np
+
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
+
+import phase5_checkpoints as p5  # noqa: E402
+import phase5_entry_tests as p5e  # noqa: E402
+
+W, H, FPS, N = 480.0, 848.0, 30.0, 120
+ANCH = {"setup_frame": 40, "hands_start_up_frame": 50, "front_foot_down_frame": 70, "hands_peak_frame": 66,
+        "contact_frame": 78, "follow_through_frame": 100}
+
+
+def _figure(head_jitter=0.0, head_lean=0.0, seed=0) -> np.ndarray:
+    """A right-hander, side-on, filmed from the bowler's end. x in pixels, off side = smaller x."""
+    rng = np.random.default_rng(seed)
+    a = np.zeros((N, 33, 4))
+    a[..., 3] = 1.0
+    pts = {0: (250, 200), 11: (245, 260), 12: (255, 262), 13: (240, 330), 14: (262, 330), 15: (260, 380), 16: (262, 382),
+           23: (248, 420), 24: (256, 420), 25: (246, 520), 26: (258, 520), 27: (245, 620), 28: (262, 620),
+           29: (255, 630), 30: (270, 630), 31: (225, 632), 32: (240, 632), 7: (245, 195), 8: (256, 195)}
+    for i, (x, y) in pts.items():
+        a[:, i, 0], a[:, i, 1] = x, y
+    # stride: front foot (left ankle 27) moves 40 px to the off side between hands-start-up and foot-down
+    for f in range(N):
+        t = np.clip((f - 50) / 20, 0, 1)
+        a[f, [27, 29, 31], 0] -= 40 * t
+        a[f, 0, 0] -= head_lean * t
+        # backlift: top hand rises 80 px to the peak, then comes down to contact
+        up = np.clip((f - 50) / 16, 0, 1) - np.clip((f - 66) / 12, 0, 1)
+        a[f, 15, 1] -= 80 * up
+    a[:, 0, :2] += rng.normal(0, head_jitter, (N, 2))
+    a[..., 0] /= W
+    a[..., 1] /= H
+    return a
+
+
+def _save(tmp: Path, name: str, arr: np.ndarray) -> Path:
+    p = tmp / f"{name}.npz"
+    np.savez_compressed(p, landmarks=arr.astype(np.float32), frame_idx=np.arange(N), fps=FPS, width=W, height=H)
+    return p
+
+
+def _values(npz: Path, hand="right", drive="off") -> dict[str, float]:
+    return {r["measurement"]: (np.nan if r["value"] == "" else r["value"])
+            for r in p5.measure_clip(p5.load_clip(npz, hand, drive), ANCH)}
+
+
+def test_all_measurements_compute_and_feet_check(tmp_path):
+    clip = p5.load_clip(_save(tmp_path, "rh", _figure()), "right")
+    rows = p5.measure_clip(clip, ANCH)
+    assert [r["measurement"] for r in rows] == [f"M{i:02d}" for i in range(1, 13)]
+    assert all(r["value"] != "" for r in rows), [r for r in rows if r["value"] == ""]
+    assert rows[0]["toes_point_off"] == "yes"
+    assert 410 < rows[0]["body_length_px"] < 430  # ankles at y=620, nose at y=200
+
+
+def test_left_hander_mirror_matches_right_hander(tmp_path):
+    rh = _figure()
+    lh = rh.copy()
+    lh[..., 0] = 1.0 - lh[..., 0]
+    swap = [(11, 12), (13, 14), (15, 16), (23, 24), (25, 26), (27, 28), (29, 30), (31, 32), (7, 8)]
+    for i, j in swap:
+        lh[:, [i, j]] = lh[:, [j, i]]
+    a, b = _values(_save(tmp_path, "rh", rh), "right"), _values(_save(tmp_path, "lh", lh), "left")
+    for m in a:
+        assert np.isclose(float(a[m]), float(b[m]), atol=1e-6), m
+
+
+def test_front_foot_step_to_off_side_is_positive_and_on_drive_flips(tmp_path):
+    npz = _save(tmp_path, "rh", _figure())
+    off, on = _values(npz, drive="off"), _values(npz, drive="on")
+    assert float(off["M05"]) > 5
+    assert np.isclose(float(on["M05"]), -float(off["M05"]))
+
+
+def test_head_measurements_move_the_right_way(tmp_path):
+    still, shaky = _values(_save(tmp_path, "a", _figure(0.0))), _values(_save(tmp_path, "b", _figure(4.0, seed=1)))
+    assert float(shaky["M01"]) > float(still["M01"])
+    lead = _values(_save(tmp_path, "c", _figure(head_lean=30)))
+    assert float(lead["M04"]) > float(still["M04"])  # head moved across towards the line
+    assert float(lead["M10"]) > float(still["M10"])
+
+
+def test_times_scale_with_fps(tmp_path):
+    clip = p5.load_clip(_save(tmp_path, "rh", _figure()), "right")
+    assert clip.ms(300) == 9
+    clip.fps = 60.0
+    assert clip.ms(300) == 18
+
+
+def test_entry_tests_pass_a_good_measurement_and_fail_a_noisy_one(tmp_path):
+    rng = np.random.default_rng(0)
+    clips = [f"clip{i:02d}.mov" for i in range(14)]
+    rating = rng.integers(0, 3, len(clips)).astype(float)
+    good = 10 - 3 * rating + rng.normal(0, 0.3, len(clips))   # higher_worse, tracks the rating
+    noise = rng.normal(0, 1, len(clips))
+    rows = []
+    for k, c in enumerate(clips):
+        for m, cp, v in (("M01", "C01", good[k]), ("M02", "C02", noise[k])):
+            for s, jitter in (("validated", 0.0), ("auto", 0.05)):
+                rows.append({"filename": c, "anchor_set": s, "measurement": m, "checkpoint": cp, "fault": "F" + cp[1:],
+                             "pillar": "tracking", "unit": "% BL", "direction": "higher_worse", "value": v + jitter})
+    meas = tmp_path / "m.csv"
+    with meas.open("w", newline="") as h:
+        w = csv.DictWriter(h, fieldnames=list(rows[0].keys()))
+        w.writeheader()
+        w.writerows(rows)
+    rat = tmp_path / "r.csv"
+    with rat.open("w", newline="") as h:
+        w = csv.writer(h)
+        w.writerow(["filename", "C01", "C02"])
+        for k, c in enumerate(clips):
+            w.writerow([c, int(rating[k]), int(rating[k])])
+    gt = tmp_path / "gt.csv"
+    gt.write_text("filename,tracking_score\n" + "".join(f"{c},{20}\n" for c in clips))
+    out = tmp_path / "out"
+    p5e.main(["--measurements", str(meas), "--ratings", f"{rat}:coach", "--ground-truth", str(gt), "--out", str(out)])
+    res = {r["measurement"]: r for r in csv.DictReader((out / "entry_tests.csv").open())}
+    assert res["M01"]["test1_tracks"] == "pass" and res["M01"]["test3_auto_anchors"] == "pass"
+    assert res["M01"]["verdict"].startswith("pass so far")
+    assert res["M02"]["test1_tracks"] == "fail" and res["M02"]["verdict"] == "fail"
