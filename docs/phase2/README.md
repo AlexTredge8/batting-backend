@@ -1,5 +1,20 @@
 # Phase 1 and Phase 2: rubric, then the coach ceiling
 
+## Links (private; share each from its Share menu)
+
+- **Which drive is better?** (the left-or-right session): https://claude.ai/artifact/XXn9i9Xij479pt3Zn6eVLi
+  Each coach picks their name and chooses the clips from their own zip; the clips play on their device only. Answers save to the page's store, one record per coach. To save, Cam and Viv must be Contributors (in your organisation) or invited by email as Editors; anyone else sees a warning and can save a file of their answers instead. Source: `docs/phase2/pairs_app.html`. Claude reads the answers with ArtifactData; `phase2_pairs.py from-artifact` turns them into pairs sheets.
+- **Fourth coach test** (Alex only): https://claude.ai/artifact/TtMGpghZspSmVoBqzkaEfM
+  Choose the pack's `model_inputs` folder and press Score. Claude scores each clip from still frames under Alex's account, with three of Alex's scored clips as references; results save to the page's store and as `Model_score_sheet.csv`. Source: `docs/phase2/model_coach_app.html`.
+
+## One command on the Mac
+
+```bash
+cd ~/Documents/battingiq-phase0 && git pull --rebase && ./phase2_mac_pack.sh
+```
+
+This builds the blind pack next to the clip folder, `for_<coach>.zip` per coach (only the clips they may see, never the key), and the model frames.
+
 ## Phase 1: rubric (Alex, Cam, Viv)
 
 The draft is [`docs/phase1/rubric_v0.md`](../phase1/rubric_v0.md). Its source of truth is `rubric_v0.json`; the tools read the IDs from there. It has 12 checkpoints that this camera can see, pillar anchors at 5/15/25, 12 faults in chain order, three proposed caps, and a "cannot judge" option.
@@ -29,13 +44,13 @@ python phase2_agreement.py --sheets-dir <pack>/sheets --key <pack>/blind_key_PRI
 
 `agreement_report.md` gives Alex's repeat error, the coach-to-coach error overall and per pillar, bias by band, fault-pick agreement, ICC(2,1) with a 95% interval, pillar correlation between coaches (below 0.5 sends the pillar back to Phase 1), the halo check, and the targets with the provisional numbers replaced. It contains IDs and filenames only, no images, so it can be committed to `baselines/phase2_<date>/`.
 
-## Model as a fourth coach (approved spend under £5; waiting on consent)
+## Model as a fourth coach (consent given 14 Nov, on condition the data stays private)
 
 ```bash
 python phase2_model_pack.py --pack <pack> --video-dir "$VIDS" --baseline-reports baselines/phase0_<date>/reports/auto
 ```
 
-This writes six stills and a 13-frame contact strip per clip, plus `prompt.md`, locally. **Nothing is sent.** Two things must happen before any image goes to a provider: parental consent for the junior players, and a check of the provider's data terms. Both are Alex's to decide.
+This writes six stills and a 13-frame contact strip per clip, plus `prompt.md` and `references.json`, locally. Alex confirmed on 14 Nov that he has consent from the people in the clips, provided their data stays private. The frames go to Claude only from the private Fourth coach test page, under Alex's own account.
 
 Once they are done, save the model's answers as `<pack>/sheets/Model_score_sheet.csv`, in the same columns as a coach sheet. `phase2_agreement.py` then measures it exactly like a coach, without counting it in the human ceiling.
 

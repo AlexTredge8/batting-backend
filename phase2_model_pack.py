@@ -95,12 +95,30 @@ Answer with JSON only:
 """
 
 
+def _write_references(pack: Path, key: list[dict], ground_truth: Path) -> None:
+    """Three reference clips with Alex's original scores (highest, middle and lowest overall among clips with
+    inputs). The model sees them as worked examples, so they are left out of its own marking."""
+    gt = {key_of(r["filename"]): r for r in load_csv(ground_truth)}
+    have = [k for k in key if (pack / "model_inputs" / k["clip_id"] / "still_contact.jpg").exists() and key_of(k["filename"]) in gt]
+    have.sort(key=lambda k: int(gt[key_of(k["filename"])]["overall_score"]))
+    if len(have) < 6:
+        return
+    picks = [have[-1], have[len(have) // 2], have[0]]
+    refs = []
+    for k in picks:
+        g = gt[key_of(k["filename"])]
+        refs.append({"clip_id": k["clip_id"], "overall": int(g["overall_score"]),
+                     **{p: int(g[f"{p}_score"]) for p in ("access", "tracking", "stability", "flow")}})
+    (pack / "model_inputs" / "references.json").write_text(json.dumps(refs, indent=2), encoding="utf-8")
+
+
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     parser.add_argument("--pack", required=True, help="blind pack folder (with blind_key_PRIVATE.csv)")
     parser.add_argument("--video-dir", required=True)
     parser.add_argument("--anchor-truth", default=str(SCRIPT_DIR / "anchor_truth.csv"))
     parser.add_argument("--baseline-reports", default=None, help="baselines/phase0_<date>/reports/auto")
+    parser.add_argument("--ground-truth", default=str(SCRIPT_DIR / "coach_ground_truth_from_screenshot.csv"))
     args = parser.parse_args(argv)
 
     pack = Path(args.pack).expanduser()
@@ -132,6 +150,7 @@ def main(argv: list[str] | None = None) -> int:
             p.unlink(missing_ok=True)
         done += 1
     (pack / "model_inputs" / "prompt.md").write_text(prompt_text(), encoding="utf-8")
+    _write_references(pack, key, Path(args.ground_truth))
     print(f"Model inputs for {done} clips in {pack / 'model_inputs'}" + (f"; skipped (no anchors or file): {', '.join(skipped)}" if skipped else ""))
     print("Nothing was sent. Sending needs parental consent for juniors and a check of the provider's data terms.")
     return 0
