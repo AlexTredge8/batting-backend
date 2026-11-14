@@ -1,0 +1,19 @@
+filename,tier,outcome,failed_checks,retake_message,auto_abs_error,judgement_columns
+Cam T_LH Offdrive Elite.mov,Elite,scored,,,11.0,unconfirmed
+Cam T_Offdrive Elite.mp4,Elite,not scored,size;resolution,Move closer: the batter should fill at least a fifth of the picture's height.,8.0,unconfirmed
+Cam T_Ondrive Elite.mov,Elite,scored,,,3.0,unconfirmed
+Viv P_Offdrive Elite.mov,Elite,part-scored,timing;resolution,"Send the original video from your camera roll, not an edited or forwarded copy.",2.0,unconfirmed
+Alex T_Straightdrive Good.MOV,Good Club,not scored,length;size;timing,Start filming before the bowler runs in and stop after the follow-through.,21.0,unconfirmed
+AlexT_Ondrive Good.MOV,Good Club,not scored,size;timing,Move closer: the batter should fill at least a fifth of the picture's height.,4.0,unconfirmed
+Cam T_Offdrive Good.mp4,Good Club,part-scored,resolution,"Film in 1080p or higher, and send the original file.",26.0,unconfirmed
+Ollie P_Offdrive Average.mov,Good Club,not scored,tracked;others;size;sound;resolution,"Only the batter should be in the frame, start to finish.",22.0,unconfirmed
+Dan P_Offdrive Average.MOV,Average,not scored,size,Move closer: the batter should fill at least a fifth of the picture's height.,0.0,unconfirmed
+Drive_Average 2.MOV,Average,not scored,size,Move closer: the batter should fill at least a fifth of the picture's height.,2.0,unconfirmed
+Drive_Average.MOV,Average,not scored,others;angle;size,Only the batter should be in the frame: film from behind the bowler with the net lane clear.,34.0,unconfirmed
+Female_Average.mp4,Average,not scored,size;resolution,Move closer: the batter should fill at least a fifth of the picture's height.,,unconfirmed
+Drive_Beginner 2.MOV,Beginner,not scored,others;angle;size,Only the batter should be in the frame: film from behind the bowler with the net lane clear.,34.0,unconfirmed
+Drive_Beginner 3.MOV,Beginner,not scored,angle;length;timing,"Stand directly behind the bowler, in line with the stumps.",24.0,unconfirmed
+Drive_Beginner 4.MOV,Beginner,not scored,tracked;timing,"Only the batter should be in the frame, start to finish.",10.0,unconfirmed
+Drive_beginner.MOV,Beginner,not scored,angle;length;timing,"Stand directly behind the bowler, in line with the stumps.",62.0,unconfirmed
+Oscar V_Beginner.mp4,Beginner,part-scored,resolution,"Film in 1080p or higher, and send the original file.",45.0,unconfirmed
+Straight Drive_Beginner.mp4,Average,not scored,size;resolution,Move closer: the batter should fill at least a fifth of the picture's height.,26.0,unconfirmed
