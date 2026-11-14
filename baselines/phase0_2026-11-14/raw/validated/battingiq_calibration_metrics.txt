@@ -1,0 +1,32 @@
+BattingIQ calibration comparison summary
+Total processed videos: 17
+Local results present: 17
+Railway results present: 0
+Rows with both analyses: 0
+Rows with both analyses missing: 0
+Cached local fallbacks used: 0
+
+Mean local gap vs manual: 22.59
+
+Tier separation analysis (local model)
+  Lowest Beginner: 42
+  Lowest Average: 67
+  Lowest Good Club: 50
+  Lowest Elite: 83
+  Beginner -> Good Club gap: 8
+  Average -> Elite gap: 16
+
+Score compression analysis (local model)
+  Beginner: range 58
+  Average: range 33
+  Good Club: range 42
+  Elite: range 17
+    -> Compression warning: spread is below the 20-point target.
+
+Railway vs local drift
+  No paired local/railway scores available.
+
+
+Recommendations
+  - Score compression indicates the binary rules are still too flat; graduate the thresholds.
+  - Average-to-Elite separation is still under the 25-point calibration target.

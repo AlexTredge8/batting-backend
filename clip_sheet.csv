@@ -1,19 +1,19 @@
 filename,tier_csv,coach_overall,split,duration_s,avg_fps,nb_frames,implied_fps,codec,width,height,rotation,bitrate_kbps,audio_streams,audio_codec,audio_sample_rate,md5,pose_backend,pose_detection_rate,batter_height_px,batter_height_pct,height_window,player_id,scorer_in_clip,handedness,drive_type,feed,line,venue,camera_position,others_in_frame,flags_confirmed,flags_hub,hub_secs,hub_fps,hub_batter_px
-Cam T_LH Offdrive Elite.mov,Elite,89,tuning,,,,,,,,,,,,,,,,,,,,Cam,left,off,,,,,,,,4.2,30,1400
-Cam T_Offdrive Elite.mp4,Elite,92,tuning,,,,,,,,,,,,,,,,,,,,Cam,,off,,,,,,,,5.4,30,215
-Cam T_Ondrive Elite.mov,Elite,86,tuning,,,,,,,,,,,,,,,,,,,,Cam,,on,,,,,,,,5.5,30,1000
-Viv P_Offdrive Elite.mov,Elite,94,reference,,,,,,,,,,,,,,,,,,,,Viv,,off,,,,,,,same file as reference clip,3.7,30,260
-Alex T_Straightdrive Good.MOV,Good Club,79,tuning,,,,,,,,,,,,,,,,,,,,Alex,,straight,,,,,,,under 2 s,1.8,30,290
-AlexT_Ondrive Good.MOV,Good Club,80,heldout,,,,,,,,,,,,,,,,,,,,Alex,,on,,,,,,,,2.2,30,270
-Cam T_Offdrive Good.mp4,Good Club,74,tuning,,,,,,,,,,,,,,,,,,,,Cam,,off,,,,,,,,8.4,30,380
-Ollie P_Offdrive Average.mov,Good Club,72,tuning,,,,,,,,,,,,,,,,,,,,,,off,,,,,,,no audio; two figures; small; black bars,3.9,39,140
-Dan P_Offdrive Average.MOV,Average,67,tuning,,,,,,,,,,,,,,,,,,,,,,off,,,,,,,,3.2,30,235
-Drive_Average 2.MOV,Average,57,tuning,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,3.7,30,215
-Drive_Average.MOV,Average,58,heldout,,,,,,,,,,,,,,,,,,,,,,,,,,,,,angle; others in shot,4.4,30,370
-Female_Average.mp4,Average,60,tuning,,,,,,,,,,,,,,,,,,,,,,,,,,,,,small; filmed_correctly = N,10.6,30,145
-Drive_Beginner 2.MOV,Beginner,50,heldout,,,,,,,,,,,,,,,,,,,,,,,,,,,,,angle; others in shot,3.1,30,390
-Drive_Beginner 3.MOV,Beginner,26,tuning,,,,,,,,,,,,,,,,,,,,,,,,,,,,,angle; under 2 s,1.7,26,510
-Drive_Beginner 4.MOV,Beginner,35,tuning,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,2.2,26,295
-Drive_beginner.MOV,Beginner,18,tuning,,,,,,,,,,,,,,,,,,,,,,,,,,,,,angle; under 2 s; 42 frames,1.2,26,470
-Oscar V_Beginner.mp4,Beginner,30,tuning,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,5.9,30,235
-Straight Drive_Beginner.mp4,Average,49,tuning,,,,,,,,,,,,,,,,,,,,,,straight,,,,,,,small,6.0,30,135
+Cam T_LH Offdrive Elite.mov,Elite,89,tuning,4.172,30.204,126,30.2,h264,2160,3078,0,44193,1,aac,44100,7125a5af215345406bb0fcad75f9c680,tasks_heavy,100.0,1003,32.6,anchor setup 20..30,,Cam,left,off,,,,,,,,4.2,30,1400
+Cam T_Offdrive Elite.mp4,Elite,92,tuning,5.364,30.0,159,29.64,h264,480,848,-90,1555,1,aac,44100,f7bc73714337890a329c5f64d1fe1947,tasks_heavy,100.0,164,19.3,anchor setup 98..108,,Cam,,off,,,,,,,small,5.4,30,215
+Cam T_Ondrive Elite.mov,Elite,86,tuning,5.487,30.073,165,30.07,h264,1080,1920,0,11910,1,aac,44100,76dfd11ff96148a07eb14db6acc72cec,tasks_heavy,100.0,775,40.4,anchor setup 70..80,,Cam,,on,,,,,,,,5.5,30,1000
+Viv P_Offdrive Elite.mov,Elite,94,reference,3.69,30.035,129,34.96,h264,480,848,-90,1750,1,aac,44100,0a1b3a74e1f123a97085c2fafbaa12ea,tasks_heavy,100.0,209,24.6,anchor setup 40..50,,Viv,,off,,,,,,,same file as reference clip; frame-rate mismatch (34.96 vs 30.035 fps),3.7,30,260
+Alex T_Straightdrive Good.MOV,Good Club,79,tuning,1.758,30.339,76,43.23,h264,720,1280,-90,4695,1,aac,44100,4d8df0a34a6c67a2e05e3f1c69af6950,tasks_heavy,98.1,237,18.5,anchor setup -4..6,,Alex,,straight,,,,,,,under 2 s; small; frame-rate mismatch (43.23 vs 30.339 fps),1.8,30,290
+AlexT_Ondrive Good.MOV,Good Club,80,heldout,2.247,30.356,81,36.05,h264,720,1280,-90,3652,1,aac,44100,c6cd629e3ed5ca06d731db1adbb80382,tasks_heavy,100.0,247,19.3,anchor setup 20..30,,Alex,,on,,,,,,,small; frame-rate mismatch (36.05 vs 30.356 fps),2.2,30,270
+Cam T_Offdrive Good.mp4,Good Club,74,tuning,8.359,29.88,249,29.79,h264,480,848,-90,1527,1,aac,44100,6e4f33909c6e2750c214fa85b8a5b681,tasks_heavy,100.0,299,35.3,anchor setup 140..150,,Cam,,off,,,,,,,,8.4,30,380
+Ollie P_Offdrive Average.mov,Good Club,72,tuning,3.858,38.618,149,38.62,h264,384,848,0,933,0,,,ab26e7cf8b8fa6014c5bd0e38d74ee3b,tasks_heavy,87.2,-102,-12.0,anchor setup 0..10,,,,off,,,,,,,no audio; two figures; small; black bars,3.9,39,140
+Dan P_Offdrive Average.MOV,Average,67,tuning,3.2,30.0,96,30.0,hevc,1080,1920,-90,8396,1,aac,44100,2c05f1e5c56c51a642702eb684ce5499,tasks_heavy,94.8,182,9.5,anchor setup 12..22,,,,off,,,,,,,small,3.2,30,235
+Drive_Average 2.MOV,Average,57,tuning,3.668,29.973,110,29.99,hevc,1080,1920,-90,10241,1,aac,44100,4e10e5f2a5e3332e67bd5c71a8642df3,tasks_heavy,97.3,167,8.7,anchor setup 30..40,,,,,,,,,,,small,3.7,30,215
+Drive_Average.MOV,Average,58,heldout,4.403,29.977,132,29.98,hevc,1080,1920,-90,9108,1,aac,44100,aae5c75bb86ec7e43ebdbb2e72161881,tasks_heavy,100.0,338,17.6,anchor setup 19..29,,,,,,,,,,,angle; others in shot; small,4.4,30,370
+Female_Average.mp4,Average,60,tuning,10.588,30.0,316,29.85,h264,464,832,0,1527,1,aac,44100,9e51dde3c5096d494a0a2cf10ed52bdc,tasks_heavy,100.0,107,12.9,first 15 detected frames (no_anchor_row),,,,,,,,,,,small; filmed_correctly = N,10.6,30,145
+Drive_Beginner 2.MOV,Beginner,50,heldout,3.068,29.984,92,29.99,hevc,1080,1920,-90,8807,1,aac,44100,272c66877aefa6cac97f6bc71f006947,tasks_heavy,100.0,338,17.6,anchor setup 21..31,,,,,,,,,,,angle; others in shot; small,3.1,30,390
+Drive_Beginner 3.MOV,Beginner,26,tuning,1.707,26.503,61,35.74,hevc,1080,1920,-90,11001,1,aac,44100,a15bef44bec7ea4b51860e44a3d1edd9,tasks_heavy,100.0,389,20.3,anchor setup 6..16,,,,,,,,,,,angle; under 2 s; frame-rate mismatch (35.74 vs 26.503 fps),1.7,26,510
+Drive_Beginner 4.MOV,Beginner,35,tuning,2.205,26.43,77,34.92,hevc,1080,1920,-90,11481,1,aac,44100,916a6387c929f234d765a45b5aab0adf,tasks_heavy,40.9,,,anchor setup 8..18,,,,,,,,,,,frame-rate mismatch (34.92 vs 26.43 fps),2.2,26,295
+Drive_beginner.MOV,Beginner,18,tuning,1.208,26.277,42,34.77,hevc,1080,1920,-90,11346,1,aac,44100,d973b5905830e9014d50cd3363e9c6b3,tasks_heavy,100.0,403,21.0,anchor setup -5..5,,,,,,,,,,,angle; under 2 s; 42 frames; frame-rate mismatch (34.77 vs 26.277 fps),1.2,26,470
+Oscar V_Beginner.mp4,Beginner,30,tuning,5.921,30.0,177,29.89,h264,480,848,-90,1321,1,aac,44100,e40e64cff9ab40a293b3fde06b21ec41,tasks_heavy,100.0,180,21.2,anchor setup 84..94,,,,,,,,,,,,5.9,30,235
+Straight Drive_Beginner.mp4,Average,49,tuning,5.968,30.0,178,29.83,h264,464,832,0,1535,1,aac,44100,ac7da83e70044002bc96235d21523580,tasks_heavy,100.0,104,12.5,anchor setup 50..60,,,,straight,,,,,,,small,6.0,30,135

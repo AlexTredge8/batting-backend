@@ -1,0 +1,16 @@
+BattingIQ heldout set — metrics summary
+Videos in set: 3
+
+Per-tier mean overall (local) and mean abs error vs manual:
+  Beginner      mean_local=92.00  mae=42.00  n=1
+  Average       mean_local=100.00  mae=42.00  n=1
+  Good Club     mean_local=92.00  mae=12.00  n=1
+
+Per-pillar mean abs error (local vs manual):
+  access        mae=6.00
+  tracking      mae=9.33
+  stability     mae=8.00
+  flow          mae=9.33
+
+Within ±5 overall:          0/3
+Within ±5 on all 4 pillars: 0/3

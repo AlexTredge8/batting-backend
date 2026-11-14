@@ -1,0 +1,17 @@
+BattingIQ tuning set — metrics summary
+Videos in set: 13
+
+Per-tier mean overall (local) and mean abs error vs manual:
+  Beginner      mean_local=57.50  mae=35.25  n=4
+  Average       mean_local=67.00  mae=9.33  n=3
+  Good Club     mean_local=83.33  mae=23.00  n=3
+  Elite         mean_local=94.33  mae=7.33  n=3
+
+Per-pillar mean abs error (local vs manual):
+  access        mae=7.69
+  tracking      mae=7.85
+  stability     mae=9.46
+  flow          mae=8.69
+
+Within ±5 overall:          3/13
+Within ±5 on all 4 pillars: 2/13

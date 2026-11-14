@@ -1,0 +1,492 @@
+{
+  "battingiq_score": 35,
+  "score_band": "Fundamentals",
+  "handedness": "right",
+  "handedness_source": "default",
+  "pillars": {
+    "access": {
+      "score": 10,
+      "max": 25,
+      "status": "red",
+      "faults": [
+        {
+          "rule_id": "A5",
+          "fault": "Shoulders lagging behind hips at contact",
+          "deduction": 6,
+          "detail": "shoulder_hip_gap=11.7\u00b0, deviation=21.7\u00b0",
+          "feedback": "Your shoulders are lagging behind your hips at impact. Work on sending your whole body \u2014 hips and shoulders together \u2014 as one block of energy toward the ball."
+        }
+      ],
+      "positives": []
+    },
+    "tracking": {
+      "score": 0,
+      "max": 25,
+      "status": "red",
+      "faults": [
+        {
+          "rule_id": "T2",
+          "fault": "Early head movement",
+          "deduction": 9,
+          "detail": "head_offset change=0.1492",
+          "feedback": "Your head is moving before your feet. Let your feet move first and keep the head quieter for longer."
+        }
+      ],
+      "positives": []
+    },
+    "stability": {
+      "score": 0,
+      "max": 25,
+      "status": "red",
+      "faults": [
+        {
+          "rule_id": "S4",
+          "fault": "Post-contact body rotation",
+          "deduction": 12,
+          "detail": "shoulder_change=22.9\u00b0, hip_change=51.2\u00b0, forward_rotation=51.2\u00b0",
+          "feedback": "Your body is still rotating after contact. The best players are set by impact and then let the hands continue through the ball."
+        }
+      ],
+      "positives": []
+    },
+    "flow": {
+      "score": 25,
+      "max": 25,
+      "status": "green",
+      "faults": [],
+      "positives": [
+        "Smooth swing sequence \u2014 the bat is working as one connected movement."
+      ]
+    }
+  },
+  "priority_fix": {
+    "rule_id": "S4",
+    "fault": "Post-contact body rotation",
+    "deduction": 12,
+    "detail": "shoulder_change=22.9\u00b0, hip_change=51.2\u00b0, forward_rotation=51.2\u00b0",
+    "feedback": "Your body is still rotating after contact. The best players are set by impact and then let the hands continue through the ball."
+  },
+  "development_notes": [],
+  "phases": {
+    "setup": {
+      "start": 0,
+      "end": 19,
+      "original_frame": 19,
+      "start_ms": 0,
+      "end_ms": 718.9,
+      "confidence": "high"
+    },
+    "backlift_starts": {
+      "frame": 25,
+      "original_frame": 25,
+      "ms": 945.9
+    },
+    "hands_peak": {
+      "frame": 26,
+      "original_frame": 26,
+      "ms": 983.7,
+      "confidence": "low"
+    },
+    "front_foot_down": {
+      "frame": 36,
+      "original_frame": 36,
+      "ms": 1362.1
+    },
+    "contact": {
+      "frame": 41,
+      "original_frame": 41,
+      "ms": 1551.3,
+      "source": "auto",
+      "status": "estimated",
+      "estimated_frame": 41,
+      "estimated_original_frame": 41,
+      "resolved_original_frame": 41,
+      "confidence": "high",
+      "candidates": {
+        "spread": 21,
+        "method": "audio",
+        "audio": 41,
+        "pose": 62,
+        "selection_reason": "high_confidence_audio_onset"
+      },
+      "window": {
+        "start": 39,
+        "end": 43
+      },
+      "diagnostics": {
+        "method": "audio",
+        "reason": "high_confidence_audio_onset",
+        "audio_confidence": 1.0,
+        "audio_frame": 41,
+        "audio_original_frame": 41,
+        "pose_candidate": 62,
+        "pose_confidence": "high",
+        "window": {
+          "start": 39,
+          "end": 43
+        },
+        "signals": {
+          "audio_onset": {
+            "frame": 41,
+            "original_frame": 41,
+            "confidence": 1.0
+          },
+          "pose_consensus": {
+            "frame": 62,
+            "confidence": "high"
+          }
+        },
+        "candidates": [
+          41,
+          62
+        ],
+        "span": 21,
+        "chosen": 41,
+        "audio_diagnostics": {
+          "status": "single_onset",
+          "extract": {
+            "status": "ok",
+            "ffmpeg_command": [
+              "/opt/homebrew/bin/ffmpeg",
+              "-i",
+              "/Users/alextredgett/Documents/01 Work/03 BattingIQ/03 Working Folders/battingiq-groundtruth:/videos:/04 Beginner Examples/Drive_Beginner 4.MOV",
+              "-vn",
+              "-ar",
+              "44100",
+              "-ac",
+              "1",
+              "-f",
+              "wav",
+              "/var/folders/jq/dptb9dc90xd5fxdh3dwcmqyc0000gn/T/battingiq_contact_x964r6kn.wav",
+              "-y",
+              "-loglevel",
+              "error"
+            ],
+            "sample_rate": 44100,
+            "sample_count": 97586
+          },
+          "detection": {
+            "status": "single_onset",
+            "selected_frame": 41,
+            "selected_strength": 0.895369,
+            "candidate_count": 1,
+            "audio_onset_count": 1,
+            "audio_strategy_used": "audio_single",
+            "temporal_window": {
+              "start_frame": 13,
+              "end_frame": 56
+            },
+            "candidates": [
+              {
+                "time_s": 1.532517,
+                "frame": 41,
+                "strength": 0.8953691124916077,
+                "env_idx": 132
+              }
+            ]
+          }
+        },
+        "pose_diagnostics": {
+          "window": {
+            "start": 58,
+            "end": 64
+          },
+          "signals": {
+            "wrist_velocity_reversal": {
+              "frame": 64,
+              "mode": "wrist_height_fallback",
+              "candidate": 64,
+              "search_start": 58,
+              "search_end": 64
+            },
+            "front_elbow_target": {
+              "frame": 62,
+              "angle_deg": 172.146,
+              "selection": "max_extension"
+            },
+            "wrist_speed_decel": {
+              "frame": 62,
+              "peak_speed_frame": 60,
+              "speed": 0.000571
+            }
+          },
+          "candidates": [
+            64,
+            62,
+            62
+          ],
+          "span": 2,
+          "chosen": 62,
+          "confidence": "high"
+        }
+      },
+      "detector_version": "v1_original"
+    },
+    "follow_through": {
+      "start": 56,
+      "original_frame": 56,
+      "start_ms": 2118.8,
+      "confidence": "high"
+    },
+    "timing": {
+      "hands_peak_vs_ffd_frames": -10,
+      "hands_peak_vs_ffd_original_frames": -10,
+      "hands_peak_vs_ffd_ms": -378.4,
+      "sync_status": "hands_late",
+      "backlift_to_contact_frames": 16,
+      "backlift_to_contact_original_frames": 16,
+      "backlift_to_contact_ms": 605.4
+    }
+  },
+  "metadata": {
+    "fps": 26.430205949656752,
+    "width": 1080,
+    "height": 1920,
+    "total_frames": 77,
+    "duration_s": 2.913,
+    "video_name": "Drive_Beginner 4.MOV",
+    "frame_step": 1,
+    "effective_fps": 26.4302,
+    "local_mode": true,
+    "processing_mode": "full_rate_calibrated",
+    "frames_with_pose": 27,
+    "frames_processed": 66,
+    "detection_rate": 40.9,
+    "baseline_status": "reference",
+    "phase_diagnostics": {
+      "contact_method": "audio",
+      "contact_method_reason": "high_confidence_audio_onset",
+      "audio_contact_confidence": 1.0,
+      "contact_confidence": "high",
+      "estimated_contact_confidence": "high",
+      "contact_candidates": {
+        "spread": 21,
+        "method": "audio",
+        "audio": 41,
+        "pose": 62,
+        "selection_reason": "high_confidence_audio_onset"
+      },
+      "contact_window": {
+        "start": 39,
+        "end": 43
+      },
+      "contact_diagnostics": {
+        "method": "audio",
+        "reason": "high_confidence_audio_onset",
+        "audio_confidence": 1.0,
+        "audio_frame": 41,
+        "audio_original_frame": 41,
+        "pose_candidate": 62,
+        "pose_confidence": "high",
+        "window": {
+          "start": 39,
+          "end": 43
+        },
+        "signals": {
+          "audio_onset": {
+            "frame": 41,
+            "original_frame": 41,
+            "confidence": 1.0
+          },
+          "pose_consensus": {
+            "frame": 62,
+            "confidence": "high"
+          }
+        },
+        "candidates": [
+          41,
+          62
+        ],
+        "span": 21,
+        "chosen": 41,
+        "audio_diagnostics": {
+          "status": "single_onset",
+          "extract": {
+            "status": "ok",
+            "ffmpeg_command": [
+              "/opt/homebrew/bin/ffmpeg",
+              "-i",
+              "/Users/alextredgett/Documents/01 Work/03 BattingIQ/03 Working Folders/battingiq-groundtruth:/videos:/04 Beginner Examples/Drive_Beginner 4.MOV",
+              "-vn",
+              "-ar",
+              "44100",
+              "-ac",
+              "1",
+              "-f",
+              "wav",
+              "/var/folders/jq/dptb9dc90xd5fxdh3dwcmqyc0000gn/T/battingiq_contact_x964r6kn.wav",
+              "-y",
+              "-loglevel",
+              "error"
+            ],
+            "sample_rate": 44100,
+            "sample_count": 97586
+          },
+          "detection": {
+            "status": "single_onset",
+            "selected_frame": 41,
+            "selected_strength": 0.895369,
+            "candidate_count": 1,
+            "audio_onset_count": 1,
+            "audio_strategy_used": "audio_single",
+            "temporal_window": {
+              "start_frame": 13,
+              "end_frame": 56
+            },
+            "candidates": [
+              {
+                "time_s": 1.532517,
+                "frame": 41,
+                "strength": 0.8953691124916077,
+                "env_idx": 132
+              }
+            ]
+          }
+        },
+        "pose_diagnostics": {
+          "window": {
+            "start": 58,
+            "end": 64
+          },
+          "signals": {
+            "wrist_velocity_reversal": {
+              "frame": 64,
+              "mode": "wrist_height_fallback",
+              "candidate": 64,
+              "search_start": 58,
+              "search_end": 64
+            },
+            "front_elbow_target": {
+              "frame": 62,
+              "angle_deg": 172.146,
+              "selection": "max_extension"
+            },
+            "wrist_speed_decel": {
+              "frame": 62,
+              "peak_speed_frame": 60,
+              "speed": 0.000571
+            }
+          },
+          "candidates": [
+            64,
+            62,
+            62
+          ],
+          "span": 2,
+          "chosen": 62,
+          "confidence": "high"
+        }
+      },
+      "ordering_guard_log": []
+    },
+    "contact_resolution": {
+      "estimated_frame": 41,
+      "estimated_original_frame": 41,
+      "resolved_frame": 41,
+      "resolved_original_frame": 41,
+      "source": "auto",
+      "status": "estimated"
+    },
+    "detector_version": "v1_original",
+    "contact_detector_version": "v1_original",
+    "setup_detector_version": "v4_stillness_anchored",
+    "anchor_detector_version": "anchor-heuristics-v4_stillness_anchored",
+    "anchor_frames": {
+      "setup_frame": {
+        "metric_index": 19,
+        "original_frame": 19
+      },
+      "hands_start_up_frame": {
+        "metric_index": 25,
+        "original_frame": 25
+      },
+      "front_foot_down_frame": {
+        "metric_index": 36,
+        "original_frame": 36
+      },
+      "hands_peak_frame": {
+        "metric_index": 26,
+        "original_frame": 26
+      },
+      "contact_frame": {
+        "metric_index": 41,
+        "original_frame": 41
+      },
+      "follow_through_frame": {
+        "metric_index": 56,
+        "original_frame": 56
+      }
+    },
+    "anchor_confidence": {
+      "setup_frame": "high",
+      "hands_start_up_frame": "medium",
+      "front_foot_down_frame": "low",
+      "hands_peak_frame": "low",
+      "contact_frame": "high",
+      "follow_through_frame": "high"
+    },
+    "anchor_quality_summary": {
+      "low_confidence_count": 2,
+      "medium_confidence_count": 1,
+      "low_confidence_anchors": [
+        "front_foot_down_frame",
+        "hands_peak_frame"
+      ],
+      "medium_confidence_anchors": [
+        "hands_start_up_frame"
+      ],
+      "all_high_confidence": false
+    },
+    "ordering_guard_log": [],
+    "rule_measurements": {
+      "S1_hip_shift": 0.17889,
+      "S2_post_contact_instability_std": 0.005271,
+      "S3_hip_drift_frames": 1,
+      "S4_post_contact_rotation_deg": 51.186,
+      "T1_head_offset": 0.091507,
+      "T2_early_head_change": 0.14924,
+      "T3_head_position_variance": 0.000448,
+      "T4_eye_tilt": 0.001839,
+      "T5_setup_head_variance": 0.0,
+      "A1_wrist_spread_increase": 0.006344,
+      "A2_elbow_angle_deg": 155.948,
+      "A3_compression_frames": 2,
+      "A4_torso_lean": 0.10347,
+      "A5_shoulder_hip_gap_deg": 11.745,
+      "A6_early_open_fraction": -0.203231,
+      "F1_sync_frames": 10,
+      "F2_velocity_direction_changes": 0,
+      "F3_timing_ratio": 1.142857,
+      "F4_pause_frames": 3,
+      "F5_hitch_frames": 0,
+      "F6_follow_through_frames": 0.018388
+    },
+    "rule_evaluation": {
+      "rules_total": 17,
+      "rules_evaluated": 17,
+      "rules_failed": [],
+      "rules_suppressed": 0,
+      "suppressed_rule_ids": []
+    },
+    "contact_confidence": "high",
+    "estimated_contact_confidence": "high",
+    "contact_candidates": {
+      "spread": 21,
+      "method": "audio",
+      "audio": 41,
+      "pose": 62,
+      "selection_reason": "high_confidence_audio_onset"
+    },
+    "contact_window": {
+      "start": 39,
+      "end": 43
+    },
+    "estimated_contact_frame": 41,
+    "estimated_contact_original_frame": 41,
+    "resolved_contact_frame": 41,
+    "resolved_contact_original_frame": 41,
+    "resolved_contact_source": "auto",
+    "resolved_contact_status": "estimated"
+  },
+  "storyboard_frames": []
+}

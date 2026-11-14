@@ -1,0 +1,67 @@
+2026-11-14 09:32:20,793 INFO Ground truth CSV: /Users/alextredgett/Documents/battingiq-phase0/coach_ground_truth_from_screenshot.csv
+2026-11-14 09:32:20,794 INFO Video directory: /Users/alextredgett/Documents/01 Work/03 BattingIQ/03 Working Folders/battingiq-groundtruth:/videos:
+2026-11-14 09:32:20,794 INFO Railway API: skipped
+2026-11-14 09:32:20,794 INFO Cached report root: /Users/alextredgett/Documents/battingiq-phase0/calibration_batch_output
+2026-11-14 09:32:20,794 INFO Batch mode: validated
+2026-11-14 09:32:20,794 INFO Anchor truth CSV: /Users/alextredgett/Documents/battingiq-phase0/anchor_truth.csv
+2026-11-14 09:32:20,794 INFO PROCESSING Cam T_LH Offdrive Elite.mov [Elite] -> /Users/alextredgett/Documents/01 Work/03 BattingIQ/03 Working Folders/battingiq-groundtruth:/videos:/01 Elite Examples/Cam T_LH Offdrive Elite.mov
+2026-11-14 09:32:42,046 INFO LOCAL OK Cam T_LH Offdrive Elite.mov [Elite] (fresh)
+2026-11-14 09:32:42,046 INFO RAILWAY SKIPPED Cam T_LH Offdrive Elite.mov [Elite]
+2026-11-14 09:32:42,047 INFO PROCESSING Cam T_Offdrive Elite.mp4 [Elite] -> /Users/alextredgett/Documents/01 Work/03 BattingIQ/03 Working Folders/battingiq-groundtruth:/videos:/01 Elite Examples/Cam T_Offdrive Elite.mp4
+2026-11-14 09:32:52,132 INFO LOCAL OK Cam T_Offdrive Elite.mp4 [Elite] (fresh)
+2026-11-14 09:32:52,132 INFO RAILWAY SKIPPED Cam T_Offdrive Elite.mp4 [Elite]
+2026-11-14 09:32:52,132 INFO PROCESSING Cam T_Ondrive Elite.mov [Elite] -> /Users/alextredgett/Documents/01 Work/03 BattingIQ/03 Working Folders/battingiq-groundtruth:/videos:/01 Elite Examples/Cam T_Ondrive Elite.mov
+2026-11-14 09:33:06,516 INFO LOCAL OK Cam T_Ondrive Elite.mov [Elite] (fresh)
+2026-11-14 09:33:06,516 INFO RAILWAY SKIPPED Cam T_Ondrive Elite.mov [Elite]
+2026-11-14 09:33:06,516 INFO PROCESSING Viv P_Offdrive Elite.mov [Elite] -> /Users/alextredgett/Documents/01 Work/03 BattingIQ/03 Working Folders/battingiq-groundtruth:/videos:/01 Elite Examples/Viv P_Offdrive Elite.mov
+2026-11-14 09:33:13,593 INFO LOCAL OK Viv P_Offdrive Elite.mov [Elite] (fresh)
+2026-11-14 09:33:13,593 INFO RAILWAY SKIPPED Viv P_Offdrive Elite.mov [Elite]
+2026-11-14 09:33:13,593 INFO PROCESSING Alex T_Straightdrive Good.MOV [Good Club] -> /Users/alextredgett/Documents/01 Work/03 BattingIQ/03 Working Folders/battingiq-groundtruth:/videos:/02 Good Club Examples/Alex T_Straightdrive Good.MOV
+2026-11-14 09:33:18,015 INFO LOCAL OK Alex T_Straightdrive Good.MOV [Good Club] (fresh)
+2026-11-14 09:33:18,015 INFO RAILWAY SKIPPED Alex T_Straightdrive Good.MOV [Good Club]
+2026-11-14 09:33:18,015 INFO PROCESSING AlexT_Ondrive Good.MOV [Good Club] -> /Users/alextredgett/Documents/01 Work/03 BattingIQ/03 Working Folders/battingiq-groundtruth:/videos:/02 Good Club Examples/AlexT_Ondrive Good.MOV
+2026-11-14 09:33:23,391 INFO LOCAL OK AlexT_Ondrive Good.MOV [Good Club] (fresh)
+2026-11-14 09:33:23,391 INFO RAILWAY SKIPPED AlexT_Ondrive Good.MOV [Good Club]
+2026-11-14 09:33:23,391 INFO PROCESSING Cam T_Offdrive Good.mp4 [Good Club] -> /Users/alextredgett/Documents/01 Work/03 BattingIQ/03 Working Folders/battingiq-groundtruth:/videos:/02 Good Club Examples/Cam T_Offdrive Good.mp4
+2026-11-14 09:33:38,640 INFO LOCAL OK Cam T_Offdrive Good.mp4 [Good Club] (fresh)
+2026-11-14 09:33:38,640 INFO RAILWAY SKIPPED Cam T_Offdrive Good.mp4 [Good Club]
+2026-11-14 09:33:38,641 INFO PROCESSING Ollie P_Offdrive Average.mov [Good Club] -> /Users/alextredgett/Documents/01 Work/03 BattingIQ/03 Working Folders/battingiq-groundtruth:/videos:/02 Good Club Examples/Ollie P_Offdrive Average.mov
+2026-11-14 09:33:47,555 INFO LOCAL OK Ollie P_Offdrive Average.mov [Good Club] (fresh)
+2026-11-14 09:33:47,555 INFO RAILWAY SKIPPED Ollie P_Offdrive Average.mov [Good Club]
+2026-11-14 09:33:47,555 INFO PROCESSING Dan P_Offdrive Average.MOV [Average] -> /Users/alextredgett/Documents/01 Work/03 BattingIQ/03 Working Folders/battingiq-groundtruth:/videos:/03 Average Examples/Dan P_Offdrive Average.MOV
+2026-11-14 09:33:57,815 INFO LOCAL OK Dan P_Offdrive Average.MOV [Average] (fresh)
+2026-11-14 09:33:57,816 INFO RAILWAY SKIPPED Dan P_Offdrive Average.MOV [Average]
+2026-11-14 09:33:57,816 INFO PROCESSING Drive_Average 2.MOV [Average] -> /Users/alextredgett/Documents/01 Work/03 BattingIQ/03 Working Folders/battingiq-groundtruth:/videos:/03 Average Examples/Drive_Average 2.MOV
+2026-11-14 09:34:11,930 INFO LOCAL OK Drive_Average 2.MOV [Average] (fresh)
+2026-11-14 09:34:11,930 INFO RAILWAY SKIPPED Drive_Average 2.MOV [Average]
+2026-11-14 09:34:11,930 INFO PROCESSING Drive_Average.MOV [Average] -> /Users/alextredgett/Documents/01 Work/03 BattingIQ/03 Working Folders/battingiq-groundtruth:/videos:/03 Average Examples/Drive_Average.MOV
+2026-11-14 09:34:26,885 INFO LOCAL OK Drive_Average.MOV [Average] (fresh)
+2026-11-14 09:34:26,887 INFO RAILWAY SKIPPED Drive_Average.MOV [Average]
+2026-11-14 09:34:26,887 INFO SKIPPED Female_Average.mp4 [Average] - filmed_correctly != Y
+2026-11-14 09:34:26,887 INFO PROCESSING Drive_Beginner 2.MOV [Beginner] -> /Users/alextredgett/Documents/01 Work/03 BattingIQ/03 Working Folders/battingiq-groundtruth:/videos:/04 Beginner Examples/Drive_Beginner 2.MOV
+2026-11-14 09:34:37,641 INFO LOCAL OK Drive_Beginner 2.MOV [Beginner] (fresh)
+2026-11-14 09:34:37,642 INFO RAILWAY SKIPPED Drive_Beginner 2.MOV [Beginner]
+2026-11-14 09:34:37,643 INFO PROCESSING Drive_Beginner 3.MOV [Beginner] -> /Users/alextredgett/Documents/01 Work/03 BattingIQ/03 Working Folders/battingiq-groundtruth:/videos:/04 Beginner Examples/Drive_Beginner 3.MOV
+2026-11-14 09:34:44,320 INFO LOCAL OK Drive_Beginner 3.MOV [Beginner] (fresh)
+2026-11-14 09:34:44,320 INFO RAILWAY SKIPPED Drive_Beginner 3.MOV [Beginner]
+2026-11-14 09:34:44,320 INFO PROCESSING Drive_Beginner 4.MOV [Beginner] -> /Users/alextredgett/Documents/01 Work/03 BattingIQ/03 Working Folders/battingiq-groundtruth:/videos:/04 Beginner Examples/Drive_Beginner 4.MOV
+2026-11-14 09:34:52,025 INFO LOCAL OK Drive_Beginner 4.MOV [Beginner] (fresh)
+2026-11-14 09:34:52,026 INFO RAILWAY SKIPPED Drive_Beginner 4.MOV [Beginner]
+2026-11-14 09:34:52,026 INFO PROCESSING Drive_beginner.MOV [Beginner] -> /Users/alextredgett/Documents/01 Work/03 BattingIQ/03 Working Folders/battingiq-groundtruth:/videos:/04 Beginner Examples/Drive_beginner.MOV
+2026-11-14 09:34:57,184 INFO LOCAL OK Drive_beginner.MOV [Beginner] (fresh)
+2026-11-14 09:34:57,185 INFO RAILWAY SKIPPED Drive_beginner.MOV [Beginner]
+2026-11-14 09:34:57,185 INFO PROCESSING Oscar V_Beginner.mp4 [Beginner] -> /Users/alextredgett/Documents/01 Work/03 BattingIQ/03 Working Folders/battingiq-groundtruth:/videos:/04 Beginner Examples/Oscar V_Beginner.mp4
+2026-11-14 09:35:08,255 INFO LOCAL OK Oscar V_Beginner.mp4 [Beginner] (fresh)
+2026-11-14 09:35:08,255 INFO RAILWAY SKIPPED Oscar V_Beginner.mp4 [Beginner]
+2026-11-14 09:35:08,255 INFO PROCESSING Straight Drive_Beginner.mp4 [Average] -> /Users/alextredgett/Documents/01 Work/03 BattingIQ/03 Working Folders/battingiq-groundtruth:/videos:/04 Beginner Examples/Straight Drive_Beginner.mp4
+2026-11-14 09:35:19,646 INFO LOCAL OK Straight Drive_Beginner.mp4 [Average] (fresh)
+2026-11-14 09:35:19,647 INFO RAILWAY SKIPPED Straight Drive_Beginner.mp4 [Average]
+2026-11-14 09:35:19,657 INFO Processed rows: 17
+2026-11-14 09:35:19,657 INFO Local successes: 17
+2026-11-14 09:35:19,657 INFO Railway successes: 0
+2026-11-14 09:35:19,657 INFO Skipped not-filmed-correctly rows: 1
+2026-11-14 09:35:19,657 INFO Skipped missing-video rows: 0
+2026-11-14 09:35:19,657 INFO Detailed CSV: /Users/alextredgett/Documents/battingiq-phase0/calibration_output/phase0_2026-11-14/validated/battingiq_calibration_comparison_detailed.csv
+2026-11-14 09:35:19,657 INFO Tier summary CSV: /Users/alextredgett/Documents/battingiq-phase0/calibration_output/phase0_2026-11-14/validated/battingiq_calibration_tier_summary.csv
+2026-11-14 09:35:19,657 INFO Metrics text: /Users/alextredgett/Documents/battingiq-phase0/calibration_output/phase0_2026-11-14/validated/battingiq_calibration_metrics.txt
+2026-11-14 09:35:19,657 INFO Rule measurements CSV: /Users/alextredgett/Documents/battingiq-phase0/calibration_output/phase0_2026-11-14/validated/rule_measurements.csv

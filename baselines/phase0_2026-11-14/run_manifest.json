@@ -1,0 +1,106 @@
+{
+  "run_timestamp": "2026-11-14T09:35:19.659999+00:00",
+  "git_commit": "6d43a94e6f003b47fd05287b72b2cad461d473ae",
+  "config_version": "v1_original",
+  "config_version_source": "CONTACT_DETECTOR_VERSION",
+  "videos_processed": 17,
+  "auto_subdir_path": "/Users/alextredgett/Documents/battingiq-phase0/calibration_output/phase0_2026-11-14/auto",
+  "validated_subdir_path": "/Users/alextredgett/Documents/battingiq-phase0/calibration_output/phase0_2026-11-14/validated",
+  "rules_version": "2.2.0",
+  "active_rules": "A5;T2;S4;F4",
+  "environment": {
+    "python": "3.10.20",
+    "mediapipe": "0.10.9",
+    "os": "macOS-26.5.2-arm64-arm-64bit",
+    "machine": "arm64",
+    "ffmpeg": "/opt/homebrew/bin/ffmpeg"
+  },
+  "video_dir": "/Users/alextredgett/Documents/01 Work/03 BattingIQ/03 Working Folders/battingiq-groundtruth:/videos:",
+  "clips": {
+    "Cam T_LH Offdrive Elite.mov": {
+      "audio_streams": 1,
+      "md5": "7125a5af215345406bb0fcad75f9c680",
+      "path": "/Users/alextredgett/Documents/01 Work/03 BattingIQ/03 Working Folders/battingiq-groundtruth:/videos:/01 Elite Examples/Cam T_LH Offdrive Elite.mov"
+    },
+    "Cam T_Offdrive Elite.mp4": {
+      "audio_streams": 1,
+      "md5": "f7bc73714337890a329c5f64d1fe1947",
+      "path": "/Users/alextredgett/Documents/01 Work/03 BattingIQ/03 Working Folders/battingiq-groundtruth:/videos:/01 Elite Examples/Cam T_Offdrive Elite.mp4"
+    },
+    "Cam T_Ondrive Elite.mov": {
+      "audio_streams": 1,
+      "md5": "76dfd11ff96148a07eb14db6acc72cec",
+      "path": "/Users/alextredgett/Documents/01 Work/03 BattingIQ/03 Working Folders/battingiq-groundtruth:/videos:/01 Elite Examples/Cam T_Ondrive Elite.mov"
+    },
+    "Viv P_Offdrive Elite.mov": {
+      "audio_streams": 1,
+      "md5": "0a1b3a74e1f123a97085c2fafbaa12ea",
+      "path": "/Users/alextredgett/Documents/01 Work/03 BattingIQ/03 Working Folders/battingiq-groundtruth:/videos:/01 Elite Examples/Viv P_Offdrive Elite.mov"
+    },
+    "Alex T_Straightdrive Good.MOV": {
+      "audio_streams": 1,
+      "md5": "4d8df0a34a6c67a2e05e3f1c69af6950",
+      "path": "/Users/alextredgett/Documents/01 Work/03 BattingIQ/03 Working Folders/battingiq-groundtruth:/videos:/02 Good Club Examples/Alex T_Straightdrive Good.MOV"
+    },
+    "AlexT_Ondrive Good.MOV": {
+      "audio_streams": 1,
+      "md5": "c6cd629e3ed5ca06d731db1adbb80382",
+      "path": "/Users/alextredgett/Documents/01 Work/03 BattingIQ/03 Working Folders/battingiq-groundtruth:/videos:/02 Good Club Examples/AlexT_Ondrive Good.MOV"
+    },
+    "Cam T_Offdrive Good.mp4": {
+      "audio_streams": 1,
+      "md5": "6e4f33909c6e2750c214fa85b8a5b681",
+      "path": "/Users/alextredgett/Documents/01 Work/03 BattingIQ/03 Working Folders/battingiq-groundtruth:/videos:/02 Good Club Examples/Cam T_Offdrive Good.mp4"
+    },
+    "Ollie P_Offdrive Average.mov": {
+      "audio_streams": 0,
+      "md5": "ab26e7cf8b8fa6014c5bd0e38d74ee3b",
+      "path": "/Users/alextredgett/Documents/01 Work/03 BattingIQ/03 Working Folders/battingiq-groundtruth:/videos:/02 Good Club Examples/Ollie P_Offdrive Average.mov"
+    },
+    "Dan P_Offdrive Average.MOV": {
+      "audio_streams": 1,
+      "md5": "2c05f1e5c56c51a642702eb684ce5499",
+      "path": "/Users/alextredgett/Documents/01 Work/03 BattingIQ/03 Working Folders/battingiq-groundtruth:/videos:/03 Average Examples/Dan P_Offdrive Average.MOV"
+    },
+    "Drive_Average 2.MOV": {
+      "audio_streams": 1,
+      "md5": "4e10e5f2a5e3332e67bd5c71a8642df3",
+      "path": "/Users/alextredgett/Documents/01 Work/03 BattingIQ/03 Working Folders/battingiq-groundtruth:/videos:/03 Average Examples/Drive_Average 2.MOV"
+    },
+    "Drive_Average.MOV": {
+      "audio_streams": 1,
+      "md5": "aae5c75bb86ec7e43ebdbb2e72161881",
+      "path": "/Users/alextredgett/Documents/01 Work/03 BattingIQ/03 Working Folders/battingiq-groundtruth:/videos:/03 Average Examples/Drive_Average.MOV"
+    },
+    "Drive_Beginner 2.MOV": {
+      "audio_streams": 1,
+      "md5": "272c66877aefa6cac97f6bc71f006947",
+      "path": "/Users/alextredgett/Documents/01 Work/03 BattingIQ/03 Working Folders/battingiq-groundtruth:/videos:/04 Beginner Examples/Drive_Beginner 2.MOV"
+    },
+    "Drive_Beginner 3.MOV": {
+      "audio_streams": 1,
+      "md5": "a15bef44bec7ea4b51860e44a3d1edd9",
+      "path": "/Users/alextredgett/Documents/01 Work/03 BattingIQ/03 Working Folders/battingiq-groundtruth:/videos:/04 Beginner Examples/Drive_Beginner 3.MOV"
+    },
+    "Drive_Beginner 4.MOV": {
+      "audio_streams": 1,
+      "md5": "916a6387c929f234d765a45b5aab0adf",
+      "path": "/Users/alextredgett/Documents/01 Work/03 BattingIQ/03 Working Folders/battingiq-groundtruth:/videos:/04 Beginner Examples/Drive_Beginner 4.MOV"
+    },
+    "Drive_beginner.MOV": {
+      "audio_streams": 1,
+      "md5": "d973b5905830e9014d50cd3363e9c6b3",
+      "path": "/Users/alextredgett/Documents/01 Work/03 BattingIQ/03 Working Folders/battingiq-groundtruth:/videos:/04 Beginner Examples/Drive_beginner.MOV"
+    },
+    "Oscar V_Beginner.mp4": {
+      "audio_streams": 1,
+      "md5": "e40e64cff9ab40a293b3fde06b21ec41",
+      "path": "/Users/alextredgett/Documents/01 Work/03 BattingIQ/03 Working Folders/battingiq-groundtruth:/videos:/04 Beginner Examples/Oscar V_Beginner.mp4"
+    },
+    "Straight Drive_Beginner.mp4": {
+      "audio_streams": 1,
+      "md5": "ac7da83e70044002bc96235d21523580",
+      "path": "/Users/alextredgett/Documents/01 Work/03 BattingIQ/03 Working Folders/battingiq-groundtruth:/videos:/04 Beginner Examples/Straight Drive_Beginner.mp4"
+    }
+  }
+}

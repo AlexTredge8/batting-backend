@@ -1,0 +1,9 @@
+{
+  "run_timestamp": "2026-11-14T09:35:19.659999+00:00",
+  "git_commit": "6d43a94e6f003b47fd05287b72b2cad461d473ae",
+  "config_version": "v1_original",
+  "config_version_source": "CONTACT_DETECTOR_VERSION",
+  "videos_processed": 17,
+  "auto_subdir_path": "/Users/alextredgett/Documents/battingiq-phase0/calibration_output/phase0_2026-11-14/auto",
+  "validated_subdir_path": "/Users/alextredgett/Documents/battingiq-phase0/calibration_output/phase0_2026-11-14/validated"
+}

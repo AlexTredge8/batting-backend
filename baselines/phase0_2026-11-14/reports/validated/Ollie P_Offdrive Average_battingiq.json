@@ -1,0 +1,403 @@
+{
+  "battingiq_score": 50,
+  "score_band": "Work Needed",
+  "handedness": "right",
+  "handedness_source": "default",
+  "pillars": {
+    "access": {
+      "score": 0,
+      "max": 25,
+      "status": "red",
+      "faults": [
+        {
+          "rule_id": "A5",
+          "fault": "Shoulders lagging behind hips at contact",
+          "deduction": 10,
+          "detail": "shoulder_hip_gap=35.2\u00b0, deviation=45.2\u00b0",
+          "feedback": "Your shoulders are lagging behind your hips at impact. Work on sending your whole body \u2014 hips and shoulders together \u2014 as one block of energy toward the ball."
+        }
+      ],
+      "positives": []
+    },
+    "tracking": {
+      "score": 25,
+      "max": 25,
+      "status": "green",
+      "faults": [],
+      "positives": [
+        "Head position looks composed \u2014 eyes tracking well."
+      ]
+    },
+    "stability": {
+      "score": 0,
+      "max": 25,
+      "status": "red",
+      "faults": [
+        {
+          "rule_id": "S4",
+          "fault": "Post-contact body rotation",
+          "deduction": 12,
+          "detail": "shoulder_change=36.6\u00b0, hip_change=51.6\u00b0, forward_rotation=51.6\u00b0",
+          "feedback": "Your body is still rotating after contact. The best players are set by impact and then let the hands continue through the ball."
+        }
+      ],
+      "positives": []
+    },
+    "flow": {
+      "score": 25,
+      "max": 25,
+      "status": "green",
+      "faults": [],
+      "positives": [
+        "Smooth swing sequence \u2014 the bat is working as one connected movement."
+      ]
+    }
+  },
+  "priority_fix": {
+    "rule_id": "S4",
+    "fault": "Post-contact body rotation",
+    "deduction": 12,
+    "detail": "shoulder_change=36.6\u00b0, hip_change=51.6\u00b0, forward_rotation=51.6\u00b0",
+    "feedback": "Your body is still rotating after contact. The best players are set by impact and then let the hands continue through the ball."
+  },
+  "development_notes": [],
+  "phases": {
+    "setup": {
+      "start": 0,
+      "end": 10,
+      "original_frame": 10,
+      "start_ms": 0,
+      "end_ms": 258.9,
+      "confidence": "low"
+    },
+    "backlift_starts": {
+      "frame": 19,
+      "original_frame": 19,
+      "ms": 492.0
+    },
+    "hands_peak": {
+      "frame": 27,
+      "original_frame": 27,
+      "ms": 699.2,
+      "confidence": "low"
+    },
+    "front_foot_down": {
+      "frame": 25,
+      "original_frame": 25,
+      "ms": 647.4
+    },
+    "contact": {
+      "frame": 33,
+      "original_frame": 33,
+      "ms": 854.5,
+      "source": "manual",
+      "status": "validated",
+      "estimated_frame": 35,
+      "estimated_original_frame": 35,
+      "resolved_original_frame": 33,
+      "confidence": "validated",
+      "candidates": {
+        "spread": 4,
+        "method": "pose_fallback",
+        "c_a": 34,
+        "c_c": 38,
+        "c_b": 35,
+        "selection_reason": "median_of_three_signal_consensus"
+      },
+      "window": {
+        "start": 31,
+        "end": 35
+      },
+      "diagnostics": {
+        "window": {
+          "start": 33,
+          "end": 42
+        },
+        "signals": {
+          "wrist_velocity_reversal": {
+            "frame": 34,
+            "mode": "sign_reversal",
+            "candidate": 34,
+            "search_start": 33,
+            "search_end": 81
+          },
+          "front_elbow_target": {
+            "frame": 35,
+            "angle_deg": 154.205,
+            "selection": "max_extension"
+          },
+          "wrist_speed_decel": {
+            "frame": 38,
+            "peak_speed_frame": 34,
+            "speed": 0.0
+          }
+        },
+        "candidates": [
+          34,
+          35,
+          38
+        ],
+        "span": 4,
+        "chosen": 35,
+        "confidence": "medium",
+        "method": "pose_fallback",
+        "reason": "audio_unavailable",
+        "audio_confidence": 0.0,
+        "audio_frame": null,
+        "audio_original_frame": null,
+        "audio_diagnostics": {
+          "status": "audio_unavailable",
+          "extract": {
+            "status": "ffmpeg_failed",
+            "ffmpeg_command": [
+              "/opt/homebrew/bin/ffmpeg",
+              "-i",
+              "/Users/alextredgett/Documents/01 Work/03 BattingIQ/03 Working Folders/battingiq-groundtruth:/videos:/02 Good Club Examples/Ollie P_Offdrive Average.mov",
+              "-vn",
+              "-ar",
+              "44100",
+              "-ac",
+              "1",
+              "-f",
+              "wav",
+              "/var/folders/jq/dptb9dc90xd5fxdh3dwcmqyc0000gn/T/battingiq_contact_frnscxnq.wav",
+              "-y",
+              "-loglevel",
+              "error"
+            ],
+            "error": "[out#0/wav @ 0x726c4c180] Output file does not contain any stream\nError opening output file /var/folders/jq/dptb9dc90xd5fxdh3dwcmqyc0000gn/T/battingiq_contact_frnscxnq.wav.\nError opening output files: Invalid argument"
+          }
+        },
+        "pose_candidate": 35
+      },
+      "detector_version": "v1_original"
+    },
+    "follow_through": {
+      "start": 55,
+      "original_frame": 55,
+      "start_ms": 1424.2,
+      "confidence": "low"
+    },
+    "timing": {
+      "hands_peak_vs_ffd_frames": 2,
+      "hands_peak_vs_ffd_original_frames": 2,
+      "hands_peak_vs_ffd_ms": 51.8,
+      "sync_status": "in_sync",
+      "backlift_to_contact_frames": 14,
+      "backlift_to_contact_original_frames": 14,
+      "backlift_to_contact_ms": 362.5
+    }
+  },
+  "metadata": {
+    "fps": 38.61771058315335,
+    "width": 384,
+    "height": 848,
+    "total_frames": 149,
+    "duration_s": 3.858,
+    "video_name": "Ollie P_Offdrive Average.mov",
+    "frame_step": 1,
+    "effective_fps": 38.6177,
+    "local_mode": true,
+    "processing_mode": "full_rate_calibrated",
+    "frames_with_pose": 130,
+    "frames_processed": 149,
+    "detection_rate": 87.2,
+    "baseline_status": "reference",
+    "phase_diagnostics": {
+      "contact_method": "pose_fallback",
+      "contact_method_reason": "audio_unavailable",
+      "audio_contact_confidence": 0.0,
+      "contact_confidence": "validated",
+      "estimated_contact_confidence": "medium",
+      "contact_candidates": {
+        "spread": 4,
+        "method": "pose_fallback",
+        "c_a": 34,
+        "c_c": 38,
+        "c_b": 35,
+        "selection_reason": "median_of_three_signal_consensus"
+      },
+      "contact_window": {
+        "start": 31,
+        "end": 35
+      },
+      "contact_diagnostics": {
+        "window": {
+          "start": 33,
+          "end": 42
+        },
+        "signals": {
+          "wrist_velocity_reversal": {
+            "frame": 34,
+            "mode": "sign_reversal",
+            "candidate": 34,
+            "search_start": 33,
+            "search_end": 81
+          },
+          "front_elbow_target": {
+            "frame": 35,
+            "angle_deg": 154.205,
+            "selection": "max_extension"
+          },
+          "wrist_speed_decel": {
+            "frame": 38,
+            "peak_speed_frame": 34,
+            "speed": 0.0
+          }
+        },
+        "candidates": [
+          34,
+          35,
+          38
+        ],
+        "span": 4,
+        "chosen": 35,
+        "confidence": "medium",
+        "method": "pose_fallback",
+        "reason": "audio_unavailable",
+        "audio_confidence": 0.0,
+        "audio_frame": null,
+        "audio_original_frame": null,
+        "audio_diagnostics": {
+          "status": "audio_unavailable",
+          "extract": {
+            "status": "ffmpeg_failed",
+            "ffmpeg_command": [
+              "/opt/homebrew/bin/ffmpeg",
+              "-i",
+              "/Users/alextredgett/Documents/01 Work/03 BattingIQ/03 Working Folders/battingiq-groundtruth:/videos:/02 Good Club Examples/Ollie P_Offdrive Average.mov",
+              "-vn",
+              "-ar",
+              "44100",
+              "-ac",
+              "1",
+              "-f",
+              "wav",
+              "/var/folders/jq/dptb9dc90xd5fxdh3dwcmqyc0000gn/T/battingiq_contact_frnscxnq.wav",
+              "-y",
+              "-loglevel",
+              "error"
+            ],
+            "error": "[out#0/wav @ 0x726c4c180] Output file does not contain any stream\nError opening output file /var/folders/jq/dptb9dc90xd5fxdh3dwcmqyc0000gn/T/battingiq_contact_frnscxnq.wav.\nError opening output files: Invalid argument"
+          }
+        },
+        "pose_candidate": 35
+      },
+      "ordering_guard_log": []
+    },
+    "contact_resolution": {
+      "estimated_frame": 35,
+      "estimated_original_frame": 35,
+      "resolved_frame": 33,
+      "resolved_original_frame": 33,
+      "source": "manual",
+      "status": "validated"
+    },
+    "detector_version": "v1_original",
+    "contact_detector_version": "v1_original",
+    "setup_detector_version": "v4_stillness_anchored",
+    "anchor_detector_version": "anchor-heuristics-v4_stillness_anchored",
+    "anchor_frames": {
+      "setup_frame": {
+        "metric_index": 10,
+        "original_frame": 10
+      },
+      "hands_start_up_frame": {
+        "metric_index": 19,
+        "original_frame": 19
+      },
+      "front_foot_down_frame": {
+        "metric_index": 25,
+        "original_frame": 25
+      },
+      "hands_peak_frame": {
+        "metric_index": 27,
+        "original_frame": 27
+      },
+      "contact_frame": {
+        "metric_index": 33,
+        "original_frame": 33
+      },
+      "follow_through_frame": {
+        "metric_index": 55,
+        "original_frame": 55
+      }
+    },
+    "anchor_confidence": {
+      "setup_frame": "validated",
+      "hands_start_up_frame": "validated",
+      "front_foot_down_frame": "validated",
+      "hands_peak_frame": "validated",
+      "contact_frame": "validated",
+      "follow_through_frame": "validated"
+    },
+    "anchor_quality_summary": {
+      "low_confidence_count": 0,
+      "medium_confidence_count": 0,
+      "low_confidence_anchors": [],
+      "medium_confidence_anchors": [],
+      "all_high_confidence": true
+    },
+    "ordering_guard_log": [],
+    "anchor_overrides": {
+      "setup_frame": 10,
+      "hands_start_up_frame": 19,
+      "front_foot_down_frame": 25,
+      "hands_peak_frame": 27,
+      "contact_frame": 33,
+      "follow_through_frame": 55
+    },
+    "contact_notice": "Contact frame was manually validated and pinned for storyboard and scoring.",
+    "rule_measurements": {
+      "S1_hip_shift": 0.152618,
+      "S2_post_contact_instability_std": 0.025971,
+      "S3_hip_drift_frames": 1,
+      "S4_post_contact_rotation_deg": 51.572,
+      "T1_head_offset": 0.004599,
+      "T2_early_head_change": 0.02379,
+      "T3_head_position_variance": 6e-06,
+      "T4_eye_tilt": 0.00133,
+      "T5_setup_head_variance": 0.000173,
+      "A1_wrist_spread_increase": 0.010496,
+      "A2_elbow_angle_deg": 115.636,
+      "A3_compression_frames": 0,
+      "A4_torso_lean": 0.015267,
+      "A5_shoulder_hip_gap_deg": 35.166,
+      "A6_early_open_fraction": 0.067219,
+      "F1_sync_frames": 2,
+      "F2_velocity_direction_changes": 1,
+      "F3_timing_ratio": 1.0,
+      "F4_pause_frames": 3,
+      "F5_hitch_frames": 0,
+      "F6_follow_through_frames": 0.008796
+    },
+    "rule_evaluation": {
+      "rules_total": 17,
+      "rules_evaluated": 17,
+      "rules_failed": [],
+      "rules_suppressed": 0,
+      "suppressed_rule_ids": []
+    },
+    "contact_confidence": "validated",
+    "estimated_contact_confidence": "medium",
+    "contact_candidates": {
+      "spread": 4,
+      "method": "pose_fallback",
+      "c_a": 34,
+      "c_c": 38,
+      "c_b": 35,
+      "selection_reason": "median_of_three_signal_consensus"
+    },
+    "contact_window": {
+      "start": 31,
+      "end": 35
+    },
+    "estimated_contact_frame": 35,
+    "estimated_contact_original_frame": 35,
+    "resolved_contact_frame": 33,
+    "resolved_contact_original_frame": 33,
+    "resolved_contact_source": "manual",
+    "resolved_contact_status": "validated"
+  },
+  "storyboard_frames": []
+}

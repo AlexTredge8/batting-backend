@@ -1,0 +1,18 @@
+filename,identical,fields_differing,auto_overall,auto_access,auto_tracking,auto_stability,auto_flow,auto_setup_frame,auto_hands_start_up_frame,auto_front_foot_down_frame,auto_hands_peak_frame,auto_contact_frame,auto_follow_through_frame,auto_A5,auto_T2,auto_S4,auto_F4,repeat_overall,repeat_access,repeat_tracking,repeat_stability,repeat_flow,repeat_setup_frame,repeat_hands_start_up_frame,repeat_front_foot_down_frame,repeat_hands_peak_frame,repeat_contact_frame,repeat_follow_through_frame,repeat_A5,repeat_T2,repeat_S4,repeat_F4
+Cam T_LH Offdrive Elite.mov,Y,,100,25,25,25,25,30,34,47,42,52,85,-15.234,0.02576,-1.344,3,100,25,25,25,25,30,34,47,42,52,85,-15.234,0.02576,-1.344,3
+Cam T_Offdrive Elite.mp4,Y,,100,25,25,25,25,106,109,117,116,126,158,-20.828,0.021669,-7.531,2,100,25,25,25,25,106,109,117,116,126,158,-20.828,0.021669,-7.531,2
+Cam T_Ondrive Elite.mov,Y,,83,25,8,25,25,95,97,108,100,109,156,-19.71,0.055368,-4.685,1,83,25,8,25,25,95,97,108,100,109,156,-19.71,0.055368,-4.685,1
+Viv P_Offdrive Elite.mov,Y,,92,17,25,25,25,60,61,77,73,81,109,-27.962,0.002243,0.914,3,92,17,25,25,25,60,61,77,73,81,109,-27.962,0.002243,0.914,3
+Alex T_Straightdrive Good.MOV,Y,,100,25,25,25,25,0,1,11,10,22,32,-21.232,0.036302,-1.54,3,100,25,25,25,25,0,1,11,10,22,32,-21.232,0.036302,-1.54,3
+AlexT_Ondrive Good.MOV,Y,,84,17,25,17,25,30,34,46,36,50,67,-30.333,0.025378,9.273,3,84,17,25,17,25,30,34,46,36,50,67,-30.333,0.025378,9.273,3
+Cam T_Offdrive Good.mp4,Y,,100,25,25,25,25,167,168,176,174,185,215,-24.967,0.030366,0.432,0,100,25,25,25,25,167,168,176,174,185,215,-24.967,0.030366,0.432,0
+Ollie P_Offdrive Average.mov,Y,,50,0,25,0,25,0,9,32,29,35,79,30.498,0.036524,24.486,2,50,0,25,0,25,0,9,32,29,35,79,30.498,0.036524,24.486,2
+Dan P_Offdrive Average.MOV,Y,,67,17,25,25,0,27,28,44,40,49,53,-26.193,0.007731,0.048,6,67,17,25,25,0,27,28,44,40,49,53,-26.193,0.007731,0.048,6
+Drive_Average 2.MOV,N,overall;flow;setup_frame;hands_start_up_frame;hands_peak_frame;follow_through_frame;A5;T2;S4,59,17,25,17,0,19,58,62,59,70,94,-25.545,0.012233,5.159,6,84,17,25,17,25,15,54,62,55,70,95,-26.503,0.005925,6.705,6
+Drive_Average.MOV,N,A5;T2;S4;F4,92,17,25,25,25,43,44,52,45,60,73,-1.227,0.008195,-10.352,4,92,17,25,25,25,43,44,52,45,60,73,-3.965,0.008878,-10.482,5
+Drive_Beginner 2.MOV,N,setup_frame;front_foot_down_frame;A5;T2;S4,84,17,17,25,25,28,45,51,46,61,64,-8.535,0.039967,0.396,3,84,17,17,25,25,29,45,52,46,61,64,-7.193,0.039539,-0.037,3
+Drive_Beginner 3.MOV,N,overall;access;stability;setup_frame;hands_start_up_frame;front_foot_down_frame;hands_peak_frame;A5;T2;S4,50,17,8,25,0,21,30,32,31,37,50,-9.024,0.062075,-6.421,6,41,25,8,8,0,23,29,31,30,37,50,-19.552,0.057898,15.125,6
+Drive_Beginner 4.MOV,N,overall;access;follow_through_frame;A5;T2;S4;F4,25,0,0,0,25,19,25,36,26,41,57,18.028,0.177621,78.683,2,35,10,0,0,25,19,25,36,26,41,56,11.745,0.14924,51.186,3
+Drive_beginner.MOV,N,overall;access;tracking;flow;setup_frame;hands_start_up_frame;hands_peak_frame;A5;T2;S4;F4,80,17,25,25,13,1,9,12,10,17,27,-8.948,0.035196,1.081,5,92,25,17,25,25,0,10,12,11,17,27,-12.379,0.044088,0.069,4
+Oscar V_Beginner.mp4,Y,,75,17,8,25,25,108,119,128,121,131,140,-25.467,0.061369,-2.443,1,75,17,8,25,25,108,119,128,121,131,140,-25.467,0.061369,-2.443,1
+Straight Drive_Beginner.mp4,Y,,75,25,25,25,0,53,92,98,93,107,134,-24.564,0.025804,-0.241,6,75,25,25,25,0,53,92,98,93,107,134,-24.564,0.025804,-0.241,6

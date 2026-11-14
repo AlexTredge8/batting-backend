@@ -1,0 +1,5 @@
+tier,video_count,mean_manual_score,mean_local_score,mean_railway_score,mean_local_gap,mean_railway_gap,min_manual,max_manual,min_local,max_local,min_railway,max_railway,score_range_local,score_range_railway
+Beginner,5,31.8,65.4,,33.6,,18,50,35,92,,,57,
+Average,4,57.75,79.5,,21.75,,49,67,67,92,,,25,
+Good Club,4,76.25,83.5,,7.25,,72,80,50,100,,,50,
+Elite,4,90.25,93.75,,3.5,,86,94,83,100,,,17,
