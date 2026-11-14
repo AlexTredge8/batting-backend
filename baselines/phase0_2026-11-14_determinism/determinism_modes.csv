@@ -1,0 +1,17 @@
+clip,mode,runs,identical,max_landmark_drift,fields_varied,overall_per_run,run1_overall,run1_access,run1_tracking,run1_stability,run1_flow,run1_setup_frame,run1_hands_start_up_frame,run1_front_foot_down_frame,run1_hands_peak_frame,run1_contact_frame,run1_follow_through_frame,run1_A5,run1_T2,run1_S4,run1_F4,run1_pose_running_mode,run1_detection_rate
+Drive_Average 2.MOV,video,3,Y,0.00e+00,,84/84/84,84,17,25,17,25,15,54,62,55,70,95,-26.503,0.005925,6.705,6,video,97.3
+Drive_Average 2.MOV,image,3,Y,0.00e+00,,83/83/83,83,25,8,25,25,19,20,60,59,70,77,-17.671,0.055132,2.126,3,image,90.9
+Drive_Average.MOV,video,3,Y,0.00e+00,,92/92/92,92,17,25,25,25,41,44,52,46,60,73,-2.571,0.008847,-10.198,4,video,100.0
+Drive_Average.MOV,image,3,Y,0.00e+00,,92/92/92,92,17,25,25,25,5,6,46,45,60,72,-8.589,0.015562,-6.109,6,image,99.2
+Drive_Beginner 2.MOV,video,3,Y,0.00e+00,,84/84/84,84,17,17,25,25,33,43,56,46,61,64,-8.192,0.038302,-0.477,2,video,100.0
+Drive_Beginner 2.MOV,image,3,Y,0.00e+00,,59/59/59,59,17,17,0,25,6,41,47,46,61,65,-6.49,0.052491,35.112,3,image,96.7
+Drive_Beginner 3.MOV,video,3,Y,0.00e+00,,42/42/42,42,17,8,17,0,16,29,31,30,37,50,-7.744,0.061534,11.236,6,video,100.0
+Drive_Beginner 3.MOV,image,3,Y,0.00e+00,,75/75/75,75,25,25,0,25,0,6,29,28,37,49,-24.296,0.001488,30.713,3,image,100.0
+Drive_Beginner 4.MOV,video,3,Y,0.00e+00,,85/85/85,85,10,25,25,25,21,23,32,26,41,48,6.766,0.302459,-7.746,1,video,27.3
+Drive_Beginner 4.MOV,image,3,Y,0.00e+00,,75/75/75,75,0,25,25,25,21,23,31,26,41,50,21.838,0.311009,-23.889,0,image,16.7
+Drive_beginner.MOV,video,3,Y,0.00e+00,,27/27/27,27,10,17,0,0,1,10,12,11,17,27,-42.798,0.043795,36.045,6,video,100.0
+Drive_beginner.MOV,image,3,Y,0.00e+00,,71/71/71,71,25,25,8,13,0,9,13,10,17,27,-21.776,0.037477,21.026,5,image,100.0
+Viv P_Offdrive Elite.mov,video,3,Y,0.00e+00,,92/92/92,92,17,25,25,25,60,61,77,73,81,109,-27.962,0.002243,0.914,3,video,100.0
+Viv P_Offdrive Elite.mov,image,3,Y,0.00e+00,,100/100/100,100,25,25,25,25,34,42,76,70,81,109,-20.913,0.009239,-10.894,0,image,100.0
+Cam T_LH Offdrive Elite.mov,video,3,Y,0.00e+00,,100/100/100,100,25,25,25,25,30,34,47,42,52,85,-15.234,0.02576,-1.344,3,video,100.0
+Cam T_LH Offdrive Elite.mov,image,3,Y,0.00e+00,,92/92/92,92,25,25,17,25,3,34,44,43,52,68,-12.304,0.032412,7.148,2,image,100.0
