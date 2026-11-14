@@ -1,0 +1,60 @@
+{
+  "rubric_version": "0.1-draft",
+  "status": "DRAFT for Alex, Cam and Viv to correct. Not accepted. Phase 1 is done when all three accept it and a clip takes under 5 minutes.",
+  "scope": "Front-foot drive, controlled along the ground, filmed from the bowler's end. Score this shot, not the player.",
+  "rating_scale": {
+    "2": "Done well",
+    "1": "Partly done, or a small fault",
+    "0": "Clear fault",
+    "X": "Cannot judge from this clip (say why)"
+  },
+  "checkpoints": [
+    {"id": "C01", "stage": "Set-up", "pillar": "tracking", "text": "Head level and still at set-up; eyes level", "visible": "yes"},
+    {"id": "C02", "stage": "Set-up", "pillar": "stability", "text": "Balanced base at set-up; weight even, knees relaxed", "visible": "partly: stance width lies along the pitch"},
+    {"id": "C03", "stage": "Backlift", "pillar": "access", "text": "Hands lift straight back, not out towards gully or across the body", "visible": "yes for hands; the bat is not tracked"},
+    {"id": "C04", "stage": "Movement", "pillar": "tracking", "text": "Head and front shoulder lead towards the line of the ball", "visible": "yes for line; no for forward movement"},
+    {"id": "C05", "stage": "Movement", "pillar": "access", "text": "Front foot lands close to the line of the ball", "visible": "yes"},
+    {"id": "C06", "stage": "Movement", "pillar": "stability", "text": "Front knee bends and takes the weight", "visible": "partly: foreshortened"},
+    {"id": "C07", "stage": "Movement", "pillar": "access", "text": "Body stays side-on until contact; chest does not open early", "visible": "yes: the shoulder line widens as it opens"},
+    {"id": "C08", "stage": "Downswing", "pillar": "access", "text": "Downswing comes straight through the line of the ball", "visible": "partly: hands yes, bat no"},
+    {"id": "C09", "stage": "Downswing", "pillar": "flow", "text": "One rhythm from backlift to contact; no pause or hitch", "visible": "yes, limited by frame rate"},
+    {"id": "C10", "stage": "Contact", "pillar": "tracking", "text": "Head over the ball at contact; does not fall away", "visible": "sideways yes; forward no"},
+    {"id": "C11", "stage": "Finish", "pillar": "stability", "text": "Balance held at the finish; no fall to the off or leg side", "visible": "yes for sideways falls"},
+    {"id": "C12", "stage": "Finish", "pillar": "flow", "text": "Hands continue through towards the target; finish controlled, not checked or wild", "visible": "yes"}
+  ],
+  "not_judged_from_this_camera": [
+    "Stride length and weight forward (depth along the pitch)",
+    "Head forward of the base",
+    "Contact under the eyes, beside the front pad",
+    "Bat face",
+    "Timing and where the ball went"
+  ],
+  "faults_in_chain_order": [
+    {"id": "F01", "checkpoint": "C01", "text": "Head moves early or is not still at set-up"},
+    {"id": "F02", "checkpoint": "C02", "text": "Unbalanced stance"},
+    {"id": "F03", "checkpoint": "C03", "text": "Backlift goes wide or across the body"},
+    {"id": "F04", "checkpoint": "C04", "text": "Head and shoulder do not lead to the line"},
+    {"id": "F05", "checkpoint": "C05", "text": "Front foot not to the line of the ball"},
+    {"id": "F06", "checkpoint": "C06", "text": "Front leg stiff; weight stays back"},
+    {"id": "F07", "checkpoint": "C07", "text": "Opens up early"},
+    {"id": "F08", "checkpoint": "C08", "text": "Bat comes across the line"},
+    {"id": "F09", "checkpoint": "C09", "text": "Pause or hitch in the swing"},
+    {"id": "F10", "checkpoint": "C10", "text": "Head falls away at contact"},
+    {"id": "F11", "checkpoint": "C11", "text": "Off balance at the finish"},
+    {"id": "F12", "checkpoint": "C12", "text": "Checked or wild follow-through"}
+  ],
+  "priority_fix_rule": "Pick ONE fault: the one that, fixed first, would help this player most. This is usually the earliest fault in the chain, because later faults often follow from it.",
+  "caps_proposed": [
+    {"id": "CAP1", "when": "C10 = 0 (head falls away)", "cap": "overall <= 60", "status": "proposed, to confirm"},
+    {"id": "CAP2", "when": "C11 = 0 (falls over at the finish)", "cap": "stability <= 10", "status": "proposed, to confirm"},
+    {"id": "CAP3", "when": "C05 = 0 and C08 = 0 (across the line)", "cap": "access <= 10", "status": "proposed, to confirm"}
+  ],
+  "pillar_anchors": {
+    "access":    {"5": "Plays across the line: foot well away from the line, chest open early, hands out wide", "15": "Gets near the line, but opens a little early or the hands drift", "25": "Foot to the line, side-on to contact, hands straight through the line"},
+    "tracking":  {"5": "Head moves early and falls away at contact", "15": "Head mostly still, leads late, drifts a little at contact", "25": "Still, level head that leads to the line and stays over the ball"},
+    "stability": {"5": "Unbalanced from set-up, falls away at the finish", "15": "Balanced, but the weight stays back or the finish wobbles", "25": "Balanced base, weight onto a bent front knee, finish held"},
+    "flow":      {"5": "Stop-start: pause at the top, hitch, checked finish", "15": "Mostly connected, with one hesitation", "25": "One smooth rhythm from backlift to a full, controlled finish"}
+  },
+  "score_sheet_fields": ["clip_id", "C01", "C02", "C03", "C04", "C05", "C06", "C07", "C08", "C09", "C10", "C11", "C12", "access", "tracking", "stability", "flow", "overall", "priority_fault", "second_fault", "confidence", "cannot_judge_reason", "minutes_taken"],
+  "score_sheet_notes": {"overall": "Score it on its own (0-100); do not add up the pillars. Phase 2 tests whether coaches overall equals the pillar sum.", "second_fault": "optional", "confidence": "low / medium / high"}
+}
