@@ -13,7 +13,7 @@ from pathlib import Path
 import cv2
 import mediapipe as mp
 
-from config import LOCAL_MODE, MEDIAPIPE_STATIC_IMAGE_MODE, PROCESSING_MODE
+from config import LOCAL_MODE, MEDIAPIPE_STATIC_IMAGE_MODE, POSE_RUNNING_MODE, PROCESSING_MODE
 from models import FramePose, RawLandmark
 
 mp_pose = mp.solutions.pose
@@ -62,6 +62,7 @@ def _build_video_meta(path: Path, fps: float, width: int, height: int, total_fra
         "effective_fps": round(fps / max(1, frame_step), 4),
         "local_mode": LOCAL_MODE,
         "processing_mode": PROCESSING_MODE,
+        "pose_running_mode": POSE_RUNNING_MODE,
     }
 
 
@@ -103,7 +104,7 @@ def _extract_with_tasks(video_path: str, verbose: bool = True) -> tuple[list[Fra
             model_asset_path=str(model_path),
             delegate=BaseOptions.Delegate.CPU,
         ),
-        running_mode=RunningMode.VIDEO,
+        running_mode=RunningMode.IMAGE if POSE_RUNNING_MODE == "image" else RunningMode.VIDEO,
         num_poses=1,
         min_pose_detection_confidence=0.5,
         min_pose_presence_confidence=0.5,
@@ -131,7 +132,10 @@ def _extract_with_tasks(video_path: str, verbose: bool = True) -> tuple[list[Fra
             rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
             mp_image = mp.Image(image_format=mp.ImageFormat.SRGB, data=rgb)
             timestamp_ms = int((frame_idx / fps) * 1000)
-            results = landmarker.detect_for_video(mp_image, timestamp_ms)
+            if POSE_RUNNING_MODE == "image":
+                results = landmarker.detect(mp_image)
+            else:
+                results = landmarker.detect_for_video(mp_image, timestamp_ms)
 
             if results.pose_landmarks:
                 detected_count += 1

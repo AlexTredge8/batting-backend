@@ -68,6 +68,12 @@ MAX_VIDEO_DURATION_S = float(os.getenv("MAX_VIDEO_DURATION_S", "30"))
 # Changed 2026-05-13: cross-session determinism failure confirmed in D4.
 # Source: temporal tracking state varies on session init.
 MEDIAPIPE_STATIC_IMAGE_MODE = _env_bool("MEDIAPIPE_STATIC_IMAGE_MODE", True)
+# The 2026-05-13 fix above only reached the legacy mp.solutions path. The production
+# mp.tasks path ran RunningMode.VIDEO (temporal tracking) regardless. POSE_RUNNING_MODE
+# selects it explicitly: "video" (default, what every calibration so far used) or
+# "image" (each frame on its own). Phase 0 found 6/17 clips scored differently across
+# processes on Apple silicon; phase0_determinism.py compares the two modes.
+POSE_RUNNING_MODE = os.getenv("POSE_RUNNING_MODE", "video").strip().lower()
 
 # ---------------------------------------------------------------------------
 # Setup detector version
