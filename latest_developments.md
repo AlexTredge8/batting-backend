@@ -181,6 +181,7 @@ All R-track and F-track deliverables must report tuning-set MAE and held-out MAE
 
 |Task|Date|Output|
 |----|----|------|
+|Phase 0 baseline (Mac)|2026-11-14|baselines/phase0_2026-11-14/ — four-rule scorer on 17 clips. Auto MAE 19.7 overall (constant scorer 21.7); every pillar worse than the constant scorer (auto and validated). Validated MAE 25.8, worse than auto. Bias +30 (<40 band) to +3.6 (>=80). 14 'free 25s' in auto. Determinism 11/17 on Mac arm64 (Drive_Average 2: 59 vs 84). Left-hander: no change. Wrong-plane: supported for A2, A3, F4; active A5/S4/F4 rho with coach pillar -0.18/-0.03/-0.09. Capture: Drive_Beginner 4 pose found in 41% of frames; Ollie P tracks the wrong figure; 7 clips have frame-count/duration mismatch; 7 are 480x848 or smaller copies|
 |P0-B docs match code|2026-11-14|RULES_CHANGELOG 2.2.0 (13–15 May changes logged), RULES_VERSION 2.2.0, claude.md/ORCHESTRATOR/heldout_discipline corrected; Viv → reference; scoring unchanged (pytest + e2e + reference-clip score check)|
 |Drift fix|2026-09-04|Production → calibrated full-rate path; drift measured on test_batting.mov (setup −40f, hands_start_up −35f, HP −5f, A5 flip); determinism PASS; annotator uses analysis landmarks; /analyse media contract fixed; analysis_quality+warnings; e2e regression test pins anchors 60/61/77/73/81/109|
 |—   |—   |—     |
