@@ -99,11 +99,32 @@ def _read_judgements(pairs_dir: Path) -> tuple[list[tuple[str, str]], dict[str, 
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     sub = parser.add_subparsers(dest="cmd", required=True)
+    j = sub.add_parser("from-artifact", help="turn the 'Which drive is better?' link's saved answers into <coach>_pairs.csv sheets")
+    j.add_argument("--json-dir", required=True, help="folder of answers/*.json documents saved with ArtifactData list out_dir")
+    j.add_argument("--out", required=True, help="pairs folder to write <coach>_pairs.csv into")
     f = sub.add_parser("fit")
     f.add_argument("--pairs-dir", required=True)
     f.add_argument("--key", required=True, help="blind_key_PRIVATE.csv")
     f.add_argument("--out", required=True)
     args = parser.parse_args(argv)
+
+    if args.cmd == "from-artifact":
+        import json
+        out = Path(args.out)
+        out.mkdir(parents=True, exist_ok=True)
+        for doc in sorted(Path(args.json_dir).rglob("*.json")):
+            d = json.loads(doc.read_text())
+            d = d.get("data", d)
+            coach = str(d.get("coach") or doc.stem).replace("/", "_")
+            picks = d.get("picks") or {}
+            with (out / f"{coach}_pairs.csv").open("w", newline="", encoding="utf-8") as h:
+                w = csv.writer(h)
+                w.writerow(["pair_no", "left_id", "right_id", "better", "confidence", "notes"])
+                for p in d.get("pairs") or []:
+                    a = picks.get(str(p["pair_no"]), {})
+                    w.writerow([p["pair_no"], p["left_id"], p["right_id"], a.get("better", ""), a.get("confidence", ""), ""])
+            print(f"{coach}: {sum(1 for a in picks.values() if a.get('better'))} answered -> {out / (coach + '_pairs.csv')}")
+        return 0
 
     with Path(args.key).open(encoding="utf-8-sig", newline="") as h:
         key = {r["clip_id"]: r["filename"] for r in csv.DictReader(h)}

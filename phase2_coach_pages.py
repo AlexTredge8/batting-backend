@@ -39,6 +39,9 @@ video{width:100%;max-height:62vh;background:#000;border-radius:8px}
 button{font:inherit;border:1px solid var(--line);background:var(--card);color:var(--fg);border-radius:8px;padding:8px 14px;cursor:pointer}
 button.primary{background:var(--accent);color:var(--accent-fg);border-color:var(--accent)}button.on{background:var(--pick);border-color:var(--accent)}
 .big{font-size:18px;padding:14px 20px;width:100%}.bar{height:6px;background:var(--line);border-radius:3px;overflow:hidden}.bar>i{display:block;height:100%;background:var(--accent)}
+.pair{flex-wrap:nowrap;gap:8px}.pair>.col{flex:1 1 0;min-width:0;padding:8px}.pair video{max-height:70vh}
+#swipe{touch-action:pan-y}.flash{outline:4px solid var(--accent);outline-offset:-4px}
+@media (max-width:600px){main{padding:8px}.big{font-size:15px;padding:12px 8px}h1{font-size:18px}}
 .grid{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:6px 12px;align-items:center}.seg{display:flex;gap:4px}.seg button{padding:6px 10px;min-width:40px}
 input,select,textarea{font:inherit;padding:6px 8px;border:1px solid var(--line);border-radius:6px;background:var(--card);color:var(--fg)}
 input[type=number]{width:80px}textarea{width:100%}label{font-size:14px}.tools{display:flex;gap:6px;flex-wrap:wrap;margin:6px 0}
@@ -61,12 +64,12 @@ function restart(){ document.querySelectorAll("video").forEach(v => { v.currentT
 PAIRS_BODY = """
 <main>
 <h1>Which drive is better? <span class="muted" id="who"></span></h1>
-<p class="muted">Judge the drive as a whole, as you would in the nets. Click the better one, or press L or R. About 25 minutes.</p>
+<p class="muted">Judge the drive as a whole, as you would in the nets. Swipe towards the better drive (on a phone), tap its button, or press L or R. About 25 minutes.</p>
 <div class="bar"><i id="prog"></i></div><p class="muted" id="count"></p>
 <div class="tools"><button onclick="restart()">Restart both</button><button onclick="speed(1)">1×</button><button onclick="speed(0.5)">0.5×</button><button onclick="speed(0.25)">0.25×</button><button onclick="go(-1)">← Back</button></div>
-<div class="row">
- <div class="col card"><video id="vl" muted loop playsinline autoplay controls></video><button class="big primary" onclick="pick('L')">Left is better (L)</button></div>
- <div class="col card"><video id="vr" muted loop playsinline autoplay controls></video><button class="big primary" onclick="pick('R')">Right is better (R)</button></div>
+<div class="row pair" id="swipe">
+ <div class="col card" id="cl"><video id="vl" muted loop playsinline autoplay></video><button class="big primary" onclick="pick('L')">← Left better</button></div>
+ <div class="col card" id="cr"><video id="vr" muted loop playsinline autoplay></video><button class="big primary" onclick="pick('R')">Right better →</button></div>
 </div>
 <div class="card"><label>Confidence</label> <span class="seg" id="conf"><button>low</button><button>medium</button><button>high</button></span>
  <p><label for="notes">Notes (optional)</label><textarea id="notes" rows="2"></textarea></p></div>
@@ -90,7 +93,14 @@ function show(){
 }
 document.querySelectorAll("#conf button").forEach(b => b.onclick = () => {
   const p = PAGE.items[i]; s.answers[p.pair_no] = Object.assign(s.answers[p.pair_no] || {}, {confidence: b.textContent}); save(s); show(); });
+let tx = null, ty = null;
+const sw = document.getElementById("swipe");
+sw.addEventListener("touchstart", e => { tx = e.touches[0].clientX; ty = e.touches[0].clientY; }, {passive: true});
+sw.addEventListener("touchend", e => {
+  if (tx === null) return; const dx = e.changedTouches[0].clientX - tx, dy = e.changedTouches[0].clientY - ty; tx = null;
+  if (Math.abs(dx) > 60 && Math.abs(dx) > 1.5 * Math.abs(dy)) pick(dx < 0 ? "L" : "R"); }, {passive: true});
 function pick(side){
+  const card = document.getElementById(side === "L" ? "cl" : "cr"); card.classList.add("flash"); setTimeout(() => card.classList.remove("flash"), 250);
   const p = PAGE.items[i];
   s.answers[p.pair_no] = Object.assign(s.answers[p.pair_no] || {}, {better: side, notes: document.getElementById("notes").value});
   i = Math.min(i + 1, PAGE.items.length); s.i = i; save(s); show();

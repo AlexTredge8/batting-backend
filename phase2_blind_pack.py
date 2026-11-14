@@ -79,6 +79,21 @@ def sheet_fields() -> list[str]:
     return ["order", *rubric["score_sheet_fields"], "notes"]
 
 
+def _per_coach_zips(out: Path, coaches: list[str], key_rows: list[dict]) -> None:
+    """for_<coach>.zip: only the clips that coach may see, their two offline pages and the readme. Never the key."""
+    import zipfile
+    for coach in coaches:
+        mine = [k["clip_id"] for k in key_rows if k["scorer_in_clip"].casefold() != coach.casefold()]
+        with zipfile.ZipFile(out / f"for_{coach}.zip", "w", compression=zipfile.ZIP_STORED) as z:
+            for cid in mine:
+                z.write(out / "clips" / f"{cid}.mp4", f"for_{coach}/clips/{cid}.mp4")
+            for extra in (f"{coach}_pairs.html", f"{coach}_scoring.html", "README_for_coaches.txt"):
+                if (out / extra).exists():
+                    z.write(out / extra, f"for_{coach}/{extra}")
+        names = zipfile.ZipFile(out / f"for_{coach}.zip").namelist()
+        assert not any("PRIVATE" in n for n in names)
+
+
 def build(args: argparse.Namespace) -> int:
     rng = secrets.SystemRandom()
     video_dir = Path(args.video_dir).expanduser()
@@ -124,6 +139,7 @@ def build(args: argparse.Namespace) -> int:
 
     (out / "README_for_coaches.txt").write_text(f"""Batting IQ blind scoring pack ({date.today().isoformat()})
 
+0. The quickest way: open the link Alex sends you ("Which drive is better?"), pick your name, tap "Choose your clips" and select every file in the clips folder of this zip. The clips play on your device only; your answers save to Alex's record as you go.
 1. Score on your own. Do not discuss clips or scores with the other coaches until everyone has sent their sheets back.
 2. Open <your name>_scoring.html in Chrome or Safari (double-click it; keep it in this folder so it can find the clips). It shows one clip at a time with the rubric. Work in the order given; it is a random order made for you. At the end, click "Download results" and send the file to Alex.
 3. For each clip: rate C01-C12 as 2 (done well), 1 (partly), 0 (clear fault) or X (cannot judge from this clip). Then give the four pillar scores (0-25) and an overall score (0-100) on its own; do not add up the pillars. Then pick ONE priority fault (F01-F12), your confidence, and the minutes you took.
@@ -133,6 +149,8 @@ def build(args: argparse.Namespace) -> int:
 """, encoding="utf-8")
     from phase2_coach_pages import build as build_pages
     build_pages(out)
+    if not args.no_copy:
+        _per_coach_zips(out, coaches, key_rows)
     print(f"Pack written to {out}\n  clips: {len(key_rows)}  coaches: {', '.join(coaches)}  pairs per coach: {args.pairs_per_coach}")
     print(f"  KEEP PRIVATE: {out / 'blind_key_PRIVATE.csv'}")
     return 0

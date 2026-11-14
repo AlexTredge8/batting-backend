@@ -1,0 +1,19 @@
+filename,player_id,scorer_in_clip,handedness,drive_type,feed,line,venue,camera_position,others_in_frame,flags_confirmed
+Cam T_LH Offdrive Elite.mov,P01,Cam,left,off,machine,off,indoor net lane,behind bowler,N,hub guess 14 Nov (Alex asked for guesses); not confirmed
+Cam T_Offdrive Elite.mp4,P01,Cam,right,off,machine,off,indoor net lane,behind bowler,N,hub guess 14 Nov (Alex asked for guesses); not confirmed
+Cam T_Ondrive Elite.mov,P01,Cam,right,on,machine,leg,indoor net lane,behind bowler,N,hub guess 14 Nov (Alex asked for guesses); not confirmed
+Viv P_Offdrive Elite.mov,P02,Viv,right,off,machine,off,indoor net lane,behind bowler,N,hub guess 14 Nov (Alex asked for guesses); not confirmed
+Alex T_Straightdrive Good.MOV,P03,Alex,right,straight,machine,middle,indoor net lane,behind bowler,N,hub guess 14 Nov (Alex asked for guesses); not confirmed
+AlexT_Ondrive Good.MOV,P03,Alex,right,on,machine,leg,indoor net lane,behind bowler,N,hub guess 14 Nov (Alex asked for guesses); not confirmed
+Cam T_Offdrive Good.mp4,P01,Cam,right,off,machine,off,indoor net lane,behind bowler,N,hub guess 14 Nov (Alex asked for guesses); not confirmed
+Ollie P_Offdrive Average.mov,P04,,right,off,bowler,off,indoor net lane,behind bowler,Y,hub guess 14 Nov (Alex asked for guesses); not confirmed
+Dan P_Offdrive Average.MOV,P05,,right,off,throw-down,off,outdoor nets,behind bowler,N,hub guess 14 Nov (Alex asked for guesses); not confirmed
+Drive_Average 2.MOV,P06,,right,off,throw-down,off,outdoor nets,behind bowler,N,hub guess 14 Nov (Alex asked for guesses); not confirmed
+Drive_Average.MOV,P07,,right,off,throw-down,off,sports hall,angle (~20-30 deg),Y,hub guess 14 Nov (Alex asked for guesses); not confirmed
+Female_Average.mp4,P08,,right,off,throw-down,off,outdoor nets,behind bowler,N,hub guess 14 Nov (Alex asked for guesses); not confirmed
+Drive_Beginner 2.MOV,P09,,right,off,throw-down,off,sports hall,angle (~20-30 deg),Y,hub guess 14 Nov (Alex asked for guesses); not confirmed
+Drive_Beginner 3.MOV,P10,,right,off,throw-down,off,sports hall,angle (~20-30 deg),N,hub guess 14 Nov (Alex asked for guesses); not confirmed
+Drive_Beginner 4.MOV,P11,,right,off,throw-down,off,outdoor nets,behind bowler,N,hub guess 14 Nov (Alex asked for guesses); not confirmed
+Drive_beginner.MOV,P12,,right,off,throw-down,off,sports hall,angle (~20-30 deg),N,hub guess 14 Nov (Alex asked for guesses); not confirmed
+Oscar V_Beginner.mp4,P13,,right,off,throw-down,off,outdoor nets,behind bowler,N,hub guess 14 Nov (Alex asked for guesses); not confirmed
+Straight Drive_Beginner.mp4,P14,,right,straight,throw-down,middle,outdoor nets,behind bowler,N,hub guess 14 Nov (Alex asked for guesses); not confirmed
