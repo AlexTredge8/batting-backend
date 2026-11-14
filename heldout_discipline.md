@@ -2,7 +2,7 @@
 
 ## Purpose
 
-Four videos are permanently locked as a held-out validation set. They are processed during every batch run but must never be used to inform threshold choices, rule redesigns, or anchor-detector changes. Their purpose is to detect overfitting: if tuning-set performance improves but held-out performance does not, the change is overfit.
+Three videos are locked as a held-out validation set, and one is a reference clip. They are processed during every batch run but must never be used to inform threshold choices, rule redesigns, or anchor-detector changes. Their purpose is to detect overfitting: if tuning-set performance improves but held-out performance does not, the change is overfit.
 
 ## Held-out videos
 
@@ -10,10 +10,13 @@ Four videos are permanently locked as a held-out validation set. They are proces
 |---|---|
 | Drive_Average.MOV | Average |
 | Drive_Beginner 2.MOV | Beginner |
-| Viv P_Offdrive Elite.mov | Elite |
 | AlexT_Ondrive Good.MOV | Good Club |
 
 These are defined in `heldout_split.csv` (one row per video, `split` column = `heldout`).
+
+**Reference clip (2026-11-14):** `Viv P_Offdrive Elite.mov` has `split = reference`. It is byte-for-byte the same file as `test_batting.mov` (md5 `0a1b3a74e1f123a97085c2fafbaa12ea`), the development clip whose anchors the e2e test pins. It cannot detect overfitting, so it is reported in the detailed CSVs and left out of both the tuning and held-out summaries.
+
+**To be replaced (Phase 4):** this split is by clip, not by player. AlexT_Ondrive Good is held out while Alex T_Straightdrive Good is in tuning, so the same batter sits on both sides. Phase 4 draws a player-level split: 40 development clips and 20 locked clips from unseen players.
 
 ## Rules
 
@@ -29,6 +32,6 @@ These are defined in `heldout_split.csv` (one row per video, `split` column = `h
 
 ## Split file format
 
-`heldout_split.csv` columns: `filename`, `tier`, `split` (`tuning` | `heldout`).
+`heldout_split.csv` columns: `filename`, `tier`, `split` (`tuning` | `heldout` | `reference`).
 
 The batch script resolves filenames case-insensitively and also matches on stem (filename without extension) so `.MOV` vs `.mov` differences are handled automatically.

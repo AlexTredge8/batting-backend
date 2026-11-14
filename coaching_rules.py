@@ -1,7 +1,9 @@
 """
 BattingIQ Phase 2 — Coaching Rules Engine
 ============================================
-21 rules across four pillars: Access, Tracking, Stability, Flow.
+21 rules defined across four pillars: Access, Tracking, Stability, Flow.
+RULES_VERSION 2.2.0: 4 active (A5, T2, S4, F4); the rest are suspended or deleted
+(see RULES_CHANGELOG.md). Active capacity: config.PILLAR_RULE_MAX_DEDUCTION.
 
 Each rule function receives:
   - metrics:   list[FrameMetrics]   full per-frame metrics
@@ -855,7 +857,8 @@ def run_all_rules(
     front_side: str = "left",
 ) -> dict[str, list[Fault]]:
     """
-    Run all 21 coaching rules.
+    Run every defined coaching rule (21 defined; suspended rules return no faults,
+    so 4 are active under RULES_VERSION 2.2.0).
     Returns dict keyed by pillar name with a list of detected faults.
 
     Args:

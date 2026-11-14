@@ -2,7 +2,7 @@
 
 ## What this system does
 
-BattingIQ analyses cricket batting technique from video. A user uploads a video; the pipeline extracts pose landmarks, detects 6 batting phases (anchors), fires 21 coaching rules, and returns a score out of 100 across 4 pillars: **Access, Tracking, Stability, Flow** (each out of 25). Output includes pillar breakdown, coaching feedback, and storyboard keyframes.
+BattingIQ analyses cricket batting technique from video. A user uploads a video; the pipeline extracts pose landmarks, detects 6 batting phases (anchors), evaluates the active coaching rules (21 defined, 4 active: A5, T2, S4, F4), and returns a score out of 100 across 4 pillars: **Access, Tracking, Stability, Flow** (each out of 25). Output includes pillar breakdown, coaching feedback, and storyboard keyframes.
 
 **Core problem being solved:** score compression — near-perfect and beginner technique score within 5 points of each other. The goal is 40–60 point separation across skill tiers.
 
@@ -17,7 +17,7 @@ BattingIQ analyses cricket batting technique from video. A user uploads a video;
 |`pose_extractor.py`           |MediaPipe BlazePose landmark extraction                      |
 |`phase_detector.py`           |Detects 6 anchor frames (Setup → Follow Through)             |
 |`metrics_calculator.py`       |Computes measurements from landmarks                         |
-|`coaching_rules.py`           |Rules engine; v2.0.0 has 11 active, 6 suspended, 4 deleted|
+|`coaching_rules.py`           |Rules engine; v2.2.0 has 4 active (A5, T2, S4, F4), 13 suspended, 4 deleted|
 |`config.py`                   |All thresholds, rule flags, pillar weights                   |
 |`scorer.py`                   |Aggregates rule deductions into pillar and overall scores    |
 |`video_annotator.py`          |Renders MediaPipe overlay video                              |
@@ -27,9 +27,11 @@ BattingIQ analyses cricket batting technique from video. A user uploads a video;
 
 ### Key data files
 
-- `ground_truth_scores.csv` — 17 videos, 4 pillar scores per video, tier labels
-- `anchor_truth.csv` — manually validated anchor frames for all 17 videos
-- `annotation.csv` — Alex’s per-pillar scoring reasoning (T1 task output)
+- `coach_ground_truth_from_screenshot.csv` — 18 videos, Alex's 4 pillar scores + overall, tier labels (`Female_Average.mp4` has filmed_correctly = N, so batches use 17). `coach_notes` is empty. (`ground_truth_scores.csv` and `annotation.csv` do not exist; the batch falls back to the screenshot CSV.)
+- `anchor_truth.csv` — manually validated anchor frames for 17 videos (not `Female_Average.mp4`)
+- `heldout_split.csv` — tuning / heldout / reference split
+- `clip_sheet.csv` — per-clip capture facts and context (Phase 0)
+- `baselines/phase0_<date>/` — the Phase 0 baseline table for the four-rule scorer
 
 ### Frontend (Lovable)
 
@@ -38,11 +40,13 @@ BattingIQ analyses cricket batting technique from video. A user uploads a video;
 - Backend URL: `https://web-production-e9c26.up.railway.app`
 
 
-**Current stage (2026-04-29): R4-partial + R3 complete.**
-- Active rules: A1, A3, A5, T2, S2, S4, F1, F3, F4, F5, F6 (11 active).
-- Suspended rules: A2, A4, T1, S1, S3, F2 (6 suspended; F2 is suspended, not deleted).
+**Current stage (2026-11-14): Phase 0 of the coach-agreement plan (baseline and freeze).**
+- Active rules: A5, T2, S4, F4 (4 active, one per pillar). Source of truth: `config.PILLAR_RULE_MAX_DEDUCTION`.
+- Suspended rules: A1, A2, A3, A4, T1, S1, S2, S3, F1, F2, F3, F5, F6 (13 suspended).
 - Deleted rules: A6, T3, T4, T5.
-- Pillar weights: Option B3 — Access/Tracking/Stability/Flow remain 25 each, but deductions are normalised by active rule capacity per pillar.
+- `RULES_VERSION = "2.2.0"`; see `RULES_CHANGELOG.md` for the 13–15 May 2026 changes.
+- Pillar weights: Option B3. Each pillar is 25, and its deduction is normalised by the active rule capacity. With one rule per pillar, a pillar is 25 whenever its rule does not fire, is suppressed, or cannot measure. Phase 6 replaces this with "not assessed".
+- Plan: `docs/phase0/README.md` and the plan doc "Batting IQ: plan to prove agreement with expert coaches".
 
 ### Skill tiers (ground truth)
 
@@ -97,20 +101,33 @@ When a batch run is produced, always include per-tier mean scores and whether mo
 
 ## Success criterion
 
-All 17 ground-truth videos within ±5 on overall score AND all 4 pillars vs Alex’s manual scores. Elite mean ≥ 90. Tier ordering monotonic. Pipeline deterministic.
+**Superseded (Nov 2026).** The old criterion was ±5 on overall and all four pillars for all 17 videos, Elite mean ≥ 90, and monotonic tier order. It is replaced because it rates the player, not the shot, and a fixed ±5 is probably tighter than coaches manage between themselves.
+
+The current targets are provisional until Phase 2 measures the coach-to-coach ceiling. They apply to 20 locked test clips from unseen players, run fully automatically:
+
+- System error is no more than 1.25 × coach-to-coach error, overall and per pillar.
+- No ability band has a mean bias above 5 points.
+- Priority-fix match is within 10 percentage points of the coach-to-coach rate.
+- At least 80% of clips that meet the capture standard get a score.
+- The same clip gives the same score.
+
+Tier order is a sanity check only. Scope: a front-foot drive, filmed from the bowler's end, that passes the input checks.
 
 -----
 
 ## Held-out validation set
 
-Four videos are permanently locked as held-out (one per tier). They are processed in every batch but must never be used to inform threshold or rule decisions.
+Three videos are locked as held-out, plus one reference clip (see below). They are processed in every batch but must never be used to inform threshold or rule decisions.
 
 | Filename | Tier |
 |---|---|
 | Drive_Average.MOV | Average |
 | Drive_Beginner 2.MOV | Beginner |
-| Viv P_Offdrive Elite.mov | Elite |
 | AlexT_Ondrive Good.MOV | Good Club |
+
+**Reference clip, not held out:** `Viv P_Offdrive Elite.mov` (split value `reference`). It is the same file as `test_batting.mov` (md5 `0a1b3a74e1f123a97085c2fafbaa12ea`), the development clip that the e2e test pins, so it cannot detect overfitting.
+
+The Phase 4 player-level split replaces this split: today AlexT_Ondrive Good is held out while Alex T_Straightdrive Good is in tuning, so the same batter sits on both sides.
 
 **Rules:**
 - Tune against `tuning_metrics.txt` only.

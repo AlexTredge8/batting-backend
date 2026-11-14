@@ -1,11 +1,13 @@
 # BattingIQ — Latest Developments (Working Memory)
 
 *Update this file at the end of every Codex task.*
-*Last updated: 4 Sep 2026*
+*Last updated: 14 Nov 2026*
 
 -----
 
 ## Current stage
+
+**PHASE 0 OF THE COACH-AGREEMENT PLAN (14 Nov 2026).** The plan doc ("Batting IQ: plan to prove agreement with expert coaches") replaces the old ±5 / Elite ≥ 90 success criterion. The docs now match the code: there are 4 active rules (A5, T2, S4, F4), and `RULES_VERSION` is 2.2.0. The 13–15 May 2026 changes are logged in `RULES_CHANGELOG.md`: A1, A3 and F6 suspended; T2, S4 and F4 thresholds revised; setup detector v4 made the default; static-image MediaPipe mode turned on. The scoring logic did not change. `Viv P_Offdrive Elite.mov` is now the `reference` clip, not held out. The baseline, clip-sheet and wrong-plane scripts are in the repo (`phase0_*.py`). One Mac command runs them on the 18 clips (`docs/phase0/README.md`). **Correction to the F-track summary below:** the setup detector default is **v4** (stillness-anchored, `USE_SETUP_V4=True`, restored 14 May 2026, MAE 8.29 per the config comment), not v1.
 
 **PRODUCTION DRIFT CLOSED (4 Sep 2026).** The Railway path processed every 2nd frame at 640px while every calibration batch ran full-rate at source resolution — the "Railway vs local drift" risk listed below was never measured. Measured on `test_batting.mov` (anchors in original frames, fast → local): setup 20→60 (−40f), hands_start_up 26→61 (−35f), hands_peak 68→73 (−5f), contact 80→81, FFD 78→77; A5 gap −15.0°→−28.7° (A5 stopped firing in fast mode), A2 elbow 91.7°→130.9°, A3 compression 0→3, F4 pause 0→3; score 100→92. Determinism: PASS (byte-identical anchors + rule measurements across two runs in both modes, and across processes). **Production now runs the calibrated path** (`PROCESSING_MODE=full_rate_calibrated`, frame_step=1, source res; `FAST_MODE=1` emergency fallback, flagged in `warnings`). Also shipped: annotated video/storyboard draw the analysis landmarks (no second pose model); `/analyse` now returns `storyboard_frames[].url/.data_url` (previously only `/analyse-from-url` did); report `ms` values derived from original frames + `original_frame` on every anchor; `analysis_quality` + `warnings` block (audio-less clips → pose-only contact is now visible); 422 guard for clips > 30s; gap-free phase labels (follow-through label no longer blank after the contact window); reference baseline path absolute and self-calibrated baselines no longer overwrite the reference. New regression: `BATTINGIQ_E2E=1 pytest tests/test_reference_video_e2e.py` pins the calibrated anchors (60/61/77/73/81/109). **Action for the hub:** re-run the all-17 batch — `local_vs_railway_drift` should now be ~0, so R/F-track results transfer to production unchanged. **Risk to verify in the frontend:** the client-side MediaRecorder/WebM compression must preserve the audio track, otherwise every production upload falls back to pose contact (MAE ~30f) — check `analysis_quality.audio_available` on a real upload.
 
@@ -179,6 +181,7 @@ All R-track and F-track deliverables must report tuning-set MAE and held-out MAE
 
 |Task|Date|Output|
 |----|----|------|
+|P0-B docs match code|2026-11-14|RULES_CHANGELOG 2.2.0 (13–15 May changes logged), RULES_VERSION 2.2.0, claude.md/ORCHESTRATOR/heldout_discipline corrected; Viv → reference; scoring unchanged (pytest + e2e + reference-clip score check)|
 |Drift fix|2026-09-04|Production → calibrated full-rate path; drift measured on test_batting.mov (setup −40f, hands_start_up −35f, HP −5f, A5 flip); determinism PASS; annotator uses analysis landmarks; /analyse media contract fixed; analysis_quality+warnings; e2e regression test pins anchors 60/61/77/73/81/109|
 |—   |—   |—     |
 |S2+F5 suspend|2026-05-11|calibration_output/s2_f5_suspended/s2_f5_suspension_check.txt — Elite MAE 14.0→10.75 (−3.25); ±5 overall 4/17 (↑1); tier ordering monotonic; Good Club Stability regressed +2.0; 9.5 pts Elite deficit remains unexplained|

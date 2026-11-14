@@ -12,7 +12,7 @@ Coordinate system (MediaPipe, normalised 0-1):
 
 import os
 
-RULES_VERSION = "2.0.0"
+RULES_VERSION = "2.2.0"
 
 
 def _env_bool(name: str, default: bool) -> bool:

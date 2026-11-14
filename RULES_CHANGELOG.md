@@ -1,5 +1,23 @@
 # Rules Changelog
 
+## 2.2.0 — 2026-11-14 (records changes made 13–15 May 2026)
+
+These changes were in the code from 13–15 May 2026 but were not logged. Dates and reasons are from the comments in `config.py` and `coaching_rules.py`. No rule logic or threshold changed on 2026-11-14. Only `RULES_VERSION` moved, from 2.0.0 to 2.2.0.
+
+- 2026-05-13 — Suspended A3 (compression frames). D5 rule health: discrimination score 0.45; fire rate Beginner 0.40, Elite 0.25. "Adding noise, not signal."
+- 2026-05-13 — `MEDIAPIPE_STATIC_IMAGE_MODE = True` (frame-by-frame inference). A cross-session determinism failure was confirmed in D4, from temporal-tracking state on session init.
+- 2026-05-14 — Suspended A1 (wrist spread / bat path). Camera-angle-sensitive: on-drives show the wrists converging, which looks the same as the fault. Cam T_Ondrive Elite took the maximum 10-point deduction. D7 rule health: flat (discrimination −0.85, inverted on Elite).
+- 2026-05-14 — T2 revised: minimum threshold raised to 0.038, bands 0.038 / 0.055 / 0.080, deductions 3 / 6 / 9. Reason given: Good Club values of 0.025–0.037 all fired under the old threshold.
+- 2026-05-14 — S4 revised: sign convention fixed (positive = forward rotation that continues after contact). Bands 5 / 12 / 22 degrees, deductions 4 / 8 / 12.
+- 2026-05-14 — F4 revised: minimum threshold raised from 3 to 5 pause frames, because Elite and Good Club plateau at 3. Deductions 6 / 6 / 12.
+- 2026-05-14 — F6 re-suspended: duration-based F6 was flat after follow-through v2.
+- 2026-05-14 — Setup detector v4 (hands-peak-anchored stillness) restored as the default (`USE_SETUP_V4=True`). The v2 min-velocity detector was rejected: MAE 28.94 against 8.29 for v4.
+- 2026-05-15 — F6 (velocity-based v2) kept suspended, "keep deployment on the calibrated D7/R1 rule set". It is not in the active flow capacity.
+- Active rules: **A5, T2, S4, F4** (4 active, one per pillar; `config.PILLAR_RULE_MAX_DEDUCTION`).
+- Suspended: A1, A2, A3, A4, T1, S1, S2, S3, F1, F2, F3, F5, F6 (13).
+- Deleted: A6, T3, T4, T5.
+- Note: the D7 and R1 outputs these comments cite are not in the repo. The T2, S4 and F4 thresholds were set against tier labels on the same 17 clips. No batch result for this four-rule set was on record before the Phase 0 baseline (`baselines/`).
+
 ## 2.1.0 — 2026-05-11
 
 - Suspended S2 (Post-contact instability): inverted after F5b detection improvements.
