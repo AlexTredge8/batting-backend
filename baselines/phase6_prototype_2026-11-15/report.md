@@ -11,7 +11,7 @@ Left out: Female_Average.mp4 (no Phase 5 measurements; filmed_correctly = N).
 - **Score:** a linear Bradley-Terry model with features (pairwise logistic regression, L2 penalty lambda = 0.1 on the mean log-loss, no intercept, weights constrained to be >= 0 because every feature is oriented so that higher = better). Penalty, constraint and features were fixed before any fit.
 - **Features** (rule: pass test 3 and coverage; best automatic-key-frame Spearman in each pillar): M05 (access, C05, higher better), M01 (tracking, C01, higher worse), M11 (stability, C11, higher worse), M12 (flow, C12, higher better). Standardised with the training clips' median and IQR, clipped at +-3; a missing value counts as no difference.
 - **Training pairs:** Alex's scores imply 136 pairs, Cam's 118 (ties skipped), plus 36 + 36 swipe pairs (326 in all; 41 more involve the clip with no measurements).
-- **Evaluation:** leave one player out (13 folds; Cam's four clips leave together, as do Alex's two). A held-out player is in no training pair and no scaling statistic (checked in code on every fold). Intervals: 95% bootstrap over players (2000 resamples); they resample the evaluation, not the fit, so they are if anything too narrow.
+- **Evaluation:** leave one player out (13 folds; Cam's four clips leave together, as do Alex's two). A held-out player is in no training pair and no scaling statistic (checked in code on every fold). Intervals: 95% bootstrap over players (2000 resamples); they resample the evaluation, not the fit, so they are if anything too narrow. With 13 players (one of them holding 4 of the 8 strong clips) the bootstrap is lumpy and the intervals are skewed; read them as rough.
 
 ## Order: does the model rank the drives as the coaches do?
 
