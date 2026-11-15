@@ -152,7 +152,9 @@ def main(argv: list[str] | None = None) -> int:
         rho_p = spearman_ci(px, py)[0] if len(px) >= 4 else np.nan
 
         passed_known = t0 and t1.startswith("pass") and t3 == "pass"
-        verdict = ("fail" if (not t0 or t1.startswith("fail") or t3 == "fail" or t2 == "fail")
+        t1_final_fail = t1.startswith("fail") and human  # a model-only disagreement is logged, not a drop
+        verdict = ("fail" if (not t0 or t1_final_fail or t3 == "fail" or t2 == "fail")
+                   else "robust; model disagrees (provisional)" if t1.startswith("fail") and t0 and t3 == "pass"
                    else "pass so far (two-phone pending)" if passed_known and t2.startswith("pending")
                    else "pass" if passed_known and t2 == "pass"
                    else "robust; awaiting coach ratings" if t0 and t3 == "pass" and not t1.startswith("pass")
@@ -188,6 +190,8 @@ def main(argv: list[str] | None = None) -> int:
     for p in PILLARS:
         ok = [r["measurement"] for r in out_rows if r["pillar"] == p and r["verdict"].startswith("pass")]
         wait = [r["measurement"] for r in out_rows if r["pillar"] == p and r["verdict"].startswith("robust")]
+        if not human:  # model-only "passes" are provisional too
+            wait, ok = wait + ok, []
         lines.append(f"- {p}: {len(ok)} passing ({', '.join(ok) or 'none'}); {len(wait)} robust and awaiting coach ratings "
                      f"({', '.join(wait) or 'none'}) -> " + ("can be assessed" if len(ok) >= 2 else
                      "could reach 2 once coaches rate checkpoints" if len(ok) + len(wait) >= 2 else "NOT ASSESSED (needs 2)"))
