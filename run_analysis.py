@@ -68,6 +68,32 @@ CAPTURE_MIN_BATTER_HEIGHT_FRAC = 0.12   # nose-to-ankle span at set-up, share of
 CAPTURE_MIN_DURATION_S = 2.0
 
 
+# Feet-based handedness (added 15 Nov 2026). From behind the bowler a right-hander's toes point
+# camera-left at set-up. On 4 of the 18 calibration clips they point the other way (left-handed
+# batter, mirrored video or camera behind the batter).
+FEET_MIN_FRAMES = 5
+FEET_MIN_MARGIN = 0.01   # median toe-minus-heel x, as a share of frame width
+
+
+def _handedness_from_feet(frame_poses) -> dict:
+    """Which way the toes point in the first half of the clip (the stance), as a handedness
+    for geometry: 'right' if toes point camera-left, 'left' if camera-right, None if unsure."""
+    detected = [fp for fp in frame_poses if getattr(fp, "landmarks", None)]
+    stance = detected[: max(1, len(detected) // 2)]
+    d = []
+    for fp in stance:
+        lm = fp.landmarks
+        for heel, toe in ((29, 31), (30, 32)):
+            if len(lm) > toe and lm[heel].visibility >= 0.5 and lm[toe].visibility >= 0.5:
+                d.append(lm[toe].x - lm[heel].x)
+    if len(d) < FEET_MIN_FRAMES:
+        return {"handedness": None, "median_toe_dx": None, "samples": len(d)}
+    d.sort()
+    med = d[len(d) // 2]
+    hand = None if abs(med) < FEET_MIN_MARGIN else ("right" if med < 0 else "left")
+    return {"handedness": hand, "median_toe_dx": round(med, 4), "samples": len(d)}
+
+
 def _capture_checks(metrics, phases, video_meta: dict) -> tuple[dict, list[str]]:
     """Plain-English capture warnings from facts the pipeline already has. Never changes a score."""
     warnings: list[str] = []
@@ -76,6 +102,13 @@ def _capture_checks(metrics, phases, video_meta: dict) -> tuple[dict, list[str]]
     spans = sorted(max(m.front_ankle_y, m.back_ankle_y) - m.head_y for m in window)
     batter_frac = round(spans[len(spans) // 2], 3) if spans else None
     duration = float(video_meta.get("duration_s") or 0.0)
+    feet = video_meta.get("handedness_check") or {}
+    if feet.get("disagrees"):
+        warnings.append(
+            f"The batter's feet look like a {feet['feet']}-hander filmed from behind the bowler, but the analysis "
+            f"used {feet['used']}-handed. If the video is mirrored (front camera) or filmed from behind the batter, "
+            "re-film from behind the bowler with the back camera; otherwise check the batting hand setting."
+        )
     if batter_frac is not None and batter_frac < CAPTURE_MIN_BATTER_HEIGHT_FRAC:
         warnings.append(
             "The batter looks small in the picture, so body positions are measured less precisely. "
@@ -393,6 +426,19 @@ def analyse(video_path: str, output_dir: str = None, verbose: bool = True,
     video_meta["baseline_status"] = baseline_status
     fps = video_meta["fps"]
 
+    # --- Step 1b: handedness from the feet when the user did not give one ---
+    feet = _handedness_from_feet(frame_poses)
+    if feet["handedness"] and handedness_source == "default" and feet["handedness"] != handedness:
+        handedness, handedness_source = feet["handedness"], "feet"
+        front_side = _handedness_to_front_side(handedness)
+        if verbose:
+            print(f"  Handedness from the feet: {handedness} (front_side: {front_side})")
+    video_meta["handedness_check"] = {
+        "feet": feet["handedness"], "median_toe_dx": feet["median_toe_dx"], "samples": feet["samples"],
+        "used": handedness, "source": handedness_source,
+        "disagrees": bool(feet["handedness"] and feet["handedness"] != handedness),
+    }
+
     # --- Step 2: Calculate metrics ---
     if verbose:
         print("  Calculating metrics...")
@@ -546,6 +592,7 @@ def analyse(video_path: str, output_dir: str = None, verbose: bool = True,
     result.metadata["warnings"] = warnings
     capture, capture_warnings = _capture_checks(metrics, result.phases, video_meta)
     quality["capture"] = capture
+    quality["handedness_check"] = video_meta.get("handedness_check")
     warnings = warnings + capture_warnings
     quality["scoring_status"] = "beta"
     quality["scoring_note"] = (

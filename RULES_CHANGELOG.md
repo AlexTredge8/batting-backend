@@ -1,5 +1,10 @@
 # Rules Changelog
 
+## 2.3.1 — 2026-11-15
+
+- Handedness from the feet. When the upload gives no batting hand, the pipeline reads which way the toes point in the stance (from behind the bowler, a right-hander's toes point camera-left) and uses that. When a hand is given and the feet disagree, the given hand is kept and a plain-English warning suggests the video is mirrored or filmed from behind the batter. `analysis_quality.handedness_check` reports it. Found on 4 of the 18 calibration clips (Phase 5 v3).
+- Scores: the four active rules gave identical results for right- and left-handed geometry on the left-handed clip (Phase 0 handedness check), so no score change is expected. Rule logic and thresholds are unchanged.
+
 ## 2.3.0 — 2026-11-14
 
 - Unknown pillars no longer score full marks. A pillar whose rule could not measure (`not_measured`) or was suppressed for a low-confidence anchor (`suppressed`) now takes the average of the measured pillars, rounded, and is flagged `imputed` with its `raw_score` kept. If no pillar was measured, scores are left unchanged and `no_pillar_assessed` is set. Decided by Alex.
