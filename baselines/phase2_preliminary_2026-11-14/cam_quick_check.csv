@@ -1,0 +1,18 @@
+rater,role,level,filename,overall,main_fault,second_fault,confidence
+Q01_qualified_coach,qualified_coach,county_academy_plus,Female_Average.mp4,18,F04,F05,high
+Q01_qualified_coach,qualified_coach,county_academy_plus,Dan P_Offdrive Average.MOV,25,F07,F05,
+Q01_qualified_coach,qualified_coach,county_academy_plus,Oscar V_Beginner.mp4,5,F04,F01,high
+Q01_qualified_coach,qualified_coach,county_academy_plus,Drive_beginner.MOV,0,F02,F04,high
+Q01_qualified_coach,qualified_coach,county_academy_plus,Cam T_Offdrive Good.mp4,84,F11,,high
+Q01_qualified_coach,qualified_coach,county_academy_plus,Drive_Average 2.MOV,10,F03,F11,high
+Q01_qualified_coach,qualified_coach,county_academy_plus,Cam T_LH Offdrive Elite.mov,90,F00,,high
+Q01_qualified_coach,qualified_coach,county_academy_plus,Straight Drive_Beginner.mp4,41,F10,F04,high
+Q01_qualified_coach,qualified_coach,county_academy_plus,Cam T_Ondrive Elite.mov,100,F00,,high
+Q01_qualified_coach,qualified_coach,county_academy_plus,Viv P_Offdrive Elite.mov,98,F00,,high
+Q01_qualified_coach,qualified_coach,county_academy_plus,Ollie P_Offdrive Average.mov,60,F12,F09,high
+Q01_qualified_coach,qualified_coach,county_academy_plus,AlexT_Ondrive Good.MOV,72,F03,F04,high
+Q01_qualified_coach,qualified_coach,county_academy_plus,Drive_Beginner 4.MOV,10,F04,F05,high
+Q01_qualified_coach,qualified_coach,county_academy_plus,Alex T_Straightdrive Good.MOV,80,F00,,high
+Q01_qualified_coach,qualified_coach,county_academy_plus,Drive_Average.MOV,20,F10,F02,high
+Q01_qualified_coach,qualified_coach,county_academy_plus,Drive_Beginner 3.MOV,0,F08,F04,high
+Q01_qualified_coach,qualified_coach,county_academy_plus,Cam T_Offdrive Elite.mp4,96,F00,,high

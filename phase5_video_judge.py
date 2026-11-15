@@ -98,9 +98,13 @@ SCHEMA = {
 }
 
 
+def _key() -> str:
+    return os.environ.get("GEMINI_API_KEY", "set-by-proxy").strip().strip("'\"")
+
+
 def _post(url: str, body: dict, timeout: int = 300) -> dict:
     headers = {"Content-Type": "application/json"}
-    headers["x-goog-api-key"] = os.environ.get("GEMINI_API_KEY", "set-by-proxy")
+    headers["x-goog-api-key"] = _key()
     req = urllib.request.Request(url, data=json.dumps(body).encode(), headers=headers, method="POST")
     for attempt in range(4):
         try:
@@ -116,10 +120,19 @@ def _post(url: str, body: dict, timeout: int = 300) -> dict:
 
 
 def list_models() -> list[str]:
-    req = urllib.request.Request(f"{API}/models?pageSize=200",
-                                 headers={"x-goog-api-key": os.environ.get("GEMINI_API_KEY", "set-by-proxy")})
-    with urllib.request.urlopen(req, timeout=60) as r:
-        data = json.loads(r.read())
+    req = urllib.request.Request(f"{API}/models?pageSize=200", headers={"x-goog-api-key": _key()})
+    try:
+        with urllib.request.urlopen(req, timeout=60) as r:
+            data = json.loads(r.read())
+    except urllib.error.HTTPError as exc:
+        try:
+            msg = json.loads(exc.read()).get("error", {}).get("message", "")
+        except Exception:  # noqa: BLE001
+            msg = ""
+        if exc.code in (400, 401, 403):
+            raise SystemExit(f"Google rejected the API key ({exc.code}: {msg}). Copy the whole key again from "
+                             "aistudio.google.com > Get API key (it starts with AIza and is 39 characters), then re-run.")
+        raise SystemExit(f"Gemini API error {exc.code}: {msg}")
     return [m["name"].split("/", 1)[1] for m in data.get("models", [])
             if "generateContent" in m.get("supportedGenerationMethods", [])]
 
@@ -176,6 +189,10 @@ def main(argv: list[str] | None = None) -> int:
     if args.dry_run:
         return 0
 
+    k = _key()
+    if os.environ.get("GEMINI_API_KEY") is not None and not (k.startswith("AIza") and len(k) == 39):
+        print(f"Note: Gemini keys usually start with AIza and are 39 characters; what was pasted is {len(k)} "
+              "characters. Trying it anyway.")
     model = args.model or pick_model(list_models())
     print(f"Model: {model}")
     out = Path(args.out)

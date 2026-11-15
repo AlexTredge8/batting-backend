@@ -27,3 +27,14 @@ Files: `model_vs_alex.csv`, `alex_swipe_pairs.csv`. The keys that map codes to c
 - Two qualified coaches order the 18 drives almost the same way. The four-rule scorer is the outlier.
 
 Files: `cam_swipe_pairs.csv`, `swipe_scale_alex_cam.csv`, `swipe_scale_cam_only.csv`.
+
+## Cam's quick check (15 Nov): overall score and main fault per clip
+
+- **Order:** Cam's scores rank the 17 clips almost exactly as Alex's do (Spearman 0.95), and as his own swipe answers do (0.94). Against the model: 0.85. Against the four-rule scorer: 0.66.
+- **Scale:** Cam uses a much wider range. Tier means, Alex / Cam: Beginner 27 / 4, Average 58 / 23, Good Club 76 / 74, Elite 90 / 96. The coaches disagree on the numbers for weak drives, not on the order. The model (Beginner 57) and the four-rule scorer (58) go the other way: both put beginners far above where either coach does.
+- **Main fault:** Cam names "no real fault" (F00) for all four Elite clips and Alex T_Straightdrive Good. The model always names a fault and matched Cam's main fault on 0 of 13 clips. For the tips, the app must be able to say "nothing major to fix".
+- Mean absolute gap to Cam: Alex 16.8, model 26.5, four-rule scorer 31.7.
+
+Implications: (1) agreement should be judged on order first, and the overall number calibrated separately (Phase 6), because two qualified coaches differ by 15–35 points on weak drives; (2) a correct ordering of beginners is the biggest gap in both the model and the current scorer; (3) a "no real fault" outcome is needed.
+
+File: `cam_quick_check.csv`.
