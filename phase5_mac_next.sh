@@ -7,6 +7,7 @@
 # Pushes only tables; degraded videos and landmarks stay in calibration_output/.
 set -euo pipefail
 cd "$(dirname "$0")"
+./mac_pin_env.sh
 BRANCH="claude/batting-iq-phase-0-375kjr"
 VIDS="${1:-$HOME/Documents/01 Work/03 BattingIQ/03 Working Folders/battingiq-groundtruth:/videos:}"
 [ -d "$VIDS" ] || VIDS="$VIDS/"

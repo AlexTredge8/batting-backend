@@ -5,6 +5,7 @@
 #   cd ~/Documents/battingiq-phase0 && git pull && ./phase5_checkpoint_file.sh
 set -euo pipefail
 cd "$(dirname "$0")"
+./mac_pin_env.sh
 VIDS="${1:-$HOME/Documents/01 Work/03 BattingIQ/03 Working Folders/battingiq-groundtruth:/videos:}"
 [ -d "$VIDS" ] || VIDS="$VIDS/"
 [ -d "$VIDS" ] || { echo "clip folder not found: $VIDS (pass it as the first argument)"; exit 1; }

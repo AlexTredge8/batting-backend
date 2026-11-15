@@ -14,6 +14,7 @@ VIDS="${1:-$DEFAULT_VIDS}"
 DATE="$(date +%F)"
 CACHE="calibration_output/pose_cache"
 cd "$(dirname "$0")"
+./mac_pin_env.sh
 SET="$(sed -n 's/^MEASUREMENT_SET = "\(v[0-9]*\)".*/\1/p' phase5_checkpoints.py)"
 OUT="baselines/phase5_${DATE}_${SET}"
 

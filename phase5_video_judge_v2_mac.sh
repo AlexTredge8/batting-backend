@@ -13,6 +13,7 @@
 # clips inside the swipe file, cropped around the batter. Pushes only the results (no video, no key file).
 set -euo pipefail
 cd "$(dirname "$0")"
+./mac_pin_env.sh
 BRANCH="claude/batting-iq-phase-0-375kjr"
 PY=".venv310/bin/python"
 HTML="${1:-$(ls -t "$HOME"/Downloads/BattingIQ_which_drive*.html "$HOME"/Desktop/BattingIQ_which_drive.html 2>/dev/null | head -1 || true)}"

@@ -6,6 +6,7 @@
 # About 15-25 minutes. The live app is not changed: the switch is set only for this run.
 set -euo pipefail
 cd "$(dirname "$0")"
+./mac_pin_env.sh
 BRANCH="claude/batting-iq-phase-0-375kjr"
 VIDS="${1:-$HOME/Documents/01 Work/03 BattingIQ/03 Working Folders/battingiq-groundtruth:/videos:}"
 [ -d "$VIDS" ] || VIDS="$VIDS/"

@@ -14,7 +14,8 @@ VIDS="${1:-$HOME/Documents/01 Work/03 BattingIQ/03 Working Folders/battingiq-gro
 [ -x .venv310/bin/python ] || { echo "no .venv310 here: run ./phase0_mac_run.sh once first"; exit 1; }
 PY=.venv310/bin/python
 echo "==> Installing rtmlib and onnxruntime"
-"$PY" -m pip install -q rtmlib onnxruntime
+"$PY" -m pip install -q --no-deps rtmlib==0.0.16 && "$PY" -m pip install -q onnxruntime==1.23.2 tqdm
+./mac_pin_env.sh
 OUT="baselines/phase5_pose_compare_$(date +%F)"
 echo "==> Comparing (RTMPose extraction prints one line per clip)"
 "$PY" phase5_pose_compare.py --video-dir "$VIDS" --out "$OUT" 2>&1 | grep -v -i "warning"
