@@ -1,0 +1,4 @@
+threshold,clips,exact,chance_exact,cam_real,in_failed,cam_measurable,in_failed_measurable,cam_f00,f00_hit,model_f00,mean_failed
+worse than 75% of Good Club + Elite,16,0,0.8125,11,2,11,2,5,0,1,2.938
+worse than 90% of Good Club + Elite,16,1,1.125,11,1,11,1,5,1,2,2.125
+worse than 100% of Good Club + Elite,16,1,1.688,11,1,11,1,5,1,4,1.75

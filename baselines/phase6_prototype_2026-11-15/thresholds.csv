@@ -1,0 +1,12 @@
+order,fault,checkpoint,measurement,direction,unit,fails_when,reference_clips
+1,F01,C01,M01,higher_worse,% BL,above 1.34,8
+2,F02,C02,M02,higher_worse,% BL,above 8.74,8
+3,F03,C03,M03,higher_worse,"% BL, off side +",above 13.1,8
+4,F04,C04,M04,higher_better,"% BL, off side +",below 17,8
+5,F05,C05,M05,higher_better,"% BL, drive side +",below -6.14,8
+6,F06,C06,M06,higher_worse,degrees,above 165,8
+7,F07,C07,M07,higher_worse,ratio,above 1.36,8
+8,F08,C08,M08,higher_worse,"% BL, away from drive side +",above 11.1,8
+9,F10,C10,M10,higher_better,"% BL, off side +",below 26.8,8
+10,F11,C11,M11,higher_worse,% BL,above 5.18,8
+11,F12,C12,M12,higher_better,% BL,below 10.7,8

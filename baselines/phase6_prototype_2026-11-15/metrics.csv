@@ -1,0 +1,7 @@
+scorer,rho_alex,rho_alex_lo,rho_alex_hi,n_alex,rho_cam,rho_cam_lo,rho_cam_hi,n_cam,pair_acc,pair_acc_lo,pair_acc_hi,n_pair_evals,acc_alex_scores,acc_cam_scores,acc_alex_swipes,acc_cam_swipes
+model (out of fold),0.2034,-0.59,0.6942,17,0.1384,-0.7284,0.6342,16,0.6224,0.309,0.7828,633,0.6264,0.607,0.6286,0.6522
+"four-rule scorer (Phase 0, auto)",0.6552,-0.02891,0.7801,17,0.6595,-0.02781,0.8146,16,0.7125,0.4411,0.8065,633,0.7189,0.7271,0.6929,0.6594
+venue only (confound check),0.866,0.6124,0.8747,17,0.869,0.6206,0.8799,16,0.7717,0.589,0.8125,633,0.7717,0.7795,0.8,0.7174
+"model as fourth coach (Claude, 14 clips)",0.7674,-0.0001398,0.8784,14,0.855,0.2177,0.9718,13,0.8248,0.5342,0.9002,411,0.7971,0.8605,0.7708,0.878
+constant,,,,,,,,,0.5,0.5,0.5,633,0.5,0.5,0.5,0.5
+Cam vs Alex (ceiling),1,,,,0.9499,0.7728,0.9927,16,,,,,,,,

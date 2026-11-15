@@ -1,0 +1,5 @@
+measurement,checkpoint,pillar,direction,median_oriented,iqr,weight
+M05,C05,access,higher_better,-1.986,16.08,0.3263
+M01,C01,tracking,higher_worse,-0.92,1.243,0.03097
+M11,C11,stability,higher_worse,-3.576,4.94,0.1202
+M12,C12,flow,higher_better,13.62,10.6,0.3749

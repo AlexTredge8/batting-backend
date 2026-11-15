@@ -1,0 +1,634 @@
+fold,source,winner,loser,s_winner,s_loser,model,four_rule,venue_only,fourth_coach
+P01,alex_scores,cam t_lh offdrive elite,alex t_straightdrive good,0.4008,-0.01107,1,0.5,0.5,1
+P01,alex_scores,cam t_offdrive elite,alex t_straightdrive good,0.003928,-0.01107,1,0.5,0.5,0
+P01,alex_scores,alex t_straightdrive good,cam t_offdrive good,-0.01107,-0.1556,1,0.5,0.5,0
+P01,alex_scores,cam t_ondrive elite,alex t_straightdrive good,0.1863,-0.01107,1,0,0.5,1
+P01,alex_scores,cam t_lh offdrive elite,alext_ondrive good,0.4008,0.05717,1,1,0.5,1
+P01,alex_scores,cam t_offdrive elite,alext_ondrive good,0.003928,0.05717,0,1,0.5,0.5
+P01,alex_scores,alext_ondrive good,cam t_offdrive good,0.05717,-0.1556,1,0,0.5,0
+P01,alex_scores,cam t_ondrive elite,alext_ondrive good,0.1863,0.05717,1,0,0.5,1
+P01,alex_scores,cam t_offdrive elite,cam t_lh offdrive elite,0.003928,0.4008,0,0.5,0.5,0
+P01,alex_scores,cam t_lh offdrive elite,cam t_offdrive good,0.4008,-0.1556,1,0.5,0.5,0.5
+P01,alex_scores,cam t_lh offdrive elite,cam t_ondrive elite,0.4008,0.1863,1,1,0.5,1
+P01,alex_scores,cam t_lh offdrive elite,dan p_offdrive average,0.4008,-0.01622,1,1,1,
+P01,alex_scores,cam t_lh offdrive elite,drive_average,0.4008,-0.04518,1,1,1,1
+P01,alex_scores,cam t_lh offdrive elite,drive_average 2,0.4008,0.1211,1,1,1,1
+P01,alex_scores,cam t_lh offdrive elite,drive_beginner,0.4008,-0.5995,1,1,1,
+P01,alex_scores,cam t_lh offdrive elite,drive_beginner 2,0.4008,-0.7625,1,1,1,1
+P01,alex_scores,cam t_lh offdrive elite,drive_beginner 3,0.4008,-0.1159,1,1,1,1
+P01,alex_scores,cam t_lh offdrive elite,drive_beginner 4,0.4008,0.0002305,1,1,1,1
+P01,alex_scores,cam t_lh offdrive elite,ollie p_offdrive average,0.4008,-0.5074,1,1,0.5,1
+P01,alex_scores,cam t_lh offdrive elite,oscar v_beginner,0.4008,0.2257,1,1,1,1
+P01,alex_scores,cam t_lh offdrive elite,straight drive_beginner,0.4008,-0.02717,1,1,1,1
+P01,alex_scores,viv p_offdrive elite,cam t_lh offdrive elite,0.1755,0.4008,0,0,0.5,
+P01,alex_scores,cam t_offdrive elite,cam t_offdrive good,0.003928,-0.1556,1,0.5,0.5,0
+P01,alex_scores,cam t_offdrive elite,cam t_ondrive elite,0.003928,0.1863,0,1,0.5,0
+P01,alex_scores,cam t_offdrive elite,dan p_offdrive average,0.003928,-0.01622,1,1,1,
+P01,alex_scores,cam t_offdrive elite,drive_average,0.003928,-0.04518,1,1,1,1
+P01,alex_scores,cam t_offdrive elite,drive_average 2,0.003928,0.1211,0,1,1,1
+P01,alex_scores,cam t_offdrive elite,drive_beginner,0.003928,-0.5995,1,1,1,
+P01,alex_scores,cam t_offdrive elite,drive_beginner 2,0.003928,-0.7625,1,1,1,1
+P01,alex_scores,cam t_offdrive elite,drive_beginner 3,0.003928,-0.1159,1,1,1,1
+P01,alex_scores,cam t_offdrive elite,drive_beginner 4,0.003928,0.0002305,1,1,1,1
+P01,alex_scores,cam t_offdrive elite,ollie p_offdrive average,0.003928,-0.5074,1,1,0.5,1
+P01,alex_scores,cam t_offdrive elite,oscar v_beginner,0.003928,0.2257,0,1,1,1
+P01,alex_scores,cam t_offdrive elite,straight drive_beginner,0.003928,-0.02717,1,1,1,1
+P01,alex_scores,viv p_offdrive elite,cam t_offdrive elite,0.1755,0.003928,1,0,0.5,
+P01,alex_scores,cam t_ondrive elite,cam t_offdrive good,0.1863,-0.1556,1,0,0.5,0
+P01,alex_scores,cam t_offdrive good,dan p_offdrive average,-0.1556,-0.01622,0,1,1,
+P01,alex_scores,cam t_offdrive good,drive_average,-0.1556,-0.04518,0,1,1,1
+P01,alex_scores,cam t_offdrive good,drive_average 2,-0.1556,0.1211,0,1,1,1
+P01,alex_scores,cam t_offdrive good,drive_beginner,-0.1556,-0.5995,1,1,1,
+P01,alex_scores,cam t_offdrive good,drive_beginner 2,-0.1556,-0.7625,1,1,1,1
+P01,alex_scores,cam t_offdrive good,drive_beginner 3,-0.1556,-0.1159,0,1,1,1
+P01,alex_scores,cam t_offdrive good,drive_beginner 4,-0.1556,0.0002305,0,1,1,1
+P01,alex_scores,cam t_offdrive good,ollie p_offdrive average,-0.1556,-0.5074,1,1,0.5,1
+P01,alex_scores,cam t_offdrive good,oscar v_beginner,-0.1556,0.2257,0,1,1,1
+P01,alex_scores,cam t_offdrive good,straight drive_beginner,-0.1556,-0.02717,0,1,1,1
+P01,alex_scores,viv p_offdrive elite,cam t_offdrive good,0.1755,-0.1556,1,0,0.5,
+P01,alex_scores,cam t_ondrive elite,dan p_offdrive average,0.1863,-0.01622,1,1,1,
+P01,alex_scores,cam t_ondrive elite,drive_average,0.1863,-0.04518,1,0,1,1
+P01,alex_scores,cam t_ondrive elite,drive_average 2,0.1863,0.1211,1,1,1,1
+P01,alex_scores,cam t_ondrive elite,drive_beginner,0.1863,-0.5995,1,1,1,
+P01,alex_scores,cam t_ondrive elite,drive_beginner 2,0.1863,-0.7625,1,0,1,1
+P01,alex_scores,cam t_ondrive elite,drive_beginner 3,0.1863,-0.1159,1,1,1,1
+P01,alex_scores,cam t_ondrive elite,drive_beginner 4,0.1863,0.0002305,1,1,1,1
+P01,alex_scores,cam t_ondrive elite,ollie p_offdrive average,0.1863,-0.5074,1,1,0.5,1
+P01,alex_scores,cam t_ondrive elite,oscar v_beginner,0.1863,0.2257,0,1,1,1
+P01,alex_scores,cam t_ondrive elite,straight drive_beginner,0.1863,-0.02717,1,1,1,1
+P01,alex_scores,viv p_offdrive elite,cam t_ondrive elite,0.1755,0.1863,0,1,0.5,
+P01,cam_scores,cam t_lh offdrive elite,alex t_straightdrive good,0.4008,-0.01107,1,0.5,0.5,1
+P01,cam_scores,cam t_offdrive elite,alex t_straightdrive good,0.003928,-0.01107,1,0.5,0.5,0
+P01,cam_scores,cam t_offdrive good,alex t_straightdrive good,-0.1556,-0.01107,0,0.5,0.5,1
+P01,cam_scores,cam t_ondrive elite,alex t_straightdrive good,0.1863,-0.01107,1,0,0.5,1
+P01,cam_scores,cam t_lh offdrive elite,alext_ondrive good,0.4008,0.05717,1,1,0.5,1
+P01,cam_scores,cam t_offdrive elite,alext_ondrive good,0.003928,0.05717,0,1,0.5,0.5
+P01,cam_scores,cam t_offdrive good,alext_ondrive good,-0.1556,0.05717,0,1,0.5,1
+P01,cam_scores,cam t_ondrive elite,alext_ondrive good,0.1863,0.05717,1,0,0.5,1
+P01,cam_scores,cam t_offdrive elite,cam t_lh offdrive elite,0.003928,0.4008,0,0.5,0.5,0
+P01,cam_scores,cam t_lh offdrive elite,cam t_offdrive good,0.4008,-0.1556,1,0.5,0.5,0.5
+P01,cam_scores,cam t_ondrive elite,cam t_lh offdrive elite,0.1863,0.4008,0,0,0.5,0
+P01,cam_scores,cam t_lh offdrive elite,dan p_offdrive average,0.4008,-0.01622,1,1,1,
+P01,cam_scores,cam t_lh offdrive elite,drive_average,0.4008,-0.04518,1,1,1,1
+P01,cam_scores,cam t_lh offdrive elite,drive_average 2,0.4008,0.1211,1,1,1,1
+P01,cam_scores,cam t_lh offdrive elite,drive_beginner,0.4008,-0.5995,1,1,1,
+P01,cam_scores,cam t_lh offdrive elite,drive_beginner 3,0.4008,-0.1159,1,1,1,1
+P01,cam_scores,cam t_lh offdrive elite,drive_beginner 4,0.4008,0.0002305,1,1,1,1
+P01,cam_scores,cam t_lh offdrive elite,ollie p_offdrive average,0.4008,-0.5074,1,1,0.5,1
+P01,cam_scores,cam t_lh offdrive elite,oscar v_beginner,0.4008,0.2257,1,1,1,1
+P01,cam_scores,cam t_lh offdrive elite,straight drive_beginner,0.4008,-0.02717,1,1,1,1
+P01,cam_scores,viv p_offdrive elite,cam t_lh offdrive elite,0.1755,0.4008,0,0,0.5,
+P01,cam_scores,cam t_offdrive elite,cam t_offdrive good,0.003928,-0.1556,1,0.5,0.5,0
+P01,cam_scores,cam t_ondrive elite,cam t_offdrive elite,0.1863,0.003928,1,0,0.5,1
+P01,cam_scores,cam t_offdrive elite,dan p_offdrive average,0.003928,-0.01622,1,1,1,
+P01,cam_scores,cam t_offdrive elite,drive_average,0.003928,-0.04518,1,1,1,1
+P01,cam_scores,cam t_offdrive elite,drive_average 2,0.003928,0.1211,0,1,1,1
+P01,cam_scores,cam t_offdrive elite,drive_beginner,0.003928,-0.5995,1,1,1,
+P01,cam_scores,cam t_offdrive elite,drive_beginner 3,0.003928,-0.1159,1,1,1,1
+P01,cam_scores,cam t_offdrive elite,drive_beginner 4,0.003928,0.0002305,1,1,1,1
+P01,cam_scores,cam t_offdrive elite,ollie p_offdrive average,0.003928,-0.5074,1,1,0.5,1
+P01,cam_scores,cam t_offdrive elite,oscar v_beginner,0.003928,0.2257,0,1,1,1
+P01,cam_scores,cam t_offdrive elite,straight drive_beginner,0.003928,-0.02717,1,1,1,1
+P01,cam_scores,viv p_offdrive elite,cam t_offdrive elite,0.1755,0.003928,1,0,0.5,
+P01,cam_scores,cam t_ondrive elite,cam t_offdrive good,0.1863,-0.1556,1,0,0.5,0
+P01,cam_scores,cam t_offdrive good,dan p_offdrive average,-0.1556,-0.01622,0,1,1,
+P01,cam_scores,cam t_offdrive good,drive_average,-0.1556,-0.04518,0,1,1,1
+P01,cam_scores,cam t_offdrive good,drive_average 2,-0.1556,0.1211,0,1,1,1
+P01,cam_scores,cam t_offdrive good,drive_beginner,-0.1556,-0.5995,1,1,1,
+P01,cam_scores,cam t_offdrive good,drive_beginner 3,-0.1556,-0.1159,0,1,1,1
+P01,cam_scores,cam t_offdrive good,drive_beginner 4,-0.1556,0.0002305,0,1,1,1
+P01,cam_scores,cam t_offdrive good,ollie p_offdrive average,-0.1556,-0.5074,1,1,0.5,1
+P01,cam_scores,cam t_offdrive good,oscar v_beginner,-0.1556,0.2257,0,1,1,1
+P01,cam_scores,cam t_offdrive good,straight drive_beginner,-0.1556,-0.02717,0,1,1,1
+P01,cam_scores,viv p_offdrive elite,cam t_offdrive good,0.1755,-0.1556,1,0,0.5,
+P01,cam_scores,cam t_ondrive elite,dan p_offdrive average,0.1863,-0.01622,1,1,1,
+P01,cam_scores,cam t_ondrive elite,drive_average,0.1863,-0.04518,1,0,1,1
+P01,cam_scores,cam t_ondrive elite,drive_average 2,0.1863,0.1211,1,1,1,1
+P01,cam_scores,cam t_ondrive elite,drive_beginner,0.1863,-0.5995,1,1,1,
+P01,cam_scores,cam t_ondrive elite,drive_beginner 3,0.1863,-0.1159,1,1,1,1
+P01,cam_scores,cam t_ondrive elite,drive_beginner 4,0.1863,0.0002305,1,1,1,1
+P01,cam_scores,cam t_ondrive elite,ollie p_offdrive average,0.1863,-0.5074,1,1,0.5,1
+P01,cam_scores,cam t_ondrive elite,oscar v_beginner,0.1863,0.2257,0,1,1,1
+P01,cam_scores,cam t_ondrive elite,straight drive_beginner,0.1863,-0.02717,1,1,1,1
+P01,cam_scores,cam t_ondrive elite,viv p_offdrive elite,0.1863,0.1755,1,0,0.5,
+P01,alex_swipes,viv p_offdrive elite,cam t_offdrive good,0.1755,-0.1556,1,0,0.5,
+P01,alex_swipes,cam t_offdrive good,straight drive_beginner,-0.1556,-0.02717,0,1,1,1
+P01,alex_swipes,cam t_offdrive elite,cam t_lh offdrive elite,0.003928,0.4008,0,0.5,0.5,0
+P01,alex_swipes,cam t_offdrive elite,drive_average 2,0.003928,0.1211,0,1,1,1
+P01,alex_swipes,cam t_offdrive elite,ollie p_offdrive average,0.003928,-0.5074,1,1,0.5,1
+P01,alex_swipes,cam t_offdrive good,drive_beginner 2,-0.1556,-0.7625,1,1,1,1
+P01,alex_swipes,cam t_offdrive elite,drive_beginner 3,0.003928,-0.1159,1,1,1,1
+P01,alex_swipes,cam t_lh offdrive elite,drive_beginner,0.4008,-0.5995,1,1,1,
+P01,alex_swipes,cam t_ondrive elite,straight drive_beginner,0.1863,-0.02717,1,1,1,1
+P01,alex_swipes,cam t_offdrive good,oscar v_beginner,-0.1556,0.2257,0,1,1,1
+P01,alex_swipes,cam t_ondrive elite,dan p_offdrive average,0.1863,-0.01622,1,1,1,
+P01,alex_swipes,cam t_lh offdrive elite,straight drive_beginner,0.4008,-0.02717,1,1,1,1
+P01,alex_swipes,cam t_lh offdrive elite,drive_beginner 2,0.4008,-0.7625,1,1,1,1
+P01,alex_swipes,cam t_ondrive elite,drive_beginner 4,0.1863,0.0002305,1,1,1,1
+P01,alex_swipes,alex t_straightdrive good,cam t_offdrive good,-0.01107,-0.1556,1,0.5,0.5,0
+P01,alex_swipes,cam t_offdrive elite,alext_ondrive good,0.003928,0.05717,0,1,0.5,0.5
+P01,cam_swipes,cam t_offdrive good,drive_average,-0.1556,-0.04518,0,1,1,1
+P01,cam_swipes,cam t_offdrive good,oscar v_beginner,-0.1556,0.2257,0,1,1,1
+P01,cam_swipes,cam t_lh offdrive elite,drive_beginner,0.4008,-0.5995,1,1,1,
+P01,cam_swipes,cam t_offdrive elite,ollie p_offdrive average,0.003928,-0.5074,1,1,0.5,1
+P01,cam_swipes,cam t_offdrive elite,drive_average 2,0.003928,0.1211,0,1,1,1
+P01,cam_swipes,cam t_offdrive elite,cam t_offdrive good,0.003928,-0.1556,1,0.5,0.5,0
+P01,cam_swipes,cam t_ondrive elite,drive_beginner 4,0.1863,0.0002305,1,1,1,1
+P01,cam_swipes,cam t_ondrive elite,viv p_offdrive elite,0.1863,0.1755,1,0,0.5,
+P01,cam_swipes,cam t_lh offdrive elite,drive_average 2,0.4008,0.1211,1,1,1,1
+P01,cam_swipes,cam t_ondrive elite,drive_average 2,0.1863,0.1211,1,1,1,1
+P01,cam_swipes,cam t_ondrive elite,cam t_offdrive elite,0.1863,0.003928,1,0,0.5,1
+P01,cam_swipes,cam t_offdrive elite,drive_beginner 2,0.003928,-0.7625,1,1,1,1
+P01,cam_swipes,cam t_ondrive elite,alex t_straightdrive good,0.1863,-0.01107,1,0,0.5,1
+P01,cam_swipes,cam t_offdrive good,drive_beginner,-0.1556,-0.5995,1,1,1,
+P01,cam_swipes,cam t_lh offdrive elite,dan p_offdrive average,0.4008,-0.01622,1,1,1,
+P02,alex_scores,viv p_offdrive elite,alex t_straightdrive good,0.3742,-0.03626,1,0,0.5,
+P02,alex_scores,viv p_offdrive elite,alext_ondrive good,0.3742,-0.01693,1,1,0.5,
+P02,alex_scores,viv p_offdrive elite,cam t_lh offdrive elite,0.3742,0.5816,0,0,0.5,
+P02,alex_scores,viv p_offdrive elite,cam t_offdrive elite,0.3742,0.1163,1,0,0.5,
+P02,alex_scores,viv p_offdrive elite,cam t_offdrive good,0.3742,-0.09359,1,0,0.5,
+P02,alex_scores,viv p_offdrive elite,cam t_ondrive elite,0.3742,0.229,1,1,0.5,
+P02,alex_scores,viv p_offdrive elite,dan p_offdrive average,0.3742,-0.2865,1,1,1,
+P02,alex_scores,viv p_offdrive elite,drive_average,0.3742,-0.001225,1,0.5,1,
+P02,alex_scores,viv p_offdrive elite,drive_average 2,0.3742,-0.1002,1,1,1,
+P02,alex_scores,viv p_offdrive elite,drive_beginner,0.3742,-0.778,1,1,1,
+P02,alex_scores,viv p_offdrive elite,drive_beginner 2,0.3742,-1.153,1,1,1,
+P02,alex_scores,viv p_offdrive elite,drive_beginner 3,0.3742,-0.07509,1,1,1,
+P02,alex_scores,viv p_offdrive elite,drive_beginner 4,0.3742,-0.1804,1,1,1,
+P02,alex_scores,viv p_offdrive elite,ollie p_offdrive average,0.3742,-0.9265,1,1,0.5,
+P02,alex_scores,viv p_offdrive elite,oscar v_beginner,0.3742,0.3273,1,1,1,
+P02,alex_scores,viv p_offdrive elite,straight drive_beginner,0.3742,-0.1243,1,1,1,
+P02,cam_scores,viv p_offdrive elite,alex t_straightdrive good,0.3742,-0.03626,1,0,0.5,
+P02,cam_scores,viv p_offdrive elite,alext_ondrive good,0.3742,-0.01693,1,1,0.5,
+P02,cam_scores,viv p_offdrive elite,cam t_lh offdrive elite,0.3742,0.5816,0,0,0.5,
+P02,cam_scores,viv p_offdrive elite,cam t_offdrive elite,0.3742,0.1163,1,0,0.5,
+P02,cam_scores,viv p_offdrive elite,cam t_offdrive good,0.3742,-0.09359,1,0,0.5,
+P02,cam_scores,cam t_ondrive elite,viv p_offdrive elite,0.229,0.3742,0,0,0.5,
+P02,cam_scores,viv p_offdrive elite,dan p_offdrive average,0.3742,-0.2865,1,1,1,
+P02,cam_scores,viv p_offdrive elite,drive_average,0.3742,-0.001225,1,0.5,1,
+P02,cam_scores,viv p_offdrive elite,drive_average 2,0.3742,-0.1002,1,1,1,
+P02,cam_scores,viv p_offdrive elite,drive_beginner,0.3742,-0.778,1,1,1,
+P02,cam_scores,viv p_offdrive elite,drive_beginner 3,0.3742,-0.07509,1,1,1,
+P02,cam_scores,viv p_offdrive elite,drive_beginner 4,0.3742,-0.1804,1,1,1,
+P02,cam_scores,viv p_offdrive elite,ollie p_offdrive average,0.3742,-0.9265,1,1,0.5,
+P02,cam_scores,viv p_offdrive elite,oscar v_beginner,0.3742,0.3273,1,1,1,
+P02,cam_scores,viv p_offdrive elite,straight drive_beginner,0.3742,-0.1243,1,1,1,
+P02,alex_swipes,viv p_offdrive elite,cam t_offdrive good,0.3742,-0.09359,1,0,0.5,
+P02,alex_swipes,viv p_offdrive elite,dan p_offdrive average,0.3742,-0.2865,1,1,1,
+P02,alex_swipes,viv p_offdrive elite,drive_beginner 3,0.3742,-0.07509,1,1,1,
+P02,alex_swipes,viv p_offdrive elite,drive_average,0.3742,-0.001225,1,0.5,1,
+P02,cam_swipes,viv p_offdrive elite,drive_beginner 3,0.3742,-0.07509,1,1,1,
+P02,cam_swipes,viv p_offdrive elite,ollie p_offdrive average,0.3742,-0.9265,1,1,0.5,
+P02,cam_swipes,viv p_offdrive elite,alext_ondrive good,0.3742,-0.01693,1,1,0.5,
+P02,cam_swipes,cam t_ondrive elite,viv p_offdrive elite,0.229,0.3742,0,0,0.5,
+P03,alex_scores,alext_ondrive good,alex t_straightdrive good,-0.06498,-0.1142,1,0,0.5,0
+P03,alex_scores,cam t_lh offdrive elite,alex t_straightdrive good,0.513,-0.1142,1,0.5,0.5,1
+P03,alex_scores,cam t_offdrive elite,alex t_straightdrive good,0.07622,-0.1142,1,0.5,0.5,0
+P03,alex_scores,alex t_straightdrive good,cam t_offdrive good,-0.1142,-0.09388,0,0.5,0.5,0
+P03,alex_scores,cam t_ondrive elite,alex t_straightdrive good,0.1354,-0.1142,1,0,0.5,1
+P03,alex_scores,alex t_straightdrive good,dan p_offdrive average,-0.1142,-0.5023,1,1,1,
+P03,alex_scores,alex t_straightdrive good,drive_average,-0.1142,-0.07953,0,1,1,1
+P03,alex_scores,alex t_straightdrive good,drive_average 2,-0.1142,-0.3181,1,1,1,1
+P03,alex_scores,alex t_straightdrive good,drive_beginner,-0.1142,-0.7902,1,1,1,
+P03,alex_scores,alex t_straightdrive good,drive_beginner 2,-0.1142,-1.186,1,1,1,1
+P03,alex_scores,alex t_straightdrive good,drive_beginner 3,-0.1142,-0.03072,0,1,1,1
+P03,alex_scores,alex t_straightdrive good,drive_beginner 4,-0.1142,-0.1227,1,1,1,1
+P03,alex_scores,alex t_straightdrive good,ollie p_offdrive average,-0.1142,-0.8642,1,1,0.5,1
+P03,alex_scores,alex t_straightdrive good,oscar v_beginner,-0.1142,0.2905,0,1,1,1
+P03,alex_scores,alex t_straightdrive good,straight drive_beginner,-0.1142,-0.1917,1,1,1,1
+P03,alex_scores,viv p_offdrive elite,alex t_straightdrive good,0.3873,-0.1142,1,0,0.5,
+P03,alex_scores,cam t_lh offdrive elite,alext_ondrive good,0.513,-0.06498,1,1,0.5,1
+P03,alex_scores,cam t_offdrive elite,alext_ondrive good,0.07622,-0.06498,1,1,0.5,0.5
+P03,alex_scores,alext_ondrive good,cam t_offdrive good,-0.06498,-0.09388,1,0,0.5,0
+P03,alex_scores,cam t_ondrive elite,alext_ondrive good,0.1354,-0.06498,1,0,0.5,1
+P03,alex_scores,alext_ondrive good,dan p_offdrive average,-0.06498,-0.5023,1,1,1,
+P03,alex_scores,alext_ondrive good,drive_average,-0.06498,-0.07953,1,0,1,1
+P03,alex_scores,alext_ondrive good,drive_average 2,-0.06498,-0.3181,1,1,1,1
+P03,alex_scores,alext_ondrive good,drive_beginner,-0.06498,-0.7902,1,1,1,
+P03,alex_scores,alext_ondrive good,drive_beginner 2,-0.06498,-1.186,1,0.5,1,1
+P03,alex_scores,alext_ondrive good,drive_beginner 3,-0.06498,-0.03072,0,1,1,1
+P03,alex_scores,alext_ondrive good,drive_beginner 4,-0.06498,-0.1227,1,1,1,1
+P03,alex_scores,alext_ondrive good,ollie p_offdrive average,-0.06498,-0.8642,1,1,0.5,1
+P03,alex_scores,alext_ondrive good,oscar v_beginner,-0.06498,0.2905,0,1,1,1
+P03,alex_scores,alext_ondrive good,straight drive_beginner,-0.06498,-0.1917,1,1,1,1
+P03,alex_scores,viv p_offdrive elite,alext_ondrive good,0.3873,-0.06498,1,1,0.5,
+P03,cam_scores,alex t_straightdrive good,alext_ondrive good,-0.1142,-0.06498,0,1,0.5,1
+P03,cam_scores,cam t_lh offdrive elite,alex t_straightdrive good,0.513,-0.1142,1,0.5,0.5,1
+P03,cam_scores,cam t_offdrive elite,alex t_straightdrive good,0.07622,-0.1142,1,0.5,0.5,0
+P03,cam_scores,cam t_offdrive good,alex t_straightdrive good,-0.09388,-0.1142,1,0.5,0.5,1
+P03,cam_scores,cam t_ondrive elite,alex t_straightdrive good,0.1354,-0.1142,1,0,0.5,1
+P03,cam_scores,alex t_straightdrive good,dan p_offdrive average,-0.1142,-0.5023,1,1,1,
+P03,cam_scores,alex t_straightdrive good,drive_average,-0.1142,-0.07953,0,1,1,1
+P03,cam_scores,alex t_straightdrive good,drive_average 2,-0.1142,-0.3181,1,1,1,1
+P03,cam_scores,alex t_straightdrive good,drive_beginner,-0.1142,-0.7902,1,1,1,
+P03,cam_scores,alex t_straightdrive good,drive_beginner 3,-0.1142,-0.03072,0,1,1,1
+P03,cam_scores,alex t_straightdrive good,drive_beginner 4,-0.1142,-0.1227,1,1,1,1
+P03,cam_scores,alex t_straightdrive good,ollie p_offdrive average,-0.1142,-0.8642,1,1,0.5,1
+P03,cam_scores,alex t_straightdrive good,oscar v_beginner,-0.1142,0.2905,0,1,1,1
+P03,cam_scores,alex t_straightdrive good,straight drive_beginner,-0.1142,-0.1917,1,1,1,1
+P03,cam_scores,viv p_offdrive elite,alex t_straightdrive good,0.3873,-0.1142,1,0,0.5,
+P03,cam_scores,cam t_lh offdrive elite,alext_ondrive good,0.513,-0.06498,1,1,0.5,1
+P03,cam_scores,cam t_offdrive elite,alext_ondrive good,0.07622,-0.06498,1,1,0.5,0.5
+P03,cam_scores,cam t_offdrive good,alext_ondrive good,-0.09388,-0.06498,0,1,0.5,1
+P03,cam_scores,cam t_ondrive elite,alext_ondrive good,0.1354,-0.06498,1,0,0.5,1
+P03,cam_scores,alext_ondrive good,dan p_offdrive average,-0.06498,-0.5023,1,1,1,
+P03,cam_scores,alext_ondrive good,drive_average,-0.06498,-0.07953,1,0,1,1
+P03,cam_scores,alext_ondrive good,drive_average 2,-0.06498,-0.3181,1,1,1,1
+P03,cam_scores,alext_ondrive good,drive_beginner,-0.06498,-0.7902,1,1,1,
+P03,cam_scores,alext_ondrive good,drive_beginner 3,-0.06498,-0.03072,0,1,1,1
+P03,cam_scores,alext_ondrive good,drive_beginner 4,-0.06498,-0.1227,1,1,1,1
+P03,cam_scores,alext_ondrive good,ollie p_offdrive average,-0.06498,-0.8642,1,1,0.5,1
+P03,cam_scores,alext_ondrive good,oscar v_beginner,-0.06498,0.2905,0,1,1,1
+P03,cam_scores,alext_ondrive good,straight drive_beginner,-0.06498,-0.1917,1,1,1,1
+P03,cam_scores,viv p_offdrive elite,alext_ondrive good,0.3873,-0.06498,1,1,0.5,
+P03,alex_swipes,alext_ondrive good,oscar v_beginner,-0.06498,0.2905,0,1,1,1
+P03,alex_swipes,alex t_straightdrive good,drive_beginner,-0.1142,-0.7902,1,1,1,
+P03,alex_swipes,alext_ondrive good,alex t_straightdrive good,-0.06498,-0.1142,1,0,0.5,0
+P03,alex_swipes,alext_ondrive good,ollie p_offdrive average,-0.06498,-0.8642,1,1,0.5,1
+P03,alex_swipes,alex t_straightdrive good,drive_beginner 2,-0.1142,-1.186,1,1,1,1
+P03,alex_swipes,alext_ondrive good,drive_beginner 4,-0.06498,-0.1227,1,1,1,1
+P03,alex_swipes,alex t_straightdrive good,cam t_offdrive good,-0.1142,-0.09388,0,0.5,0.5,0
+P03,alex_swipes,cam t_offdrive elite,alext_ondrive good,0.07622,-0.06498,1,1,0.5,0.5
+P03,cam_swipes,alex t_straightdrive good,alext_ondrive good,-0.1142,-0.06498,0,1,0.5,1
+P03,cam_swipes,alex t_straightdrive good,drive_beginner,-0.1142,-0.7902,1,1,1,
+P03,cam_swipes,alex t_straightdrive good,drive_average,-0.1142,-0.07953,0,1,1,1
+P03,cam_swipes,viv p_offdrive elite,alext_ondrive good,0.3873,-0.06498,1,1,0.5,
+P03,cam_swipes,alext_ondrive good,drive_beginner 4,-0.06498,-0.1227,1,1,1,1
+P03,cam_swipes,cam t_ondrive elite,alex t_straightdrive good,0.1354,-0.1142,1,0,0.5,1
+P04,alex_scores,alex t_straightdrive good,ollie p_offdrive average,0.01116,-2.408,1,1,0.5,1
+P04,alex_scores,alext_ondrive good,ollie p_offdrive average,-0.2345,-2.408,1,1,0.5,1
+P04,alex_scores,cam t_lh offdrive elite,ollie p_offdrive average,1.068,-2.408,1,1,0.5,1
+P04,alex_scores,cam t_offdrive elite,ollie p_offdrive average,0.328,-2.408,1,1,0.5,1
+P04,alex_scores,cam t_offdrive good,ollie p_offdrive average,-0.2068,-2.408,1,1,0.5,1
+P04,alex_scores,cam t_ondrive elite,ollie p_offdrive average,0.5528,-2.408,1,1,0.5,1
+P04,alex_scores,ollie p_offdrive average,dan p_offdrive average,-2.408,-0.5312,0,0,1,
+P04,alex_scores,ollie p_offdrive average,drive_average,-2.408,0.1143,0,0,1,1
+P04,alex_scores,ollie p_offdrive average,drive_average 2,-2.408,-0.01127,0,0,1,0
+P04,alex_scores,ollie p_offdrive average,drive_beginner,-2.408,-1.49,0,0,1,
+P04,alex_scores,ollie p_offdrive average,drive_beginner 2,-2.408,-2.048,0,0,1,1
+P04,alex_scores,ollie p_offdrive average,drive_beginner 3,-2.408,-0.3892,0,0.5,1,1
+P04,alex_scores,ollie p_offdrive average,drive_beginner 4,-2.408,-0.7789,0,1,1,1
+P04,alex_scores,ollie p_offdrive average,oscar v_beginner,-2.408,0.5812,0,0,1,1
+P04,alex_scores,ollie p_offdrive average,straight drive_beginner,-2.408,-0.2586,0,0,1,0
+P04,alex_scores,viv p_offdrive elite,ollie p_offdrive average,0.616,-2.408,1,1,0.5,
+P04,cam_scores,alex t_straightdrive good,ollie p_offdrive average,0.01116,-2.408,1,1,0.5,1
+P04,cam_scores,alext_ondrive good,ollie p_offdrive average,-0.2345,-2.408,1,1,0.5,1
+P04,cam_scores,cam t_lh offdrive elite,ollie p_offdrive average,1.068,-2.408,1,1,0.5,1
+P04,cam_scores,cam t_offdrive elite,ollie p_offdrive average,0.328,-2.408,1,1,0.5,1
+P04,cam_scores,cam t_offdrive good,ollie p_offdrive average,-0.2068,-2.408,1,1,0.5,1
+P04,cam_scores,cam t_ondrive elite,ollie p_offdrive average,0.5528,-2.408,1,1,0.5,1
+P04,cam_scores,ollie p_offdrive average,dan p_offdrive average,-2.408,-0.5312,0,0,1,
+P04,cam_scores,ollie p_offdrive average,drive_average,-2.408,0.1143,0,0,1,1
+P04,cam_scores,ollie p_offdrive average,drive_average 2,-2.408,-0.01127,0,0,1,0
+P04,cam_scores,ollie p_offdrive average,drive_beginner,-2.408,-1.49,0,0,1,
+P04,cam_scores,ollie p_offdrive average,drive_beginner 3,-2.408,-0.3892,0,0.5,1,1
+P04,cam_scores,ollie p_offdrive average,drive_beginner 4,-2.408,-0.7789,0,1,1,1
+P04,cam_scores,ollie p_offdrive average,oscar v_beginner,-2.408,0.5812,0,0,1,1
+P04,cam_scores,ollie p_offdrive average,straight drive_beginner,-2.408,-0.2586,0,0,1,0
+P04,cam_scores,viv p_offdrive elite,ollie p_offdrive average,0.616,-2.408,1,1,0.5,
+P04,alex_swipes,ollie p_offdrive average,oscar v_beginner,-2.408,0.5812,0,0,1,1
+P04,alex_swipes,alext_ondrive good,ollie p_offdrive average,-0.2345,-2.408,1,1,0.5,1
+P04,alex_swipes,cam t_offdrive elite,ollie p_offdrive average,0.328,-2.408,1,1,0.5,1
+P04,alex_swipes,ollie p_offdrive average,drive_average 2,-2.408,-0.01127,0,0,1,0
+P04,alex_swipes,ollie p_offdrive average,straight drive_beginner,-2.408,-0.2586,0,0,1,0
+P04,cam_swipes,cam t_offdrive elite,ollie p_offdrive average,0.328,-2.408,1,1,0.5,1
+P04,cam_swipes,viv p_offdrive elite,ollie p_offdrive average,0.616,-2.408,1,1,0.5,
+P04,cam_swipes,ollie p_offdrive average,oscar v_beginner,-2.408,0.5812,0,0,1,1
+P04,cam_swipes,ollie p_offdrive average,drive_average 2,-2.408,-0.01127,0,0,1,0
+P04,cam_swipes,dan p_offdrive average,ollie p_offdrive average,-0.5312,-2.408,1,1,0,
+P05,alex_scores,alex t_straightdrive good,dan p_offdrive average,-0.08445,-0.8449,1,1,1,
+P05,alex_scores,alext_ondrive good,dan p_offdrive average,-0.1039,-0.8449,1,1,1,
+P05,alex_scores,cam t_lh offdrive elite,dan p_offdrive average,0.6173,-0.8449,1,1,1,
+P05,alex_scores,cam t_offdrive elite,dan p_offdrive average,0.1994,-0.8449,1,1,1,
+P05,alex_scores,cam t_offdrive good,dan p_offdrive average,-0.01865,-0.8449,1,1,1,
+P05,alex_scores,cam t_ondrive elite,dan p_offdrive average,0.2299,-0.8449,1,1,1,
+P05,alex_scores,dan p_offdrive average,drive_average,-0.8449,-0.0834,0,0,0.5,
+P05,alex_scores,dan p_offdrive average,drive_average 2,-0.8449,-0.5206,0,1,0.5,
+P05,alex_scores,dan p_offdrive average,drive_beginner,-0.8449,-0.8904,1,0,0.5,
+P05,alex_scores,dan p_offdrive average,drive_beginner 2,-0.8449,-1.48,1,0,0.5,
+P05,alex_scores,dan p_offdrive average,drive_beginner 3,-0.8449,0.05492,0,1,0.5,
+P05,alex_scores,dan p_offdrive average,drive_beginner 4,-0.8449,-0.1943,0,1,0.5,
+P05,alex_scores,ollie p_offdrive average,dan p_offdrive average,-1.053,-0.8449,0,0,1,
+P05,alex_scores,dan p_offdrive average,oscar v_beginner,-0.8449,0.4455,0,0,0.5,
+P05,alex_scores,dan p_offdrive average,straight drive_beginner,-0.8449,-0.1816,0,0,0.5,
+P05,alex_scores,viv p_offdrive elite,dan p_offdrive average,0.5887,-0.8449,1,1,1,
+P05,cam_scores,alex t_straightdrive good,dan p_offdrive average,-0.08445,-0.8449,1,1,1,
+P05,cam_scores,alext_ondrive good,dan p_offdrive average,-0.1039,-0.8449,1,1,1,
+P05,cam_scores,cam t_lh offdrive elite,dan p_offdrive average,0.6173,-0.8449,1,1,1,
+P05,cam_scores,cam t_offdrive elite,dan p_offdrive average,0.1994,-0.8449,1,1,1,
+P05,cam_scores,cam t_offdrive good,dan p_offdrive average,-0.01865,-0.8449,1,1,1,
+P05,cam_scores,cam t_ondrive elite,dan p_offdrive average,0.2299,-0.8449,1,1,1,
+P05,cam_scores,dan p_offdrive average,drive_average,-0.8449,-0.0834,0,0,0.5,
+P05,cam_scores,dan p_offdrive average,drive_average 2,-0.8449,-0.5206,0,1,0.5,
+P05,cam_scores,dan p_offdrive average,drive_beginner,-0.8449,-0.8904,1,0,0.5,
+P05,cam_scores,dan p_offdrive average,drive_beginner 3,-0.8449,0.05492,0,1,0.5,
+P05,cam_scores,dan p_offdrive average,drive_beginner 4,-0.8449,-0.1943,0,1,0.5,
+P05,cam_scores,ollie p_offdrive average,dan p_offdrive average,-1.053,-0.8449,0,0,1,
+P05,cam_scores,dan p_offdrive average,oscar v_beginner,-0.8449,0.4455,0,0,0.5,
+P05,cam_scores,straight drive_beginner,dan p_offdrive average,-0.1816,-0.8449,1,1,0.5,
+P05,cam_scores,viv p_offdrive elite,dan p_offdrive average,0.5887,-0.8449,1,1,1,
+P05,alex_swipes,viv p_offdrive elite,dan p_offdrive average,0.5887,-0.8449,1,1,1,
+P05,alex_swipes,dan p_offdrive average,drive_average,-0.8449,-0.0834,0,0,0.5,
+P05,alex_swipes,cam t_ondrive elite,dan p_offdrive average,0.2299,-0.8449,1,1,1,
+P05,alex_swipes,dan p_offdrive average,oscar v_beginner,-0.8449,0.4455,0,0,0.5,
+P05,cam_swipes,dan p_offdrive average,drive_average,-0.8449,-0.0834,0,0,0.5,
+P05,cam_swipes,dan p_offdrive average,ollie p_offdrive average,-0.8449,-1.053,1,1,0,
+P05,cam_swipes,dan p_offdrive average,drive_beginner 2,-0.8449,-1.48,1,0,0.5,
+P05,cam_swipes,cam t_lh offdrive elite,dan p_offdrive average,0.6173,-0.8449,1,1,1,
+P05,cam_swipes,dan p_offdrive average,oscar v_beginner,-0.8449,0.4455,0,0,0.5,
+P06,alex_scores,alex t_straightdrive good,drive_average 2,0.006158,0.06352,0,1,1,1
+P06,alex_scores,alext_ondrive good,drive_average 2,-0.05411,0.06352,0,1,1,1
+P06,alex_scores,cam t_lh offdrive elite,drive_average 2,0.6668,0.06352,1,1,1,1
+P06,alex_scores,cam t_offdrive elite,drive_average 2,0.133,0.06352,1,1,1,1
+P06,alex_scores,cam t_offdrive good,drive_average 2,-0.188,0.06352,0,1,1,1
+P06,alex_scores,cam t_ondrive elite,drive_average 2,0.3563,0.06352,1,1,1,1
+P06,alex_scores,dan p_offdrive average,drive_average 2,-0.2748,0.06352,0,1,0.5,
+P06,alex_scores,drive_average,drive_average 2,-0.009214,0.06352,0,1,0.5,0
+P06,alex_scores,drive_average 2,drive_beginner,0.06352,-0.9852,1,0,0.5,
+P06,alex_scores,drive_average 2,drive_beginner 2,0.06352,-1.605,1,0,0.5,1
+P06,alex_scores,drive_average 2,drive_beginner 3,0.06352,-0.223,1,1,0.5,1
+P06,alex_scores,drive_average 2,drive_beginner 4,0.06352,-0.2598,1,1,0.5,1
+P06,alex_scores,ollie p_offdrive average,drive_average 2,-1.244,0.06352,0,0,1,0
+P06,alex_scores,drive_average 2,oscar v_beginner,0.06352,0.398,0,0,0.5,1
+P06,alex_scores,drive_average 2,straight drive_beginner,0.06352,-0.09647,1,0,0.5,0.5
+P06,alex_scores,viv p_offdrive elite,drive_average 2,0.3648,0.06352,1,1,1,
+P06,cam_scores,alex t_straightdrive good,drive_average 2,0.006158,0.06352,0,1,1,1
+P06,cam_scores,alext_ondrive good,drive_average 2,-0.05411,0.06352,0,1,1,1
+P06,cam_scores,cam t_lh offdrive elite,drive_average 2,0.6668,0.06352,1,1,1,1
+P06,cam_scores,cam t_offdrive elite,drive_average 2,0.133,0.06352,1,1,1,1
+P06,cam_scores,cam t_offdrive good,drive_average 2,-0.188,0.06352,0,1,1,1
+P06,cam_scores,cam t_ondrive elite,drive_average 2,0.3563,0.06352,1,1,1,1
+P06,cam_scores,dan p_offdrive average,drive_average 2,-0.2748,0.06352,0,1,0.5,
+P06,cam_scores,drive_average,drive_average 2,-0.009214,0.06352,0,1,0.5,0
+P06,cam_scores,drive_average 2,drive_beginner,0.06352,-0.9852,1,0,0.5,
+P06,cam_scores,drive_average 2,drive_beginner 3,0.06352,-0.223,1,1,0.5,1
+P06,cam_scores,ollie p_offdrive average,drive_average 2,-1.244,0.06352,0,0,1,0
+P06,cam_scores,drive_average 2,oscar v_beginner,0.06352,0.398,0,0,0.5,1
+P06,cam_scores,straight drive_beginner,drive_average 2,-0.09647,0.06352,0,1,0.5,0.5
+P06,cam_scores,viv p_offdrive elite,drive_average 2,0.3648,0.06352,1,1,1,
+P06,alex_swipes,drive_beginner 2,drive_average 2,-1.605,0.06352,0,1,0.5,0
+P06,alex_swipes,cam t_offdrive elite,drive_average 2,0.133,0.06352,1,1,1,1
+P06,alex_swipes,ollie p_offdrive average,drive_average 2,-1.244,0.06352,0,0,1,0
+P06,alex_swipes,drive_average 2,drive_beginner,0.06352,-0.9852,1,0,0.5,
+P06,cam_swipes,drive_average 2,drive_beginner,0.06352,-0.9852,1,0,0.5,
+P06,cam_swipes,cam t_offdrive elite,drive_average 2,0.133,0.06352,1,1,1,1
+P06,cam_swipes,cam t_lh offdrive elite,drive_average 2,0.6668,0.06352,1,1,1,1
+P06,cam_swipes,cam t_ondrive elite,drive_average 2,0.3563,0.06352,1,1,1,1
+P06,cam_swipes,ollie p_offdrive average,drive_average 2,-1.244,0.06352,0,0,1,0
+P07,alex_scores,alex t_straightdrive good,drive_average,-0.06739,-0.0005283,0,1,1,1
+P07,alex_scores,alext_ondrive good,drive_average,-0.06507,-0.0005283,0,0,1,1
+P07,alex_scores,cam t_lh offdrive elite,drive_average,0.6842,-0.0005283,1,1,1,1
+P07,alex_scores,cam t_offdrive elite,drive_average,0.1943,-0.0005283,1,1,1,1
+P07,alex_scores,cam t_offdrive good,drive_average,-0.02888,-0.0005283,0,1,1,1
+P07,alex_scores,cam t_ondrive elite,drive_average,0.2375,-0.0005283,1,0,1,1
+P07,alex_scores,dan p_offdrive average,drive_average,-0.5895,-0.0005283,0,0,0.5,
+P07,alex_scores,drive_average,drive_average 2,-0.0005283,-0.3477,1,1,0.5,0
+P07,alex_scores,drive_average,drive_beginner,-0.0005283,-0.8813,1,1,0.5,
+P07,alex_scores,drive_average,drive_beginner 2,-0.0005283,-1.325,1,1,0.5,1
+P07,alex_scores,drive_average,drive_beginner 3,-0.0005283,0.006433,0,1,0.5,1
+P07,alex_scores,drive_average,drive_beginner 4,-0.0005283,-0.2503,1,1,0.5,0
+P07,alex_scores,ollie p_offdrive average,drive_average,-1.126,-0.0005283,0,0,1,1
+P07,alex_scores,drive_average,oscar v_beginner,-0.0005283,0.4097,0,1,0.5,0
+P07,alex_scores,drive_average,straight drive_beginner,-0.0005283,-0.1909,1,1,0.5,0
+P07,alex_scores,viv p_offdrive elite,drive_average,0.5432,-0.0005283,1,0.5,1,
+P07,cam_scores,alex t_straightdrive good,drive_average,-0.06739,-0.0005283,0,1,1,1
+P07,cam_scores,alext_ondrive good,drive_average,-0.06507,-0.0005283,0,0,1,1
+P07,cam_scores,cam t_lh offdrive elite,drive_average,0.6842,-0.0005283,1,1,1,1
+P07,cam_scores,cam t_offdrive elite,drive_average,0.1943,-0.0005283,1,1,1,1
+P07,cam_scores,cam t_offdrive good,drive_average,-0.02888,-0.0005283,0,1,1,1
+P07,cam_scores,cam t_ondrive elite,drive_average,0.2375,-0.0005283,1,0,1,1
+P07,cam_scores,dan p_offdrive average,drive_average,-0.5895,-0.0005283,0,0,0.5,
+P07,cam_scores,drive_average,drive_average 2,-0.0005283,-0.3477,1,1,0.5,0
+P07,cam_scores,drive_average,drive_beginner,-0.0005283,-0.8813,1,1,0.5,
+P07,cam_scores,drive_average,drive_beginner 3,-0.0005283,0.006433,0,1,0.5,1
+P07,cam_scores,drive_average,drive_beginner 4,-0.0005283,-0.2503,1,1,0.5,0
+P07,cam_scores,ollie p_offdrive average,drive_average,-1.126,-0.0005283,0,0,1,1
+P07,cam_scores,drive_average,oscar v_beginner,-0.0005283,0.4097,0,1,0.5,0
+P07,cam_scores,straight drive_beginner,drive_average,-0.1909,-0.0005283,0,0,0.5,1
+P07,cam_scores,viv p_offdrive elite,drive_average,0.5432,-0.0005283,1,0.5,1,
+P07,alex_swipes,drive_average,drive_beginner 3,-0.0005283,0.006433,0,1,0.5,1
+P07,alex_swipes,dan p_offdrive average,drive_average,-0.5895,-0.0005283,0,0,0.5,
+P07,alex_swipes,viv p_offdrive elite,drive_average,0.5432,-0.0005283,1,0.5,1,
+P07,cam_swipes,cam t_offdrive good,drive_average,-0.02888,-0.0005283,0,1,1,1
+P07,cam_swipes,straight drive_beginner,drive_average,-0.1909,-0.0005283,0,0,0.5,1
+P07,cam_swipes,alex t_straightdrive good,drive_average,-0.06739,-0.0005283,0,1,1,1
+P07,cam_swipes,drive_average,drive_beginner 4,-0.0005283,-0.2503,1,1,0.5,0
+P07,cam_swipes,dan p_offdrive average,drive_average,-0.5895,-0.0005283,0,0,0.5,
+P09,alex_scores,alex t_straightdrive good,drive_beginner 2,-0.07111,-1.22,1,1,1,1
+P09,alex_scores,alext_ondrive good,drive_beginner 2,-0.05322,-1.22,1,0.5,1,1
+P09,alex_scores,cam t_lh offdrive elite,drive_beginner 2,0.7328,-1.22,1,1,1,1
+P09,alex_scores,cam t_offdrive elite,drive_beginner 2,0.1467,-1.22,1,1,1,1
+P09,alex_scores,cam t_offdrive good,drive_beginner 2,-0.1359,-1.22,1,1,1,1
+P09,alex_scores,cam t_ondrive elite,drive_beginner 2,0.3009,-1.22,1,0,1,1
+P09,alex_scores,dan p_offdrive average,drive_beginner 2,-0.6097,-1.22,1,0,0.5,
+P09,alex_scores,drive_average,drive_beginner 2,-0.08559,-1.22,1,1,0.5,1
+P09,alex_scores,drive_average 2,drive_beginner 2,-0.2735,-1.22,1,0,0.5,1
+P09,alex_scores,drive_beginner 2,drive_beginner,-1.22,-1.087,0,1,0.5,
+P09,alex_scores,drive_beginner 2,drive_beginner 3,-1.22,-0.07221,0,1,0.5,0
+P09,alex_scores,drive_beginner 2,drive_beginner 4,-1.22,-0.1864,0,1,0.5,0
+P09,alex_scores,ollie p_offdrive average,drive_beginner 2,-1.19,-1.22,1,0,1,1
+P09,alex_scores,drive_beginner 2,oscar v_beginner,-1.22,0.4717,0,1,0.5,0
+P09,alex_scores,drive_beginner 2,straight drive_beginner,-1.22,-0.1631,0,1,0.5,0
+P09,alex_scores,viv p_offdrive elite,drive_beginner 2,0.5361,-1.22,1,1,1,
+P09,alex_swipes,drive_beginner 2,drive_average 2,-1.22,-0.2735,0,1,0.5,0
+P09,alex_swipes,cam t_offdrive good,drive_beginner 2,-0.1359,-1.22,1,1,1,1
+P09,alex_swipes,alex t_straightdrive good,drive_beginner 2,-0.07111,-1.22,1,1,1,1
+P09,alex_swipes,cam t_lh offdrive elite,drive_beginner 2,0.7328,-1.22,1,1,1,1
+P09,cam_swipes,straight drive_beginner,drive_beginner 2,-0.1631,-1.22,1,0,0.5,1
+P09,cam_swipes,cam t_offdrive elite,drive_beginner 2,0.1467,-1.22,1,1,1,1
+P09,cam_swipes,dan p_offdrive average,drive_beginner 2,-0.6097,-1.22,1,0,0.5,
+P10,alex_scores,alex t_straightdrive good,drive_beginner 3,-0.1361,0.157,0,1,1,1
+P10,alex_scores,alext_ondrive good,drive_beginner 3,-0.03732,0.157,0,1,1,1
+P10,alex_scores,cam t_lh offdrive elite,drive_beginner 3,0.8135,0.157,1,1,1,1
+P10,alex_scores,cam t_offdrive elite,drive_beginner 3,0.2163,0.157,1,1,1,1
+P10,alex_scores,cam t_offdrive good,drive_beginner 3,0.0192,0.157,0,1,1,1
+P10,alex_scores,cam t_ondrive elite,drive_beginner 3,0.208,0.157,1,1,1,1
+P10,alex_scores,dan p_offdrive average,drive_beginner 3,-0.8925,0.157,0,1,0.5,
+P10,alex_scores,drive_average,drive_beginner 3,-0.06006,0.157,0,1,0.5,1
+P10,alex_scores,drive_average 2,drive_beginner 3,-0.6446,0.157,0,1,0.5,1
+P10,alex_scores,drive_beginner 3,drive_beginner,0.157,-1.03,1,0,0.5,
+P10,alex_scores,drive_beginner 2,drive_beginner 3,-0.9369,0.157,0,1,0.5,0
+P10,alex_scores,drive_beginner 4,drive_beginner 3,-0.1699,0.157,0,0,0.5,1
+P10,alex_scores,ollie p_offdrive average,drive_beginner 3,-1.11,0.157,0,0.5,1,1
+P10,alex_scores,oscar v_beginner,drive_beginner 3,0.5118,0.157,1,1,0.5,1
+P10,alex_scores,straight drive_beginner,drive_beginner 3,-0.2527,0.157,0,1,0.5,1
+P10,alex_scores,viv p_offdrive elite,drive_beginner 3,0.7402,0.157,1,1,1,
+P10,cam_scores,alex t_straightdrive good,drive_beginner 3,-0.1361,0.157,0,1,1,1
+P10,cam_scores,alext_ondrive good,drive_beginner 3,-0.03732,0.157,0,1,1,1
+P10,cam_scores,cam t_lh offdrive elite,drive_beginner 3,0.8135,0.157,1,1,1,1
+P10,cam_scores,cam t_offdrive elite,drive_beginner 3,0.2163,0.157,1,1,1,1
+P10,cam_scores,cam t_offdrive good,drive_beginner 3,0.0192,0.157,0,1,1,1
+P10,cam_scores,cam t_ondrive elite,drive_beginner 3,0.208,0.157,1,1,1,1
+P10,cam_scores,dan p_offdrive average,drive_beginner 3,-0.8925,0.157,0,1,0.5,
+P10,cam_scores,drive_average,drive_beginner 3,-0.06006,0.157,0,1,0.5,1
+P10,cam_scores,drive_average 2,drive_beginner 3,-0.6446,0.157,0,1,0.5,1
+P10,cam_scores,drive_beginner 4,drive_beginner 3,-0.1699,0.157,0,0,0.5,1
+P10,cam_scores,ollie p_offdrive average,drive_beginner 3,-1.11,0.157,0,0.5,1,1
+P10,cam_scores,oscar v_beginner,drive_beginner 3,0.5118,0.157,1,1,0.5,1
+P10,cam_scores,straight drive_beginner,drive_beginner 3,-0.2527,0.157,0,1,0.5,1
+P10,cam_scores,viv p_offdrive elite,drive_beginner 3,0.7402,0.157,1,1,1,
+P10,alex_swipes,oscar v_beginner,drive_beginner 3,0.5118,0.157,1,1,0.5,1
+P10,alex_swipes,drive_average,drive_beginner 3,-0.06006,0.157,0,1,0.5,1
+P10,alex_swipes,cam t_offdrive elite,drive_beginner 3,0.2163,0.157,1,1,1,1
+P10,alex_swipes,viv p_offdrive elite,drive_beginner 3,0.7402,0.157,1,1,1,
+P10,alex_swipes,drive_beginner 4,drive_beginner 3,-0.1699,0.157,0,0,0.5,1
+P10,cam_swipes,viv p_offdrive elite,drive_beginner 3,0.7402,0.157,1,1,1,
+P10,cam_swipes,straight drive_beginner,drive_beginner 3,-0.2527,0.157,0,1,0.5,1
+P10,cam_swipes,oscar v_beginner,drive_beginner 3,0.5118,0.157,1,1,0.5,1
+P11,alex_scores,alex t_straightdrive good,drive_beginner 4,-0.1161,0.004966,0,1,1,1
+P11,alex_scores,alext_ondrive good,drive_beginner 4,0.05741,0.004966,1,1,1,1
+P11,alex_scores,cam t_lh offdrive elite,drive_beginner 4,0.7494,0.004966,1,1,1,1
+P11,alex_scores,cam t_offdrive elite,drive_beginner 4,0.08749,0.004966,1,1,1,1
+P11,alex_scores,cam t_offdrive good,drive_beginner 4,-0.1058,0.004966,0,1,1,1
+P11,alex_scores,cam t_ondrive elite,drive_beginner 4,0.2099,0.004966,1,1,1,1
+P11,alex_scores,dan p_offdrive average,drive_beginner 4,-0.5062,0.004966,0,1,0.5,
+P11,alex_scores,drive_average,drive_beginner 4,-0.09982,0.004966,0,1,0.5,0
+P11,alex_scores,drive_average 2,drive_beginner 4,-0.3237,0.004966,0,1,0.5,1
+P11,alex_scores,drive_beginner 4,drive_beginner,0.004966,-1.021,1,0,0.5,
+P11,alex_scores,drive_beginner 2,drive_beginner 4,-1.246,0.004966,0,1,0.5,0
+P11,alex_scores,drive_beginner 4,drive_beginner 3,0.004966,0.04937,0,0,0.5,1
+P11,alex_scores,ollie p_offdrive average,drive_beginner 4,-0.8576,0.004966,0,1,1,1
+P11,alex_scores,drive_beginner 4,oscar v_beginner,0.004966,0.4454,0,0,0.5,0
+P11,alex_scores,straight drive_beginner,drive_beginner 4,-0.1721,0.004966,0,1,0.5,1
+P11,alex_scores,viv p_offdrive elite,drive_beginner 4,0.5525,0.004966,1,1,1,
+P11,cam_scores,alex t_straightdrive good,drive_beginner 4,-0.1161,0.004966,0,1,1,1
+P11,cam_scores,alext_ondrive good,drive_beginner 4,0.05741,0.004966,1,1,1,1
+P11,cam_scores,cam t_lh offdrive elite,drive_beginner 4,0.7494,0.004966,1,1,1,1
+P11,cam_scores,cam t_offdrive elite,drive_beginner 4,0.08749,0.004966,1,1,1,1
+P11,cam_scores,cam t_offdrive good,drive_beginner 4,-0.1058,0.004966,0,1,1,1
+P11,cam_scores,cam t_ondrive elite,drive_beginner 4,0.2099,0.004966,1,1,1,1
+P11,cam_scores,dan p_offdrive average,drive_beginner 4,-0.5062,0.004966,0,1,0.5,
+P11,cam_scores,drive_average,drive_beginner 4,-0.09982,0.004966,0,1,0.5,0
+P11,cam_scores,drive_beginner 4,drive_beginner,0.004966,-1.021,1,0,0.5,
+P11,cam_scores,drive_beginner 4,drive_beginner 3,0.004966,0.04937,0,0,0.5,1
+P11,cam_scores,ollie p_offdrive average,drive_beginner 4,-0.8576,0.004966,0,1,1,1
+P11,cam_scores,drive_beginner 4,oscar v_beginner,0.004966,0.4454,0,0,0.5,0
+P11,cam_scores,straight drive_beginner,drive_beginner 4,-0.1721,0.004966,0,1,0.5,1
+P11,cam_scores,viv p_offdrive elite,drive_beginner 4,0.5525,0.004966,1,1,1,
+P11,alex_swipes,alext_ondrive good,drive_beginner 4,0.05741,0.004966,1,1,1,1
+P11,alex_swipes,drive_beginner 4,drive_beginner 3,0.004966,0.04937,0,0,0.5,1
+P11,alex_swipes,cam t_ondrive elite,drive_beginner 4,0.2099,0.004966,1,1,1,1
+P11,alex_swipes,drive_beginner 4,drive_beginner,0.004966,-1.021,1,0,0.5,
+P11,cam_swipes,straight drive_beginner,drive_beginner 4,-0.1721,0.004966,0,1,0.5,1
+P11,cam_swipes,cam t_ondrive elite,drive_beginner 4,0.2099,0.004966,1,1,1,1
+P11,cam_swipes,drive_average,drive_beginner 4,-0.09982,0.004966,0,1,0.5,0
+P11,cam_swipes,alext_ondrive good,drive_beginner 4,0.05741,0.004966,1,1,1,1
+P11,cam_swipes,drive_beginner 4,drive_beginner,0.004966,-1.021,1,0,0.5,
+P12,alex_scores,alex t_straightdrive good,drive_beginner,0.01244,-0.3918,1,1,1,
+P12,alex_scores,alext_ondrive good,drive_beginner,-0.1926,-0.3918,1,1,1,
+P12,alex_scores,cam t_lh offdrive elite,drive_beginner,0.3591,-0.3918,1,1,1,
+P12,alex_scores,cam t_offdrive elite,drive_beginner,0.2733,-0.3918,1,1,1,
+P12,alex_scores,cam t_offdrive good,drive_beginner,0.1022,-0.3918,1,1,1,
+P12,alex_scores,cam t_ondrive elite,drive_beginner,0.186,-0.3918,1,1,1,
+P12,alex_scores,dan p_offdrive average,drive_beginner,-0.5989,-0.3918,0,0,0.5,
+P12,alex_scores,drive_average,drive_beginner,0.1018,-0.3918,1,1,0.5,
+P12,alex_scores,drive_average 2,drive_beginner,-0.3423,-0.3918,1,0,0.5,
+P12,alex_scores,drive_beginner 2,drive_beginner,-0.8019,-0.3918,0,1,0.5,
+P12,alex_scores,drive_beginner 3,drive_beginner,0.001458,-0.3918,1,0,0.5,
+P12,alex_scores,drive_beginner 4,drive_beginner,-0.4444,-0.3918,0,0,0.5,
+P12,alex_scores,ollie p_offdrive average,drive_beginner,-1.011,-0.3918,0,0,1,
+P12,alex_scores,oscar v_beginner,drive_beginner,0.2496,-0.3918,1,0,0.5,
+P12,alex_scores,straight drive_beginner,drive_beginner,-0.1418,-0.3918,1,0,0.5,
+P12,alex_scores,viv p_offdrive elite,drive_beginner,0.3872,-0.3918,1,1,1,
+P12,cam_scores,alex t_straightdrive good,drive_beginner,0.01244,-0.3918,1,1,1,
+P12,cam_scores,alext_ondrive good,drive_beginner,-0.1926,-0.3918,1,1,1,
+P12,cam_scores,cam t_lh offdrive elite,drive_beginner,0.3591,-0.3918,1,1,1,
+P12,cam_scores,cam t_offdrive elite,drive_beginner,0.2733,-0.3918,1,1,1,
+P12,cam_scores,cam t_offdrive good,drive_beginner,0.1022,-0.3918,1,1,1,
+P12,cam_scores,cam t_ondrive elite,drive_beginner,0.186,-0.3918,1,1,1,
+P12,cam_scores,dan p_offdrive average,drive_beginner,-0.5989,-0.3918,0,0,0.5,
+P12,cam_scores,drive_average,drive_beginner,0.1018,-0.3918,1,1,0.5,
+P12,cam_scores,drive_average 2,drive_beginner,-0.3423,-0.3918,1,0,0.5,
+P12,cam_scores,drive_beginner 4,drive_beginner,-0.4444,-0.3918,0,0,0.5,
+P12,cam_scores,ollie p_offdrive average,drive_beginner,-1.011,-0.3918,0,0,1,
+P12,cam_scores,oscar v_beginner,drive_beginner,0.2496,-0.3918,1,0,0.5,
+P12,cam_scores,straight drive_beginner,drive_beginner,-0.1418,-0.3918,1,0,0.5,
+P12,cam_scores,viv p_offdrive elite,drive_beginner,0.3872,-0.3918,1,1,1,
+P12,alex_swipes,alex t_straightdrive good,drive_beginner,0.01244,-0.3918,1,1,1,
+P12,alex_swipes,cam t_lh offdrive elite,drive_beginner,0.3591,-0.3918,1,1,1,
+P12,alex_swipes,drive_beginner 4,drive_beginner,-0.4444,-0.3918,0,0,0.5,
+P12,alex_swipes,drive_average 2,drive_beginner,-0.3423,-0.3918,1,0,0.5,
+P12,cam_swipes,alex t_straightdrive good,drive_beginner,0.01244,-0.3918,1,1,1,
+P12,cam_swipes,cam t_lh offdrive elite,drive_beginner,0.3591,-0.3918,1,1,1,
+P12,cam_swipes,drive_average 2,drive_beginner,-0.3423,-0.3918,1,0,0.5,
+P12,cam_swipes,drive_beginner 4,drive_beginner,-0.4444,-0.3918,0,0,0.5,
+P12,cam_swipes,cam t_offdrive good,drive_beginner,0.1022,-0.3918,1,1,1,
+P13,alex_scores,alex t_straightdrive good,oscar v_beginner,-0.1138,0.6443,0,1,1,1
+P13,alex_scores,alext_ondrive good,oscar v_beginner,-0.1049,0.6443,0,1,1,1
+P13,alex_scores,cam t_lh offdrive elite,oscar v_beginner,0.8982,0.6443,1,1,1,1
+P13,alex_scores,cam t_offdrive elite,oscar v_beginner,0.2325,0.6443,0,1,1,1
+P13,alex_scores,cam t_offdrive good,oscar v_beginner,-0.09915,0.6443,0,1,1,1
+P13,alex_scores,cam t_ondrive elite,oscar v_beginner,0.3563,0.6443,0,1,1,1
+P13,alex_scores,dan p_offdrive average,oscar v_beginner,-1.165,0.6443,0,0,0.5,
+P13,alex_scores,drive_average,oscar v_beginner,-0.1523,0.6443,0,1,0.5,0
+P13,alex_scores,drive_average 2,oscar v_beginner,-0.6086,0.6443,0,0,0.5,1
+P13,alex_scores,oscar v_beginner,drive_beginner,0.6443,-1.348,1,0,0.5,
+P13,alex_scores,drive_beginner 2,oscar v_beginner,-2.044,0.6443,0,1,0.5,0
+P13,alex_scores,oscar v_beginner,drive_beginner 3,0.6443,0.02253,1,1,0.5,1
+P13,alex_scores,drive_beginner 4,oscar v_beginner,-0.2124,0.6443,0,0,0.5,0
+P13,alex_scores,ollie p_offdrive average,oscar v_beginner,-1.453,0.6443,0,0,1,1
+P13,alex_scores,straight drive_beginner,oscar v_beginner,-0.2241,0.6443,0,0.5,0.5,1
+P13,alex_scores,viv p_offdrive elite,oscar v_beginner,0.7896,0.6443,1,1,1,
+P13,cam_scores,alex t_straightdrive good,oscar v_beginner,-0.1138,0.6443,0,1,1,1
+P13,cam_scores,alext_ondrive good,oscar v_beginner,-0.1049,0.6443,0,1,1,1
+P13,cam_scores,cam t_lh offdrive elite,oscar v_beginner,0.8982,0.6443,1,1,1,1
+P13,cam_scores,cam t_offdrive elite,oscar v_beginner,0.2325,0.6443,0,1,1,1
+P13,cam_scores,cam t_offdrive good,oscar v_beginner,-0.09915,0.6443,0,1,1,1
+P13,cam_scores,cam t_ondrive elite,oscar v_beginner,0.3563,0.6443,0,1,1,1
+P13,cam_scores,dan p_offdrive average,oscar v_beginner,-1.165,0.6443,0,0,0.5,
+P13,cam_scores,drive_average,oscar v_beginner,-0.1523,0.6443,0,1,0.5,0
+P13,cam_scores,drive_average 2,oscar v_beginner,-0.6086,0.6443,0,0,0.5,1
+P13,cam_scores,oscar v_beginner,drive_beginner,0.6443,-1.348,1,0,0.5,
+P13,cam_scores,oscar v_beginner,drive_beginner 3,0.6443,0.02253,1,1,0.5,1
+P13,cam_scores,drive_beginner 4,oscar v_beginner,-0.2124,0.6443,0,0,0.5,0
+P13,cam_scores,ollie p_offdrive average,oscar v_beginner,-1.453,0.6443,0,0,1,1
+P13,cam_scores,straight drive_beginner,oscar v_beginner,-0.2241,0.6443,0,0.5,0.5,1
+P13,cam_scores,viv p_offdrive elite,oscar v_beginner,0.7896,0.6443,1,1,1,
+P13,alex_swipes,ollie p_offdrive average,oscar v_beginner,-1.453,0.6443,0,0,1,1
+P13,alex_swipes,alext_ondrive good,oscar v_beginner,-0.1049,0.6443,0,1,1,1
+P13,alex_swipes,oscar v_beginner,drive_beginner 3,0.6443,0.02253,1,1,0.5,1
+P13,alex_swipes,cam t_offdrive good,oscar v_beginner,-0.09915,0.6443,0,1,1,1
+P13,alex_swipes,dan p_offdrive average,oscar v_beginner,-1.165,0.6443,0,0,0.5,
+P13,cam_swipes,cam t_offdrive good,oscar v_beginner,-0.09915,0.6443,0,1,1,1
+P13,cam_swipes,oscar v_beginner,drive_beginner 3,0.6443,0.02253,1,1,0.5,1
+P13,cam_swipes,ollie p_offdrive average,oscar v_beginner,-1.453,0.6443,0,0,1,1
+P13,cam_swipes,dan p_offdrive average,oscar v_beginner,-1.165,0.6443,0,0,0.5,
+P14,alex_scores,alex t_straightdrive good,straight drive_beginner,-0.06948,-0.1657,1,1,1,1
+P14,alex_scores,alext_ondrive good,straight drive_beginner,-0.06395,-0.1657,1,1,1,1
+P14,alex_scores,cam t_lh offdrive elite,straight drive_beginner,0.6522,-0.1657,1,1,1,1
+P14,alex_scores,cam t_offdrive elite,straight drive_beginner,0.1542,-0.1657,1,1,1,1
+P14,alex_scores,cam t_offdrive good,straight drive_beginner,-0.08584,-0.1657,1,1,1,1
+P14,alex_scores,cam t_ondrive elite,straight drive_beginner,0.2518,-0.1657,1,1,1,1
+P14,alex_scores,dan p_offdrive average,straight drive_beginner,-0.6158,-0.1657,0,0,0.5,
+P14,alex_scores,drive_average,straight drive_beginner,-0.0568,-0.1657,1,1,0.5,0
+P14,alex_scores,drive_average 2,straight drive_beginner,-0.3058,-0.1657,0,0,0.5,0.5
+P14,alex_scores,straight drive_beginner,drive_beginner,-0.1657,-0.9344,1,0,0.5,
+P14,alex_scores,drive_beginner 2,straight drive_beginner,-1.472,-0.1657,0,1,0.5,0
+P14,alex_scores,straight drive_beginner,drive_beginner 3,-0.1657,-0.03575,0,1,0.5,1
+P14,alex_scores,straight drive_beginner,drive_beginner 4,-0.1657,-0.196,1,1,0.5,1
+P14,alex_scores,ollie p_offdrive average,straight drive_beginner,-1.085,-0.1657,0,0,1,0
+P14,alex_scores,straight drive_beginner,oscar v_beginner,-0.1657,0.4149,0,0.5,0.5,1
+P14,alex_scores,viv p_offdrive elite,straight drive_beginner,0.5034,-0.1657,1,1,1,
+P14,cam_scores,alex t_straightdrive good,straight drive_beginner,-0.06948,-0.1657,1,1,1,1
+P14,cam_scores,alext_ondrive good,straight drive_beginner,-0.06395,-0.1657,1,1,1,1
+P14,cam_scores,cam t_lh offdrive elite,straight drive_beginner,0.6522,-0.1657,1,1,1,1
+P14,cam_scores,cam t_offdrive elite,straight drive_beginner,0.1542,-0.1657,1,1,1,1
+P14,cam_scores,cam t_offdrive good,straight drive_beginner,-0.08584,-0.1657,1,1,1,1
+P14,cam_scores,cam t_ondrive elite,straight drive_beginner,0.2518,-0.1657,1,1,1,1
+P14,cam_scores,straight drive_beginner,dan p_offdrive average,-0.1657,-0.6158,1,1,0.5,
+P14,cam_scores,straight drive_beginner,drive_average,-0.1657,-0.0568,0,0,0.5,1
+P14,cam_scores,straight drive_beginner,drive_average 2,-0.1657,-0.3058,1,1,0.5,0.5
+P14,cam_scores,straight drive_beginner,drive_beginner,-0.1657,-0.9344,1,0,0.5,
+P14,cam_scores,straight drive_beginner,drive_beginner 3,-0.1657,-0.03575,0,1,0.5,1
+P14,cam_scores,straight drive_beginner,drive_beginner 4,-0.1657,-0.196,1,1,0.5,1
+P14,cam_scores,ollie p_offdrive average,straight drive_beginner,-1.085,-0.1657,0,0,1,0
+P14,cam_scores,straight drive_beginner,oscar v_beginner,-0.1657,0.4149,0,0.5,0.5,1
+P14,cam_scores,viv p_offdrive elite,straight drive_beginner,0.5034,-0.1657,1,1,1,
+P14,alex_swipes,cam t_offdrive good,straight drive_beginner,-0.08584,-0.1657,1,1,1,1
+P14,alex_swipes,cam t_ondrive elite,straight drive_beginner,0.2518,-0.1657,1,1,1,1
+P14,alex_swipes,cam t_lh offdrive elite,straight drive_beginner,0.6522,-0.1657,1,1,1,1
+P14,alex_swipes,ollie p_offdrive average,straight drive_beginner,-1.085,-0.1657,0,0,1,0
+P14,cam_swipes,straight drive_beginner,drive_beginner 2,-0.1657,-1.472,1,0,0.5,1
+P14,cam_swipes,straight drive_beginner,drive_beginner 3,-0.1657,-0.03575,0,1,0.5,1
+P14,cam_swipes,straight drive_beginner,drive_beginner 4,-0.1657,-0.196,1,1,0.5,1
+P14,cam_swipes,straight drive_beginner,drive_average,-0.1657,-0.0568,0,0,0.5,1
