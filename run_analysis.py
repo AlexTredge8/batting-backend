@@ -37,6 +37,7 @@ from config             import (
     CONTACT_DETECTOR_VERSION,
     SETUP_DETECTOR_VERSION,
     PROCESSING_MODE,
+    ANCHOR_MODE,
 )
 
 
@@ -451,13 +452,24 @@ def analyse(video_path: str, output_dir: str = None, verbose: bool = True,
     raw_phases = detect_phases(metrics, fps, video_path=video_path)
     if contact_frame is not None and anchor_override_frames.get("contact_frame") is None:
         anchor_override_frames["contact_frame"] = int(contact_frame)
+    prior_anchor_keys: list[str] = []
+    if ANCHOR_MODE == "contact_prior":
+        from anchor_contact_prior import contact_prior_anchors
+        contact_idx = raw_phases.contact
+        if anchor_override_frames.get("contact_frame") is not None:
+            from phase_detector import _nearest_metric_index_for_orig_frame
+            contact_idx = _nearest_metric_index_for_orig_frame(metrics, int(anchor_override_frames["contact_frame"]))
+        for key, frame in contact_prior_anchors(metrics, contact_idx, fps).items():
+            if anchor_override_frames.get(key) is None:  # a validated key frame always wins
+                anchor_override_frames[key] = frame
+                prior_anchor_keys.append(key)
     phases = apply_anchor_overrides(raw_phases, metrics, anchor_override_frames or None)
     anchor_frame_map = build_anchor_frames(phases, metrics)
     anchor_confidence = build_anchor_confidence(phases, metrics)
     if anchor_override_frames:
         for anchor_key, anchor_value in anchor_override_frames.items():
             if anchor_value is not None:
-                anchor_confidence[anchor_key] = "validated"
+                anchor_confidence[anchor_key] = "contact_prior" if anchor_key in prior_anchor_keys else "validated"
     anchor_quality_summary = build_anchor_quality_summary(anchor_confidence)
     if verbose:
         print_phase_summary(phases, fps)
@@ -483,13 +495,14 @@ def analyse(video_path: str, output_dir: str = None, verbose: bool = True,
     video_meta["detector_version"] = CONTACT_DETECTOR_VERSION
     video_meta["contact_detector_version"] = CONTACT_DETECTOR_VERSION
     video_meta["setup_detector_version"] = SETUP_DETECTOR_VERSION
-    video_meta["anchor_detector_version"] = ANCHOR_DETECTOR_VERSION
+    video_meta["anchor_detector_version"] = ANCHOR_DETECTOR_VERSION + ("+contact_prior" if prior_anchor_keys else "")
     video_meta["anchor_frames"] = anchor_frame_map
     video_meta["anchor_confidence"] = anchor_confidence
     video_meta["anchor_quality_summary"] = anchor_quality_summary
     video_meta["ordering_guard_log"] = phases.ordering_guard_log
     if anchor_override_frames:
-        video_meta["anchor_overrides"] = {key: value for key, value in anchor_override_frames.items() if value is not None}
+        video_meta["anchor_overrides"] = {key: value for key, value in anchor_override_frames.items()
+                                          if value is not None and key not in prior_anchor_keys}
     if phases.contact_confidence == "low":
         video_meta["contact_notice"] = (
             "Contact confidence is low for this video, so contact-derived deductions "

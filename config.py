@@ -83,6 +83,9 @@ POSE_RUNNING_MODE = os.getenv("POSE_RUNNING_MODE", "video").strip().lower()
 # USE_SETUP_V1 = False → min-velocity detector (v2, rejected 2026-05-14)
 # USE_SETUP_V2 = True  → multi-landmark sustained-change detector (deprecated, was net worse)
 USE_SETUP_V4 = _env_bool("USE_SETUP_V4", True)
+# ANCHOR_MODE (15 Nov 2026): "detector" (default, current detectors) or "contact_prior"
+# (contact + typical gap; see anchor_contact_prior.py). Off until a before/after batch.
+ANCHOR_MODE = os.getenv("ANCHOR_MODE", "detector").strip().lower()
 USE_SETUP_V1 = _env_bool("USE_SETUP_V1", False)
 # REVERTED 2026-05-14: v2 MAE 28.94 vs v4 MAE 8.29.
 # Bootstrapped dependency chain (setup needs hands_start_up which needs setup)
