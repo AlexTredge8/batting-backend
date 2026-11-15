@@ -1,0 +1,37 @@
+pose_model,filename,detection_rate,body_length_px,setup_jitter_pct_bl,nose_jumps
+mediapipe,Alex T_Straightdrive Good,0.981,216.4,,0
+mediapipe,AlexT_Ondrive Good,1.0,238.6,0.411,0
+mediapipe,Cam T_LH Offdrive Elite,1.0,966.6,0.558,0
+mediapipe,Cam T_Offdrive Elite,1.0,158.2,0.277,0
+mediapipe,Cam T_Offdrive Good,1.0,290.9,0.195,0
+mediapipe,Cam T_Ondrive Elite,1.0,685.5,0.206,0
+mediapipe,Dan P_Offdrive Average,0.948,167.2,3.243,0
+mediapipe,Drive_Average 2,0.973,161.8,0.761,0
+mediapipe,Drive_Average,1.0,326.8,0.685,0
+mediapipe,Drive_Beginner 2,1.0,326.5,0.332,0
+mediapipe,Drive_Beginner 3,1.0,350.5,0.616,0
+mediapipe,Drive_Beginner 4,0.409,222.1,5.987,0
+mediapipe,Drive_beginner,1.0,332.5,0.743,0
+mediapipe,Female_Average,1.0,102.4,,0
+mediapipe,Ollie P_Offdrive Average,0.872,80.4,3.208,1
+mediapipe,Oscar V_Beginner,1.0,170.3,0.131,0
+mediapipe,Straight Drive_Beginner,1.0,100.2,0.344,0
+mediapipe,Viv P_Offdrive Elite,1.0,206.6,0.285,0
+rtmpose,Alex T_Straightdrive Good,1.0,208.8,,0
+rtmpose,AlexT_Ondrive Good,1.0,232.5,0.619,0
+rtmpose,Cam T_LH Offdrive Elite,1.0,998.3,0.632,0
+rtmpose,Cam T_Offdrive Elite,1.0,166.2,0.379,0
+rtmpose,Cam T_Offdrive Good,1.0,295.3,0.41,0
+rtmpose,Cam T_Ondrive Elite,1.0,692.1,0.285,0
+rtmpose,Dan P_Offdrive Average,1.0,170.4,3.163,0
+rtmpose,Drive_Average 2,1.0,167.3,0.873,0
+rtmpose,Drive_Average,1.0,327.2,0.951,0
+rtmpose,Drive_Beginner 2,1.0,327.8,0.427,0
+rtmpose,Drive_Beginner 3,1.0,367.1,0.822,0
+rtmpose,Drive_Beginner 4,1.0,223.7,0.587,0
+rtmpose,Drive_beginner,1.0,332.5,0.798,0
+rtmpose,Female_Average,1.0,105.7,,0
+rtmpose,Ollie P_Offdrive Average,1.0,106.5,0.685,0
+rtmpose,Oscar V_Beginner,1.0,171.3,0.276,0
+rtmpose,Straight Drive_Beginner,1.0,102.3,0.32,0
+rtmpose,Viv P_Offdrive Elite,1.0,206.2,0.309,0
