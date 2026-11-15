@@ -1,0 +1,409 @@
+filename,anchor_set,handedness,drive_type,fps,measurement,checkpoint,fault,pillar,unit,direction,value,blank_reason,body_length_px,toes_point_off
+Alex T_Straightdrive Good,validated,right,straight,30.339,M01,C01,F01,tracking,% BL,higher_worse,0.909,,228.1,yes
+Alex T_Straightdrive Good,validated,right,straight,30.339,M02,C02,F02,stability,% BL,higher_worse,6.328,,228.1,yes
+Alex T_Straightdrive Good,validated,right,straight,30.339,M03,C03,F03,access,"% BL, off side +",higher_worse,9.465,,228.1,yes
+Alex T_Straightdrive Good,validated,right,straight,30.339,M04,C04,F04,tracking,"% BL, off side +",higher_better,21.916,,228.1,yes
+Alex T_Straightdrive Good,validated,right,straight,30.339,M05,C05,F05,access,"% BL, drive side +",higher_better,1.338,,228.1,yes
+Alex T_Straightdrive Good,validated,right,straight,30.339,M06,C06,F06,stability,degrees,higher_worse,149.909,,228.1,yes
+Alex T_Straightdrive Good,validated,right,straight,30.339,M07,C07,F07,access,ratio,higher_worse,1.16,,228.1,yes
+Alex T_Straightdrive Good,validated,right,straight,30.339,M08,C08,F08,access,% BL,higher_worse,8.823,,228.1,yes
+Alex T_Straightdrive Good,validated,right,straight,30.339,M09,C09,F09,flow,ms,higher_worse,65.921,,228.1,yes
+Alex T_Straightdrive Good,validated,right,straight,30.339,M10,C10,F10,tracking,"% BL, off side +",higher_better,29.846,,228.1,yes
+Alex T_Straightdrive Good,validated,right,straight,30.339,M11,C11,F11,stability,% BL,higher_worse,1.654,,228.1,yes
+Alex T_Straightdrive Good,validated,right,straight,30.339,M12,C12,F12,flow,% BL,higher_better,13.27,,228.1,yes
+Alex T_Straightdrive Good,auto,right,straight,30.339,M01,C01,F01,tracking,% BL,higher_worse,,head not seen before the backlift,227.9,unknown
+Alex T_Straightdrive Good,auto,right,straight,30.339,M02,C02,F02,stability,% BL,higher_worse,38.34,,227.9,unknown
+Alex T_Straightdrive Good,auto,right,straight,30.339,M03,C03,F03,access,"% BL, off side +",higher_worse,6.252,,227.9,unknown
+Alex T_Straightdrive Good,auto,right,straight,30.339,M04,C04,F04,tracking,"% BL, off side +",higher_better,18.069,,227.9,unknown
+Alex T_Straightdrive Good,auto,right,straight,30.339,M05,C05,F05,access,"% BL, drive side +",higher_better,-7.944,,227.9,unknown
+Alex T_Straightdrive Good,auto,right,straight,30.339,M06,C06,F06,stability,degrees,higher_worse,138.232,,227.9,unknown
+Alex T_Straightdrive Good,auto,right,straight,30.339,M07,C07,F07,access,ratio,higher_worse,1.3,,227.9,unknown
+Alex T_Straightdrive Good,auto,right,straight,30.339,M08,C08,F08,access,% BL,higher_worse,10.901,,227.9,unknown
+Alex T_Straightdrive Good,auto,right,straight,30.339,M09,C09,F09,flow,ms,higher_worse,65.921,,227.9,unknown
+Alex T_Straightdrive Good,auto,right,straight,30.339,M10,C10,F10,tracking,"% BL, off side +",higher_better,29.874,,227.9,unknown
+Alex T_Straightdrive Good,auto,right,straight,30.339,M11,C11,F11,stability,% BL,higher_worse,6.139,,227.9,unknown
+Alex T_Straightdrive Good,auto,right,straight,30.339,M12,C12,F12,flow,% BL,higher_better,12.086,,227.9,unknown
+AlexT_Ondrive Good,validated,right,on,30.356,M01,C01,F01,tracking,% BL,higher_worse,2.024,,243.1,yes
+AlexT_Ondrive Good,validated,right,on,30.356,M02,C02,F02,stability,% BL,higher_worse,2.368,,243.1,yes
+AlexT_Ondrive Good,validated,right,on,30.356,M03,C03,F03,access,"% BL, off side +",higher_worse,12.76,,243.1,yes
+AlexT_Ondrive Good,validated,right,on,30.356,M04,C04,F04,tracking,"% BL, off side +",higher_better,18.866,,243.1,yes
+AlexT_Ondrive Good,validated,right,on,30.356,M05,C05,F05,access,"% BL, drive side +",higher_better,-1.75,,243.1,yes
+AlexT_Ondrive Good,validated,right,on,30.356,M06,C06,F06,stability,degrees,higher_worse,152.629,,243.1,yes
+AlexT_Ondrive Good,validated,right,on,30.356,M07,C07,F07,access,ratio,higher_worse,1.351,,243.1,yes
+AlexT_Ondrive Good,validated,right,on,30.356,M08,C08,F08,access,% BL,higher_worse,11.835,,243.1,yes
+AlexT_Ondrive Good,validated,right,on,30.356,M09,C09,F09,flow,ms,higher_worse,98.827,,243.1,yes
+AlexT_Ondrive Good,validated,right,on,30.356,M10,C10,F10,tracking,"% BL, off side +",higher_better,28.917,,243.1,yes
+AlexT_Ondrive Good,validated,right,on,30.356,M11,C11,F11,stability,% BL,higher_worse,6.858,,243.1,yes
+AlexT_Ondrive Good,validated,right,on,30.356,M12,C12,F12,flow,% BL,higher_better,15.258,,243.1,yes
+AlexT_Ondrive Good,auto,right,on,30.356,M01,C01,F01,tracking,% BL,higher_worse,2.509,,243.1,yes
+AlexT_Ondrive Good,auto,right,on,30.356,M02,C02,F02,stability,% BL,higher_worse,2.368,,243.1,yes
+AlexT_Ondrive Good,auto,right,on,30.356,M03,C03,F03,access,"% BL, off side +",higher_worse,5.078,,243.1,yes
+AlexT_Ondrive Good,auto,right,on,30.356,M04,C04,F04,tracking,"% BL, off side +",higher_better,23.159,,243.1,yes
+AlexT_Ondrive Good,auto,right,on,30.356,M05,C05,F05,access,"% BL, drive side +",higher_better,-1.75,,243.1,yes
+AlexT_Ondrive Good,auto,right,on,30.356,M06,C06,F06,stability,degrees,higher_worse,162.97,,243.1,yes
+AlexT_Ondrive Good,auto,right,on,30.356,M07,C07,F07,access,ratio,higher_worse,1.344,,243.1,yes
+AlexT_Ondrive Good,auto,right,on,30.356,M08,C08,F08,access,% BL,higher_worse,8.228,,243.1,yes
+AlexT_Ondrive Good,auto,right,on,30.356,M09,C09,F09,flow,ms,higher_worse,98.827,,243.1,yes
+AlexT_Ondrive Good,auto,right,on,30.356,M10,C10,F10,tracking,"% BL, off side +",higher_better,28.917,,243.1,yes
+AlexT_Ondrive Good,auto,right,on,30.356,M11,C11,F11,stability,% BL,higher_worse,6.46,,243.1,yes
+AlexT_Ondrive Good,auto,right,on,30.356,M12,C12,F12,flow,% BL,higher_better,15.421,,243.1,yes
+Cam T_LH Offdrive Elite,validated,left,off,30.204,M01,C01,F01,tracking,% BL,higher_worse,3.187,,1001.1,yes
+Cam T_LH Offdrive Elite,validated,left,off,30.204,M02,C02,F02,stability,% BL,higher_worse,5.405,,1001.1,yes
+Cam T_LH Offdrive Elite,validated,left,off,30.204,M03,C03,F03,access,"% BL, off side +",higher_worse,6.046,,1001.1,yes
+Cam T_LH Offdrive Elite,validated,left,off,30.204,M04,C04,F04,tracking,"% BL, off side +",higher_better,18.485,,1001.1,yes
+Cam T_LH Offdrive Elite,validated,left,off,30.204,M05,C05,F05,access,"% BL, drive side +",higher_better,11.623,,1001.1,yes
+Cam T_LH Offdrive Elite,validated,left,off,30.204,M06,C06,F06,stability,degrees,higher_worse,163.44,,1001.1,yes
+Cam T_LH Offdrive Elite,validated,left,off,30.204,M07,C07,F07,access,ratio,higher_worse,1.102,,1001.1,yes
+Cam T_LH Offdrive Elite,validated,left,off,30.204,M08,C08,F08,access,% BL,higher_worse,3.387,,1001.1,yes
+Cam T_LH Offdrive Elite,validated,left,off,30.204,M09,C09,F09,flow,ms,higher_worse,132.434,,1001.1,yes
+Cam T_LH Offdrive Elite,validated,left,off,30.204,M10,C10,F10,tracking,"% BL, off side +",higher_better,30.047,,1001.1,yes
+Cam T_LH Offdrive Elite,validated,left,off,30.204,M11,C11,F11,stability,% BL,higher_worse,4.286,,1001.1,yes
+Cam T_LH Offdrive Elite,validated,left,off,30.204,M12,C12,F12,flow,% BL,higher_better,14.038,,1001.1,yes
+Cam T_LH Offdrive Elite,auto,left,off,30.204,M01,C01,F01,tracking,% BL,higher_worse,2.6,,1001.1,yes
+Cam T_LH Offdrive Elite,auto,left,off,30.204,M02,C02,F02,stability,% BL,higher_worse,5.405,,1001.1,yes
+Cam T_LH Offdrive Elite,auto,left,off,30.204,M03,C03,F03,access,"% BL, off side +",higher_worse,5.129,,1001.1,yes
+Cam T_LH Offdrive Elite,auto,left,off,30.204,M04,C04,F04,tracking,"% BL, off side +",higher_better,18.359,,1001.1,yes
+Cam T_LH Offdrive Elite,auto,left,off,30.204,M05,C05,F05,access,"% BL, drive side +",higher_better,11.624,,1001.1,yes
+Cam T_LH Offdrive Elite,auto,left,off,30.204,M06,C06,F06,stability,degrees,higher_worse,166.049,,1001.1,yes
+Cam T_LH Offdrive Elite,auto,left,off,30.204,M07,C07,F07,access,ratio,higher_worse,1.067,,1001.1,yes
+Cam T_LH Offdrive Elite,auto,left,off,30.204,M08,C08,F08,access,% BL,higher_worse,1.349,,1001.1,yes
+Cam T_LH Offdrive Elite,auto,left,off,30.204,M09,C09,F09,flow,ms,higher_worse,231.759,,1001.1,yes
+Cam T_LH Offdrive Elite,auto,left,off,30.204,M10,C10,F10,tracking,"% BL, off side +",higher_better,30.712,,1001.1,yes
+Cam T_LH Offdrive Elite,auto,left,off,30.204,M11,C11,F11,stability,% BL,higher_worse,3.762,,1001.1,yes
+Cam T_LH Offdrive Elite,auto,left,off,30.204,M12,C12,F12,flow,% BL,higher_better,10.723,,1001.1,yes
+Cam T_Offdrive Elite,validated,right,off,30.0,M01,C01,F01,tracking,% BL,higher_worse,0.958,,156.7,no
+Cam T_Offdrive Elite,validated,right,off,30.0,M02,C02,F02,stability,% BL,higher_worse,7.502,,156.7,no
+Cam T_Offdrive Elite,validated,right,off,30.0,M03,C03,F03,access,"% BL, off side +",higher_worse,,top hand or shoulders not seen at the backlift,156.7,no
+Cam T_Offdrive Elite,validated,right,off,30.0,M04,C04,F04,tracking,"% BL, off side +",higher_better,-31.009,,156.7,no
+Cam T_Offdrive Elite,validated,right,off,30.0,M05,C05,F05,access,"% BL, drive side +",higher_better,10.282,,156.7,no
+Cam T_Offdrive Elite,validated,right,off,30.0,M06,C06,F06,stability,degrees,higher_worse,167.465,,156.7,no
+Cam T_Offdrive Elite,validated,right,off,30.0,M07,C07,F07,access,ratio,higher_worse,1.844,,156.7,no
+Cam T_Offdrive Elite,validated,right,off,30.0,M08,C08,F08,access,% BL,higher_worse,,hands not seen in the downswing,156.7,no
+Cam T_Offdrive Elite,validated,right,off,30.0,M09,C09,F09,flow,ms,higher_worse,,hands not seen,156.7,no
+Cam T_Offdrive Elite,validated,right,off,30.0,M10,C10,F10,tracking,"% BL, off side +",higher_better,-30.524,,156.7,no
+Cam T_Offdrive Elite,validated,right,off,30.0,M11,C11,F11,stability,% BL,higher_worse,1.164,,156.7,no
+Cam T_Offdrive Elite,validated,right,off,30.0,M12,C12,F12,flow,% BL,higher_better,1.863,,156.7,no
+Cam T_Offdrive Elite,auto,right,off,30.0,M01,C01,F01,tracking,% BL,higher_worse,0.756,,156.6,no
+Cam T_Offdrive Elite,auto,right,off,30.0,M02,C02,F02,stability,% BL,higher_worse,7.897,,156.6,no
+Cam T_Offdrive Elite,auto,right,off,30.0,M03,C03,F03,access,"% BL, off side +",higher_worse,,top hand or shoulders not seen at the backlift,156.6,no
+Cam T_Offdrive Elite,auto,right,off,30.0,M04,C04,F04,tracking,"% BL, off side +",higher_better,-30.504,,156.6,no
+Cam T_Offdrive Elite,auto,right,off,30.0,M05,C05,F05,access,"% BL, drive side +",higher_better,10.725,,156.6,no
+Cam T_Offdrive Elite,auto,right,off,30.0,M06,C06,F06,stability,degrees,higher_worse,139.257,,156.6,no
+Cam T_Offdrive Elite,auto,right,off,30.0,M07,C07,F07,access,ratio,higher_worse,2.085,,156.6,no
+Cam T_Offdrive Elite,auto,right,off,30.0,M08,C08,F08,access,% BL,higher_worse,,hands not seen in the downswing,156.6,no
+Cam T_Offdrive Elite,auto,right,off,30.0,M09,C09,F09,flow,ms,higher_worse,,hands not seen,156.6,no
+Cam T_Offdrive Elite,auto,right,off,30.0,M10,C10,F10,tracking,"% BL, off side +",higher_better,-30.786,,156.6,no
+Cam T_Offdrive Elite,auto,right,off,30.0,M11,C11,F11,stability,% BL,higher_worse,1.28,,156.6,no
+Cam T_Offdrive Elite,auto,right,off,30.0,M12,C12,F12,flow,% BL,higher_better,-3.247,,156.6,no
+Cam T_Offdrive Good,validated,right,off,29.88,M01,C01,F01,tracking,% BL,higher_worse,1.916,,290.5,no
+Cam T_Offdrive Good,validated,right,off,29.88,M02,C02,F02,stability,% BL,higher_worse,4.801,,290.5,no
+Cam T_Offdrive Good,validated,right,off,29.88,M03,C03,F03,access,"% BL, off side +",higher_worse,,top hand or shoulders not seen at the backlift,290.5,no
+Cam T_Offdrive Good,validated,right,off,29.88,M04,C04,F04,tracking,"% BL, off side +",higher_better,-26.786,,290.5,no
+Cam T_Offdrive Good,validated,right,off,29.88,M05,C05,F05,access,"% BL, drive side +",higher_better,-0.911,,290.5,no
+Cam T_Offdrive Good,validated,right,off,29.88,M06,C06,F06,stability,degrees,higher_worse,154.549,,290.5,no
+Cam T_Offdrive Good,validated,right,off,29.88,M07,C07,F07,access,ratio,higher_worse,1.871,,290.5,no
+Cam T_Offdrive Good,validated,right,off,29.88,M08,C08,F08,access,% BL,higher_worse,,hands do not move,290.5,no
+Cam T_Offdrive Good,validated,right,off,29.88,M09,C09,F09,flow,ms,higher_worse,0.0,,290.5,no
+Cam T_Offdrive Good,validated,right,off,29.88,M10,C10,F10,tracking,"% BL, off side +",higher_better,-27.21,,290.5,no
+Cam T_Offdrive Good,validated,right,off,29.88,M11,C11,F11,stability,% BL,higher_worse,,hips or front foot not seen at the finish,290.5,no
+Cam T_Offdrive Good,validated,right,off,29.88,M12,C12,F12,flow,% BL,higher_better,,hands or shoulders not seen at the finish,290.5,no
+Cam T_Offdrive Good,auto,right,off,29.88,M01,C01,F01,tracking,% BL,higher_worse,1.987,,280.2,no
+Cam T_Offdrive Good,auto,right,off,29.88,M02,C02,F02,stability,% BL,higher_worse,6.019,,280.2,no
+Cam T_Offdrive Good,auto,right,off,29.88,M03,C03,F03,access,"% BL, off side +",higher_worse,,top hand or shoulders not seen at the backlift,280.2,no
+Cam T_Offdrive Good,auto,right,off,29.88,M04,C04,F04,tracking,"% BL, off side +",higher_better,-24.487,,280.2,no
+Cam T_Offdrive Good,auto,right,off,29.88,M05,C05,F05,access,"% BL, drive side +",higher_better,1.421,,280.2,no
+Cam T_Offdrive Good,auto,right,off,29.88,M06,C06,F06,stability,degrees,higher_worse,154.549,,280.2,no
+Cam T_Offdrive Good,auto,right,off,29.88,M07,C07,F07,access,ratio,higher_worse,1.416,,280.2,no
+Cam T_Offdrive Good,auto,right,off,29.88,M08,C08,F08,access,% BL,higher_worse,,hands do not move,280.2,no
+Cam T_Offdrive Good,auto,right,off,29.88,M09,C09,F09,flow,ms,higher_worse,0.0,,280.2,no
+Cam T_Offdrive Good,auto,right,off,29.88,M10,C10,F10,tracking,"% BL, off side +",higher_better,-28.208,,280.2,no
+Cam T_Offdrive Good,auto,right,off,29.88,M11,C11,F11,stability,% BL,higher_worse,,hips or front foot not seen at the finish,280.2,no
+Cam T_Offdrive Good,auto,right,off,29.88,M12,C12,F12,flow,% BL,higher_better,,hands or shoulders not seen at the finish,280.2,no
+Cam T_Ondrive Elite,validated,right,on,30.073,M01,C01,F01,tracking,% BL,higher_worse,2.644,,772.5,no
+Cam T_Ondrive Elite,validated,right,on,30.073,M02,C02,F02,stability,% BL,higher_worse,0.27,,772.5,no
+Cam T_Ondrive Elite,validated,right,on,30.073,M03,C03,F03,access,"% BL, off side +",higher_worse,,top hand or shoulders not seen at the backlift,772.5,no
+Cam T_Ondrive Elite,validated,right,on,30.073,M04,C04,F04,tracking,"% BL, off side +",higher_better,-18.315,,772.5,no
+Cam T_Ondrive Elite,validated,right,on,30.073,M05,C05,F05,access,"% BL, drive side +",higher_better,-1.392,,772.5,no
+Cam T_Ondrive Elite,validated,right,on,30.073,M06,C06,F06,stability,degrees,higher_worse,169.659,,772.5,no
+Cam T_Ondrive Elite,validated,right,on,30.073,M07,C07,F07,access,ratio,higher_worse,1.408,,772.5,no
+Cam T_Ondrive Elite,validated,right,on,30.073,M08,C08,F08,access,% BL,higher_worse,2.653,,772.5,no
+Cam T_Ondrive Elite,validated,right,on,30.073,M09,C09,F09,flow,ms,higher_worse,0.0,,772.5,no
+Cam T_Ondrive Elite,validated,right,on,30.073,M10,C10,F10,tracking,"% BL, off side +",higher_better,-22.962,,772.5,no
+Cam T_Ondrive Elite,validated,right,on,30.073,M11,C11,F11,stability,% BL,higher_worse,7.022,,772.5,no
+Cam T_Ondrive Elite,validated,right,on,30.073,M12,C12,F12,flow,% BL,higher_better,,hands or shoulders not seen at the finish,772.5,no
+Cam T_Ondrive Elite,auto,right,on,30.073,M01,C01,F01,tracking,% BL,higher_worse,2.366,,754.7,no
+Cam T_Ondrive Elite,auto,right,on,30.073,M02,C02,F02,stability,% BL,higher_worse,0.833,,754.7,no
+Cam T_Ondrive Elite,auto,right,on,30.073,M03,C03,F03,access,"% BL, off side +",higher_worse,,top hand or shoulders not seen at the backlift,754.7,no
+Cam T_Ondrive Elite,auto,right,on,30.073,M04,C04,F04,tracking,"% BL, off side +",higher_better,-21.772,,754.7,no
+Cam T_Ondrive Elite,auto,right,on,30.073,M05,C05,F05,access,"% BL, drive side +",higher_better,-0.644,,754.7,no
+Cam T_Ondrive Elite,auto,right,on,30.073,M06,C06,F06,stability,degrees,higher_worse,170.276,,754.7,no
+Cam T_Ondrive Elite,auto,right,on,30.073,M07,C07,F07,access,ratio,higher_worse,1.181,,754.7,no
+Cam T_Ondrive Elite,auto,right,on,30.073,M08,C08,F08,access,% BL,higher_worse,2.715,,754.7,no
+Cam T_Ondrive Elite,auto,right,on,30.073,M09,C09,F09,flow,ms,higher_worse,0.0,,754.7,no
+Cam T_Ondrive Elite,auto,right,on,30.073,M10,C10,F10,tracking,"% BL, off side +",higher_better,-23.503,,754.7,no
+Cam T_Ondrive Elite,auto,right,on,30.073,M11,C11,F11,stability,% BL,higher_worse,7.164,,754.7,no
+Cam T_Ondrive Elite,auto,right,on,30.073,M12,C12,F12,flow,% BL,higher_better,,hands or shoulders not seen at the finish,754.7,no
+Dan P_Offdrive Average,validated,right,off,30.0,M01,C01,F01,tracking,% BL,higher_worse,3.803,,179.3,no
+Dan P_Offdrive Average,validated,right,off,30.0,M02,C02,F02,stability,% BL,higher_worse,1.151,,179.3,no
+Dan P_Offdrive Average,validated,right,off,30.0,M03,C03,F03,access,"% BL, off side +",higher_worse,-0.911,,179.3,no
+Dan P_Offdrive Average,validated,right,off,30.0,M04,C04,F04,tracking,"% BL, off side +",higher_better,-16.933,,179.3,no
+Dan P_Offdrive Average,validated,right,off,30.0,M05,C05,F05,access,"% BL, drive side +",higher_better,31.483,,179.3,no
+Dan P_Offdrive Average,validated,right,off,30.0,M06,C06,F06,stability,degrees,higher_worse,147.366,,179.3,no
+Dan P_Offdrive Average,validated,right,off,30.0,M07,C07,F07,access,ratio,higher_worse,0.867,,179.3,no
+Dan P_Offdrive Average,validated,right,off,30.0,M08,C08,F08,access,% BL,higher_worse,7.057,,179.3,no
+Dan P_Offdrive Average,validated,right,off,30.0,M09,C09,F09,flow,ms,higher_worse,100.0,,179.3,no
+Dan P_Offdrive Average,validated,right,off,30.0,M10,C10,F10,tracking,"% BL, off side +",higher_better,-27.888,,179.3,no
+Dan P_Offdrive Average,validated,right,off,30.0,M11,C11,F11,stability,% BL,higher_worse,,hips or front foot not seen at the finish,179.3,no
+Dan P_Offdrive Average,validated,right,off,30.0,M12,C12,F12,flow,% BL,higher_better,-50.993,,179.3,no
+Dan P_Offdrive Average,auto,right,off,30.0,M01,C01,F01,tracking,% BL,higher_worse,8.551,,179.4,no
+Dan P_Offdrive Average,auto,right,off,30.0,M02,C02,F02,stability,% BL,higher_worse,0.34,,179.4,no
+Dan P_Offdrive Average,auto,right,off,30.0,M03,C03,F03,access,"% BL, off side +",higher_worse,4.107,,179.4,no
+Dan P_Offdrive Average,auto,right,off,30.0,M04,C04,F04,tracking,"% BL, off side +",higher_better,-16.927,,179.4,no
+Dan P_Offdrive Average,auto,right,off,30.0,M05,C05,F05,access,"% BL, drive side +",higher_better,32.046,,179.4,no
+Dan P_Offdrive Average,auto,right,off,30.0,M06,C06,F06,stability,degrees,higher_worse,147.366,,179.4,no
+Dan P_Offdrive Average,auto,right,off,30.0,M07,C07,F07,access,ratio,higher_worse,0.937,,179.4,no
+Dan P_Offdrive Average,auto,right,off,30.0,M08,C08,F08,access,% BL,higher_worse,5.869,,179.4,no
+Dan P_Offdrive Average,auto,right,off,30.0,M09,C09,F09,flow,ms,higher_worse,100.0,,179.4,no
+Dan P_Offdrive Average,auto,right,off,30.0,M10,C10,F10,tracking,"% BL, off side +",higher_better,-27.075,,179.4,no
+Dan P_Offdrive Average,auto,right,off,30.0,M11,C11,F11,stability,% BL,higher_worse,3.775,,179.4,no
+Dan P_Offdrive Average,auto,right,off,30.0,M12,C12,F12,flow,% BL,higher_better,-45.647,,179.4,no
+Drive_Average,validated,right,off,29.977,M01,C01,F01,tracking,% BL,higher_worse,3.746,,329.0,yes
+Drive_Average,validated,right,off,29.977,M02,C02,F02,stability,% BL,higher_worse,1.596,,329.0,yes
+Drive_Average,validated,right,off,29.977,M03,C03,F03,access,"% BL, off side +",higher_worse,6.858,,329.0,yes
+Drive_Average,validated,right,off,29.977,M04,C04,F04,tracking,"% BL, off side +",higher_better,36.564,,329.0,yes
+Drive_Average,validated,right,off,29.977,M05,C05,F05,access,"% BL, drive side +",higher_better,-0.893,,329.0,yes
+Drive_Average,validated,right,off,29.977,M06,C06,F06,stability,degrees,higher_worse,163.811,,329.0,yes
+Drive_Average,validated,right,off,29.977,M07,C07,F07,access,ratio,higher_worse,0.773,,329.0,yes
+Drive_Average,validated,right,off,29.977,M08,C08,F08,access,% BL,higher_worse,8.644,,329.0,yes
+Drive_Average,validated,right,off,29.977,M09,C09,F09,flow,ms,higher_worse,200.152,,329.0,yes
+Drive_Average,validated,right,off,29.977,M10,C10,F10,tracking,"% BL, off side +",higher_better,31.764,,329.0,yes
+Drive_Average,validated,right,off,29.977,M11,C11,F11,stability,% BL,higher_worse,1.433,,329.0,yes
+Drive_Average,validated,right,off,29.977,M12,C12,F12,flow,% BL,higher_better,9.785,,329.0,yes
+Drive_Average,auto,right,off,29.977,M01,C01,F01,tracking,% BL,higher_worse,2.726,,328.6,yes
+Drive_Average,auto,right,off,29.977,M02,C02,F02,stability,% BL,higher_worse,0.6,,328.6,yes
+Drive_Average,auto,right,off,29.977,M03,C03,F03,access,"% BL, off side +",higher_worse,0.796,,328.6,yes
+Drive_Average,auto,right,off,29.977,M04,C04,F04,tracking,"% BL, off side +",higher_better,23.296,,328.6,yes
+Drive_Average,auto,right,off,29.977,M05,C05,F05,access,"% BL, drive side +",higher_better,-2.238,,328.6,yes
+Drive_Average,auto,right,off,29.977,M06,C06,F06,stability,degrees,higher_worse,158.775,,328.6,yes
+Drive_Average,auto,right,off,29.977,M07,C07,F07,access,ratio,higher_worse,0.747,,328.6,yes
+Drive_Average,auto,right,off,29.977,M08,C08,F08,access,% BL,higher_worse,10.291,,328.6,yes
+Drive_Average,auto,right,off,29.977,M09,C09,F09,flow,ms,higher_worse,66.717,,328.6,yes
+Drive_Average,auto,right,off,29.977,M10,C10,F10,tracking,"% BL, off side +",higher_better,29.56,,328.6,yes
+Drive_Average,auto,right,off,29.977,M11,C11,F11,stability,% BL,higher_worse,1.547,,328.6,yes
+Drive_Average,auto,right,off,29.977,M12,C12,F12,flow,% BL,higher_better,10.839,,328.6,yes
+Drive_Average 2,validated,right,off,29.973,M01,C01,F01,tracking,% BL,higher_worse,1.837,,161.4,yes
+Drive_Average 2,validated,right,off,29.973,M02,C02,F02,stability,% BL,higher_worse,4.759,,161.4,yes
+Drive_Average 2,validated,right,off,29.973,M03,C03,F03,access,"% BL, off side +",higher_worse,2.964,,161.4,yes
+Drive_Average 2,validated,right,off,29.973,M04,C04,F04,tracking,"% BL, off side +",higher_better,39.071,,161.4,yes
+Drive_Average 2,validated,right,off,29.973,M05,C05,F05,access,"% BL, drive side +",higher_better,-20.273,,161.4,yes
+Drive_Average 2,validated,right,off,29.973,M06,C06,F06,stability,degrees,higher_worse,160.655,,161.4,yes
+Drive_Average 2,validated,right,off,29.973,M07,C07,F07,access,ratio,higher_worse,4.034,,161.4,yes
+Drive_Average 2,validated,right,off,29.973,M08,C08,F08,access,% BL,higher_worse,3.732,,161.4,yes
+Drive_Average 2,validated,right,off,29.973,M09,C09,F09,flow,ms,higher_worse,166.818,,161.4,yes
+Drive_Average 2,validated,right,off,29.973,M10,C10,F10,tracking,"% BL, off side +",higher_better,29.205,,161.4,yes
+Drive_Average 2,validated,right,off,29.973,M11,C11,F11,stability,% BL,higher_worse,0.567,,161.4,yes
+Drive_Average 2,validated,right,off,29.973,M12,C12,F12,flow,% BL,higher_better,18.095,,161.4,yes
+Drive_Average 2,auto,right,off,29.973,M01,C01,F01,tracking,% BL,higher_worse,1.869,,161.3,yes
+Drive_Average 2,auto,right,off,29.973,M02,C02,F02,stability,% BL,higher_worse,3.781,,161.3,yes
+Drive_Average 2,auto,right,off,29.973,M03,C03,F03,access,"% BL, off side +",higher_worse,-0.198,,161.3,yes
+Drive_Average 2,auto,right,off,29.973,M04,C04,F04,tracking,"% BL, off side +",higher_better,37.194,,161.3,yes
+Drive_Average 2,auto,right,off,29.973,M05,C05,F05,access,"% BL, drive side +",higher_better,-31.759,,161.3,yes
+Drive_Average 2,auto,right,off,29.973,M06,C06,F06,stability,degrees,higher_worse,160.655,,161.3,yes
+Drive_Average 2,auto,right,off,29.973,M07,C07,F07,access,ratio,higher_worse,2.35,,161.3,yes
+Drive_Average 2,auto,right,off,29.973,M08,C08,F08,access,% BL,higher_worse,6.433,,161.3,yes
+Drive_Average 2,auto,right,off,29.973,M09,C09,F09,flow,ms,higher_worse,200.182,,161.3,yes
+Drive_Average 2,auto,right,off,29.973,M10,C10,F10,tracking,"% BL, off side +",higher_better,30.568,,161.3,yes
+Drive_Average 2,auto,right,off,29.973,M11,C11,F11,stability,% BL,higher_worse,2.299,,161.3,yes
+Drive_Average 2,auto,right,off,29.973,M12,C12,F12,flow,% BL,higher_better,17.167,,161.3,yes
+Drive_beginner,validated,right,off,26.277,M01,C01,F01,tracking,% BL,higher_worse,1.662,,391.1,yes
+Drive_beginner,validated,right,off,26.277,M02,C02,F02,stability,% BL,higher_worse,2.387,,391.1,yes
+Drive_beginner,validated,right,off,26.277,M03,C03,F03,access,"% BL, off side +",higher_worse,-4.887,,391.1,yes
+Drive_beginner,validated,right,off,26.277,M04,C04,F04,tracking,"% BL, off side +",higher_better,36.746,,391.1,yes
+Drive_beginner,validated,right,off,26.277,M05,C05,F05,access,"% BL, drive side +",higher_better,-17.525,,391.1,yes
+Drive_beginner,validated,right,off,26.277,M06,C06,F06,stability,degrees,higher_worse,134.08,,391.1,yes
+Drive_beginner,validated,right,off,26.277,M07,C07,F07,access,ratio,higher_worse,0.16,,391.1,yes
+Drive_beginner,validated,right,off,26.277,M08,C08,F08,access,% BL,higher_worse,17.13,,391.1,yes
+Drive_beginner,validated,right,off,26.277,M09,C09,F09,flow,ms,higher_worse,114.167,,391.1,yes
+Drive_beginner,validated,right,off,26.277,M10,C10,F10,tracking,"% BL, off side +",higher_better,35.531,,391.1,yes
+Drive_beginner,validated,right,off,26.277,M11,C11,F11,stability,% BL,higher_worse,2.427,,391.1,yes
+Drive_beginner,validated,right,off,26.277,M12,C12,F12,flow,% BL,higher_better,-9.016,,391.1,yes
+Drive_beginner,auto,right,off,26.277,M01,C01,F01,tracking,% BL,higher_worse,1.662,,391.2,yes
+Drive_beginner,auto,right,off,26.277,M02,C02,F02,stability,% BL,higher_worse,2.382,,391.2,yes
+Drive_beginner,auto,right,off,26.277,M03,C03,F03,access,"% BL, off side +",higher_worse,-0.766,,391.2,yes
+Drive_beginner,auto,right,off,26.277,M04,C04,F04,tracking,"% BL, off side +",higher_better,25.163,,391.2,yes
+Drive_beginner,auto,right,off,26.277,M05,C05,F05,access,"% BL, drive side +",higher_better,-11.166,,391.2,yes
+Drive_beginner,auto,right,off,26.277,M06,C06,F06,stability,degrees,higher_worse,123.86,,391.2,yes
+Drive_beginner,auto,right,off,26.277,M07,C07,F07,access,ratio,higher_worse,1.084,,391.2,yes
+Drive_beginner,auto,right,off,26.277,M08,C08,F08,access,% BL,higher_worse,5.269,,391.2,yes
+Drive_beginner,auto,right,off,26.277,M09,C09,F09,flow,ms,higher_worse,76.111,,391.2,yes
+Drive_beginner,auto,right,off,26.277,M10,C10,F10,tracking,"% BL, off side +",higher_better,29.239,,391.2,yes
+Drive_beginner,auto,right,off,26.277,M11,C11,F11,stability,% BL,higher_worse,1.809,,391.2,yes
+Drive_beginner,auto,right,off,26.277,M12,C12,F12,flow,% BL,higher_better,-11.284,,391.2,yes
+Drive_Beginner 2,validated,right,off,29.984,M01,C01,F01,tracking,% BL,higher_worse,4.873,,325.6,yes
+Drive_Beginner 2,validated,right,off,29.984,M02,C02,F02,stability,% BL,higher_worse,0.724,,325.6,yes
+Drive_Beginner 2,validated,right,off,29.984,M03,C03,F03,access,"% BL, off side +",higher_worse,-0.087,,325.6,yes
+Drive_Beginner 2,validated,right,off,29.984,M04,C04,F04,tracking,"% BL, off side +",higher_better,29.065,,325.6,yes
+Drive_Beginner 2,validated,right,off,29.984,M05,C05,F05,access,"% BL, drive side +",higher_better,3.156,,325.6,yes
+Drive_Beginner 2,validated,right,off,29.984,M06,C06,F06,stability,degrees,higher_worse,131.08,,325.6,yes
+Drive_Beginner 2,validated,right,off,29.984,M07,C07,F07,access,ratio,higher_worse,1.309,,325.6,yes
+Drive_Beginner 2,validated,right,off,29.984,M08,C08,F08,access,% BL,higher_worse,5.049,,325.6,yes
+Drive_Beginner 2,validated,right,off,29.984,M09,C09,F09,flow,ms,higher_worse,166.757,,325.6,yes
+Drive_Beginner 2,validated,right,off,29.984,M10,C10,F10,tracking,"% BL, off side +",higher_better,14.84,,325.6,yes
+Drive_Beginner 2,validated,right,off,29.984,M11,C11,F11,stability,% BL,higher_worse,7.9,,325.6,yes
+Drive_Beginner 2,validated,right,off,29.984,M12,C12,F12,flow,% BL,higher_better,-32.689,,325.6,yes
+Drive_Beginner 2,auto,right,off,29.984,M01,C01,F01,tracking,% BL,higher_worse,6.092,,326.5,yes
+Drive_Beginner 2,auto,right,off,29.984,M02,C02,F02,stability,% BL,higher_worse,0.829,,326.5,yes
+Drive_Beginner 2,auto,right,off,29.984,M03,C03,F03,access,"% BL, off side +",higher_worse,-0.815,,326.5,yes
+Drive_Beginner 2,auto,right,off,29.984,M04,C04,F04,tracking,"% BL, off side +",higher_better,27.116,,326.5,yes
+Drive_Beginner 2,auto,right,off,29.984,M05,C05,F05,access,"% BL, drive side +",higher_better,4.053,,326.5,yes
+Drive_Beginner 2,auto,right,off,29.984,M06,C06,F06,stability,degrees,higher_worse,131.08,,326.5,yes
+Drive_Beginner 2,auto,right,off,29.984,M07,C07,F07,access,ratio,higher_worse,2.294,,326.5,yes
+Drive_Beginner 2,auto,right,off,29.984,M08,C08,F08,access,% BL,higher_worse,15.835,,326.5,yes
+Drive_Beginner 2,auto,right,off,29.984,M09,C09,F09,flow,ms,higher_worse,66.703,,326.5,yes
+Drive_Beginner 2,auto,right,off,29.984,M10,C10,F10,tracking,"% BL, off side +",higher_better,9.985,,326.5,yes
+Drive_Beginner 2,auto,right,off,29.984,M11,C11,F11,stability,% BL,higher_worse,5.624,,326.5,yes
+Drive_Beginner 2,auto,right,off,29.984,M12,C12,F12,flow,% BL,higher_better,-26.209,,326.5,yes
+Drive_Beginner 3,validated,right,off,26.503,M01,C01,F01,tracking,% BL,higher_worse,1.86,,370.0,yes
+Drive_Beginner 3,validated,right,off,26.503,M02,C02,F02,stability,% BL,higher_worse,3.253,,370.0,yes
+Drive_Beginner 3,validated,right,off,26.503,M03,C03,F03,access,"% BL, off side +",higher_worse,-5.342,,370.0,yes
+Drive_Beginner 3,validated,right,off,26.503,M04,C04,F04,tracking,"% BL, off side +",higher_better,15.271,,370.0,yes
+Drive_Beginner 3,validated,right,off,26.503,M05,C05,F05,access,"% BL, drive side +",higher_better,12.874,,370.0,yes
+Drive_Beginner 3,validated,right,off,26.503,M06,C06,F06,stability,degrees,higher_worse,144.314,,370.0,yes
+Drive_Beginner 3,validated,right,off,26.503,M07,C07,F07,access,ratio,higher_worse,0.132,,370.0,yes
+Drive_Beginner 3,validated,right,off,26.503,M08,C08,F08,access,% BL,higher_worse,11.797,,370.0,yes
+Drive_Beginner 3,validated,right,off,26.503,M09,C09,F09,flow,ms,higher_worse,188.661,,370.0,yes
+Drive_Beginner 3,validated,right,off,26.503,M10,C10,F10,tracking,"% BL, off side +",higher_better,29.868,,370.0,yes
+Drive_Beginner 3,validated,right,off,26.503,M11,C11,F11,stability,% BL,higher_worse,6.834,,370.0,yes
+Drive_Beginner 3,validated,right,off,26.503,M12,C12,F12,flow,% BL,higher_better,5.838,,370.0,yes
+Drive_Beginner 3,auto,right,off,26.503,M01,C01,F01,tracking,% BL,higher_worse,4.67,,363.7,yes
+Drive_Beginner 3,auto,right,off,26.503,M02,C02,F02,stability,% BL,higher_worse,4.124,,363.7,yes
+Drive_Beginner 3,auto,right,off,26.503,M03,C03,F03,access,"% BL, off side +",higher_worse,-0.191,,363.7,yes
+Drive_Beginner 3,auto,right,off,26.503,M04,C04,F04,tracking,"% BL, off side +",higher_better,14.338,,363.7,yes
+Drive_Beginner 3,auto,right,off,26.503,M05,C05,F05,access,"% BL, drive side +",higher_better,13.934,,363.7,yes
+Drive_Beginner 3,auto,right,off,26.503,M06,C06,F06,stability,degrees,higher_worse,144.314,,363.7,yes
+Drive_Beginner 3,auto,right,off,26.503,M07,C07,F07,access,ratio,higher_worse,0.097,,363.7,yes
+Drive_Beginner 3,auto,right,off,26.503,M08,C08,F08,access,% BL,higher_worse,0.999,,363.7,yes
+Drive_Beginner 3,auto,right,off,26.503,M09,C09,F09,flow,ms,higher_worse,150.929,,363.7,yes
+Drive_Beginner 3,auto,right,off,26.503,M10,C10,F10,tracking,"% BL, off side +",higher_better,29.385,,363.7,yes
+Drive_Beginner 3,auto,right,off,26.503,M11,C11,F11,stability,% BL,higher_worse,6.951,,363.7,yes
+Drive_Beginner 3,auto,right,off,26.503,M12,C12,F12,flow,% BL,higher_better,5.939,,363.7,yes
+Drive_Beginner 4,validated,right,off,26.43,M01,C01,F01,tracking,% BL,higher_worse,0.0,,227.0,unknown
+Drive_Beginner 4,validated,right,off,26.43,M02,C02,F02,stability,% BL,higher_worse,,hips or feet not seen at set-up,227.0,unknown
+Drive_Beginner 4,validated,right,off,26.43,M03,C03,F03,access,"% BL, off side +",higher_worse,,top hand or shoulders not seen at the backlift,227.0,unknown
+Drive_Beginner 4,validated,right,off,26.43,M04,C04,F04,tracking,"% BL, off side +",higher_better,13.333,,227.0,unknown
+Drive_Beginner 4,validated,right,off,26.43,M05,C05,F05,access,"% BL, drive side +",higher_better,,front foot not seen,227.0,unknown
+Drive_Beginner 4,validated,right,off,26.43,M06,C06,F06,stability,degrees,higher_worse,159.194,,227.0,unknown
+Drive_Beginner 4,validated,right,off,26.43,M07,C07,F07,access,ratio,higher_worse,,shoulders not seen,227.0,unknown
+Drive_Beginner 4,validated,right,off,26.43,M08,C08,F08,access,% BL,higher_worse,0.386,,227.0,unknown
+Drive_Beginner 4,validated,right,off,26.43,M09,C09,F09,flow,ms,higher_worse,0.0,,227.0,unknown
+Drive_Beginner 4,validated,right,off,26.43,M10,C10,F10,tracking,"% BL, off side +",higher_better,8.153,,227.0,unknown
+Drive_Beginner 4,validated,right,off,26.43,M11,C11,F11,stability,% BL,higher_worse,6.794,,227.0,unknown
+Drive_Beginner 4,validated,right,off,26.43,M12,C12,F12,flow,% BL,higher_better,-5.961,,227.0,unknown
+Drive_Beginner 4,auto,right,off,26.43,M01,C01,F01,tracking,% BL,higher_worse,1.778,,227.0,unknown
+Drive_Beginner 4,auto,right,off,26.43,M02,C02,F02,stability,% BL,higher_worse,,hips or feet not seen at set-up,227.0,unknown
+Drive_Beginner 4,auto,right,off,26.43,M03,C03,F03,access,"% BL, off side +",higher_worse,1.662,,227.0,unknown
+Drive_Beginner 4,auto,right,off,26.43,M04,C04,F04,tracking,"% BL, off side +",higher_better,,head or front foot not seen at foot-down,227.0,unknown
+Drive_Beginner 4,auto,right,off,26.43,M05,C05,F05,access,"% BL, drive side +",higher_better,,front foot not seen,227.0,unknown
+Drive_Beginner 4,auto,right,off,26.43,M06,C06,F06,stability,degrees,higher_worse,159.194,,227.0,unknown
+Drive_Beginner 4,auto,right,off,26.43,M07,C07,F07,access,ratio,higher_worse,,shoulders not seen,227.0,unknown
+Drive_Beginner 4,auto,right,off,26.43,M08,C08,F08,access,% BL,higher_worse,9.422,,227.0,unknown
+Drive_Beginner 4,auto,right,off,26.43,M09,C09,F09,flow,ms,higher_worse,113.506,,227.0,unknown
+Drive_Beginner 4,auto,right,off,26.43,M10,C10,F10,tracking,"% BL, off side +",higher_better,-6.733,,227.0,unknown
+Drive_Beginner 4,auto,right,off,26.43,M11,C11,F11,stability,% BL,higher_worse,5.331,,227.0,unknown
+Drive_Beginner 4,auto,right,off,26.43,M12,C12,F12,flow,% BL,higher_better,5.769,,227.0,unknown
+Ollie P_Offdrive Average,validated,right,off,38.618,M01,C01,F01,tracking,% BL,higher_worse,13.175,,123.0,yes
+Ollie P_Offdrive Average,validated,right,off,38.618,M02,C02,F02,stability,% BL,higher_worse,20.144,,123.0,yes
+Ollie P_Offdrive Average,validated,right,off,38.618,M03,C03,F03,access,"% BL, off side +",higher_worse,-12.312,,123.0,yes
+Ollie P_Offdrive Average,validated,right,off,38.618,M04,C04,F04,tracking,"% BL, off side +",higher_better,-9.639,,123.0,yes
+Ollie P_Offdrive Average,validated,right,off,38.618,M05,C05,F05,access,"% BL, drive side +",higher_better,-4.016,,123.0,yes
+Ollie P_Offdrive Average,validated,right,off,38.618,M06,C06,F06,stability,degrees,higher_worse,16.245,,123.0,yes
+Ollie P_Offdrive Average,validated,right,off,38.618,M07,C07,F07,access,ratio,higher_worse,0.235,,123.0,yes
+Ollie P_Offdrive Average,validated,right,off,38.618,M08,C08,F08,access,% BL,higher_worse,5.237,,123.0,yes
+Ollie P_Offdrive Average,validated,right,off,38.618,M09,C09,F09,flow,ms,higher_worse,51.79,,123.0,yes
+Ollie P_Offdrive Average,validated,right,off,38.618,M10,C10,F10,tracking,"% BL, off side +",higher_better,2.174,,123.0,yes
+Ollie P_Offdrive Average,validated,right,off,38.618,M11,C11,F11,stability,% BL,higher_worse,11.616,,123.0,yes
+Ollie P_Offdrive Average,validated,right,off,38.618,M12,C12,F12,flow,% BL,higher_better,-57.765,,123.0,yes
+Ollie P_Offdrive Average,auto,right,off,38.618,M01,C01,F01,tracking,% BL,higher_worse,1.974,,123.0,unknown
+Ollie P_Offdrive Average,auto,right,off,38.618,M02,C02,F02,stability,% BL,higher_worse,11.229,,123.0,unknown
+Ollie P_Offdrive Average,auto,right,off,38.618,M03,C03,F03,access,"% BL, off side +",higher_worse,27.891,,123.0,unknown
+Ollie P_Offdrive Average,auto,right,off,38.618,M04,C04,F04,tracking,"% BL, off side +",higher_better,9.627,,123.0,unknown
+Ollie P_Offdrive Average,auto,right,off,38.618,M05,C05,F05,access,"% BL, drive side +",higher_better,-9.15,,123.0,unknown
+Ollie P_Offdrive Average,auto,right,off,38.618,M06,C06,F06,stability,degrees,higher_worse,161.979,,123.0,unknown
+Ollie P_Offdrive Average,auto,right,off,38.618,M07,C07,F07,access,ratio,higher_worse,0.096,,123.0,unknown
+Ollie P_Offdrive Average,auto,right,off,38.618,M08,C08,F08,access,% BL,higher_worse,2.882,,123.0,unknown
+Ollie P_Offdrive Average,auto,right,off,38.618,M09,C09,F09,flow,ms,higher_worse,207.159,,123.0,unknown
+Ollie P_Offdrive Average,auto,right,off,38.618,M10,C10,F10,tracking,"% BL, off side +",higher_better,2.95,,123.0,unknown
+Ollie P_Offdrive Average,auto,right,off,38.618,M11,C11,F11,stability,% BL,higher_worse,2.792,,123.0,unknown
+Ollie P_Offdrive Average,auto,right,off,38.618,M12,C12,F12,flow,% BL,higher_better,11.821,,123.0,unknown
+Oscar V_Beginner,validated,right,off,30.0,M01,C01,F01,tracking,% BL,higher_worse,1.985,,176.4,yes
+Oscar V_Beginner,validated,right,off,30.0,M02,C02,F02,stability,% BL,higher_worse,1.301,,176.4,yes
+Oscar V_Beginner,validated,right,off,30.0,M03,C03,F03,access,"% BL, off side +",higher_worse,0.717,,176.4,yes
+Oscar V_Beginner,validated,right,off,30.0,M04,C04,F04,tracking,"% BL, off side +",higher_better,21.311,,176.4,yes
+Oscar V_Beginner,validated,right,off,30.0,M05,C05,F05,access,"% BL, drive side +",higher_better,5.434,,176.4,yes
+Oscar V_Beginner,validated,right,off,30.0,M06,C06,F06,stability,degrees,higher_worse,146.814,,176.4,yes
+Oscar V_Beginner,validated,right,off,30.0,M07,C07,F07,access,ratio,higher_worse,0.336,,176.4,yes
+Oscar V_Beginner,validated,right,off,30.0,M08,C08,F08,access,% BL,higher_worse,1.665,,176.4,yes
+Oscar V_Beginner,validated,right,off,30.0,M09,C09,F09,flow,ms,higher_worse,100.0,,176.4,yes
+Oscar V_Beginner,validated,right,off,30.0,M10,C10,F10,tracking,"% BL, off side +",higher_better,28.956,,176.4,yes
+Oscar V_Beginner,validated,right,off,30.0,M11,C11,F11,stability,% BL,higher_worse,1.602,,176.4,yes
+Oscar V_Beginner,validated,right,off,30.0,M12,C12,F12,flow,% BL,higher_better,-20.157,,176.4,yes
+Oscar V_Beginner,auto,right,off,30.0,M01,C01,F01,tracking,% BL,higher_worse,2.009,,174.3,yes
+Oscar V_Beginner,auto,right,off,30.0,M02,C02,F02,stability,% BL,higher_worse,0.689,,174.3,yes
+Oscar V_Beginner,auto,right,off,30.0,M03,C03,F03,access,"% BL, off side +",higher_worse,1.867,,174.3,yes
+Oscar V_Beginner,auto,right,off,30.0,M04,C04,F04,tracking,"% BL, off side +",higher_better,22.289,,174.3,yes
+Oscar V_Beginner,auto,right,off,30.0,M05,C05,F05,access,"% BL, drive side +",higher_better,6.398,,174.3,yes
+Oscar V_Beginner,auto,right,off,30.0,M06,C06,F06,stability,degrees,higher_worse,146.814,,174.3,yes
+Oscar V_Beginner,auto,right,off,30.0,M07,C07,F07,access,ratio,higher_worse,1.096,,174.3,yes
+Oscar V_Beginner,auto,right,off,30.0,M08,C08,F08,access,% BL,higher_worse,8.531,,174.3,yes
+Oscar V_Beginner,auto,right,off,30.0,M09,C09,F09,flow,ms,higher_worse,100.0,,174.3,yes
+Oscar V_Beginner,auto,right,off,30.0,M10,C10,F10,tracking,"% BL, off side +",higher_better,29.3,,174.3,yes
+Oscar V_Beginner,auto,right,off,30.0,M11,C11,F11,stability,% BL,higher_worse,6.977,,174.3,yes
+Oscar V_Beginner,auto,right,off,30.0,M12,C12,F12,flow,% BL,higher_better,19.588,,174.3,yes
+Straight Drive_Beginner,validated,right,straight,30.0,M01,C01,F01,tracking,% BL,higher_worse,1.961,,102.9,yes
+Straight Drive_Beginner,validated,right,straight,30.0,M02,C02,F02,stability,% BL,higher_worse,7.448,,102.9,yes
+Straight Drive_Beginner,validated,right,straight,30.0,M03,C03,F03,access,"% BL, off side +",higher_worse,-1.578,,102.9,yes
+Straight Drive_Beginner,validated,right,straight,30.0,M04,C04,F04,tracking,"% BL, off side +",higher_better,22.196,,102.9,yes
+Straight Drive_Beginner,validated,right,straight,30.0,M05,C05,F05,access,"% BL, drive side +",higher_better,-8.636,,102.9,yes
+Straight Drive_Beginner,validated,right,straight,30.0,M06,C06,F06,stability,degrees,higher_worse,166.036,,102.9,yes
+Straight Drive_Beginner,validated,right,straight,30.0,M07,C07,F07,access,ratio,higher_worse,2.904,,102.9,yes
+Straight Drive_Beginner,validated,right,straight,30.0,M08,C08,F08,access,% BL,higher_worse,0.57,,102.9,yes
+Straight Drive_Beginner,validated,right,straight,30.0,M09,C09,F09,flow,ms,higher_worse,266.667,,102.9,yes
+Straight Drive_Beginner,validated,right,straight,30.0,M10,C10,F10,tracking,"% BL, off side +",higher_better,24.243,,102.9,yes
+Straight Drive_Beginner,validated,right,straight,30.0,M11,C11,F11,stability,% BL,higher_worse,5.843,,102.9,yes
+Straight Drive_Beginner,validated,right,straight,30.0,M12,C12,F12,flow,% BL,higher_better,4.871,,102.9,yes
+Straight Drive_Beginner,auto,right,straight,30.0,M01,C01,F01,tracking,% BL,higher_worse,1.959,,103.0,yes
+Straight Drive_Beginner,auto,right,straight,30.0,M02,C02,F02,stability,% BL,higher_worse,6.157,,103.0,yes
+Straight Drive_Beginner,auto,right,straight,30.0,M03,C03,F03,access,"% BL, off side +",higher_worse,-0.474,,103.0,yes
+Straight Drive_Beginner,auto,right,straight,30.0,M04,C04,F04,tracking,"% BL, off side +",higher_better,22.634,,103.0,yes
+Straight Drive_Beginner,auto,right,straight,30.0,M05,C05,F05,access,"% BL, drive side +",higher_better,-9.8,,103.0,yes
+Straight Drive_Beginner,auto,right,straight,30.0,M06,C06,F06,stability,degrees,higher_worse,161.894,,103.0,yes
+Straight Drive_Beginner,auto,right,straight,30.0,M07,C07,F07,access,ratio,higher_worse,7.552,,103.0,yes
+Straight Drive_Beginner,auto,right,straight,30.0,M08,C08,F08,access,% BL,higher_worse,5.71,,103.0,yes
+Straight Drive_Beginner,auto,right,straight,30.0,M09,C09,F09,flow,ms,higher_worse,266.667,,103.0,yes
+Straight Drive_Beginner,auto,right,straight,30.0,M10,C10,F10,tracking,"% BL, off side +",higher_better,24.909,,103.0,yes
+Straight Drive_Beginner,auto,right,straight,30.0,M11,C11,F11,stability,% BL,higher_worse,2.994,,103.0,yes
+Straight Drive_Beginner,auto,right,straight,30.0,M12,C12,F12,flow,% BL,higher_better,9.481,,103.0,yes
+Viv P_Offdrive Elite,validated,right,off,30.035,M01,C01,F01,tracking,% BL,higher_worse,1.216,,207.2,yes
+Viv P_Offdrive Elite,validated,right,off,30.035,M02,C02,F02,stability,% BL,higher_worse,6.306,,207.2,yes
+Viv P_Offdrive Elite,validated,right,off,30.035,M03,C03,F03,access,"% BL, off side +",higher_worse,19.96,,207.2,yes
+Viv P_Offdrive Elite,validated,right,off,30.035,M04,C04,F04,tracking,"% BL, off side +",higher_better,16.915,,207.2,yes
+Viv P_Offdrive Elite,validated,right,off,30.035,M05,C05,F05,access,"% BL, drive side +",higher_better,18.807,,207.2,yes
+Viv P_Offdrive Elite,validated,right,off,30.035,M06,C06,F06,stability,degrees,higher_worse,162.09,,207.2,yes
+Viv P_Offdrive Elite,validated,right,off,30.035,M07,C07,F07,access,ratio,higher_worse,0.628,,207.2,yes
+Viv P_Offdrive Elite,validated,right,off,30.035,M08,C08,F08,access,% BL,higher_worse,1.856,,207.2,yes
+Viv P_Offdrive Elite,validated,right,off,30.035,M09,C09,F09,flow,ms,higher_worse,133.178,,207.2,yes
+Viv P_Offdrive Elite,validated,right,off,30.035,M10,C10,F10,tracking,"% BL, off side +",higher_better,31.483,,207.2,yes
+Viv P_Offdrive Elite,validated,right,off,30.035,M11,C11,F11,stability,% BL,higher_worse,3.195,,207.2,yes
+Viv P_Offdrive Elite,validated,right,off,30.035,M12,C12,F12,flow,% BL,higher_better,15.29,,207.2,yes
+Viv P_Offdrive Elite,auto,right,off,30.035,M01,C01,F01,tracking,% BL,higher_worse,0.816,,206.8,yes
+Viv P_Offdrive Elite,auto,right,off,30.035,M02,C02,F02,stability,% BL,higher_worse,6.635,,206.8,yes
+Viv P_Offdrive Elite,auto,right,off,30.035,M03,C03,F03,access,"% BL, off side +",higher_worse,20.637,,206.8,yes
+Viv P_Offdrive Elite,auto,right,off,30.035,M04,C04,F04,tracking,"% BL, off side +",higher_better,16.954,,206.8,yes
+Viv P_Offdrive Elite,auto,right,off,30.035,M05,C05,F05,access,"% BL, drive side +",higher_better,18.912,,206.8,yes
+Viv P_Offdrive Elite,auto,right,off,30.035,M06,C06,F06,stability,degrees,higher_worse,162.09,,206.8,yes
+Viv P_Offdrive Elite,auto,right,off,30.035,M07,C07,F07,access,ratio,higher_worse,0.357,,206.8,yes
+Viv P_Offdrive Elite,auto,right,off,30.035,M08,C08,F08,access,% BL,higher_worse,4.836,,206.8,yes
+Viv P_Offdrive Elite,auto,right,off,30.035,M09,C09,F09,flow,ms,higher_worse,66.589,,206.8,yes
+Viv P_Offdrive Elite,auto,right,off,30.035,M10,C10,F10,tracking,"% BL, off side +",higher_better,30.411,,206.8,yes
+Viv P_Offdrive Elite,auto,right,off,30.035,M11,C11,F11,stability,% BL,higher_worse,3.221,,206.8,yes
+Viv P_Offdrive Elite,auto,right,off,30.035,M12,C12,F12,flow,% BL,higher_better,15.325,,206.8,yes

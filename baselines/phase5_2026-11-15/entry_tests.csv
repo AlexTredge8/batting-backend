@@ -1,0 +1,13 @@
+measurement,checkpoint,fault,pillar,unit,direction,clips,coverage,test0_coverage,rated_clips,rho_checkpoint,rho_ci,test1_tracks,test2_two_phone,auto_clips,rho_auto,median_abs_auto_diff,iqr,test3_auto_anchors,rho_alex_pillar,verdict
+M01,C01,F01,tracking,% BL,higher_worse,17,1.0,pass,14,-0.1,-0.72 to 0.59,fail (provisional: model ratings),pending (Phase 3 net session),16,0.75,0.442,1.525,fail,0.01,fail
+M02,C02,F02,stability,% BL,higher_worse,17,0.94,pass,13,-0.23,-0.60 to 0.00,fail (provisional: model ratings),pending (Phase 3 net session),16,0.92,0.712,4.789,pass,-0.27,fail
+M03,C03,F03,access,"% BL, off side +",higher_worse,17,0.76,fail,9,0.27,-0.11 to 0.81,not enough ratings,pending (Phase 3 net session),13,0.36,3.213,8.436,fail,-0.6,fail
+M04,C04,F04,tracking,"% BL, off side +",higher_better,17,1.0,pass,14,-0.45,-0.80 to -0.03,fail (provisional: model ratings),pending (Phase 3 net session),16,0.96,1.913,31.835,pass,-0.49,fail
+M05,C05,F05,access,"% BL, drive side +",higher_better,17,0.94,pass,12,-0.48,-0.77 to -0.48,fail (provisional: model ratings),pending (Phase 3 net session),16,0.95,1.012,12.934,pass,0.3,fail
+M06,C06,F06,stability,degrees,higher_worse,17,1.0,pass,14,-0.46,-0.77 to -0.04,fail (provisional: model ratings),pending (Phase 3 net session),17,0.5,0.617,16.626,fail,-0.49,fail
+M07,C07,F07,access,ratio,higher_worse,17,0.94,pass,13,0.0,-0.31 to 0.31,fail (provisional: model ratings),pending (Phase 3 net session),16,0.86,0.234,0.962,pass,-0.33,fail
+M08,C08,F08,access,% BL,higher_worse,17,0.88,pass,12,0.1,-0.49 to 0.64,fail (provisional: model ratings),pending (Phase 3 net session),15,-0.0,2.98,6.479,fail,0.09,fail
+M09,C09,F09,flow,ms,higher_worse,17,0.94,pass,13,0.44,0.00 to 0.82,pass (provisional: model ratings),pending (Phase 3 net session),16,0.39,35.548,104.384,fail,0.39,fail
+M10,C10,F10,tracking,"% BL, off side +",higher_better,17,1.0,pass,14,0.0,-0.55 to 0.55,fail (provisional: model ratings),pending (Phase 3 net session),17,0.88,0.776,27.694,pass,-0.26,fail
+M11,C11,F11,stability,% BL,higher_worse,17,0.88,pass,13,-0.05,-0.54 to 0.45,fail (provisional: model ratings),pending (Phase 3 net session),15,0.48,0.618,5.218,fail,0.03,fail
+M12,C12,F12,flow,% BL,higher_better,17,0.88,pass,12,0.14,-0.41 to 0.65,fail (provisional: model ratings),pending (Phase 3 net session),15,0.55,3.315,28.241,fail,0.24,fail
