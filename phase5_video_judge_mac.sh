@@ -9,8 +9,8 @@
 set -euo pipefail
 cd "$(dirname "$0")"
 BRANCH="claude/batting-iq-phase-0-375kjr"
-HTML="${1:-$(ls -t "$HOME"/Desktop/BattingIQ_which_drive.html "$HOME"/Downloads/BattingIQ_which_drive*.html 2>/dev/null | head -1)}"
-KEY="${2:-$(ls -t "$HOME"/Desktop/BattingIQ_which_drive_key_PRIVATE.csv 2>/dev/null | head -1)}"
+HTML="${1:-$(ls -t "$HOME"/Desktop/BattingIQ_which_drive.html "$HOME"/Downloads/BattingIQ_which_drive*.html 2>/dev/null | head -1 || true)}"
+KEY="${2:-$(ls -t "$HOME"/Desktop/BattingIQ_which_drive_key_PRIVATE.csv 2>/dev/null | head -1 || true)}"
 [ -f "$HTML" ] || { echo "Swipe file not found. Run: ./phase5_video_judge_mac.sh <path to BattingIQ_which_drive.html> <path to its _key_PRIVATE.csv>"; exit 1; }
 [ -f "$KEY" ] || { echo "Key file not found next to it. Pass both paths as above."; exit 1; }
 grep -q "$(sed -n '2p' "$KEY" | cut -d, -f3)" "$HTML" || { echo "The key file is for a different build than the swipe file."; exit 1; }
