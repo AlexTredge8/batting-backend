@@ -12,7 +12,7 @@ One measurement per rubric checkpoint (`docs/phase1/rubric_v0.json`), each tied 
 - Points under 0.2 visibility are dropped; positions are smoothed with a 5-frame moving median.
 - A blank value always carries a reason.
 
-## The twelve
+## The measurements
 
 | Meas. | Checkpoint | Fault | Pillar | What it measures | Better is |
 |---|---|---|---|---|---|
@@ -29,8 +29,12 @@ One measurement per rubric checkpoint (`docs/phase1/rubric_v0.json`), each tied 
 | M11 | C11 | F11 | stability | Sideways gap between hips and front foot, 400 to 700 ms after contact | lower |
 | M12 | C12 | F12 | flow | Highest the top hand gets above the shoulders, 150 to 700 ms after contact | higher |
 | M13 | C12 | F12 | flow | Swing carries through: fastest upward hand speed after contact over fastest downward speed before it (vertical only) | higher |
+| M14 | C09 | F09 | flow | Front-foot landing against the start of the downswing (Weissensteiner 2011): gap in ms between the front ankle stopping (vertical speed under 15% of its peak, 450 ms before contact to contact) and the top hand's highest point (450–100 ms before contact); stored as the absolute gap | lower (closer to zero) |
+| M15 | C01 | F01 | tracking | Head over the base at set-up (Radford): sideways offset of the nose from the middle of the two ankles, 1000 to 700 ms before contact; stored as the absolute offset | lower |
+| M16 | C16 | F16 | stability | Weight over the front foot at contact: sideways gap between the hip-shoulder midpoint and the front ankle, median over contact ±70 ms | lower |
+| M17 | C13 | F13 | flow | Trigger (Taliep 2007): largest sideways movement of either ankle from 1000 to 450 ms before contact, before the stride | higher |
 
-"Better is" was registered on 14 Nov 2026 before any clip other than the reference clip was measured. The entry tests check it; they do not choose it.
+"Better is" was registered on 14 Nov 2026 before any clip other than the reference clip was measured. For M14–M17 it was registered on 15 Nov 2026 before any clip, the reference clip included, was measured with them. The entry tests check it; they do not choose it. C13 and C16 are Cam's checkpoints in rubric v0.2 (`docs/phase1/rubric_v0_2.json`): test 1 for M16 and M17 needs checkpoint ratings with C13 and C16 columns, and until then reads "not enough ratings".
 
 ## Entry tests (thresholds fixed 14 Nov 2026)
 
@@ -81,3 +85,12 @@ Not changed after seeing the data: the direction of any measurement. On the v1 r
 **Key frames (`baselines/phase5_anchor_candidates_2026-11-15/`).** On the 17 clips, with automatic contact and the gap taken from the other clips: contact + typical gap beats the current detectors for hands-start-up, foot-down, hands-peak and follow-through (within 3 frames: 71/76/76/47% against 59/59/53/18%). For set-up, the local pose refinement is best (mean error 6.6 frames, 43% within 3, against 7.9 and 29%). Not shipped: it changes the live T2/F4 measurements, so it needs a before/after batch.
 
 **Handedness confirmed (15 Nov 2026).** Alex confirmed that the four clips the feet flagged (Cam T_Offdrive Elite, Cam T_Offdrive Good, Cam T_Ondrive Elite, Dan P_Offdrive Average) are left-handed batters. `clip_sheet.csv` now says so. The feet check found all four with no false alarms on the other 14, which supports the live feet-based handedness (rules 2.3.1). Phase 0 scored these four as right-handers; the four active rules gave identical results either way on the left-handed clip checked then. Phase 5 v1 and v2 measured them with the wrong hand; v3 onwards is correct.
+
+**v5, registered 15 Nov 2026, before any clip was run with these definitions.** Four measurements added from the research in `docs/phase1/coaching_sources.md`. M01–M13 are unchanged in definition, direction and ID. The definitions, windows and directions below were written into `phase5_checkpoints.py` and this log, and committed, before the reference clip or any other clip was measured with them; the synthetic test figure is the only thing they had been run on.
+
+- M14 (C09 / F09, flow), front-foot landing against the start of the downswing. This is the best-supported skill marker: skilled batters land the front foot as the downswing starts (Weissensteiner et al. 2011; Sarpeshkar et al. 2017). Both events are detected near contact without the legacy detectors. The landing is the first moment in the 450 ms before contact, after the front ankle's peak 3-frame-median vertical speed, when that speed falls below 15% of the peak; it is timed between frames. The downswing start is the top hand's highest point 450 to 100 ms before contact (the same rule as M03). Signed, downswing start minus landing is negative when the hands start down before the stride is complete. Registered direction: closer to zero is better, so the value stored is the absolute gap in ms, with higher worse.
+- M15 (C01 / F01, tracking), head over the base at set-up. Radford puts the head over off stump or middle-and-off, with the eyes inside off. Measured as the nose's sideways offset from the middle of the two ankles, median over the set-up window, in % BL, with the off side positive. The entry tests do not allow an unknown sign, so the registered direction is higher worse on the absolute offset: the head should be over the base. The signed offset stays in the code (`_head_offset_setup`) for later analysis; it is not tested.
+- M16 (C16 / F16, stability), weight over the front foot at contact. Measured as the sideways gap between the hip-shoulder midpoint (the mean of both hips and both shoulders, standing in for the centre of mass) and the front ankle, median over contact ±70 ms, in % BL. Higher is worse.
+- M17 (C13 / F13, flow), trigger present. Taliep et al. 2007 found a trigger in 70% of skilled and 20% of less-skilled batters. Measured as the largest sideways movement (range) of either ankle from 1000 to 450 ms before contact, before the stride, in % BL. Higher is better.
+
+The entry-test thresholds are unchanged. `phase5_entry_tests.py` now reads any checkpoint column (C01–C16), so ratings on rubric v0.2 reach M16 and M17. `MEASUREMENT_SET` is now v5.
