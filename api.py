@@ -23,6 +23,7 @@ from typing import Optional
 
 from media_storage import download_result_file, result_redirect_url, storage_config, upload_tree
 from run_analysis import run_full_analysis
+from pose_extractor import pose_fallback_status
 from config import MAX_VIDEO_DURATION_S, PROCESSING_MODE
 
 # ---------------------------------------------------------------------------
@@ -219,6 +220,7 @@ def diag():
             "mode": PROCESSING_MODE,
             "max_video_duration_s": MAX_VIDEO_DURATION_S,
             "ffmpeg_available": shutil.which("ffmpeg") is not None,
+            "pose_fallback": pose_fallback_status(),
         },
         "env": {
             "PORT": os.environ.get("PORT", "not set"),

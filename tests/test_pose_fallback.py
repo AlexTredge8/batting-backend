@@ -243,3 +243,13 @@ def test_pick_person_tallest_then_nearest():
     assert pe._pick_person(kps, scores, None) == 1
     assert pe._pick_person(kps, scores, short + 5) == 0
     assert pe._pick_person(np.zeros((0, 26, 2)), np.zeros((0, 26)), None) is None
+
+
+def test_status_for_diag_does_not_load_rtmlib(monkeypatch):
+    monkeypatch.setattr(pe, "POSE_FALLBACK", "rtmpose")
+    monkeypatch.setattr(pe, "_RTM_MODELS", {})
+    st = pe.pose_fallback_status()
+    assert st["mode"] == "rtmpose"
+    assert st["model_loaded"] == []
+    assert isinstance(st["rtmlib_installed"], bool) and isinstance(st["model_files_cached"], list)
+    assert st["min_detection"] == pe.POSE_FALLBACK_MIN_DETECTION

@@ -368,6 +368,26 @@ def _decoded_frame_size(video_path: str) -> tuple[int, int] | None:
         cap.release()
 
 
+def pose_fallback_status() -> dict:
+    """What /diag reports about the fallback, without importing rtmlib or loading models."""
+    import importlib.util
+    import os
+
+    hub = Path(os.path.expanduser(os.getenv("TORCH_HOME", os.path.join(os.getenv("XDG_CACHE_HOME", "~/.cache"),
+                                                                        "rtmlib")))) / "hub" / "checkpoints"
+    return {
+        "mode": POSE_FALLBACK,
+        "rtm_mode": POSE_FALLBACK_RTM_MODE,
+        "min_detection": POSE_FALLBACK_MIN_DETECTION,
+        "jump_body_lengths": POSE_FALLBACK_JUMP_BL,
+        "max_jumps": POSE_FALLBACK_MAX_JUMPS,
+        "rtmlib_installed": importlib.util.find_spec("rtmlib") is not None,
+        "onnxruntime_installed": importlib.util.find_spec("onnxruntime") is not None,
+        "model_files_cached": sorted(f.name for f in hub.glob("*.onnx")) if hub.is_dir() else [],
+        "model_loaded": sorted(_RTM_MODELS),
+    }
+
+
 def _get_rtm_model(mode: str):
     """rtmlib BodyWithFeet, built once per process. Imported here so the server starts without it."""
     with _RTM_LOCK:

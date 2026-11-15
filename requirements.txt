@@ -8,3 +8,7 @@ python-multipart>=0.0.9
 psutil>=5.9.0
 requests>=2.33.0
 librosa>=0.10.2
+# Optional: RTMPose pose fallback (POSE_FALLBACK=rtmpose; off by default). NOT installed by default.
+# Install with --no-deps for rtmlib so it does not pull opencv-python over opencv-python-headless:
+#   pip install --no-deps rtmlib==0.0.16 && pip install onnxruntime==1.23.2 tqdm
+# or build the Docker image with INSTALL_RTMPOSE=1. See docs/phase5/rtmpose_fallback.md.
