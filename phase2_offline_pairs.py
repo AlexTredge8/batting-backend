@@ -138,7 +138,8 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--max-side", type=int, default=640)
     parser.add_argument("--no-blur", action="store_true", help="keep faces visible (only for a coaches-only file)")
     parser.add_argument("--quick-out", default=None, help="also write the quick coach check (score + main fault per clip), same clips and key")
-    parser.add_argument("--checkpoint-out", default=None, help="also write the checkpoint coach check (12 checkpoints rated 2/1/0/X per clip), same clips and key")
+    parser.add_argument("--checkpoint-out", default=None, help="also write the checkpoint coach check (each rubric checkpoint rated 2/1/0/X per clip), same clips and key")
+    parser.add_argument("--rubric", default=str(SCRIPT_DIR / "docs" / "phase1" / "rubric_v0_2.json"), help="rubric whose checkpoints the checkpoint file lists")
     args = parser.parse_args(argv)
 
     if not (args.out or args.quick_out or args.checkpoint_out):
@@ -182,8 +183,11 @@ def main(argv: list[str] | None = None) -> int:
         cpf = Path(args.checkpoint_out).expanduser().resolve()
         if SCRIPT_DIR in cpf.parents:
             raise SystemExit("Write the checkpoint file outside the repo: it holds the clips.")
-        cpf.write_text(CHECKPOINT_TEMPLATE.read_text().replace("/*__PAYLOAD__*/null", json.dumps(payload)), encoding="utf-8")
-        print(f"Wrote {cpf} (checkpoint coach check, same build {build_id})")
+        rub = json.loads(Path(args.rubric).read_text())
+        cps = [[c["id"], c["stage"], c["text"]] for c in rub["checkpoints"]]
+        cpf.write_text(CHECKPOINT_TEMPLATE.read_text().replace("/*__PAYLOAD__*/null", json.dumps(payload))
+                       .replace("/*__CPS__*/null", json.dumps(cps)), encoding="utf-8")
+        print(f"Wrote {cpf} (checkpoint coach check, {len(cps)} checkpoints from rubric {rub['rubric_version']}, same build {build_id})")
     key_path = out.with_name(out.stem + "_key_PRIVATE.csv")
     with key_path.open("w", newline="", encoding="utf-8") as h:
         w = csv.DictWriter(h, fieldnames=list(key_rows[0].keys()))

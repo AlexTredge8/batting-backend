@@ -47,7 +47,7 @@ textarea{width:100%;font:13px/1.4 ui-monospace,Menlo,Consolas,monospace;word-bre
 <body>
 <div class="wrap">
   <header><h1>Checkpoint coach check</h1>
-  <p class="muted">For each drive, rate 12 checkpoints: <b>2</b> done well, <b>1</b> partly or a small fault, <b>0</b> clear fault, <b>X</b> cannot judge from this clip. About two minutes a clip.</p></header>
+  <p class="muted">For each drive, rate each checkpoint: <b>2</b> done well, <b>1</b> partly or a small fault, <b>0</b> clear fault, <b>X</b> cannot judge from this clip. About two minutes a clip.</p></header>
 
   <section class="panel" id="who">
     <h2>About you</h2>
@@ -83,12 +83,12 @@ textarea{width:100%;font:13px/1.4 ui-monospace,Menlo,Consolas,monospace;word-bre
 </div>
 <script>
 const DATA = /*__PAYLOAD__*/null;
-const CPS = [["C01", "Set-up", "Head level and still at set-up; eyes level"], ["C02", "Set-up", "Balanced base at set-up; weight even, knees relaxed"], ["C03", "Backlift", "Hands lift straight back, not out towards gully or across the body"], ["C04", "Movement", "Head and front shoulder lead towards the line of the ball"], ["C05", "Movement", "Front foot lands close to the line of the ball"], ["C06", "Movement", "Front knee bends and takes the weight"], ["C07", "Movement", "Body stays side-on until contact; chest does not open early"], ["C08", "Downswing", "Downswing comes straight through the line of the ball"], ["C09", "Downswing", "One rhythm from backlift to contact; no pause or hitch"], ["C10", "Contact", "Head over the ball at contact; does not fall away"], ["C11", "Finish", "Balance held at the finish; no fall to the off or leg side"], ["C12", "Finish", "Hands continue through towards the target; finish controlled, not checked or wild"]];
+const CPS = /*__CPS__*/null;
 const $ = id => document.getElementById(id);
 const ids = DATA.clips.map(c => c.id).sort();
 const urls = {};
 DATA.clips.forEach(c => { const bin = atob(c.b64), u8 = new Uint8Array(bin.length); for (let k = 0; k < bin.length; k++) u8[k] = bin.charCodeAt(k); urls[c.id] = URL.createObjectURL(new Blob([u8], {type: "video/mp4"})); });
-const STORE = "biq_cp_" + DATA.build;
+const STORE = "biq_cp_" + DATA.build + "_" + CPS.length;
 function load(){ try { return JSON.parse(localStorage.getItem(STORE) || "null"); } catch(e){ return null; } }
 function save(){ try { localStorage.setItem(STORE, JSON.stringify(state)); } catch(e){} }
 let state = load() || {role: "", level: "", name: "", order: [], ans: {}, i: 0};
@@ -130,9 +130,9 @@ function show(){
 $("next").onclick = () => { state.i += 1; save(); show(); };
 $("prev").onclick = () => { state.i = Math.max(0, state.i - 1); save(); show(); };
 function answerCode(){
-  // CIQ1.<build>.<role><level>.<name>.<items>.<check>; item = clip index (1 char base 36) + 12 ratings (2/1/0/x)
+  // CIQ2.<build>.<role><level>.<name>.<n checkpoints>.<items>.<check>; item = clip index (1 char base 36) + n ratings (2/1/0/x)
   const items = state.order.filter(id => complete(state.ans[id])).map(id => ids.indexOf(id).toString(36) + CPS.map(([cid]) => state.ans[id][cid]).join("")).join("");
-  const body = ["CIQ1", DATA.build, state.role + (state.level || "x"), encodeURIComponent(state.name || "-"), items].join(".");
+  const body = ["CIQ2", DATA.build, state.role + (state.level || "x"), encodeURIComponent(state.name || "-"), CPS.length.toString(36), items].join(".");
   let sum = 0; for (const ch of body) sum = (sum + ch.charCodeAt(0)) % 36;
   return body + "." + sum.toString(36);
 }

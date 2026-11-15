@@ -6,7 +6,7 @@ into a ratings sheet that phase5_entry_tests.py reads with --ratings.
   python phase5_checkpoint_codes.py --codes codes.txt --key <offline files>_key_PRIVATE.csv \
       --out baselines/phase5_checkpoint_ratings/checkpoint_ratings.csv
 
-Paste whole messages into codes.txt: lines without "CIQ1." are ignored, duplicates dropped.
+Paste whole messages into codes.txt: lines without "CIQ1." or "CIQ2." are ignored, duplicates dropped.
 The output has filenames and ratings only (no clips). With two or more raters it also prints
 how often raters agree on each checkpoint (exact and within one point).
 """
@@ -31,23 +31,31 @@ CPS = [f"C{i:02d}" for i in range(1, 13)]
 
 
 def parse_checkpoint(code: str, ids: list[str], build: str) -> dict:
-    m = re.search(r"CIQ1\.[0-9A-F]{6}\.[A-Z][a-z]\.[^.\s]*\.[0-9a-z]*\.[0-9a-z]", code)
+    """CIQ1 (12 checkpoints, rubric v0.1) or CIQ2 (n checkpoints given in the code)."""
+    m = re.search(r"CIQ([12])\.[0-9A-F]{6}\.[A-Z][a-z]\.[^.\s]*(?:\.[0-9a-z]+)?\.[0-9a-z]*\.[0-9a-z]", code)
     if not m:
         raise ValueError("no checkpoint code found")
     body, check = m.group(0).rsplit(".", 1)
     if np.base_repr(sum(map(ord, body)) % 36, 36).lower() != check:
         raise ValueError("checksum does not match (code copied incompletely?)")
-    _, b, rl, name, items = body.split(".")
+    parts = body.split(".")
+    if parts[0] == "CIQ1":
+        _, b, rl, name, items = parts
+        n = 12
+    else:
+        _, b, rl, name, n36, items = parts
+        n = int(n36, 36)
     if b != build:
         raise ValueError(f"code is for build {b}, this key is build {build}")
-    if len(items) % 13:
+    if len(items) % (n + 1):
         raise ValueError("ratings block has the wrong length")
+    cps = [f"C{i:02d}" for i in range(1, n + 1)]
     order = sorted(ids)
     answers = {}
-    for k in range(0, len(items), 13):
-        it = items[k:k + 13]
-        answers[order[int(it[0], 36)]] = {cp: ("X" if v == "x" else v) for cp, v in zip(CPS, it[1:])}
-    return {"role": ROLES.get(rl[0], rl[0]), "level": LEVELS.get(rl[1], rl[1]), "name": unquote(name), "answers": answers}
+    for k in range(0, len(items), n + 1):
+        it = items[k:k + n + 1]
+        answers[order[int(it[0], 36)]] = {cp: ("X" if v == "x" else v) for cp, v in zip(cps, it[1:])}
+    return {"role": ROLES.get(rl[0], rl[0]), "level": LEVELS.get(rl[1], rl[1]), "name": unquote(name), "answers": answers, "n": n}
 
 
 def main(argv: list[str] | None = None) -> int:
@@ -63,7 +71,7 @@ def main(argv: list[str] | None = None) -> int:
     fname = {r["clip_id"]: r["filename"] for r in key}
     raters, seen = [], set()
     for n, line in enumerate(Path(args.codes).read_text(encoding="utf-8").splitlines(), 1):
-        if "CIQ1." not in line:
+        if "CIQ1." not in line and "CIQ2." not in line:
             continue
         try:
             d = parse_checkpoint(line, ids, build)
@@ -79,8 +87,10 @@ def main(argv: list[str] | None = None) -> int:
 
     out = Path(args.out)
     out.parent.mkdir(parents=True, exist_ok=True)
+    global CPS
+    CPS = [f"C{i:02d}" for i in range(1, max([r["n"] for r in raters] or [12]) + 1)]
     with out.open("w", newline="", encoding="utf-8") as h:
-        w = csv.DictWriter(h, fieldnames=["rater", "role", "level", "filename", *CPS])
+        w = csv.DictWriter(h, fieldnames=["rater", "role", "level", "filename", *CPS], restval="")
         w.writeheader()
         for r in raters:
             for clip, a in sorted(r["answers"].items()):
@@ -90,7 +100,7 @@ def main(argv: list[str] | None = None) -> int:
     for r in raters:  # how much each rater spreads ratings: a rater who gives every clip the same rating cannot test a measurement
         spread = []
         for cp in CPS:
-            vals = [a[cp] for a in r["answers"].values() if a[cp] != "X"]
+            vals = [a.get(cp, "X") for a in r["answers"].values() if a.get(cp, "X") != "X"]
             levels = sum(1 for v in set(vals) if vals.count(v) >= 3)
             spread.append(f"{cp}:{levels}")
         print(f"{r['rater']} levels used on 3+ clips per checkpoint: " + " ".join(spread))
@@ -100,7 +110,7 @@ def main(argv: list[str] | None = None) -> int:
             ex = near = tot = 0
             for a, b in itertools.combinations(raters, 2):
                 for clip in set(a["answers"]) & set(b["answers"]):
-                    x, y = a["answers"][clip][cp], b["answers"][clip][cp]
+                    x, y = a["answers"][clip].get(cp, "X"), b["answers"][clip].get(cp, "X")
                     if "X" in (x, y):
                         continue
                     tot += 1
