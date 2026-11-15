@@ -178,3 +178,16 @@ def test_mirrored_video_labelled_right_handed_is_flipped_by_the_feet(tmp_path):
     val = {(r["filename"], r["measurement"]): r["value"] for r in rows}
     for m in [f"M{i:02d}" for i in range(1, 14)]:
         assert np.isclose(float(val[("plain", m)]), float(val[("mirrored", m)]), atol=1e-6), m
+
+
+def test_time_below_is_smooth_and_interpolated():
+    sp = np.array([10, 10, 1, 1, 10, 10], float)
+    assert np.isclose(p5._time_below(sp, 2.0, 30.0), 1000 * (1 / 9 + 1 + 1 / 9) / 30)
+    assert p5._time_below(np.array([5, 5, 5.0]), 2.0, 30.0) == 0.0
+
+
+def test_hands_are_the_more_visible_wrist(tmp_path):
+    arr = _figure()
+    arr[:, 15, 3] = 0.1  # top wrist hidden: the other wrist becomes "the hands"
+    assert p5.load_clip(_save(tmp_path, "h", arr), "right").hand == 16
+    assert p5.load_clip(_save(tmp_path, "v", _figure()), "right").hand in (15, 16)

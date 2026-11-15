@@ -50,7 +50,7 @@ L = {"sh": 11, "el": 13, "wr": 15, "hip": 23, "knee": 25, "ank": 27}
 R = {"sh": 12, "el": 14, "wr": 16, "hip": 24, "knee": 26, "ank": 28}
 ANCHORS = ["setup_frame", "hands_start_up_frame", "front_foot_down_frame", "hands_peak_frame",
            "contact_frame", "follow_through_frame"]
-MEASUREMENT_SET = "v3"  # v3 (15 Nov): M06, M08, M09 reworked for robustness, M13 added, geometry handedness from the feet; v1 (14 Nov) used set-up / hands / follow-through anchors; v2 (15 Nov) anchors M01, M03, M06, M08, M09, M11, M12 on contact
+MEASUREMENT_SET = "v4"  # v4 (15 Nov): hands = the more visible wrist; M09 total slow time; v3 (15 Nov): M06, M08, M09 reworked for robustness, M13 added, geometry handedness from the feet; v1 (14 Nov) used set-up / hands / follow-through anchors; v2 (15 Nov) anchors M01, M03, M06, M08, M09, M11, M12 on contact
 MIN_VIS = 0.2  # MediaPipe still places hidden points; below 0.2 they are guesses
 
 
@@ -65,6 +65,7 @@ class Clip:
     front: dict[str, int]
     back: dict[str, int]
     drive: str = "off"    # off / straight / on, from clip_sheet.csv
+    hand: int = 15        # the wrist tracked as "the hands": the more visible one over the clip (v4)
 
     def row(self, frame: int) -> int | None:
         return self.pos.get(int(frame))
@@ -105,7 +106,15 @@ def load_clip(npz: Path, handedness: str, drive: str = "off") -> Clip:
         warnings.simplefilter("ignore", RuntimeWarning)
         xy = _moving_median(xy, 5)
     front, back = (R, L) if left_handed else (L, R)  # a right-hander's front side is the left
-    return Clip(xy, fps, w, h, {int(f): i for i, f in enumerate(frame_idx)}, front, back, drive or "off")
+    # v4: the hands are whichever wrist is more visible over the clip. Both hands are on the bat, so
+    # either tracks the hands; the hidden one is a guess. This does not depend on left/right labels,
+    # which a mirrored or behind-the-batter clip can swap (v3: blank M13 on the 4 flipped clips).
+    with np.errstate(all="ignore"):
+        vis = {i: float(np.nanmedian(arr[:, i, 3])) for i in (L["wr"], R["wr"])}
+    other = back["wr"]
+    hand = other if (np.isfinite(vis[other]) and vis[other] > (vis[front["wr"]] if np.isfinite(vis[front["wr"]]) else -1) + 0.1) \
+        else front["wr"]  # the top (front) hand unless the other wrist is clearly more visible
+    return Clip(xy, fps, w, h, {int(f): i for i, f in enumerate(frame_idx)}, front, back, drive or "off", hand)
 
 
 def _setup_window(c: Clip, a: dict[str, int]) -> range:
@@ -149,7 +158,7 @@ def _speed(c: Clip, frames: list[int], idx: int | tuple[int, ...]) -> np.ndarray
 def _top_hand_peak(c, k: int) -> int | None:
     """Frame where the top hand is highest between 450 and 100 ms before contact (contact-anchored)."""
     fr = list(range(k - c.ms(450), k - c.ms(100) + 1))
-    y = c.series(fr, c.front["wr"])[:, 1]
+    y = c.series(fr, c.hand)[:, 1]
     return fr[int(np.nanargmin(y))] if np.isfinite(y).any() else None
 
 
@@ -179,7 +188,7 @@ def m03_backlift_straight(c, a, bl):
     from the set-up (850-700 ms before contact) to the top of the backlift, % BL. The whole body
     moves across in the stride, so the hand is measured against the shoulder midpoint."""
     k = a["contact_frame"]
-    w, sh = c.front["wr"], (L["sh"], R["sh"])
+    w, sh = c.hand, (L["sh"], R["sh"])
     top = _top_hand_peak(c, k)
     if top is None:
         return np.nan, "top hand not seen in the backlift"
@@ -251,7 +260,7 @@ def m08_downswing_straight(c, a, bl):
     contact window with 3-frame medians at each end, in place of v2's bow from a detected top of
     backlift, which moved by several frames when contact moved by one."""
     k = a["contact_frame"]
-    w, sh = c.front["wr"], (L["sh"], R["sh"])
+    w, sh = c.hand, (L["sh"], R["sh"])
     def rel(f):
         fr = range(f - 1, f + 2)
         with np.errstate(all="ignore"):
@@ -288,22 +297,37 @@ def _longest_below(sp: np.ndarray, thr: float, fps: float) -> float:
     return 1000.0 * best / fps
 
 
+def _time_below(sp: np.ndarray, thr: float, fps: float) -> float:
+    """Total time the speed is under thr, ms, with crossings placed by linear interpolation.
+    Moving the window by one frame changes this by at most one frame's worth (v4)."""
+    tot = 0.0
+    for i in range(1, len(sp)):
+        a, b = sp[i - 1], sp[i]
+        if not (np.isfinite(a) and np.isfinite(b)):
+            continue
+        if a < thr and b < thr:
+            tot += 1.0
+        elif (a < thr) != (b < thr):
+            tot += ((thr - a) / (b - a)) if a < thr else ((thr - b) / (a - b))
+    return 1000.0 * tot / fps
+
+
 def m09_one_rhythm(c, a, bl):
-    """Longest pause of the top hand (3-frame-median speed under 15% of its 90th-percentile speed)
-    from 450 ms before contact to contact, ms, interpolated between frames. v3: a fixed contact window (no swing-start
-    detection) and sub-frame timing, so a 1-frame shift in contact cannot jump the value by 33 ms."""
+    """Hands pause in the swing: total time the hands' 3-frame-median speed is under 15% of its
+    90th percentile, from 400 ms before contact to contact, ms (timed between frames). Every
+    swing has a short turn at the top; a pause or hitch adds to it. v4: total time, not the
+    longest run, because v3's longest run jumped 0 <-> 140 ms when contact moved one frame."""
     k = a["contact_frame"]
-    fr = list(range(k - c.ms(450), k + 1))
-    raw = _speed(c, fr, c.front["wr"])
+    fr = list(range(k - c.ms(400), k + 1))
+    raw = _speed(c, fr, c.hand)
     if np.isfinite(raw).sum() < 4:
-        return np.nan, "top hand not seen in the swing"
-    with np.errstate(all="ignore"):  # 3-frame median: one bad pose frame (often at contact) cannot set the peak
+        return np.nan, "hands not seen in the swing"
+    with np.errstate(all="ignore"):
         sp = np.array([np.nanmedian(raw[max(0, i - 1): i + 2]) for i in range(len(raw))])
     peak = np.nanpercentile(sp, 90)
     if peak <= 0:
         return np.nan, "hands do not move"
-    return _longest_below(sp, 0.15 * peak, c.fps), ""
-
+    return _time_below(sp, 0.15 * peak, c.fps), ""
 
 def m13_hands_accelerate(c, a, bl):
     """Swing carries through contact: the top hand's fastest upward speed in the 400 ms after
@@ -312,7 +336,7 @@ def m13_hands_accelerate(c, a, bl):
     mostly hidden; the down-and-up is visible). A checked swing scores low. Added 15 Nov 2026 (v3)."""
     k = a["contact_frame"]
     fr = list(range(k - c.ms(300), k + c.ms(400) + 1))
-    y = c.series(fr, c.front["wr"])[:, 1]
+    y = c.series(fr, c.hand)[:, 1]
     raw = np.diff(y) * c.fps  # image y grows downwards: + = moving down
     with np.errstate(all="ignore"):  # 3-frame median against single bad pose frames
         vy = np.array([np.nanmedian(raw[max(0, j - 1): j + 2]) for j in range(len(raw))])
@@ -348,7 +372,7 @@ def m12_hands_through(c, a, bl):
     """Highest the top hand gets above the shoulders from 150 to 700 ms after contact, % BL."""
     k = a["contact_frame"]
     fr = range(k + c.ms(150), k + c.ms(700) + 1)
-    hands = c.series(fr, c.front["wr"])[:, 1]
+    hands = c.series(fr, c.hand)[:, 1]
     sh = c.series(fr, (L["sh"], R["sh"]))[:, 1]
     with np.errstate(all="ignore"):
         v = float(np.nanmax(sh - hands))  # image y grows downwards
