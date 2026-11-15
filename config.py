@@ -75,6 +75,26 @@ MEDIAPIPE_STATIC_IMAGE_MODE = _env_bool("MEDIAPIPE_STATIC_IMAGE_MODE", True)
 # processes on Apple silicon; phase0_determinism.py compares the two modes.
 POSE_RUNNING_MODE = os.getenv("POSE_RUNNING_MODE", "video").strip().lower()
 
+# RTMPose fallback (15 Nov 2026, default OFF). baselines/phase5_pose_compare_2026-11-15 found
+# RTMPose (rtmlib BodyWithFeet, balanced) recovers MediaPipe's two capture failures: a clip
+# where MediaPipe found the batter in 41% of frames, and one where it followed the wrong person
+# (87% detection). See docs/phase5/rtmpose_fallback.md.
+#   off            → MediaPipe only (calibrated path; default)
+#   rtmpose        → MediaPipe first; re-extract with RTMPose when a trigger below fires
+#   rtmpose_always → always use RTMPose (testing and timing only; not calibrated)
+# Needs the optional packages rtmlib + onnxruntime; without them MediaPipe is kept.
+POSE_FALLBACK = os.getenv("POSE_FALLBACK", "off").strip().lower()
+POSE_FALLBACK_MODES = ("off", "rtmpose", "rtmpose_always")
+# Trigger 1: MediaPipe found the batter in fewer than this fraction of processed frames.
+# On the 18 graded clips only the two failures are below 0.90 (next lowest: 0.948).
+POSE_FALLBACK_MIN_DETECTION = float(os.getenv("POSE_FALLBACK_MIN_DETECTION", "0.90"))
+# Trigger 2 (jump rule): the nose moves more than POSE_FALLBACK_JUMP_BL body lengths between
+# consecutive frames more than POSE_FALLBACK_MAX_JUMPS times (a sign of switching person).
+POSE_FALLBACK_JUMP_BL = float(os.getenv("POSE_FALLBACK_JUMP_BL", "0.25"))
+POSE_FALLBACK_MAX_JUMPS = int(os.getenv("POSE_FALLBACK_MAX_JUMPS", "1"))
+# rtmlib solution mode: lightweight | balanced (what the comparison measured) | performance
+POSE_FALLBACK_RTM_MODE = os.getenv("POSE_FALLBACK_RTM_MODE", "balanced").strip().lower()
+
 # ---------------------------------------------------------------------------
 # Setup detector version
 # ---------------------------------------------------------------------------
