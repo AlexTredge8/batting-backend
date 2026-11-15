@@ -40,3 +40,26 @@ Also found but not read: his off-drive video (https://www.youtube.com/watch?v=sg
 5. Judge C07 from the stride onwards.
 
 Cam's C14–C16 have no Radford source found. Keep them as Cam's points and do not credit them to Radford.
+
+## Biomechanics research (15 Nov 2026, desk research from abstracts and citing papers; figures marked "secondary" are to be checked against the full texts)
+
+**Main finding.** Few batting studies find variables that separate skilled from less-skilled batters (Penn & Spratford 2012, *Sports Biomechanics* 11:311). The ones that do are mostly about **timing and coordination** and **head position**. Joint angles and bat speed mostly do not.
+
+| Variable | Evidence | Seen from the bowler's end | App |
+|---|---|---|---|
+| Front-foot landing coupled to the start of the downswing | Skilled batters land the front foot as the downswing starts; less-skilled batters start the downswing before the stride is complete (Weissensteiner et al. 2011, *Sports Biomech* 10:324; Sarpeshkar et al. 2017, *Hum Mov Sci* 54:82) | yes: foot landing frame against the hands starting down | **new measurement M14** (best-supported skill marker) |
+| Stride started and finished earlier | skilled earlier (Weissensteiner 2011); front foot down about 60–140 ms before contact (Stretch 1998; Stuelcken 2005, secondary) | yes | timing check |
+| Trigger movement before committing forward | 70% of skilled against 20% of less-skilled (Taliep et al. 2007, *Sports Biomech* 6:345; n = 10 v 10) | yes (feet) | supports C13; candidate measurement |
+| Head forward of the base | skilled further forward (Taliep 2007) | mostly no (depth); proxy: head sideways over the front foot and head drop | M04 / M10 are proxies |
+| Lateral backlift (towards second slip) | 75% of South African internationals against about 37% of semi-professionals (Noorbhai & Noakes 2019, n = 130; mostly one group) | yes | **do not penalise** a lateral backlift: affects M03 / C03 |
+| Front knee angle, bat speed, shoulder angle | no skill difference found (Taliep 2007); depth-limited from this camera | no | down-weight M06; consistent with the worse-filming result |
+
+**Timing (ms before contact):** stride starts about 580; downswing starts about 360 (no earlier than 190); front foot down about 60–140. Against a bowling machine, batters time differently from against a bowler (Pinder et al. 2009), so the delivery type should be recorded.
+
+**What this changes.**
+1. Add M14: gap between front-foot landing and downswing start. The hands start down at the top-hand peak; the foot lands at the front ankle's stop. Both are measured near contact.
+2. Make C03's direction two-sided. A lateral backlift is common in elite batters, so only a hand path that comes across the line (C08) should count as the fault.
+3. Down-weight the knee angle.
+4. Record whether the clip is a bowling machine or a bowler.
+
+No peer-reviewed system was found that is validated against coaches' ratings of drive quality.
