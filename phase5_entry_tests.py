@@ -16,9 +16,11 @@ seeing results; log a failed measurement and drop it instead.
                  levels on 3+ clips each; otherwise the test is "not decided" (a rater who gives
                  almost every clip the same rating cannot confirm or reject a measurement). This
                  makes the test stricter, not easier; the first run's table is kept as it was.
-  2. Two-phone   on pairs of clips of the same ball from two allowed positions, the
-                 median |difference| is <= 0.25 x the between-clip IQR (validated anchors).
-                 PENDING until the Phase 3 net session supplies the pairs.
+  2. Worse       (replaces the two-phone test, 15 Nov 2026: no net session.) The same clip
+     filming     made worse three ways (low resolution, half frame rate, tilted and cropped;
+                 phase5_degrade_test.py): for every variant, median |change| <= 0.25 x the
+                 between-clip IQR. --degrade <degrade_test.csv>. The two-phone check still
+                 runs if --two-phone pairs are given.
   3. Auto        with automatic anchors in place of validated ones: Spearman across clips
      anchors     >= 0.80 AND median |auto - validated| <= 0.25 x the between-clip IQR.
 
@@ -85,6 +87,7 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("--ratings", nargs="*", default=[str(SCRIPT_DIR / "baselines" / "phase2_preliminary_2026-11-14" / "model_vs_alex.csv") + ":model"])
     ap.add_argument("--ground-truth", default=str(SCRIPT_DIR / "coach_ground_truth_from_screenshot.csv"))
     ap.add_argument("--two-phone", default=None)
+    ap.add_argument("--degrade", default=None, help="degrade_test.csv from phase5_degrade_test.py")
     ap.add_argument("--out", required=True)
     args = ap.parse_args(argv)
 
@@ -101,6 +104,10 @@ def main(argv: list[str] | None = None) -> int:
     human = any(k != "model" for k in kinds)
     gt = {key_of(r["filename"]): r for r in load_csv(Path(args.ground_truth))}
     pairs = [(key_of(r["filename_a"]), key_of(r["filename_b"])) for r in load_csv(Path(args.two_phone))] if args.two_phone else []
+    degrade: dict[str, list[str]] = {}
+    if args.degrade:
+        for r in load_csv(Path(args.degrade)):
+            degrade.setdefault(r["measurement"], []).append(f"{r['variant']}:{r['pass']}")
 
     out_rows = []
     for m in sorted(meta):
@@ -132,7 +139,12 @@ def main(argv: list[str] | None = None) -> int:
             d = [abs(v[a] - v[b]) for a, b in pairs if np.isfinite(v.get(a, np.nan)) and np.isfinite(v.get(b, np.nan))]
             t2 = ("pass" if d and median(d) <= MAX_IQR_SHARE * iqr else "fail") if d else "no usable pairs"
         else:
-            t2 = "pending (Phase 3 net session)"
+            res = degrade.get(m)
+            if res:
+                bad = [x.split(":")[0] for x in res if not x.endswith("pass")]
+                t2 = "pass" if not bad else "fail (" + ", ".join(bad) + ")"
+            else:
+                t2 = "pending (worse-filming test)"
 
         a = auto.get(m, {})
         both = [k for k in clips if np.isfinite(v[k]) and np.isfinite(a.get(k, np.nan))]
@@ -153,16 +165,16 @@ def main(argv: list[str] | None = None) -> int:
 
         passed_known = t0 and t1.startswith("pass") and t3 == "pass"
         t1_final_fail = t1.startswith("fail") and human  # a model-only disagreement is logged, not a drop
-        verdict = ("fail" if (not t0 or t1_final_fail or t3 == "fail" or t2 == "fail")
+        verdict = ("fail" if (not t0 or t1_final_fail or t3 == "fail" or t2.startswith("fail"))
                    else "robust; model disagrees (provisional)" if t1.startswith("fail") and t0 and t3 == "pass"
-                   else "pass so far (two-phone pending)" if passed_known and t2.startswith("pending")
+                   else "pass so far (test 2 pending)" if passed_known and t2.startswith("pending")
                    else "pass" if passed_known and t2 == "pass"
                    else "robust; awaiting coach ratings" if t0 and t3 == "pass" and not t1.startswith("pass")
                    else "undecided")
         out_rows.append({
             "measurement": m, **info, "clips": len(clips), "coverage": round(coverage, 2), "test0_coverage": "pass" if t0 else "fail",
             "rated_clips": len(xs), "rho_checkpoint": round(rho, 2) if np.isfinite(rho) else "",
-            "rho_ci": f"{lo:.2f} to {hi:.2f}" if np.isfinite(lo) else "", "test1_tracks": t1, "test2_two_phone": t2,
+            "rho_ci": f"{lo:.2f} to {hi:.2f}" if np.isfinite(lo) else "", "test1_tracks": t1, "test2_worse_filming": t2,
             "auto_clips": len(both), "rho_auto": round(rho_a, 2) if np.isfinite(rho_a) else "",
             "median_abs_auto_diff": round(mad, 3) if np.isfinite(mad) else "", "iqr": round(iqr, 3) if np.isfinite(iqr) else "",
             "test3_auto_anchors": t3, "rho_alex_pillar": round(rho_p, 2) if np.isfinite(rho_p) else "", "verdict": verdict,
@@ -179,13 +191,13 @@ def main(argv: list[str] | None = None) -> int:
     lines = ["# Phase 5 entry tests", "",
              f"Checkpoint ratings from: {raters}." + ("" if human else " Model ratings only, so test 1 is provisional."),
              "Thresholds were fixed on 14 Nov 2026 before the clips were measured (see phase5_entry_tests.py).", "",
-             "| Meas. | Checkpoint | Pillar | Coverage | Tracks rating (rho) | Auto anchors (rho, gap/IQR) | Two-phone | Verdict |",
+             "| Meas. | Checkpoint | Pillar | Coverage | Tracks rating (rho) | Auto anchors (rho, gap/IQR) | Worse filming | Verdict |",
              "|---|---|---|---|---|---|---|---|"]
     for r in out_rows:
         share = (f"{float(r['median_abs_auto_diff']) / float(r['iqr']):.2f}" if r["iqr"] not in ("", 0, 0.0) and r["median_abs_auto_diff"] != "" else "n/a")
         lines.append(f"| {r['measurement']} | {r['checkpoint']} ({r['fault']}) | {r['pillar']} | {r['coverage']:.0%} | "
                      f"{r['rho_checkpoint'] or 'n/a'}: {r['test1_tracks']} | {r['rho_auto'] or 'n/a'}, {share}: {r['test3_auto_anchors']} | "
-                     f"{r['test2_two_phone']} | {r['verdict']} |")
+                     f"{r['test2_worse_filming']} | {r['verdict']} |")
     lines += ["", "## Pillars", ""]
     for p in PILLARS:
         ok = [r["measurement"] for r in out_rows if r["pillar"] == p and r["verdict"].startswith("pass")]
