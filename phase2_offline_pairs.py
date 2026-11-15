@@ -62,6 +62,12 @@ def landmarks_for(video: Path, cache_dir: Path) -> tuple[np.ndarray, np.ndarray]
     return arr, np.array([f.frame_idx for f in frames])
 
 
+def rated_checkpoints(rubric: dict) -> list[list[str]]:
+    """[id, stage, text] for each checkpoint a coach rates, in the rubric's (chain) order. A checkpoint
+    with "rated": false (rubric v0.3: C14, merged into C07) keeps its ID in the rubric but is not shown."""
+    return [[c["id"], c["stage"], c["text"]] for c in rubric["checkpoints"] if c.get("rated", True)]
+
+
 def encode_clip(video: Path, start: int, end: int, max_side: int, blur: bool, cache_dir: Path) -> tuple[bytes, dict]:
     import cv2
     cap = cv2.VideoCapture(str(video))
@@ -139,7 +145,7 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--no-blur", action="store_true", help="keep faces visible (only for a coaches-only file)")
     parser.add_argument("--quick-out", default=None, help="also write the quick coach check (score + main fault per clip), same clips and key")
     parser.add_argument("--checkpoint-out", default=None, help="also write the checkpoint coach check (each rubric checkpoint rated 2/1/0/X per clip), same clips and key")
-    parser.add_argument("--rubric", default=str(SCRIPT_DIR / "docs" / "phase1" / "rubric_v0_2.json"), help="rubric whose checkpoints the checkpoint file lists")
+    parser.add_argument("--rubric", default=str(SCRIPT_DIR / "docs" / "phase1" / "rubric_v0_3.json"), help="rubric whose rated checkpoints the checkpoint file lists, in its order")
     args = parser.parse_args(argv)
 
     if not (args.out or args.quick_out or args.checkpoint_out):
@@ -184,7 +190,9 @@ def main(argv: list[str] | None = None) -> int:
         if SCRIPT_DIR in cpf.parents:
             raise SystemExit("Write the checkpoint file outside the repo: it holds the clips.")
         rub = json.loads(Path(args.rubric).read_text())
-        cps = [[c["id"], c["stage"], c["text"]] for c in rub["checkpoints"]]
+        cps = rated_checkpoints(rub)
+        for row in key_rows:  # the answer code lists ratings by position: the key says which checkpoint each one is
+            row.update(rubric=rub["rubric_version"], checkpoints=" ".join(c[0] for c in cps))
         cpf.write_text(CHECKPOINT_TEMPLATE.read_text().replace("/*__PAYLOAD__*/null", json.dumps(payload))
                        .replace("/*__CPS__*/null", json.dumps(cps)), encoding="utf-8")
         print(f"Wrote {cpf} (checkpoint coach check, {len(cps)} checkpoints from rubric {rub['rubric_version']}, same build {build_id})")

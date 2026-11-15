@@ -1,0 +1,29 @@
+{
+  "status": "DRAFT tip text for rubric v0.3 (docs/phase1/rubric_v0_3.json), 15 Nov 2026, for Cam to edit. One sentence per fault, in our own words, from Cam's points, Toby Radford, the governing-body manuals and the research summarised in docs/phase1/coaching_sources.md. No wording is copied from a source.",
+  "rubric_version": "0.3-draft",
+  "order": "faults_in_chain_order of rubric v0.3, then F00",
+  "tips": {
+    "F01": "Keep your head still and your eyes level as the bowler runs in, so you get the clearest view of the ball.",
+    "F02": "Stand with your weight even and your knees soft, so you can move forward or back with equal ease.",
+    "F17": "As the bowler lets go, have your head over off stump or between middle and off, so your eyes are in line with the ball.",
+    "F13": "Start lifting the bat a little earlier, as the bowler gets ready to let go, so the swing has time to flow.",
+    "F03": "Lift your hands up and back, close to your body, with your top hand in charge; it does not matter if the bat points towards the slips.",
+    "F19": "Drive only when the ball is pitched up; if it is short, go back or leave it.",
+    "F15": "Move forward towards the ball rather than across the crease, so your head stays in line and you can hit straight.",
+    "F04": "Let your head and front shoulder lead you towards the ball, and your front foot will follow.",
+    "F05": "Step towards the ball and land your front foot on its line, or just inside it, so the bat has room to come through.",
+    "F06": "Bend your front knee as you land so that it takes your weight, instead of leaving the weight on your back foot.",
+    "F18": "Push off your back foot as you step forward, so your weight drives into the shot.",
+    "F16": "Get your weight moving towards the ball, so your head and chest are over your front foot when you hit it.",
+    "F07": "Keep your front shoulder pointing down the line of the shot until you have hit the ball, because an early open shoulder pulls the bat across.",
+    "F08": "Bring the bat down straight along the line of the ball, and if it keeps coming across, check your stance first: head over your toes and eyes in line with off stump.",
+    "F09": "Make it one smooth movement from backlift to contact; a short settle of the front foot is fine, but do not stop and start.",
+    "F10": "Keep your head over the ball and meet it close to your front pad, so you stay in control and keep it on the ground.",
+    "F11": "Hold your finish for a count of two, and if you cannot, keep your head over your front knee next time.",
+    "F12": "Let your hands keep going towards your target after you hit the ball, and finish with the bat under control.",
+    "F00": "Nothing major to fix: this is a good, balanced drive, so keep repeating it."
+  },
+  "retired": {
+    "F14": "Now part of F07 (the top half closes and the front shoulder stays aligned to the shot)."
+  }
+}
