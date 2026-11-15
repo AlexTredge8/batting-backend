@@ -19,7 +19,7 @@ printf "Paste your Gemini API key and press Enter (hidden): "
 read -rs GEMINI_API_KEY; echo
 export GEMINI_API_KEY
 OUT="baselines/phase5_video_judge_$(date +%F)"
-.venv310/bin/python phase5_video_judge.py --clips-html "$HTML" --key "$KEY" --out "$OUT"
+.venv310/bin/python phase5_video_judge.py --clips-html "$HTML" --key "$KEY" --out "$OUT" ${GEMINI_MODEL:+--model "$GEMINI_MODEL"}
 unset GEMINI_API_KEY
 git add "$OUT"
 git commit -q -m "Video-model judge scores ($(date +%F))" || echo "nothing new to commit"

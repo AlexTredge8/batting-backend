@@ -137,17 +137,27 @@ def list_models() -> list[str]:
             if "generateContent" in m.get("supportedGenerationMethods", [])]
 
 
-def pick_model(models: list[str]) -> str:
-    """The newest stable 'pro' model (no preview/exp/tts/image variants)."""
+def model_candidates(models: list[str]) -> list[str]:
+    """'pro' models, newest version first; within a version, stable before preview. No tts/image/exp."""
     def ver(name: str) -> tuple:
         m = re.search(r"gemini-(\d+)(?:\.(\d+))?", name)
         return (int(m.group(1)), int(m.group(2) or 0)) if m else (0, 0)
-    pro = [m for m in models if "-pro" in m and not re.search(r"preview|exp|tts|image|latest|vision", m)]
-    pro = pro or [m for m in models if "-pro" in m]
-    if not pro:
-        raise SystemExit("No Gemini 'pro' model available to this key. Pass --model.")
-    return sorted(pro, key=lambda n: (ver(n), -len(n)))[-1]
+    pro = [m for m in models if "-pro" in m and not re.search(r"tts|image|exp|vision|audio|live", m)]
+    return sorted(pro, key=lambda n: (ver(n), "preview" not in n, "latest" not in n, -len(n)), reverse=True)
 
+
+def pick_model(models: list[str]) -> str:
+    """The first candidate that answers a one-word request (some listed models are closed to new users)."""
+    for name in model_candidates(models):
+        body = {"contents": [{"role": "user", "parts": [{"text": "Reply with the word ok."}]}]}
+        req = urllib.request.Request(f"{API}/models/{name}:generateContent", data=json.dumps(body).encode(),
+                                     headers={"Content-Type": "application/json", "x-goog-api-key": _key()}, method="POST")
+        try:
+            with urllib.request.urlopen(req, timeout=120):
+                return name
+        except urllib.error.HTTPError as exc:
+            print(f"  {name}: not available ({exc.code}); trying the next one")
+    raise SystemExit("No Gemini 'pro' model answered for this key. Pass --model <name>.")
 
 def video_part(data: bytes) -> dict:
     return {"inline_data": {"mime_type": "video/mp4", "data": base64.b64encode(data).decode()}}
