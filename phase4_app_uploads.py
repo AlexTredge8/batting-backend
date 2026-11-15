@@ -65,7 +65,8 @@ def same(a, b) -> bool:
 
 def main(argv: list[str] | None = None) -> int:
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    ap.add_argument("--manifest", required=True)
+    ap.add_argument("--manifest", default=None, help="TSV of upload links (only works if the bucket is public)")
+    ap.add_argument("--local-dir", default=None, help="folder of videos already downloaded (e.g. from the Supabase dashboard)")
     ap.add_argument("--clips", required=True, help="folder with the 18 calibration clips")
     ap.add_argument("--out", required=True)
     args = ap.parse_args(argv)
@@ -73,9 +74,18 @@ def main(argv: list[str] | None = None) -> int:
     (out / "all").mkdir(parents=True, exist_ok=True)
     (out / "new").mkdir(parents=True, exist_ok=True)
 
-    rows = list(csv.DictReader(open(Path(args.manifest).expanduser(), encoding="utf-8"), delimiter="\t"))
-    print(f"{len(rows)} uploads in the manifest")
-    for r in rows:
+    if args.local_dir:
+        files = sorted(p for p in Path(args.local_dir).expanduser().rglob("*") if p.suffix.lower() in VIDEO_EXT)
+        rows = [{"id": f"L{i:03d}", "name": p.name, "created": "", "url": "", "file": p} for i, p in enumerate(files, 1)]
+        for r in rows:
+            r["md5"] = hashlib.md5(r["file"].read_bytes()).hexdigest()
+        print(f"{len(rows)} videos in {args.local_dir}")
+    elif args.manifest:
+        rows = list(csv.DictReader(open(Path(args.manifest).expanduser(), encoding="utf-8"), delimiter="\t"))
+        print(f"{len(rows)} uploads in the manifest")
+    else:
+        raise SystemExit("Give --local-dir (downloaded videos) or --manifest (links).")
+    for r in ([] if args.local_dir else rows):
         ext = Path(r["url"].split("?")[0]).suffix.lower() or ".mov"
         dst = out / "all" / f"{r['id']}{ext}"
         r["file"] = dst
@@ -119,7 +129,7 @@ def main(argv: list[str] | None = None) -> int:
             continue
         kept.append((r["id"], sig))
         r["status"] = "NEW"
-        link = out / "new" / r["file"].name
+        link = out / "new" / (f"{r['id']}_{Path(r['file']).name}" if args.local_dir else Path(r["file"]).name)
         if not link.exists():
             link.write_bytes(r["file"].read_bytes())
 
