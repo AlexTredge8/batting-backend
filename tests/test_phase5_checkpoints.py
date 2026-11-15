@@ -272,3 +272,11 @@ def _still_feet() -> np.ndarray:
     arr = _figure()
     arr[:, [27, 28, 29, 30, 31, 32], 1] = arr[0, [27, 28, 29, 30, 31, 32], 1]  # the feet never lift
     return arr
+
+
+def test_entry_tests_read_rubric_v0_2_checkpoints(tmp_path):
+    rat = tmp_path / "r.csv"
+    rat.write_text("filename,C01,C13,C16,notes\nclip.mov,2,1,X,\n")
+    ratings, kinds = p5e.load_ratings([f"{rat}:coach"])
+    assert ratings[next(iter(ratings))] == {"C01": 2.0, "C13": 1.0}  # X left out, non-checkpoint columns ignored
+    assert kinds == ["coach"]
