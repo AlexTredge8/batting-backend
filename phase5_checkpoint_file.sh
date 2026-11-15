@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Builds the offline checkpoint coach check (12 checkpoints rated 2/1/0/X per clip) on the Desktop,
+# Builds the offline checkpoint coach check (the rated checkpoints of rubric v0.3, 2/1/0/X per clip) on the Desktop,
 # with faces blurred. The *_key_PRIVATE.csv next to it maps clip codes to filenames: keep it, never send it.
 #
 #   cd ~/Documents/battingiq-phase0 && git pull && ./phase5_checkpoint_file.sh

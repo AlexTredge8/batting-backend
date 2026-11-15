@@ -1,7 +1,12 @@
 #!/usr/bin/env python3
 """
-Decode answer codes from the checkpoint coach check (12 checkpoints rated 2/1/0/X per clip)
+Decode answer codes from the checkpoint coach check (each rated checkpoint 2/1/0/X per clip)
 into a ratings sheet that phase5_entry_tests.py reads with --ratings.
+
+A code lists ratings by position. The key file says which checkpoint each position is (its
+"checkpoints" column, written by phase2_offline_pairs.py from rubric v0.3 on, in chain order,
+e.g. "C01 C02 C17 C13 ..."). Keys from older builds have no such column; their positions are
+C01..Cn (rubric v0.1: 12, v0.2: 16).
 
   python phase5_checkpoint_codes.py --codes codes.txt --key <offline files>_key_PRIVATE.csv \
       --out baselines/phase5_checkpoint_ratings/checkpoint_ratings.csv
@@ -30,8 +35,9 @@ from phase2_pairs import LEVELS, ROLES  # noqa: E402
 CPS = [f"C{i:02d}" for i in range(1, 13)]
 
 
-def parse_checkpoint(code: str, ids: list[str], build: str) -> dict:
-    """CIQ1 (12 checkpoints, rubric v0.1) or CIQ2 (n checkpoints given in the code)."""
+def parse_checkpoint(code: str, ids: list[str], build: str, cp_ids: list[str] | None = None) -> dict:
+    """CIQ1 (12 checkpoints, rubric v0.1) or CIQ2 (n checkpoints given in the code). cp_ids names the
+    checkpoint at each position (from the key); without it, positions are C01..Cn."""
     m = re.search(r"CIQ([12])\.[0-9A-F]{6}\.[A-Z][a-z]\.[^.\s]*(?:\.[0-9a-z]+)?\.[0-9a-z]*\.[0-9a-z]", code)
     if not m:
         raise ValueError("no checkpoint code found")
@@ -49,7 +55,12 @@ def parse_checkpoint(code: str, ids: list[str], build: str) -> dict:
         raise ValueError(f"code is for build {b}, this key is build {build}")
     if len(items) % (n + 1):
         raise ValueError("ratings block has the wrong length")
-    cps = [f"C{i:02d}" for i in range(1, n + 1)]
+    if cp_ids:
+        if len(cp_ids) != n:
+            raise ValueError(f"code has {n} checkpoints, the key lists {len(cp_ids)}")
+        cps = list(cp_ids)
+    else:
+        cps = [f"C{i:02d}" for i in range(1, n + 1)]
     order = sorted(ids)
     answers = {}
     for k in range(0, len(items), n + 1):
@@ -69,12 +80,13 @@ def main(argv: list[str] | None = None) -> int:
         key = list(csv.DictReader(h))
     ids, build = [r["clip_id"] for r in key], key[0]["build_id"]
     fname = {r["clip_id"]: r["filename"] for r in key}
+    cp_ids = (key[0].get("checkpoints") or "").split() or None
     raters, seen = [], set()
     for n, line in enumerate(Path(args.codes).read_text(encoding="utf-8").splitlines(), 1):
         if "CIQ1." not in line and "CIQ2." not in line:
             continue
         try:
-            d = parse_checkpoint(line, ids, build)
+            d = parse_checkpoint(line, ids, build, cp_ids)
         except ValueError as exc:
             print(f"line {n}: skipped ({exc})")
             continue
@@ -88,7 +100,7 @@ def main(argv: list[str] | None = None) -> int:
     out = Path(args.out)
     out.parent.mkdir(parents=True, exist_ok=True)
     global CPS
-    CPS = [f"C{i:02d}" for i in range(1, max([r["n"] for r in raters] or [12]) + 1)]
+    CPS = cp_ids or [f"C{i:02d}" for i in range(1, max([r["n"] for r in raters] or [12]) + 1)]
     with out.open("w", newline="", encoding="utf-8") as h:
         w = csv.DictWriter(h, fieldnames=["rater", "role", "level", "filename", *CPS], restval="")
         w.writeheader()
