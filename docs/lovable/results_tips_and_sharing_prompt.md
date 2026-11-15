@@ -2,7 +2,7 @@
 
 Two passes. Paste **Pass 1** into Lovable, check it against its test examples, then paste **Pass 2**. Each pass is everything between its two lines. The note for the backend is at the very end and is not for Lovable.
 
-Sources: the tips are the draft in `docs/phase6/fault_tips_draft.json` (Cam to edit); the fault names, chain order and moments follow `docs/phase1/rubric_v0_2.json`; the drills are our own words. The rule-to-fault mapping (A5, T2, S4, F4 and the suspended rules) is ours and is the one thing Cam should check first.
+Sources: the tips are the rubric v0.3 draft in `docs/phase6/fault_tips_v0_3.json` (Cam to edit; it replaces `fault_tips_draft.json`, retires F14 into F07 and adds F17 to F19); the fault names, chain order and moments follow `docs/phase1/rubric_v0_3.json`; the drills are our own words. If Cam changes a tip, change the same row in Pass 1's table. The rule-to-fault mapping (A5, T2, S4, F4 and the suspended rules) is ours and is the one thing Cam should check first.
 
 ---
 
@@ -11,7 +11,7 @@ Sources: the tips are the draft in `docs/phase6/fault_tips_draft.json` (Cam to e
 Update the analysis results page (`src/pages/AnalysisResults.tsx`), the analysis types (`src/types/analysis.ts`) and the upload screen. Do not change the upload flow itself, the API call, the login, or any other page. Do not add any new call to the backend. Use UK spelling in all text.
 
 **1. Types.** In `src/types/analysis.ts`, add these. Every field is optional, so older results still render.
-- `type FaultId = "F00" | "F01" | "F02" | "F03" | "F04" | "F05" | "F06" | "F07" | "F08" | "F09" | "F10" | "F11" | "F12" | "F13" | "F14" | "F15" | "F16"`
+- `type FaultId = "F00" | "F01" | "F02" | "F03" | "F04" | "F05" | "F06" | "F07" | "F08" | "F09" | "F10" | "F11" | "F12" | "F13" | "F14" | "F15" | "F16" | "F17" | "F18" | "F19"` (F14 is retired; see below)
 - `type StoryboardKey = "setup" | "hands_start_up" | "front_foot_down" | "hands_peak" | "contact" | "follow_through"`
 - `interface FaultTipPayload { id: FaultId; name?: string; tip?: string; frame?: StoryboardKey; drill?: { name?: string; text?: string }; source_rule_id?: string }`
 - On the analysis response:
@@ -28,23 +28,27 @@ Update the analysis results page (`src/pages/AnalysisResults.tsx`), the analysis
 
 | Chain position | id | name (headline shown) | frame | tip | drill name | drill text |
 |---|---|---|---|---|---|---|
-| 1 | F01 | Head moves too early | setup | Keep your head still and your eyes level as the bowler lets go, so you get the best view of the ball. | Still head, ball drop | A partner stands 3 to 4 metres away and drops a tennis ball from shoulder height. Keep your head still and your eyes level until it bounces, then play a soft forward defence. 10 balls. |
-| 2 | F02 | Unbalanced stance | setup | Stand with your weight on the balls of your feet and your knees relaxed, so you're ready to move forward or back. | Ready-position hops | Take your stance, do two small hops on the spot and land on the balls of your feet with your knees soft. Hold for 3 seconds. Repeat 10 times. |
-| 3 | F13 | Hands late: no rhythm from the backlift | hands_start_up | Start lifting your hands a fraction earlier, as the bowler is about to let go, so the swing isn't rushed. | Lift on "now" | A partner throws underarm and says "now" as their arm starts to swing. Start lifting your hands on "now", not when the ball is already on its way. 10 throws. |
-| 4 | F03 | Backlift goes wide or across the body | hands_start_up | Lift the bat so it can come down straight; if it goes out wide, it will tend to swing across the line. | Mirror backlift | Stand side-on to a mirror and shadow 10 backlifts. Check your hands go back and up, close to your back hip, and that the bat comes down the same way it went up. |
-| 5 | F15 | Moving across, not out to the ball | front_foot_down | Move forward towards the ball rather than across the crease, so your head stays in line and you can hit straight. | Stride along the line | Lay a bat or a stump on the ground from your front toe, pointing straight down the pitch. Stride forward alongside it, not across it. 10 strides, then add a soft drop-feed. |
-| 6 | F04 | Head and shoulder not leading | front_foot_down | Let your head and front shoulder lead you towards the ball, and your front foot will follow. | Head first | A partner holds a ball at knee height a stride in front of you. Shadow a drive, moving your head and front shoulder towards the ball first and letting your foot follow. 10 slow reps. |
-| 7 | F14 | Top half stays open | front_foot_down | Turn your front shoulder towards the line of the ball so the bat has room to come straight through. | Shoulder to the ball | A partner holds a ball out in line with off stump, a stride in front of you. Shadow the drive and point your front shoulder at the ball before the bat comes down. 10 reps. |
-| 8 | F05 | Front foot not to the line of the ball | front_foot_down | Stride towards the pitch of the ball and land just inside its line, so you don't have to reach for it. | Step to the marker | Put a cone or a shoe where a full ball would pitch, just outside off stump. Stride so your front foot lands next to it, just inside the line. 10 strides, then add soft drop-feeds. |
-| 9 | F16 | Weight stays back | front_foot_down | Get your weight moving forward so your head and chest end up over your front foot, not behind it. | Nose over toes | Shadow a front-foot drive and freeze at the end. A partner checks that your nose is over your front toes. 10 reps. |
-| 10 | F06 | Front leg stiff, weight stays back | front_foot_down | Bend your front knee as you land so your weight goes forward onto it instead of staying on your back foot. | Bent-knee hold | Shadow a front-foot drive and hold the finish for 3 seconds, front knee bent over your toes and back heel off the ground. 10 reps. |
-| 11 | F07 | Opening up too early | contact | Keep your front shoulder pointing at the line of the ball until you've hit it; opening up early pulls the bat across. | Side-on to contact | Hit 10 soft drop-feeds. A partner standing at mid-off calls "open" if your chest turns to face them before you hit the ball. |
-| 12 | F08 | Bat comes across the line | contact | Swing the bat straight through the line of the ball, with the full face pointing where you want it to go. | Through the gate | Put two cones a little wider than a ball apart, one bat-length in front of your front foot. Drive a tennis ball off a tee or a cone straight through the gate. 10 balls. |
-| 13 | F09 | Pause or hitch in the swing | hands_peak | Make it one smooth movement: let the front foot settle and the bat follow, without stopping and starting. | One-two rhythm | Shadow a drive saying "one" as your hands lift and "two" as you swing through, with no gap between them. 10 reps, then the same with soft drop-feeds. |
-| 14 | F10 | Head falls away at contact | contact | Get your head over the ball and hit it under your eyes, next to your front pad, to keep it on the ground. | Eyes on the tee | Put a tennis ball on a tee or a cone next to your front pad. Drive it and keep looking at the tee for a second after you hit it. 10 balls. |
-| 15 | F11 | Off balance at the finish | follow_through | Hold your finish for a count of two; if you can't, your head was falling away, so keep it over your front knee. | Hold the pose | After every shot in practice, hold your finish for a count of two. If you wobble, play the next one at half pace. 10 balls. |
-| 16 | F12 | Checked or wild follow-through | follow_through | Push your hands through towards your target and finish high with the bat under control. | Finish high and hold | Shadow 10 drives, pushing your hands through towards the target and finishing high. Hold each finish for 2 seconds with the bat under control. |
-| (none) | F00 | Nothing major to fix | contact | Nothing major to fix: a good, balanced drive. Keep repeating it. | Keep it grooved | Hit 20 soft drop-feeds or throw-downs at three-quarter pace and hold every finish for a count of two. Film another clip next week to check it stays the same. |
+| 1 | F01 | Head moves too early | setup | Keep your head still and your eyes level as the bowler runs in, so you get the clearest view of the ball. | Still head, ball drop | A partner stands 3 to 4 metres away and drops a tennis ball from shoulder height. Keep your head still and your eyes level until it bounces, then play a soft forward defence. 10 balls. |
+| 2 | F02 | Unbalanced stance | setup | Stand with your weight even and your knees soft, so you can move forward or back with equal ease. | Ready-position hops | Take your stance, do two small hops on the spot and land with your weight even and your knees soft. Hold for 3 seconds. Repeat 10 times. |
+| 3 | F17 | Head out of line as the bowler lets go | setup | As the bowler lets go, have your head over off stump or between middle and off, so your eyes are in line with the ball. | Eyes over off stump | Take your stance. A partner stands where the bowler lets go and checks that your head is over off stump, or between middle and off, as they pretend to bowl. Move your feet to fix it, not your head. 10 reps. |
+| 4 | F13 | Hands late: no rhythm from the backlift | hands_start_up | Start lifting the bat a little earlier, as the bowler gets ready to let go, so the swing has time to flow. | Lift on "now" | A partner throws underarm and says "now" as their arm starts to swing. Start lifting your hands on "now", not when the ball is already on its way. 10 throws. |
+| 5 | F03 | Hands go out away from the body | hands_start_up | Lift your hands up and back, close to your body, with your top hand in charge; it does not matter if the bat points towards the slips. | Mirror backlift | Stand side-on to a mirror and shadow 10 backlifts. Check your hands go up and back, close to your body, with your top hand in charge. The bat pointing towards the slips is fine. |
+| 6 | F19 | Drove a ball that was too short | front_foot_down | Drive only when the ball is pitched up; if it is short, go back or leave it. | Full or short? | A partner throws a tennis ball underarm, some full and some short, in a random order. Drive only the full ones; go back to, or leave, the short ones. 12 throws. |
+| 7 | F15 | Moving across, not out to the ball | front_foot_down | Move forward towards the ball rather than across the crease, so your head stays in line and you can hit straight. | Stride along the line | Lay a bat or a stump on the ground from your front toe, pointing straight down the pitch. Stride forward alongside it, not across it. 10 strides, then add a soft drop-feed. |
+| 8 | F04 | Head and shoulder not leading | front_foot_down | Let your head and front shoulder lead you towards the ball, and your front foot will follow. | Head first | A partner holds a ball at knee height a stride in front of you. Shadow a drive, moving your head and front shoulder towards the ball first and letting your foot follow. 10 slow reps. |
+| 9 | F05 | Front foot away from the line of the ball | front_foot_down | Step towards the ball and land your front foot on its line, or just inside it, so the bat has room to come through. | Step to the marker | Put a cone or a shoe where a full ball would pitch, just outside off stump. Stride so your front foot lands next to it, on the line or just inside it. 10 strides, then add soft drop-feeds. |
+| 10 | F06 | Front leg stiff, weight stays back | front_foot_down | Bend your front knee as you land so that it takes your weight, instead of leaving the weight on your back foot. | Bent-knee hold | Shadow a front-foot drive and hold the finish for 3 seconds, front knee bent over your toes and back heel off the ground. 10 reps. |
+| 11 | F18 | No push from the back foot | front_foot_down | Push off your back foot as you step forward, so your weight drives into the shot. | Back-foot push | Shadow a drive and feel your back foot push off as you stride, so your weight moves forward. Finish with your back heel up and only the toe on the ground. 10 reps. |
+| 12 | F16 | Weight stays back | front_foot_down | Get your weight moving towards the ball, so your head and chest are over your front foot when you hit it. | Nose over toes | Shadow a front-foot drive and freeze at the end. A partner checks that your nose is over your front toes. 10 reps. |
+| 13 | F07 | Front shoulder opens too early | contact | Keep your front shoulder pointing down the line of the shot until you have hit the ball, because an early open shoulder pulls the bat across. | Side-on to contact | Hit 10 soft drop-feeds. A partner standing at mid-off calls "open" if your chest turns to face them before you hit the ball. |
+| 14 | F08 | Bat comes across the line | contact | Bring the bat down straight along the line of the ball, and if it keeps coming across, check your stance first: head over your toes and eyes in line with off stump. | Through the gate | Put two cones a little wider than a ball apart, one bat-length in front of your front foot. Drive a tennis ball off a tee or a cone straight through the gate. 10 balls. |
+| 15 | F09 | Pause or hitch in the swing | hands_peak | Make it one smooth movement from backlift to contact; a short settle of the front foot is fine, but do not stop and start. | One-two rhythm | Shadow a drive saying "one" as your hands lift and "two" as you swing through, with no gap between them. 10 reps, then the same with soft drop-feeds. |
+| 16 | F10 | Head falls away at contact | contact | Keep your head over the ball and meet it close to your front pad, so you stay in control and keep it on the ground. | Eyes on the tee | Put a tennis ball on a tee or a cone next to your front pad. Drive it and keep looking at the tee for a second after you hit it. 10 balls. |
+| 17 | F11 | Off balance at the finish | follow_through | Hold your finish for a count of two, and if you cannot, keep your head over your front knee next time. | Hold the pose | After every shot in practice, hold your finish for a count of two. If you wobble, play the next one at half pace. 10 balls. |
+| 18 | F12 | Hands stop, or a wild follow-through | follow_through | Let your hands keep going towards your target after you hit the ball, and finish with the bat under control. | Finish high and hold | Shadow 10 drives, letting your hands keep going towards the target and finishing high. Hold each finish for 2 seconds with the bat under control. |
+| (none) | F00 | Nothing major to fix | contact | Nothing major to fix: this is a good, balanced drive, so keep repeating it. | Keep it grooved | Hit 20 soft drop-feeds or throw-downs at three-quarter pace and hold every finish for a count of two. Film another clip next week to check it stays the same. |
+
+`F14` is retired (it is now part of F07). If the backend ever sends F14, show F07.
 
 `DRILL_SAFETY` (shown in small muted text under every drill): "Use a tennis ball or a soft ball for partner drills, keep the feeder out to the side, and wear a helmet for any throw-downs with a hard ball."
 
@@ -53,12 +57,12 @@ Update the analysis results page (`src/pages/AnalysisResults.tsx`), the analysis
 | rule_id | fault id | why |
 |---|---|---|
 | T2 | F01 | Head moves before the feet, from set-up into the backlift |
-| A5 | F07 | Shoulders and hips out of line at contact: the top half is not side-on through contact |
+| A5 | F07 | Shoulders and hips out of line at contact: the top half has not closed, or opens early |
 | S4 | F12 | The body keeps spinning after contact: an uncontrolled finish |
 | F4 | F09 | Pause at the top of the backswing |
 | T1 | F10 | Head outside the line at contact |
 | A1 | F08 | Bat path goes around the body |
-| A2 | F05 | Contact too far from the body: the foot is not to the ball |
+| A2 | F10 | Arms fully stretched at contact: the ball is met away from the pad |
 | A3 | F08 | Short contact window: the bat is not travelling through the line |
 | A4 | F10 | Torso leaning sideways at contact |
 | S1 | F16 | Weight not moving to the front foot |
@@ -77,7 +81,7 @@ Update the analysis results page (`src/pages/AnalysisResults.tsx`), the analysis
 **3. Choosing the one priority fix.** Create `src/lib/priorityFix.ts` with `getPriorityFix(result)`. It returns either `null` (hide the card) or `{ state, id, name, tip, drillName, drillText, frameKey, frameLabel, source, caveat }`, where `state` is `"fault"`, `"clean"` (F00), `"unmapped"` or `"none"`. Work through these steps in order and stop at the first that gives an answer.
 
 - **Step 0.** If `result.pillars` is missing or empty, return `null`.
-- **Step A: the new backend field.** If `result.priority_fault` exists and its `id` is one of F00 to F16, use that fault. Take `name`, `tip`, `frame`, `drill.name` and `drill.text` from the backend where they are non-empty strings, and fill any gaps from `FAULTS`. `source = "backend"`. `state = "clean"` for F00, else `"fault"`.
+- **Step A: the new backend field.** If `result.priority_fault` exists and its `id` is one of F00 to F19, use that fault (F14 becomes F07). Take `name`, `tip`, `frame`, `drill.name` and `drill.text` from the backend where they are non-empty strings, and fill any gaps from `FAULTS`. `source = "backend"`. `state = "clean"` for F00, else `"fault"`.
 - **Step B: today's field.** Else, if `result.priority_fix` exists and has a `rule_id`:
   - if `RULE_TO_FAULT` has that rule id, use the mapped fault from `FAULTS`; `state = "fault"`, `source = "priority_fix"`.
   - if not, `state = "unmapped"`: name = `priority_fix.fault`, tip = `priority_fix.feedback`, no drill, `frameKey = "contact"`.
@@ -182,7 +186,7 @@ This must show:
 
 And these variants:
 - Same result with `"priority_fix": null`: step C picks flow (lost 12) over access (lost 6), so the card is the same, F09.
-- `"priority_fix": null` and no fault in flow: step C picks access, A5, so the card shows **Opening up too early**, "In your shot: Contact", drill "Side-on to contact".
+- `"priority_fix": null` and no fault in flow: step C picks access, A5, so the card shows **Front shoulder opens too early**, "In your shot: Contact", drill "Side-on to contact".
 - All four pillars `assessed: true` with no faults, `priority_fix: null`, no handedness disagreement: **Nothing major to fix**, the positive text, "Keep it grooved", no caveat.
 - All four pillars `assessed: false`: the "We couldn't pick out a fix from this clip" card with the "How to film it right" button.
 - Add `"priority_fault": { "id": "F13", "tip": "Start the lift as the bowler's arm comes over." }`: the card shows **Hands late: no rhythm from the backlift** with the backend's tip (not the table's), "In your shot: Hands Up", and the table's drill, "Lift on 'now'".
@@ -268,7 +272,7 @@ And these variants:
 
 Add two fields to the analysis response; the app already prefers them over its own fallback:
 - `priority_fault`: `{ "id": "F09", "name": "Pause or hitch in the swing", "tip": "...", "frame": "hands_peak", "drill": { "name": "...", "text": "..." }, "source_rule_id": "F4" }`, or `{ "id": "F00", ... }` when nothing is found in a measured clip, or `null` when nothing could be measured. Only `id` is required; the app fills the rest from its own table.
-- `tips`: every fault found in this clip, in chain order (F01, F02, F13, F03, F15, F04, F14, F05, F16, F06, F07, F08, F09, F10, F11, F12), each in the same shape as `priority_fault`; the priority fault is included.
-- Choose `priority_fault` by the rubric's rule (the fix that would help most, usually the earliest in the chain), not only by the lowest pillar, and never from an estimated (not measured) pillar.
-- Keep the tip text in one place (`docs/phase6/fault_tips_draft.json`, once Cam signs it off) and the rule-to-fault mapping in config, matching the table in Pass 1 (T2 to F01, A5 to F07, S4 to F12, F4 to F09).
+- `tips`: every fault found in this clip, in rubric v0.3 chain order (F01, F02, F17, F13, F03, F19, F15, F04, F05, F06, F18, F16, F07, F08, F09, F10, F11, F12), each in the same shape as `priority_fault`; the priority fault is included.
+- Choose `priority_fault` by the rubric's rule (the fix that would help most, usually the earliest in the chain; F19 when the ball was too short to drive), not only by the lowest pillar, and never from an estimated (not measured) pillar.
+- Keep the tip text in one place (`docs/phase6/fault_tips_v0_3.json`, once Cam signs it off) and the rule-to-fault mapping in config, matching the table in Pass 1 (T2 to F01, A5 to F07, S4 to F12, F4 to F09).
 - Optional, for the share card: `storyboard_frames.<key>.face_box` = `{ x, y, w, h }` as fractions of the image, from the pose head points, so the blur covers the face rather than a fixed top quarter.
