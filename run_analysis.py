@@ -208,6 +208,7 @@ def _build_analysis_quality(result, video_meta: dict) -> tuple[dict, list[str]]:
         "all_anchors_high_confidence": bool(anchor_quality.get("all_high_confidence", False)),
         "rules_suppressed": (video_meta.get("rule_evaluation") or {}).get("rules_suppressed", 0),
         "baseline_status": baseline_status,
+        "pose_backend": video_meta.get("pose_backend") or "mediapipe",
         "reliable": bool(
             audio_available or phases.resolved_contact_source == "manual"
         ) and not low_anchors and detection_rate >= 80.0 and baseline_status == "reference"
