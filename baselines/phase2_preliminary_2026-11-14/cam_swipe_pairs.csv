@@ -1,0 +1,41 @@
+pair_no,left,right,better,left_alex_overall,right_alex_overall
+1,Straight Drive_Beginner.mp4,Drive_Beginner 2.MOV,L,49,50
+2,Viv P_Offdrive Elite.mov,Drive_Beginner 3.MOV,L,94,26
+3,Straight Drive_Beginner.mp4,Drive_Beginner 3.MOV,L,49,26
+4,Cam T_Offdrive Good.mp4,Drive_Average.MOV,L,74,58
+5,Cam T_Offdrive Good.mp4,Oscar V_Beginner.mp4,L,74,30
+6,AlexT_Ondrive Good.MOV,Alex T_Straightdrive Good.MOV,R,80,79
+7,Drive_Beginner 4.MOV,Straight Drive_Beginner.mp4,R,35,49
+8,Drive_beginner.MOV,Alex T_Straightdrive Good.MOV,R,18,79
+9,Drive_beginner.MOV,Cam T_LH Offdrive Elite.mov,R,18,89
+10,AlexT_Ondrive Good.MOV,Female_Average.mp4,L,80,60
+11,Straight Drive_Beginner.mp4,Drive_Average.MOV,L,49,58
+12,Drive_beginner.MOV,Drive_Average 2.MOV,R,18,57
+13,Alex T_Straightdrive Good.MOV,Drive_Average.MOV,L,79,58
+14,Ollie P_Offdrive Average.mov,Cam T_Offdrive Elite.mp4,R,72,92
+15,Drive_Beginner 3.MOV,Oscar V_Beginner.mp4,R,26,30
+16,Female_Average.mp4,Cam T_LH Offdrive Elite.mov,R,60,89
+17,Drive_Average 2.MOV,Cam T_Offdrive Elite.mp4,R,57,92
+18,Cam T_Offdrive Good.mp4,Cam T_Offdrive Elite.mp4,R,74,92
+19,Viv P_Offdrive Elite.mov,Ollie P_Offdrive Average.mov,L,94,72
+20,Drive_Beginner 4.MOV,Cam T_Ondrive Elite.mov,R,35,86
+21,AlexT_Ondrive Good.MOV,Viv P_Offdrive Elite.mov,R,80,94
+22,Female_Average.mp4,Drive_Beginner 3.MOV,L,60,26
+23,Cam T_Ondrive Elite.mov,Viv P_Offdrive Elite.mov,L,86,94
+24,Drive_Beginner 4.MOV,Drive_Average.MOV,R,35,58
+25,Drive_Average.MOV,Dan P_Offdrive Average.MOV,R,58,67
+26,Drive_Average 2.MOV,Cam T_LH Offdrive Elite.mov,R,57,89
+27,Drive_Average 2.MOV,Cam T_Ondrive Elite.mov,R,57,86
+28,Cam T_Ondrive Elite.mov,Cam T_Offdrive Elite.mp4,L,86,92
+29,Drive_Beginner 2.MOV,Cam T_Offdrive Elite.mp4,R,50,92
+30,Ollie P_Offdrive Average.mov,Oscar V_Beginner.mp4,L,72,30
+31,Drive_Average 2.MOV,Ollie P_Offdrive Average.mov,R,57,72
+32,Ollie P_Offdrive Average.mov,Dan P_Offdrive Average.MOV,R,72,67
+33,AlexT_Ondrive Good.MOV,Drive_Beginner 4.MOV,L,80,35
+34,Female_Average.mp4,Drive_Beginner 2.MOV,L,60,50
+35,Cam T_Ondrive Elite.mov,Alex T_Straightdrive Good.MOV,L,86,79
+36,Drive_Beginner 2.MOV,Dan P_Offdrive Average.MOV,R,50,67
+37,Drive_beginner.MOV,Drive_Beginner 4.MOV,R,18,35
+38,Cam T_Offdrive Good.mp4,Drive_beginner.MOV,L,74,18
+39,Cam T_LH Offdrive Elite.mov,Dan P_Offdrive Average.MOV,L,89,67
+40,Oscar V_Beginner.mp4,Dan P_Offdrive Average.MOV,R,30,67

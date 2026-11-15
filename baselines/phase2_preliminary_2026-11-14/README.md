@@ -18,3 +18,12 @@ What exists so far: Alex's original scores (18 clips), Alex's left-or-right sess
 - 39 of 40 pairs agree with Alex's original scores; the pairwise ranking correlates 0.94 with them. One coach is highly self-consistent, and the swipe method measures what the scores measure.
 
 Files: `model_vs_alex.csv`, `alex_swipe_pairs.csv`. The keys that map codes to clips stay off the repo.
+
+## Cam's left-or-right session (15 Nov)
+
+- 34 of 40 pairs agree with Alex's original scores. Of the 6 that differ, 2 are near-ties (49 v 50, 79 v 80), 3 are within the same tier, and 2 put Cam's own on-drive above the other Elite clips.
+- Cam's ranking against Alex's scores: Spearman 0.87. Against the model (14 clips): 0.87.
+- Alex and Cam combined (80 judgements): scale separation reliability 0.74 (Alex alone: 0.19). Combined ranking against Alex's scores 0.95; against the current four-rule scorer 0.62.
+- Two qualified coaches order the 18 drives almost the same way. The four-rule scorer is the outlier.
+
+Files: `cam_swipe_pairs.csv`, `swipe_scale_alex_cam.csv`, `swipe_scale_cam_only.csv`.
