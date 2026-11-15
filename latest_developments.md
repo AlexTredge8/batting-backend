@@ -7,6 +7,23 @@
 
 ## Current stage
 
+**OVERNIGHT 15–16 NOV 2026 (six agents; all finished, tests 137 passed / 7 skipped).**
+- **Phase 6 prototype** (`baselines/phase6_prototype_2026-11-15/report.md`), offline: a pairwise model on 4 robust measurements, scored leaving one player out.
+  - Spearman 0.20 with Alex and 0.14 with Cam, against 0.66 / 0.66 for the four-rule scorer.
+  - Its main fault matches Cam's on 0 of 16 clips.
+  - **A venue-only scorer (indoor net lane or not) reaches 0.87 with both coaches:** on these 17 clips, filming conditions explain most of the order.
+  - So the next gain comes from more players with mixed venues within each tier, and from coach checkpoint ratings, not from more code.
+- **Phase 5 v5:** M14 (foot landing against downswing start), M15 (head over the feet at set-up), M16 (weight over the front foot), M17 (trigger). Registered before any clip run. M14 is blank on the reference clip and needs a redesign.
+- **Rubric v0.3 draft:** 18 checks, from Cam, Radford, the governing-body consensus and research. Tips are in `docs/phase6/fault_tips_v0_3.json`. A message for Cam is in `docs/phase1/rubric_v0_3.md`. The checkpoint file builds from v0.3.
+- **RTMPose fallback:** `POSE_FALLBACK`, default off. Steps to enable it on Railway are in `docs/phase5/rtmpose_fallback.md`. Cost: about +30–75 s and +380 MB for a clip that falls back.
+- **Lovable prompt** for the priority fix with a drill, progress, a share card and filming tips: `docs/lovable/results_tips_and_sharing_prompt.md`. Paste after Cam confirms v0.3.
+- **Go-to-market research:** `docs/gtm/go_to_market_research.md`. Coaches first, then clubs; about £39.99 a year; no ads yet.
+- **Mac environment:** the pose comparison's `pip install rtmlib` pulled OpenCV 5 and NumPy 2. Every Mac command now runs `mac_pin_env.sh` first.
+- **Waiting on Alex:**
+  - Mac runs, in order: `./phase5_video_judge_v2_mac.sh`, `./phase5_mac_next.sh`, `./phase5_anchor_prior_mac.sh`.
+  - Send Cam the v0.3 message.
+  - Send the CricRAG email (draft in Outlook).
+
 **15 NOV 2026: ALEX APPROVED ALL NEXT STEPS, INCLUDING THE HELD-BACK OPTIONS (paid video-model judge, pose-model evaluation).** Live: rules 2.3.1, handedness from the feet (verified on Railway, reference clip still 92). Phase 5 v3: failing measurements reworked, not dropped; M13 added (flow); feet decide the geometry where they disagree with the clip sheet (4 clips). New tools: `phase5_checkpoint_file.sh` + `phase5_checkpoint_codes.py` (Cam's checkpoint ratings, CIQ1 codes); `phase5_anchor_candidates.py` (contact + typical gap beats 4 of 5 current key-frame detectors, leave-one-out); `phase5_pose_compare.py` (RTMPose against MediaPipe); `phase5_video_judge.py` (Gemini, GBP 4 stop, paid-tier key only); `docs/phase3/net_session.md`. One Mac command runs all clip work: `./phase5_mac_all.sh`.
 
 **PHASE 5 STARTED (14 Nov 2026).** Twelve checkpoint measurements M01–M12, one per rubric checkpoint, in ms and body lengths, mirrored for left-handers (`phase5_checkpoints.py`, `docs/phase5/README.md`). Entry tests with thresholds fixed before the clips were measured (`phase5_entry_tests.py`). Runs on the reference clip here; the Mac command `./phase5_mac_run.sh` runs all clips from the Phase 0 pose cache. Test 1 uses the model's checkpoint ratings until coaches rate checkpoints, so it is provisional; test 2 (two-phone) waits for the Phase 3 net session. Phase 2 preliminary results: `baselines/phase2_preliminary_2026-11-14/` (model mean error 13.1 against Alex's scores; four-rule scorer 19.3; Alex's swipe pairs agree with his scores 39/40).
