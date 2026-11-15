@@ -1,0 +1,86 @@
+filename,key_frame,truth,current,prior,refined,err_current,err_prior,err_refined
+Cam T_LH Offdrive Elite.mov,setup_frame,30,30,23,16,0,7,14
+Cam T_LH Offdrive Elite.mov,hands_start_up_frame,36,34,38,33,2,2,3
+Cam T_LH Offdrive Elite.mov,front_foot_down_frame,48,47,47,48,1,1,0
+Cam T_LH Offdrive Elite.mov,hands_peak_frame,47,42,45,47,5,2,0
+Cam T_LH Offdrive Elite.mov,follow_through_frame,68,85,69,58,17,1,10
+Cam T_Offdrive Elite.mp4,setup_frame,108,106,97,103,2,11,5
+Cam T_Offdrive Elite.mp4,hands_start_up_frame,110,109,112,,1,2,
+Cam T_Offdrive Elite.mp4,front_foot_down_frame,120,117,121,125,3,1,5
+Cam T_Offdrive Elite.mp4,hands_peak_frame,119,116,119,,3,0,
+Cam T_Offdrive Elite.mp4,follow_through_frame,138,158,143,155,20,5,17
+Cam T_Ondrive Elite.mov,setup_frame,80,95,81,78,15,1,2
+Cam T_Ondrive Elite.mov,hands_start_up_frame,98,97,94,,1,4,
+Cam T_Ondrive Elite.mov,front_foot_down_frame,104,108,104,103,4,0,1
+Cam T_Ondrive Elite.mov,hands_peak_frame,103,100,102,106,3,1,3
+Cam T_Ondrive Elite.mov,follow_through_frame,140,156,125,129,16,15,11
+Viv P_Offdrive Elite.mov,setup_frame,50,60,54,50,10,4,0
+Viv P_Offdrive Elite.mov,hands_start_up_frame,67,61,67,66,6,0,1
+Viv P_Offdrive Elite.mov,front_foot_down_frame,77,77,76,78,0,1,1
+Viv P_Offdrive Elite.mov,hands_peak_frame,75,73,75,73,2,0,2
+Viv P_Offdrive Elite.mov,follow_through_frame,105,109,97,109,4,8,4
+Alex T_Straightdrive Good.MOV,setup_frame,6,0,-8,,6,14,
+Alex T_Straightdrive Good.MOV,hands_start_up_frame,8,1,7,5,7,1,3
+Alex T_Straightdrive Good.MOV,front_foot_down_frame,17,11,17,,6,0,
+Alex T_Straightdrive Good.MOV,hands_peak_frame,15,10,15,11,5,0,4
+Alex T_Straightdrive Good.MOV,follow_through_frame,39,32,38,37,7,1,2
+AlexT_Ondrive Good.MOV,setup_frame,30,30,20,13,0,10,17
+AlexT_Ondrive Good.MOV,hands_start_up_frame,31,34,36,,3,5,
+AlexT_Ondrive Good.MOV,front_foot_down_frame,45,46,45,50,1,0,5
+AlexT_Ondrive Good.MOV,hands_peak_frame,40,36,43,38,4,3,2
+AlexT_Ondrive Good.MOV,follow_through_frame,64,67,67,67,3,3,3
+Cam T_Offdrive Good.mp4,setup_frame,150,167,158,155,17,8,5
+Cam T_Offdrive Good.mp4,hands_start_up_frame,168,168,171,,0,3,
+Cam T_Offdrive Good.mp4,front_foot_down_frame,180,176,180,182,4,0,2
+Cam T_Offdrive Good.mp4,hands_peak_frame,177,174,179,183,3,2,6
+Cam T_Offdrive Good.mp4,follow_through_frame,222,215,201,,7,21,
+Ollie P_Offdrive Average.mov,setup_frame,10,0,-3,,10,13,
+Ollie P_Offdrive Average.mov,hands_start_up_frame,19,9,16,,10,3,
+Ollie P_Offdrive Average.mov,front_foot_down_frame,25,32,29,30,7,4,5
+Ollie P_Offdrive Average.mov,hands_peak_frame,27,29,26,21,2,1,6
+Ollie P_Offdrive Average.mov,follow_through_frame,55,79,55,42,24,0,13
+Dan P_Offdrive Average.MOV,setup_frame,22,27,20,12,5,2,10
+Dan P_Offdrive Average.MOV,hands_start_up_frame,38,28,35,,10,3,
+Dan P_Offdrive Average.MOV,front_foot_down_frame,44,44,44,45,0,0,1
+Dan P_Offdrive Average.MOV,hands_peak_frame,43,40,42,42,3,1,1
+Dan P_Offdrive Average.MOV,follow_through_frame,66,53,65,52,13,1,14
+Drive_Average 2.MOV,setup_frame,40,19,43,35,21,3,5
+Drive_Average 2.MOV,hands_start_up_frame,59,58,56,,1,3,
+Drive_Average 2.MOV,front_foot_down_frame,63,62,65,66,1,2,3
+Drive_Average 2.MOV,hands_peak_frame,63,59,64,68,4,1,5
+Drive_Average 2.MOV,follow_through_frame,78,94,87,95,16,9,17
+Drive_Average.MOV,setup_frame,29,43,33,32,14,4,3
+Drive_Average.MOV,hands_start_up_frame,48,44,46,41,4,2,7
+Drive_Average.MOV,front_foot_down_frame,58,52,55,59,6,3,1
+Drive_Average.MOV,hands_peak_frame,58,45,53,55,13,5,3
+Drive_Average.MOV,follow_through_frame,74,73,77,71,1,3,3
+Drive_Beginner 2.MOV,setup_frame,31,28,32,26,3,1,5
+Drive_Beginner 2.MOV,hands_start_up_frame,42,45,47,46,3,5,4
+Drive_Beginner 2.MOV,front_foot_down_frame,48,51,56,57,3,8,9
+Drive_Beginner 2.MOV,hands_peak_frame,48,46,55,59,2,7,11
+Drive_Beginner 2.MOV,follow_through_frame,68,64,78,83,4,10,15
+Drive_Beginner 3.MOV,setup_frame,16,21,13,15,5,3,1
+Drive_Beginner 3.MOV,hands_start_up_frame,25,30,25,,5,0,
+Drive_Beginner 3.MOV,front_foot_down_frame,35,32,33,36,3,2,1
+Drive_Beginner 3.MOV,hands_peak_frame,33,31,31,32,2,2,1
+Drive_Beginner 3.MOV,follow_through_frame,50,50,52,50,0,2,0
+Drive_Beginner 4.MOV,setup_frame,18,19,17,20,1,1,2
+Drive_Beginner 4.MOV,hands_start_up_frame,36,25,28,,11,8,
+Drive_Beginner 4.MOV,front_foot_down_frame,41,36,37,,5,4,
+Drive_Beginner 4.MOV,hands_peak_frame,39,26,35,31,13,4,8
+Drive_Beginner 4.MOV,follow_through_frame,64,57,55,57,7,9,7
+Drive_beginner.MOV,setup_frame,5,1,-9,,4,14,
+Drive_beginner.MOV,hands_start_up_frame,9,9,5,5,0,4,4
+Drive_beginner.MOV,front_foot_down_frame,18,12,13,,6,5,
+Drive_beginner.MOV,hands_peak_frame,16,10,11,13,6,5,3
+Drive_beginner.MOV,follow_through_frame,35,27,32,35,8,3,0
+Oscar V_Beginner.mp4,setup_frame,94,108,104,96,14,10,2
+Oscar V_Beginner.mp4,hands_start_up_frame,119,119,117,,0,2,
+Oscar V_Beginner.mp4,front_foot_down_frame,125,128,126,128,3,1,3
+Oscar V_Beginner.mp4,hands_peak_frame,124,121,124,122,3,0,2
+Oscar V_Beginner.mp4,follow_through_frame,166,140,147,140,26,19,26
+Straight Drive_Beginner.mp4,setup_frame,60,53,80,82,7,20,22
+Straight Drive_Beginner.mp4,hands_start_up_frame,92,92,93,88,0,1,4
+Straight Drive_Beginner.mp4,front_foot_down_frame,101,98,102,102,3,1,1
+Straight Drive_Beginner.mp4,hands_peak_frame,99,93,101,105,6,2,6
+Straight Drive_Beginner.mp4,follow_through_frame,145,134,123,134,11,22,11
