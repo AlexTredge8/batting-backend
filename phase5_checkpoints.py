@@ -10,7 +10,9 @@ F01..F12 that a tip would give. Rules for every measurement (plan, Section 6):
   - distances in body lengths (BL): median nose-to-ankle height from 1000 to 700 ms before
     contact (the set-up), in pixels; values are reported as % BL;
   - left-handers mirrored (x -> width - x) and front/back sides swapped, so every
-    clip reads as a right-hander. After the mirror, the off side is camera-left
+    clip reads as a right-hander. From v3 the feet decide the geometry when they disagree
+    with the clip sheet (a mirrored video or a camera behind the batter flips the picture
+    just as a left-hander does); geometry_source says which was used. After the mirror, the off side is camera-left
     (smaller x) for a camera behind the bowler. Checked on the reference clip from the
     feet (toe minus heel points camera-left at set-up); toes_point_off flags clips where not;
   - the hands are the top (front) wrist: the bottom wrist is mostly hidden behind the body;
@@ -48,7 +50,7 @@ L = {"sh": 11, "el": 13, "wr": 15, "hip": 23, "knee": 25, "ank": 27}
 R = {"sh": 12, "el": 14, "wr": 16, "hip": 24, "knee": 26, "ank": 28}
 ANCHORS = ["setup_frame", "hands_start_up_frame", "front_foot_down_frame", "hands_peak_frame",
            "contact_frame", "follow_through_frame"]
-MEASUREMENT_SET = "v2"  # v1 (14 Nov) used set-up / hands / follow-through anchors; v2 (15 Nov) anchors M01, M03, M06, M08, M09, M11, M12 on contact
+MEASUREMENT_SET = "v3"  # v3 (15 Nov): M06, M08, M09 reworked for robustness, M13 added, geometry handedness from the feet; v1 (14 Nov) used set-up / hands / follow-through anchors; v2 (15 Nov) anchors M01, M03, M06, M08, M09, M11, M12 on contact
 MIN_VIS = 0.2  # MediaPipe still places hidden points; below 0.2 they are guesses
 
 
@@ -213,12 +215,16 @@ def m05_front_foot_line(c, a, bl):
 
 
 def m06_front_knee_bends(c, a, bl):
-    """Smallest front-knee angle from 150 ms before to 100 ms after contact, degrees (2D)."""
+    """Front-knee bend around contact: 10th percentile of the 3-frame-median front-knee angle
+    from 200 ms before to 200 ms after contact, degrees (2D). v3: a percentile of a smoothed
+    series, not the single smallest frame, so one bad pose frame cannot set the value."""
     k = a["contact_frame"]
-    fr = range(k - c.ms(150), k + c.ms(100) + 1)
-    angs = [_angle(c.pt(f, c.front["hip"]), c.pt(f, c.front["knee"]), c.pt(f, c.front["ank"])) for f in fr]
-    angs = [x for x in angs if np.isfinite(x)]
-    return (float(min(angs)), "") if angs else (np.nan, "front leg not seen")
+    fr = range(k - c.ms(200), k + c.ms(200) + 1)
+    angs = np.array([_angle(c.pt(f, c.front["hip"]), c.pt(f, c.front["knee"]), c.pt(f, c.front["ank"])) for f in fr])
+    if np.isfinite(angs).sum() < 4:
+        return np.nan, "front leg not seen"
+    sm = np.array([np.nanmedian(angs[max(0, i - 1): i + 2]) for i in range(len(angs))])
+    return float(np.nanpercentile(sm, 10)), ""
 
 
 def _shoulder_width(c, frames) -> float:
@@ -240,44 +246,82 @@ def m07_stays_side_on(c, a, bl):
 
 
 def m08_downswing_straight(c, a, bl):
-    """Largest sideways bow of the top hand's path from the top of the backlift to contact, % BL."""
+    """Hands across the line: sideways travel of the top hand, relative to the shoulders, from
+    200 ms before to 100 ms after contact, AWAY from the drive's side, % BL (signed). v3: a fixed
+    contact window with 3-frame medians at each end, in place of v2's bow from a detected top of
+    backlift, which moved by several frames when contact moved by one."""
     k = a["contact_frame"]
-    hp = _top_hand_peak(c, k)
-    if hp is None:
-        return np.nan, "top hand not seen in the backlift"
-    p = c.series(range(hp, k + 1), c.front["wr"])
-    p = p[np.isfinite(p).all(axis=1)]
-    if len(p) < 3:
-        return np.nan, "hands not seen in the downswing"
-    chord = p[-1] - p[0]
-    n = np.linalg.norm(chord)
-    if n < 1e-6:
-        return np.nan, "hands do not move"
-    rel = p - p[0]
-    perp = np.abs(chord[0] * rel[:, 1] - chord[1] * rel[:, 0]) / n
-    return _pct(float(perp.max()), bl), ""
+    w, sh = c.front["wr"], (L["sh"], R["sh"])
+    def rel(f):
+        fr = range(f - 1, f + 2)
+        with np.errstate(all="ignore"):
+            return float(np.nanmedian(c.series(fr, w)[:, 0] - c.series(fr, sh)[:, 0]))
+    v = rel(k + c.ms(100)) - rel(k - c.ms(200))  # + = towards the leg side (larger x after the mirror)
+    if c.drive == "on":
+        v = -v
+    return (_pct(v, bl), "") if np.isfinite(v) else (np.nan, "top hand or shoulders not seen around contact")
+
+
+def _longest_below(sp: np.ndarray, thr: float, fps: float) -> float:
+    """Longest time the speed stays under thr, in ms, with crossings placed by linear
+    interpolation between frames (so the value is not stuck on whole frames). A slow stretch
+    that is already under way when the window opens is the set-up stillness, not a pause, and
+    is not counted."""
+    best, start = 0.0, None
+    for i in range(len(sp)):
+        below = np.isfinite(sp[i]) and sp[i] < thr
+        if below and start is None:
+            if i == 0 or not np.isfinite(sp[i - 1]):
+                start = -1.0  # still before the window: stillness before the swing, not a pause in it
+            else:
+                start = i - 1 + (sp[i - 1] - thr) / (sp[i - 1] - sp[i])
+        if start is not None and (not below or i == len(sp) - 1):
+            if start < 0:
+                start = None
+                continue
+            if below:
+                end = float(i)
+            else:
+                end = i - 1 + (thr - sp[i - 1]) / (sp[i] - sp[i - 1])
+            best = max(best, end - start)
+            start = None
+    return 1000.0 * best / fps
 
 
 def m09_one_rhythm(c, a, bl):
-    """Longest pause of the top hand (speed under 15% of its peak) from the start of the swing
-    to contact, ms. The swing starts at the first frame after 700 ms before contact where the
-    hand moves faster than 30% of its peak (contact-anchored, no set-up detector)."""
+    """Longest pause of the top hand (3-frame-median speed under 15% of its 90th-percentile speed)
+    from 450 ms before contact to contact, ms, interpolated between frames. v3: a fixed contact window (no swing-start
+    detection) and sub-frame timing, so a 1-frame shift in contact cannot jump the value by 33 ms."""
     k = a["contact_frame"]
-    fr = list(range(k - c.ms(700), k + 1))
-    sp = _speed(c, fr, c.front["wr"])
-    if not np.isfinite(sp).any():
-        return np.nan, "hands not seen"
-    peak = np.nanmax(sp)
-    moving = np.where(sp > 0.30 * peak)[0]
-    if len(moving) == 0:
+    fr = list(range(k - c.ms(450), k + 1))
+    raw = _speed(c, fr, c.front["wr"])
+    if np.isfinite(raw).sum() < 4:
+        return np.nan, "top hand not seen in the swing"
+    with np.errstate(all="ignore"):  # 3-frame median: one bad pose frame (often at contact) cannot set the peak
+        sp = np.array([np.nanmedian(raw[max(0, i - 1): i + 2]) for i in range(len(raw))])
+    peak = np.nanpercentile(sp, 90)
+    if peak <= 0:
         return np.nan, "hands do not move"
-    slow = sp[moving[0]:] < 0.15 * peak
-    run = best = 0
-    for s in slow:
-        run = run + 1 if s else 0
-        best = max(best, run)
-    return 1000.0 * best / c.fps, ""
+    return _longest_below(sp, 0.15 * peak, c.fps), ""
 
+
+def m13_hands_accelerate(c, a, bl):
+    """Swing carries through contact: the top hand's fastest upward speed in the 400 ms after
+    contact over its fastest downward speed in the 300 ms before it (vertical only: from behind
+    the bowler the hands travel towards the camera at contact, so total 2D speed there is
+    mostly hidden; the down-and-up is visible). A checked swing scores low. Added 15 Nov 2026 (v3)."""
+    k = a["contact_frame"]
+    fr = list(range(k - c.ms(300), k + c.ms(400) + 1))
+    y = c.series(fr, c.front["wr"])[:, 1]
+    raw = np.diff(y) * c.fps  # image y grows downwards: + = moving down
+    with np.errstate(all="ignore"):  # 3-frame median against single bad pose frames
+        vy = np.array([np.nanmedian(raw[max(0, j - 1): j + 2]) for j in range(len(raw))])
+    i = fr.index(k)
+    down, up = vy[:i], -vy[i:]
+    if np.isfinite(down).sum() < 2 or np.isfinite(up).sum() < 2:
+        return np.nan, "top hand not seen around contact"
+    d, u = float(np.nanmax(down)), float(np.nanmax(up))
+    return (u / d, "") if d > 0 else (np.nan, "hands do not come down before contact")
 
 def m10_head_over_ball(c, a, bl):
     """Head position towards the off side relative to the middle of the hips at contact, % BL
@@ -320,11 +364,12 @@ MEASURES: list[tuple[str, str, str, str, str, str, Callable]] = [
     ("M05", "C05", "F05", "access", "% BL, drive side +", "higher_better", m05_front_foot_line),
     ("M06", "C06", "F06", "stability", "degrees", "higher_worse", m06_front_knee_bends),
     ("M07", "C07", "F07", "access", "ratio", "higher_worse", m07_stays_side_on),
-    ("M08", "C08", "F08", "access", "% BL", "higher_worse", m08_downswing_straight),
+    ("M08", "C08", "F08", "access", "% BL, away from drive side +", "higher_worse", m08_downswing_straight),
     ("M09", "C09", "F09", "flow", "ms", "higher_worse", m09_one_rhythm),
     ("M10", "C10", "F10", "tracking", "% BL, off side +", "higher_better", m10_head_over_ball),
     ("M11", "C11", "F11", "stability", "% BL", "higher_worse", m11_balance_finish),
     ("M12", "C12", "F12", "flow", "% BL", "higher_better", m12_hands_through),
+    ("M13", "C12", "F12", "flow", "ratio", "higher_better", m13_hands_accelerate),
 ]
 
 
@@ -393,12 +438,20 @@ def main(argv: list[str] | None = None) -> int:
     out.mkdir(parents=True, exist_ok=True)
     rows, missing = [], []
     for k, npz in sorted(caches.items()):
-        clip = load_clip(npz, hand.get(k, "right"), drive.get(k, "off"))
+        given = hand.get(k, "right")
+        clip = load_clip(npz, given, drive.get(k, "off"))
+        geo, source = given, "clip sheet"
+        decide = sets.get("auto", {}).get(k) or sets["validated"].get(k)  # the product only has automatic key frames
+        if decide and toes_point_off(clip, decide) == "no":
+            other = "left" if given == "right" else "right"
+            flipped = load_clip(npz, other, drive.get(k, "off"))
+            if toes_point_off(flipped, decide) == "yes":
+                clip, geo, source = flipped, other, "feet (toes point the other way: left-handed, mirrored video or camera behind the batter)"
         for set_name, by_clip in sets.items():
             if k not in by_clip:
                 continue
             for r in measure_clip(clip, by_clip[k]):
-                rows.append({"filename": npz.stem, "measurement_set": MEASUREMENT_SET, "anchor_set": set_name, "handedness": hand.get(k, "right"), "drive_type": clip.drive,
+                rows.append({"filename": npz.stem, "measurement_set": MEASUREMENT_SET, "anchor_set": set_name, "handedness": hand.get(k, "right"), "geometry_handedness": geo, "geometry_source": source, "drive_type": clip.drive,
                              "fps": round(clip.fps, 3), **r})
     for k in sets["validated"]:
         if k not in caches:

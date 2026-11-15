@@ -21,13 +21,14 @@ One measurement per rubric checkpoint (`docs/phase1/rubric_v0.json`), each tied 
 | M03 | C03 | F03 | access | Top hand's sideways travel towards gully, relative to the shoulders, set-up to top of backlift (highest point 450–100 ms before contact) | lower |
 | M04 | C04 | F04 | tracking | Head towards the off side relative to the front foot at foot-down | higher |
 | M05 | C05 | F05 | access | Front foot's sideways step towards the drive's side (on drives: leg side) | higher |
-| M06 | C06 | F06 | stability | Smallest front-knee angle, 150 ms before to 100 ms after contact | lower |
+| M06 | C06 | F06 | stability | Front-knee angle around contact (10th percentile of a smoothed series, ±200 ms) | lower |
 | M07 | C07 | F07 | access | Shoulder-line width 100 ms before contact over its width at set-up | lower |
-| M08 | C08 | F08 | access | Largest sideways bow in the top hand's path, top of backlift to contact | lower |
-| M09 | C09 | F09 | flow | Longest pause of the top hand (under 15% of peak speed) from the start of the swing to contact, ms | lower |
+| M08 | C08 | F08 | access | Hands across the line: top hand's sideways travel away from the drive's side, relative to the shoulders, 200 ms before to 100 ms after contact | lower |
+| M09 | C09 | F09 | flow | Longest pause of the top hand in the 450 ms before contact (smoothed speed under 15% of its 90th percentile), ms, timed between frames | lower |
 | M10 | C10 | F10 | tracking | Head towards the off side relative to the hips at contact | higher |
 | M11 | C11 | F11 | stability | Sideways gap between hips and front foot, 400 to 700 ms after contact | lower |
 | M12 | C12 | F12 | flow | Highest the top hand gets above the shoulders, 150 to 700 ms after contact | higher |
+| M13 | C12 | F12 | flow | Swing carries through: fastest upward hand speed after contact over fastest downward speed before it (vertical only) | higher |
 
 "Better is" was registered on 14 Nov 2026 before any clip other than the reference clip was measured. The entry tests check it; they do not choose it.
 
@@ -64,3 +65,11 @@ Test 1 needs checkpoint ratings (2 / 1 / 0 / X per checkpoint) from Cam and Alex
 Not changed after seeing the data: the direction of any measurement. On the v1 run, against Alex's pillar scores, M03, M04 and M06 ran opposite to the registered direction (rho −0.60, −0.49, −0.49). Flipping them on these 17 clips would fit noise and the venue/camera confound (Addendum A). They are tested as registered, on human checkpoint ratings, and then on new clips.
 
 **v2 result, 15 Nov 2026 (`baselines/phase5_2026-11-15_v2/`).** Nine of twelve now hold up with automatic key frames (v1: five). Still failing that test: M06 front knee (rho 0.58), M08 downswing path (−0.30) and M09 pause (0.63): all three are dropped from v2 as specified and need a redesign. Robust and awaiting coach checkpoint ratings: access M03, M05, M07; tracking M01, M04, M10; stability M02, M11; flow M12. Flow has one candidate, so it cannot reach the two the plan needs without a new flow measurement. The verdict column now treats a model-only disagreement on test 1 as provisional ("model disagrees"), not as a drop: model ratings cannot drop a measurement, as they cannot pass one.
+
+**v3, 15 Nov 2026.** Rework, not removal: Alex asked for failing measurements to be improved rather than dropped. Each change targets the automatic-key-frame test (consistency), not agreement with coaches, so it does not fit the coach scores.
+
+- M06: the single smallest knee angle was set by one bad pose frame on three beginner clips (e.g. 133° against 170°). Now the 10th percentile of a 3-frame-median series over ±200 ms.
+- M08: v2's bow was measured from a detected top of backlift that moved several frames when contact moved one. Now a fixed contact window: hands' sideways travel against the shoulders, signed away from the drive's side (across the line).
+- M09: v2 values came in whole frames (0, 33, 67 ms...), so ranks jumped; and on the reference clip one bad pose frame at contact (797 px/s against <200) set the peak and doubled the pause. Now 3-frame-median speed, 90th-percentile peak, crossings timed between frames, and stillness already under way when the window opens is not counted as a pause.
+- M13 (new, flow): the swing carries through contact. A first version (total hand speed at contact) read ~0 on the reference clip because the hands travel towards the camera at contact (wrong plane); replaced before any clip run with the vertical down-and-up, which this camera sees.
+- Geometry from the feet: on four clips (Cam T_Offdrive Elite, Cam T_Offdrive Good, Cam T_Ondrive Elite, Dan P_Offdrive Average) the toes point the wrong way for a right-hander filmed from the bowler's end, so the "top hand" was the hidden bottom hand. When the feet disagree with the clip sheet, the clip is now mirrored and sides swapped (`geometry_source`). Cause still to confirm with Alex: left-handed batter, mirrored video, or camera behind the batter.

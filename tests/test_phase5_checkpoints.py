@@ -54,7 +54,7 @@ def _values(npz: Path, hand="right", drive="off") -> dict[str, float]:
 def test_all_measurements_compute_and_feet_check(tmp_path):
     clip = p5.load_clip(_save(tmp_path, "rh", _figure()), "right")
     rows = p5.measure_clip(clip, ANCH)
-    assert [r["measurement"] for r in rows] == [f"M{i:02d}" for i in range(1, 13)]
+    assert [r["measurement"] for r in rows] == [f"M{i:02d}" for i in range(1, 14)]
     assert all(r["value"] != "" for r in rows), [r for r in rows if r["value"] == ""]
     assert rows[0]["toes_point_off"] == "yes"
     assert 410 < rows[0]["body_length_px"] < 430  # ankles at y=620, nose at y=200
@@ -145,3 +145,36 @@ def test_uniform_rater_leaves_test_one_undecided(tmp_path):
     res = next(csv.DictReader((out / "entry_tests.csv").open()))
     assert res["test1_tracks"].startswith("not decided")
     assert res["verdict"] == "robust; awaiting coach ratings"
+
+
+def test_pause_is_interpolated_between_frames():
+    sp = np.array([10, 10, 1, 1, 10, 10], float)  # under 2 between frames 1.89 and 3.11
+    assert np.isclose(p5._longest_below(sp, 2.0, 30.0), 1000 * (3 + 1 / 9 - (1 + 8 / 9)) / 30)
+    assert p5._longest_below(np.array([5, 5, 5.0]), 2.0, 30.0) == 0.0
+    assert p5._longest_below(np.array([1, 1, 10, 10.0]), 2.0, 30.0) == 0.0  # set-up stillness, not a pause
+
+
+def test_mirrored_video_labelled_right_handed_is_flipped_by_the_feet(tmp_path):
+    rh = _figure()
+    mirrored = rh.copy()
+    mirrored[..., 0] = 1.0 - mirrored[..., 0]  # a selfie-mirrored right-hander looks left-handed
+    for i, j in [(11, 12), (13, 14), (15, 16), (23, 24), (25, 26), (27, 28), (29, 30), (31, 32), (7, 8)]:
+        mirrored[:, [i, j]] = mirrored[:, [j, i]]
+    cache = tmp_path / "cache"
+    cache.mkdir()
+    _save(cache, "plain", rh)
+    _save(cache, "mirrored", mirrored)
+    anchors = tmp_path / "a.csv"
+    anchors.write_text("filename," + ",".join(p5.ANCHORS) + "\n" + "".join(
+        f"{n}.mov," + ",".join(str(ANCH[k]) for k in p5.ANCHORS) + "\n" for n in ("plain", "mirrored")))
+    sheet = tmp_path / "s.csv"
+    sheet.write_text("filename,handedness,drive_type\nplain.mov,right,off\nmirrored.mov,right,off\n")
+    out = tmp_path / "out"
+    p5.main(["--cache-dir", str(cache), "--anchors", str(anchors), "--auto-table", str(tmp_path / "none.csv"),
+             "--clip-sheet", str(sheet), "--out", str(out)])
+    rows = list(csv.DictReader((out / "checkpoint_measurements.csv").open()))
+    geo = {r["filename"]: (r["geometry_handedness"], r["toes_point_off"]) for r in rows}
+    assert geo["plain"] == ("right", "yes") and geo["mirrored"] == ("left", "yes")
+    val = {(r["filename"], r["measurement"]): r["value"] for r in rows}
+    for m in [f"M{i:02d}" for i in range(1, 14)]:
+        assert np.isclose(float(val[("plain", m)]), float(val[("mirrored", m)]), atol=1e-6), m
