@@ -950,6 +950,7 @@ def main(argv: list[str] | None = None, post: Callable[[str, dict], dict] | None
     out = Path(args.out)
     out.mkdir(parents=True, exist_ok=True)
     guard = CostGuard(args.budget_gbp, args.usd_per_mtok_in, args.usd_per_mtok_out)
+    (out / "responses.jsonl").unlink(missing_ok=True)  # raw answers of this run only (filenames, no clip codes, no video)
     try:
         results = run_jobs(jobs, model, guard, args.workers, post=post, jsonl=out / "responses.jsonl")
     except KeyRejected as exc:
