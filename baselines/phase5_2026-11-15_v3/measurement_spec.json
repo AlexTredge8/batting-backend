@@ -1,0 +1,119 @@
+[
+  {
+    "measurement": "M01",
+    "checkpoint": "C01",
+    "fault": "F01",
+    "pillar": "tracking",
+    "unit": "% BL",
+    "direction": "higher_worse",
+    "definition": "SD of head position from 1000 to 700 ms before contact (the set-up, before the hands start), % BL."
+  },
+  {
+    "measurement": "M02",
+    "checkpoint": "C02",
+    "fault": "F02",
+    "pillar": "stability",
+    "unit": "% BL",
+    "direction": "higher_worse",
+    "definition": "Sideways offset of the hips from the middle of the feet at set-up, % BL (absolute)."
+  },
+  {
+    "measurement": "M03",
+    "checkpoint": "C03",
+    "fault": "F03",
+    "pillar": "access",
+    "unit": "% BL, off side +",
+    "direction": "higher_worse",
+    "definition": "Sideways travel of the top hand towards the off side (gully), relative to the shoulders,\n    from the set-up (850-700 ms before contact) to the top of the backlift, % BL. The whole body\n    moves across in the stride, so the hand is measured against the shoulder midpoint."
+  },
+  {
+    "measurement": "M04",
+    "checkpoint": "C04",
+    "fault": "F04",
+    "pillar": "tracking",
+    "unit": "% BL, off side +",
+    "direction": "higher_better",
+    "definition": "Head position towards the off side relative to the front foot when the front foot lands,\n    % BL (signed: positive = head over or beyond the foot, negative = head left behind on the leg side)."
+  },
+  {
+    "measurement": "M05",
+    "checkpoint": "C05",
+    "fault": "F05",
+    "pillar": "access",
+    "unit": "% BL, drive side +",
+    "direction": "higher_better",
+    "definition": "Sideways step of the front foot towards the drive's side, set-up to foot-down, % BL (signed).\n    Off and straight drives count a step to the off side as positive; on drives a step to the leg side."
+  },
+  {
+    "measurement": "M06",
+    "checkpoint": "C06",
+    "fault": "F06",
+    "pillar": "stability",
+    "unit": "degrees",
+    "direction": "higher_worse",
+    "definition": "Front-knee bend around contact: 10th percentile of the 3-frame-median front-knee angle\n    from 200 ms before to 200 ms after contact, degrees (2D). v3: a percentile of a smoothed\n    series, not the single smallest frame, so one bad pose frame cannot set the value."
+  },
+  {
+    "measurement": "M07",
+    "checkpoint": "C07",
+    "fault": "F07",
+    "pillar": "access",
+    "unit": "ratio",
+    "direction": "higher_worse",
+    "definition": "Shoulder-line width 100 ms before contact over its width at set-up (1.0 = unchanged)."
+  },
+  {
+    "measurement": "M08",
+    "checkpoint": "C08",
+    "fault": "F08",
+    "pillar": "access",
+    "unit": "% BL, away from drive side +",
+    "direction": "higher_worse",
+    "definition": "Hands across the line: sideways travel of the top hand, relative to the shoulders, from\n    200 ms before to 100 ms after contact, AWAY from the drive's side, % BL (signed). v3: a fixed\n    contact window with 3-frame medians at each end, in place of v2's bow from a detected top of\n    backlift, which moved by several frames when contact moved by one."
+  },
+  {
+    "measurement": "M09",
+    "checkpoint": "C09",
+    "fault": "F09",
+    "pillar": "flow",
+    "unit": "ms",
+    "direction": "higher_worse",
+    "definition": "Longest pause of the top hand (3-frame-median speed under 15% of its 90th-percentile speed)\n    from 450 ms before contact to contact, ms, interpolated between frames. v3: a fixed contact window (no swing-start\n    detection) and sub-frame timing, so a 1-frame shift in contact cannot jump the value by 33 ms."
+  },
+  {
+    "measurement": "M10",
+    "checkpoint": "C10",
+    "fault": "F10",
+    "pillar": "tracking",
+    "unit": "% BL, off side +",
+    "direction": "higher_better",
+    "definition": "Head position towards the off side relative to the middle of the hips at contact, % BL\n    (signed: negative = head falling away to the leg side)."
+  },
+  {
+    "measurement": "M11",
+    "checkpoint": "C11",
+    "fault": "F11",
+    "pillar": "stability",
+    "unit": "% BL",
+    "direction": "higher_worse",
+    "definition": "Sideways gap between the hips and the front foot, 400 to 700 ms after contact, % BL."
+  },
+  {
+    "measurement": "M12",
+    "checkpoint": "C12",
+    "fault": "F12",
+    "pillar": "flow",
+    "unit": "% BL",
+    "direction": "higher_better",
+    "definition": "Highest the top hand gets above the shoulders from 150 to 700 ms after contact, % BL."
+  },
+  {
+    "measurement": "M13",
+    "checkpoint": "C12",
+    "fault": "F12",
+    "pillar": "flow",
+    "unit": "ratio",
+    "direction": "higher_better",
+    "definition": "Swing carries through contact: the top hand's fastest upward speed in the 400 ms after\n    contact over its fastest downward speed in the 300 ms before it (vertical only: from behind\n    the bowler the hands travel towards the camera at contact, so total 2D speed there is\n    mostly hidden; the down-and-up is visible). A checked swing scores low. Added 15 Nov 2026 (v3)."
+  }
+]
