@@ -63,3 +63,35 @@ Cam's C14–C16 have no Radford source found. Keep them as Cam's points and do n
 4. Record whether the clip is a bowling machine or a bowler.
 
 No peer-reviewed system was found that is validated against coaches' ratings of drive quality.
+
+## Governing bodies and coaching manuals (15 Nov 2026, from search extracts; open the PDFs before quoting)
+
+Sources:
+- NZC Development Coaching Course e-manual and Transition to Hard Ball (the richest official source)
+- ECB Core Principles (player-centred: the head position "optimal for you")
+- CSA "Batting: moving down the wicket"
+- ICC Europe Level 1 (Cricket Belgium) and Cricket Namibia Level 1 manuals
+- Discovery Vitality Schools manual
+- research: Taliep 2007; Stuelcken 2005
+- informal coaching pages: Sportplan and Cricketweb
+
+**What they agree on, against the rubric.**
+
+| Checkpoint | Support | Change suggested |
+|---|---|---|
+| C01 head still, eyes level | ECB, NZC, ICC-Eu, CSA | add "eyes level / no tilt" |
+| C04 head and front shoulder lead | NZC, CSA, ICC-Eu, Namibia | keep: wide agreement |
+| C05 front foot to the pitch / line | NZC, Discovery, ICC-Eu, MCC tradition | allow "just inside the line" (elite batters, Stuelcken 2005) |
+| C06 bent front knee, weight forward | NZC, ICC-Eu, Namibia, Discovery | keep (hard to see from this camera) |
+| C07 side-on until contact | **no official support**; one informal page calls "too side-on" a fault | reword: "front shoulder stays aligned to the shot until contact" |
+| C08 bat through the line, full face to target | ICC-Eu, NZC, ECB, Namibia | add "full face of the bat to the target" (face angle not visible from here) |
+| C09 one rhythm | ECB, NZC; CSA: front foot settles before the downswing | a brief settle is normal, not a hitch |
+| C10 under the eyes, next to the front pad | NZC, Namibia, ICC-Eu, research | add "next to the front pad, no gap" |
+| C11 hold the finish | ECB, NZC | keep |
+| C12 hands through to target | NZC, Namibia, Discovery | keep; checked and full finishes both acceptable |
+| C14 top half closes | **not found** | merge into C04 / C07 wording, or keep as Cam's point |
+| C15 towards the ball, not across | NZC, informal pages | keep |
+| C16 weight over the front foot | research, NZC, Discovery | keep |
+| Missing | back foot pushes off, back leg extends (NZC, Discovery); the drive is for a full ball (all) | add a "shot choice" check: do not blame technique for a drive to a short ball |
+
+No official rating scale or official fix-first order was found. The order the sources and research imply: head and front-shoulder lead, then base and weight, then bat path, then finish.
