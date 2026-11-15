@@ -2,8 +2,9 @@
 """
 Phase 5: one measurement per rubric checkpoint (docs/phase1/rubric_v0.json).
 
-Each measurement M01..M12 belongs to one checkpoint C01..C12 and names the fault
-F01..F12 that a tip would give. Rules for every measurement (plan, Section 6):
+Each measurement belongs to one checkpoint and names the fault that a tip would give:
+M01..M13 to C01..C12 / F01..F12 (rubric v0); M14..M17 (v5) to C09, C01, C16 and C13 (C13 and C16
+are Cam's checkpoints in rubric v0.2, docs/phase1/rubric_v0_2.json). Rules for every measurement (plan, Section 6):
   - time windows in milliseconds, converted with the clip's fps (never fixed frame counts);
   - windows anchored on contact wherever possible (the most accurate key frame: automatic
     contact is out by a median 1 frame, automatic set-up by 6 and follow-through by 8);
@@ -50,7 +51,7 @@ L = {"sh": 11, "el": 13, "wr": 15, "hip": 23, "knee": 25, "ank": 27}
 R = {"sh": 12, "el": 14, "wr": 16, "hip": 24, "knee": 26, "ank": 28}
 ANCHORS = ["setup_frame", "hands_start_up_frame", "front_foot_down_frame", "hands_peak_frame",
            "contact_frame", "follow_through_frame"]
-MEASUREMENT_SET = "v4"  # v4 (15 Nov): hands = the more visible wrist; M09 total slow time; v3 (15 Nov): M06, M08, M09 reworked for robustness, M13 added, geometry handedness from the feet; v1 (14 Nov) used set-up / hands / follow-through anchors; v2 (15 Nov) anchors M01, M03, M06, M08, M09, M11, M12 on contact
+MEASUREMENT_SET = "v5"  # v5 (15 Nov): M14-M17 added (foot-landing/downswing coupling, head over the base at set-up, weight over the front foot at contact, trigger), M01-M13 unchanged; v4 (15 Nov): hands = the more visible wrist; M09 total slow time; v3 (15 Nov): M06, M08, M09 reworked for robustness, M13 added, geometry handedness from the feet; v1 (14 Nov) used set-up / hands / follow-through anchors; v2 (15 Nov) anchors M01, M03, M06, M08, M09, M11, M12 on contact
 MIN_VIS = 0.2  # MediaPipe still places hidden points; below 0.2 they are guesses
 
 
@@ -379,6 +380,102 @@ def m12_hands_through(c, a, bl):
     return (_pct(v, bl), "") if np.isfinite(v) else (np.nan, "hands or shoulders not seen after contact")
 
 
+# --- added 15 Nov 2026 (v5), registered in docs/phase5/README.md before any clip was run ----------
+
+def _front_foot_lands(c, k: int) -> tuple[float | None, str]:
+    """Front-foot landing near contact, without the legacy foot-down detector: the first moment in
+    the 450 ms before contact, after the front ankle's peak vertical speed, when its 3-frame-median
+    vertical speed falls below 15% of that peak. Returned as a (fractional) video frame: the crossing
+    is placed by linear interpolation between frames, so a one-frame shift of contact cannot move it
+    by a whole frame on its own."""
+    fr = list(range(k - c.ms(450), k + 1))
+    y = c.series(fr, c.front["ank"])[:, 1]
+    raw = np.abs(np.diff(y)) * c.fps  # px per second; speed j lies between fr[j] and fr[j + 1]
+    if np.isfinite(raw).sum() < 4:
+        return None, "front foot not seen before contact"
+    with np.errstate(all="ignore"):
+        sp = np.array([np.nanmedian(raw[max(0, j - 1): j + 2]) for j in range(len(raw))])
+    p = int(np.nanargmax(sp))
+    thr = 0.15 * sp[p]
+    if not sp[p] > 0:
+        return None, "front foot does not move before contact"
+    for j in range(p + 1, len(sp)):
+        if np.isfinite(sp[j]) and sp[j] < thr:
+            prev = sp[j - 1]
+            t = (j - 1 + (prev - thr) / (prev - sp[j])) if np.isfinite(prev) else float(j)
+            return fr[0] + t + 0.5, ""
+    return None, "front foot still moving at contact"
+
+
+def m14_foot_downswing_coupled(c, a, bl):
+    """Front-foot landing coupled to the start of the downswing (Weissensteiner et al. 2011): the gap
+    in ms between the front foot landing (_front_foot_lands: front ankle's 3-frame-median vertical
+    speed first under 15% of its peak, after the peak, in the 450 ms before contact) and the start of
+    the downswing (the top hand's highest point 450 to 100 ms before contact, _top_hand_peak).
+    The signed gap is downswing start minus landing: negative = the hands start down before the
+    stride is complete (the less-skilled pattern), positive = the foot lands first and the hands wait.
+    Skilled batters land as the downswing starts, so closer to zero is better: the value stored is
+    the ABSOLUTE gap, ms, and higher is worse. Both events are detected near contact; the legacy
+    foot-down and hands-peak anchors are not used."""
+    k = a["contact_frame"]
+    land, why = _front_foot_lands(c, k)
+    if land is None:
+        return np.nan, why
+    top = _top_hand_peak(c, k)
+    if top is None:
+        return np.nan, "top hand not seen in the backlift"
+    return abs(1000.0 * (top - land) / c.fps), ""
+
+
+def _head_offset_setup(c, a) -> float:
+    """Signed sideways offset of the nose from the midpoint of the two ankles over the set-up window,
+    pixels, off side positive (the off side is smaller x after the mirror)."""
+    fr = _setup_window(c, a)
+    v = c.series(fr, (L["ank"], R["ank"]))[:, 0] - c.series(fr, NOSE)[:, 0]
+    with np.errstate(all="ignore"):
+        return float(np.nanmedian(v))
+
+
+def m15_head_over_base_setup(c, a, bl):
+    """Head position at set-up (Radford: head over off stump or middle-and-off, eyes inside off stump):
+    sideways offset of the nose from the midpoint of the two ankles, median over the set-up window
+    (1000 to 700 ms before contact), % BL. Measured signed with the off side positive; the entry tests
+    do not allow an unknown sign, so the value stored is the ABSOLUTE offset and higher is worse:
+    the head should sit over the base, and a head well outside the feet to either side is the fault."""
+    v = _head_offset_setup(c, a)
+    return (_pct(abs(v), bl), "") if np.isfinite(v) else (np.nan, "head or feet not seen at set-up (needs 1 s before contact)")
+
+
+def m16_weight_over_front_foot(c, a, bl):
+    """Centre of mass over the front foot at contact: sideways gap between the hip-shoulder midpoint
+    (mean of both hips and both shoulders, a trunk proxy for the centre of mass) and the front ankle,
+    median over 70 ms either side of contact, % BL (absolute). Sideways only: the forward part is depth
+    along the pitch, which this camera cannot see."""
+    k = a["contact_frame"]
+    fr = range(k - c.ms(70), k + c.ms(70) + 1)
+    com = c.series(fr, (L["hip"], R["hip"], L["sh"], R["sh"]))[:, 0]
+    v = np.abs(com - c.series(fr, c.front["ank"])[:, 0])
+    with np.errstate(all="ignore"):
+        v = float(np.nanmedian(v))
+    return (_pct(v, bl), "") if np.isfinite(v) else (np.nan, "trunk or front foot not seen at contact")
+
+
+def m17_trigger_present(c, a, bl):
+    """Trigger movement (Taliep et al. 2007: 70% of skilled against 20% of less-skilled batters): the
+    largest sideways movement (range of x) of either ankle from 1000 to 450 ms before contact, before
+    the stride, % BL. A trigger is a small foot movement before committing forward, so higher is
+    better. Mirror-invariant (a range, maximised over both feet)."""
+    k = a["contact_frame"]
+    fr = range(k - c.ms(1000), k - c.ms(450) + 1)
+    best = np.nan
+    for ank in (L["ank"], R["ank"]):
+        x = c.series(fr, ank)[:, 0]
+        x = x[np.isfinite(x)]
+        if len(x) >= 4:
+            best = np.nanmax([best, float(x.max() - x.min())])
+    return (_pct(best, bl), "") if np.isfinite(best) else (np.nan, "feet not seen before the stride (needs 1 s before contact)")
+
+
 MEASURES: list[tuple[str, str, str, str, str, str, Callable]] = [
     # id, checkpoint, fault, pillar, unit, direction, function
     ("M01", "C01", "F01", "tracking", "% BL", "higher_worse", m01_head_still_setup),
@@ -394,6 +491,11 @@ MEASURES: list[tuple[str, str, str, str, str, str, Callable]] = [
     ("M11", "C11", "F11", "stability", "% BL", "higher_worse", m11_balance_finish),
     ("M12", "C12", "F12", "flow", "% BL", "higher_better", m12_hands_through),
     ("M13", "C12", "F12", "flow", "ratio", "higher_better", m13_hands_accelerate),
+    # v5 (15 Nov 2026): registered before any clip was run; directions fixed then (docs/phase5/README.md)
+    ("M14", "C09", "F09", "flow", "ms (absolute)", "higher_worse", m14_foot_downswing_coupled),
+    ("M15", "C01", "F01", "tracking", "% BL (absolute)", "higher_worse", m15_head_over_base_setup),
+    ("M16", "C16", "F16", "stability", "% BL", "higher_worse", m16_weight_over_front_foot),
+    ("M17", "C13", "F13", "flow", "% BL", "higher_better", m17_trigger_present),
 ]
 
 

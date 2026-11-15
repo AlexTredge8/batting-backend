@@ -16,8 +16,12 @@ ANCH = {"setup_frame": 40, "hands_start_up_frame": 50, "front_foot_down_frame": 
         "contact_frame": 78, "follow_through_frame": 100}
 
 
-def _figure(head_jitter=0.0, head_lean=0.0, seed=0) -> np.ndarray:
-    """A right-hander, side-on, filmed from the bowler's end. x in pixels, off side = smaller x."""
+def _figure(head_jitter=0.0, head_lean=0.0, seed=0, peak=66, head_setup_off=0.0, trigger=0.0, trigger_at=45,
+            com_lag=0.0) -> np.ndarray:
+    """A right-hander, side-on, filmed from the bowler's end. x in pixels, off side = smaller x.
+    peak: frame of the top of the backlift; head_setup_off: nose moved this many px to the off side
+    throughout; trigger: back ankle steps this many px across and back over 8 frames from trigger_at;
+    com_lag: hips and shoulders held this many px on the leg side of the front foot from foot-down."""
     rng = np.random.default_rng(seed)
     a = np.zeros((N, 33, 4))
     a[..., 3] = 1.0
@@ -30,10 +34,13 @@ def _figure(head_jitter=0.0, head_lean=0.0, seed=0) -> np.ndarray:
     for f in range(N):
         t = np.clip((f - 50) / 20, 0, 1)
         a[f, [27, 29, 31], 0] -= 40 * t
-        a[f, 0, 0] -= head_lean * t
-        # backlift: top hand rises 80 px to the peak, then comes down to contact
-        up = np.clip((f - 50) / 16, 0, 1) - np.clip((f - 66) / 12, 0, 1)
+        a[f, [27, 29, 31], 1] -= 30 * (1 - abs(2 * t - 1))  # the front foot lifts and lands at frame 70
+        a[f, [11, 12, 23, 24], 0] += com_lag * t
+        a[f, 0, 0] -= head_lean * t + head_setup_off
+        # backlift: top hand rises 80 px to the peak, then comes down to contact (frame 78)
+        up = np.clip((f - 50) / (peak - 50), 0, 1) - np.clip((f - peak) / (78 - peak), 0, 1)
         a[f, 15, 1] -= 80 * up
+        a[f, [28, 30, 32], 0] -= trigger * (1 - abs(np.clip((f - trigger_at) / 4, 0, 2) - 1))
     a[:, 0, :2] += rng.normal(0, head_jitter, (N, 2))
     a[..., 0] /= W
     a[..., 1] /= H
@@ -54,7 +61,7 @@ def _values(npz: Path, hand="right", drive="off") -> dict[str, float]:
 def test_all_measurements_compute_and_feet_check(tmp_path):
     clip = p5.load_clip(_save(tmp_path, "rh", _figure()), "right")
     rows = p5.measure_clip(clip, ANCH)
-    assert [r["measurement"] for r in rows] == [f"M{i:02d}" for i in range(1, 14)]
+    assert [r["measurement"] for r in rows] == [f"M{i:02d}" for i in range(1, 18)]
     assert all(r["value"] != "" for r in rows), [r for r in rows if r["value"] == ""]
     assert rows[0]["toes_point_off"] == "yes"
     assert 410 < rows[0]["body_length_px"] < 430  # ankles at y=620, nose at y=200
@@ -176,7 +183,7 @@ def test_mirrored_video_labelled_right_handed_is_flipped_by_the_feet(tmp_path):
     geo = {r["filename"]: (r["geometry_handedness"], r["toes_point_off"]) for r in rows}
     assert geo["plain"] == ("right", "yes") and geo["mirrored"] == ("left", "yes")
     val = {(r["filename"], r["measurement"]): r["value"] for r in rows}
-    for m in [f"M{i:02d}" for i in range(1, 14)]:
+    for m in [f"M{i:02d}" for i in range(1, 18)]:
         assert np.isclose(float(val[("plain", m)]), float(val[("mirrored", m)]), atol=1e-6), m
 
 
@@ -191,3 +198,77 @@ def test_hands_are_the_more_visible_wrist(tmp_path):
     arr[:, 15, 3] = 0.1  # top wrist hidden: the other wrist becomes "the hands"
     assert p5.load_clip(_save(tmp_path, "h", arr), "right").hand == 16
     assert p5.load_clip(_save(tmp_path, "v", _figure()), "right").hand in (15, 16)
+
+
+# --- v5: M14-M17 ---------------------------------------------------------------------
+
+def test_m14_foot_landing_downswing_gap(tmp_path):
+    clip = p5.load_clip(_save(tmp_path, "rh", _figure()), "right")
+    land, why = p5._front_foot_lands(clip, ANCH["contact_frame"])
+    assert why == "" and 68 <= land <= 72  # the foot lands at frame 70
+    early = _values(_save(tmp_path, "early", _figure(peak=60)))  # downswing starts 10 frames before landing
+    coupled = _values(_save(tmp_path, "coupled", _figure(peak=70)))  # downswing starts as the foot lands
+    assert float(early["M14"]) > 200
+    assert float(coupled["M14"]) < float(early["M14"]) and float(coupled["M14"]) < 80
+    assert float(early["M14"]) >= 0 and float(coupled["M14"]) >= 0  # stored as the absolute gap
+
+
+def test_m15_head_over_base_at_setup(tmp_path):
+    centred = p5.load_clip(_save(tmp_path, "c", _figure()), "right")
+    off = p5.load_clip(_save(tmp_path, "o", _figure(head_setup_off=30)), "right")
+    leg = p5.load_clip(_save(tmp_path, "l", _figure(head_setup_off=-30)), "right")
+    s0, s_off, s_leg = (p5._head_offset_setup(c, ANCH) for c in (centred, off, leg))
+    assert s_off > s0 > s_leg  # off side positive
+    v = {n: float(_values(_save(tmp_path, n, _figure(head_setup_off=d)))["M15"]) for n, d in (("c2", 0), ("o2", 30), ("l2", -30))}
+    assert v["o2"] > v["c2"] or v["l2"] > v["c2"]
+    assert min(v.values()) >= 0  # stored as the absolute offset
+
+
+def test_m16_weight_over_front_foot(tmp_path):
+    over, back = _values(_save(tmp_path, "a", _figure())), _values(_save(tmp_path, "b", _figure(com_lag=30)))
+    assert float(back["M16"]) > float(over["M16"]) + 5
+
+
+def test_m17_trigger(tmp_path):
+    a = dict(ANCH, contact_frame=100)  # pre-stride window 70..86, after the synthetic stride has finished
+    none = {r["measurement"]: r["value"] for r in p5.measure_clip(p5.load_clip(_save(tmp_path, "n", _figure()), "right"), a)}
+    trig = {r["measurement"]: r["value"] for r in
+            p5.measure_clip(p5.load_clip(_save(tmp_path, "t", _figure(trigger=15, trigger_at=72)), "right"), a)}
+    assert float(none["M17"]) < 0.5
+    assert float(trig["M17"]) > 2
+
+
+def test_new_measurements_mirror_for_a_left_hander(tmp_path):
+    kw = dict(peak=60, head_setup_off=20, trigger=15, trigger_at=72, com_lag=20)
+    rh = _figure(**kw)
+    lh = rh.copy()
+    lh[..., 0] = 1.0 - lh[..., 0]
+    for i, j in [(11, 12), (13, 14), (15, 16), (23, 24), (25, 26), (27, 28), (29, 30), (31, 32), (7, 8)]:
+        lh[:, [i, j]] = lh[:, [j, i]]
+    for anchors in (ANCH, dict(ANCH, contact_frame=100)):
+        a = {r["measurement"]: r["value"] for r in p5.measure_clip(p5.load_clip(_save(tmp_path, "rh", rh), "right"), anchors)}
+        b = {r["measurement"]: r["value"] for r in p5.measure_clip(p5.load_clip(_save(tmp_path, "lh", lh), "left"), anchors)}
+        for m in ("M14", "M15", "M16", "M17"):
+            if a[m] == "":  # M14 with contact at 100: the foot has long landed, blank on both
+                assert b[m] == "" and anchors["contact_frame"] == 100 and m == "M14", m
+                continue
+            assert np.isclose(float(a[m]), float(b[m]), atol=1e-6), m
+
+
+def test_new_measurements_blank_with_a_reason_when_the_window_is_missing(tmp_path):
+    clip = p5.load_clip(_save(tmp_path, "rh", _figure()), "right")
+    early = {r["measurement"]: r for r in p5.measure_clip(clip, dict(ANCH, contact_frame=10))}  # no 1 s before contact
+    for m in ("M14", "M15", "M17"):
+        assert early[m]["value"] == "" and early[m]["blank_reason"], m
+    late = {r["measurement"]: r for r in p5.measure_clip(clip, dict(ANCH, contact_frame=N + 30))}  # contact after the clip
+    for m in ("M14", "M15", "M16", "M17"):
+        assert late[m]["value"] == "" and late[m]["blank_reason"], m
+    bl = p5.body_length(clip, ANCH)
+    v, why = p5.m14_foot_downswing_coupled(p5.load_clip(_save(tmp_path, "still", _still_feet()), "right"), ANCH, bl)
+    assert np.isnan(v) and why
+
+
+def _still_feet() -> np.ndarray:
+    arr = _figure()
+    arr[:, [27, 28, 29, 30, 31, 32], 1] = arr[0, [27, 28, 29, 30, 31, 32], 1]  # the feet never lift
+    return arr

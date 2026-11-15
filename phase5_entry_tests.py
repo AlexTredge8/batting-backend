@@ -37,6 +37,7 @@ from __future__ import annotations
 
 import argparse
 import csv
+import re
 import sys
 from pathlib import Path
 from statistics import median
@@ -66,7 +67,8 @@ def _iqr(v: list[float]) -> float:
 
 
 def load_ratings(specs: list[str]) -> tuple[dict[str, dict[str, float]], list[str]]:
-    """{clip_key: {checkpoint: mean rating}}, rater kinds. Spec = path[:label]; wide C01..C12 columns."""
+    """{clip_key: {checkpoint: mean rating}}, rater kinds. Spec = path[:label]; wide checkpoint columns
+    (C01..C12 for rubric v0; any Cnn column is read, so v0.2's C13..C16 ratings are used when given)."""
     acc: dict[str, dict[str, list[float]]] = {}
     kinds = []
     for spec in specs:
@@ -74,7 +76,7 @@ def load_ratings(specs: list[str]) -> tuple[dict[str, dict[str, float]], list[st
         kinds.append(label or Path(path).stem)
         for r in load_csv(Path(path)):
             k = key_of(r["filename"])
-            for cp in (f"C{i:02d}" for i in range(1, 13)):
+            for cp in (col for col in r if re.fullmatch(r"C\d{2}", col or "")):
                 v = _num(r.get(cp, ""))  # "X" -> NaN, left out
                 if np.isfinite(v):
                     acc.setdefault(k, {}).setdefault(cp, []).append(v)
