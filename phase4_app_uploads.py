@@ -18,8 +18,8 @@ from __future__ import annotations
 import argparse
 import csv
 import hashlib
+import subprocess
 import sys
-import urllib.request
 from pathlib import Path
 
 import numpy as np
@@ -79,12 +79,13 @@ def main(argv: list[str] | None = None) -> int:
         ext = Path(r["url"].split("?")[0]).suffix.lower() or ".mov"
         dst = out / "all" / f"{r['id']}{ext}"
         r["file"] = dst
-        if not dst.exists():
-            try:
-                urllib.request.urlretrieve(r["url"], dst)
-            except Exception as exc:  # noqa: BLE001
-                r["status"] = f"download failed: {exc}"
-                print(f"  {r['id']} {r['name']}: download failed")
+        if not dst.exists() or dst.stat().st_size == 0:
+            # curl uses the Mac's own certificates (Python's urllib often lacks them on macOS)
+            res = subprocess.run(["curl", "-fsSL", "--retry", "2", "-o", str(dst), r["url"]], capture_output=True, text=True)
+            if res.returncode != 0:
+                dst.unlink(missing_ok=True)
+                r["status"] = f"download failed: {res.stderr.strip()[:120]}"
+                print(f"  {r['id']} {r['name']}: download failed ({res.stderr.strip()[:120]})")
                 continue
         r["md5"] = hashlib.md5(dst.read_bytes()).hexdigest()
 
