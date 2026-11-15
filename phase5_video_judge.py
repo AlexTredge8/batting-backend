@@ -159,8 +159,17 @@ def pick_model(models: list[str]) -> str:
             print(f"  {name}: not available ({exc.code}); trying the next one")
     raise SystemExit("No Gemini 'pro' model answered for this key. Pass --model <name>.")
 
-def video_part(data: bytes) -> dict:
-    return {"inline_data": {"mime_type": "video/mp4", "data": base64.b64encode(data).decode()}}
+VIDEO_FPS = 8.0  # Gemini samples video at 1 frame per second unless told otherwise
+
+
+def video_part(data: bytes, fps: float | None = None) -> dict:
+    """A video part. Gemini's default sampling is 1 frame per second: on a 3-4 s clip the shot
+    (about 0.5 s) can fall between the frames it sees. Run 1 (15 Nov) used the default and
+    ranked the clips at random (Spearman 0.10 with Alex). From run 2, 8 frames per second."""
+    part = {"inlineData": {"mimeType": "video/mp4", "data": base64.b64encode(data).decode()}}
+    if fps:
+        part["videoMetadata"] = {"fps": fps}
+    return part
 
 
 def main(argv: list[str] | None = None) -> int:
@@ -170,7 +179,8 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("--out", required=True)
     ap.add_argument("--ground-truth", default=str(SCRIPT_DIR / "coach_ground_truth_from_screenshot.csv"))
     ap.add_argument("--model", default=None)
-    ap.add_argument("--runs", type=int, default=2)
+    ap.add_argument("--runs", type=int, default=1)
+    ap.add_argument("--video-fps", type=float, default=VIDEO_FPS, help="frames per second Gemini samples (its default is 1)")
     ap.add_argument("--budget-gbp", type=float, default=4.0)
     ap.add_argument("--usd-per-mtok-in", type=float, default=2.5, help="price assumption for the cost guard (set high, not low)")
     ap.add_argument("--usd-per-mtok-out", type=float, default=15.0)
@@ -186,15 +196,16 @@ def main(argv: list[str] | None = None) -> int:
 
     ref_parts = []
     for n, (cid, g) in enumerate(refs, 1):
-        ref_parts += [{"text": f"Reference drive {n}."}, video_part(clips[cid]),
+        ref_parts += [{"text": f"Reference drive {n}."}, video_part(clips[cid], args.video_fps),
                       {"text": f"A qualified coach scored reference drive {n}: overall {g['overall_score']}; "
                                + ", ".join(f"{p} {g[f'{p}_score']}" for p in PILLARS) + "."}]
     base_bytes = sum(len(clips[c]) for c, _ in refs)
     # Gemini counts video at roughly 300 tokens per second; the clips are a few seconds each.
-    est_tokens = lambda b: 300 * max(1.0, b / 60_000) * 1.0  # noqa: E731  (about 60 KB per second at these settings)
-    per_call_in = 3000 + sum(est_tokens(len(clips[c])) for c, _ in refs)
-    est_usd = len(targets) * args.runs * ((per_call_in + est_tokens(max(len(v) for v in clips.values()))) * args.usd_per_mtok_in + 800 * args.usd_per_mtok_out) / 1e6
-    print(f"{len(targets)} clips x {args.runs} runs, {len(refs)} references ({base_bytes / 1e6:.1f} MB). "
+    secs = {r["clip_id"]: float(r["frames"]) / float(r["fps"]) for r in load_csv(Path(args.key)) if r.get("frames") and r.get("fps")}
+    est_tokens = lambda cid: 260 * args.video_fps * secs.get(cid, 4.0)  # noqa: E731  (about 260 tokens per sampled frame)
+    per_call_in = 3000 + sum(est_tokens(c) for c, _ in refs)
+    est_usd = sum(args.runs * ((per_call_in + est_tokens(c)) * args.usd_per_mtok_in + 800 * args.usd_per_mtok_out) / 1e6 for c in targets)
+    print(f"{len(targets)} clips x {args.runs} runs at {args.video_fps:g} frames/s, {len(refs)} references ({base_bytes / 1e6:.1f} MB). "
           f"Estimated cost about GBP {est_usd * GBP_PER_USD:.2f} (cap {args.budget_gbp:.2f}).")
     if args.dry_run:
         return 0
@@ -212,7 +223,7 @@ def main(argv: list[str] | None = None) -> int:
         for cid in targets:
             body = {
                 "systemInstruction": {"parts": [{"text": prompt_text()}]},
-                "contents": [{"role": "user", "parts": ref_parts + [{"text": "Now score this drive."}, video_part(clips[cid])]}],
+                "contents": [{"role": "user", "parts": ref_parts + [{"text": "Now score this drive."}, video_part(clips[cid], args.video_fps)]}],
                 "generationConfig": {"temperature": 0, "responseMimeType": "application/json", "responseSchema": SCHEMA},
             }
             resp = _post(f"{API}/models/{model}:generateContent", body)
@@ -223,7 +234,7 @@ def main(argv: list[str] | None = None) -> int:
                 ans = json.loads(resp["candidates"][0]["content"]["parts"][0]["text"])
             except (KeyError, IndexError, json.JSONDecodeError):
                 ans = {"reason": f"unreadable answer: {json.dumps(resp)[:200]}"}
-            rows.append({"filename": key[cid], "run": run, "model": model, **{k: ans.get(k, "") for k in SCHEMA["properties"]},
+            rows.append({"filename": key[cid], "run": run, "model": model, "video_fps": args.video_fps, **{k: ans.get(k, "") for k in SCHEMA["properties"]},
                          "prompt_tokens": use.get("promptTokenCount", ""), "output_tokens": use.get("candidatesTokenCount", "")})
             print(f"  run {run} {cid}: overall {ans.get('overall')} fault {ans.get('priority_fault')} (spent ~GBP {spent_usd * GBP_PER_USD:.2f})")
             if spent_usd * GBP_PER_USD > args.budget_gbp:

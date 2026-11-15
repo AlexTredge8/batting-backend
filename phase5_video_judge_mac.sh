@@ -18,7 +18,7 @@ echo "Swipe file: $HTML"
 printf "Paste your Gemini API key and press Enter (hidden): "
 read -rs GEMINI_API_KEY; echo
 export GEMINI_API_KEY
-OUT="baselines/phase5_video_judge_$(date +%F)"
+OUT="baselines/phase5_video_judge_$(date +%F)_fps8"
 .venv310/bin/python phase5_video_judge.py --clips-html "$HTML" --key "$KEY" --out "$OUT" ${GEMINI_MODEL:+--model "$GEMINI_MODEL"}
 unset GEMINI_API_KEY
 git add "$OUT"
