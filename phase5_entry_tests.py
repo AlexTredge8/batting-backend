@@ -12,6 +12,10 @@ seeing results; log a failed measurement and drop it instead.
                  on >= 10 rated clips that use at least two rating levels. With several
                  raters, the clip's rating is the mean. Ratings from the model only are
                  PROVISIONAL: the test is final only on human coach ratings.
+                 Added 15 Nov 2026 after the first run: the rater must also use at least two
+                 levels on 3+ clips each; otherwise the test is "not decided" (a rater who gives
+                 almost every clip the same rating cannot confirm or reject a measurement). This
+                 makes the test stricter, not easier; the first run's table is kept as it was.
   2. Two-phone   on pairs of clips of the same ball from two allowed positions, the
                  median |difference| is <= 0.25 x the between-clip IQR (validated anchors).
                  PENDING until the Phase 3 net session supplies the pairs.
@@ -42,7 +46,7 @@ sys.path.insert(0, str(SCRIPT_DIR))
 from phase0_baseline_table import key_of, load_csv  # noqa: E402
 from phase0_wrong_plane import spearman_ci  # noqa: E402
 
-MIN_COVERAGE, MIN_RHO_TRACK, MIN_RATED = 0.80, 0.30, 10
+MIN_COVERAGE, MIN_RHO_TRACK, MIN_RATED, MIN_PER_LEVEL = 0.80, 0.30, 10, 3
 MIN_RHO_AUTO, MAX_IQR_SHARE = 0.80, 0.25
 PILLARS = ["access", "tracking", "stability", "flow"]
 
@@ -115,9 +119,12 @@ def main(argv: list[str] | None = None) -> int:
                 xs.append(sign * v[k])
                 ys.append(ratings[k][cp])
         levels = len(set(ys))
+        spread = sum(1 for lv in set(ys) if ys.count(lv) >= MIN_PER_LEVEL)
         rho, lo, hi = spearman_ci(xs, ys) if len(xs) >= 4 else (np.nan, np.nan, np.nan)
         if len(xs) < MIN_RATED or levels < 2:
             t1 = "not enough ratings"
+        elif spread < 2:
+            t1 = "not decided: rater gives nearly every clip the same rating"
         else:
             t1 = ("pass" if rho >= MIN_RHO_TRACK else "fail") + ("" if human else " (provisional: model ratings)")
 
@@ -147,7 +154,9 @@ def main(argv: list[str] | None = None) -> int:
         passed_known = t0 and t1.startswith("pass") and t3 == "pass"
         verdict = ("fail" if (not t0 or t1.startswith("fail") or t3 == "fail" or t2 == "fail")
                    else "pass so far (two-phone pending)" if passed_known and t2.startswith("pending")
-                   else "pass" if passed_known and t2 == "pass" else "undecided")
+                   else "pass" if passed_known and t2 == "pass"
+                   else "robust; awaiting coach ratings" if t0 and t3 == "pass" and not t1.startswith("pass")
+                   else "undecided")
         out_rows.append({
             "measurement": m, **info, "clips": len(clips), "coverage": round(coverage, 2), "test0_coverage": "pass" if t0 else "fail",
             "rated_clips": len(xs), "rho_checkpoint": round(rho, 2) if np.isfinite(rho) else "",
@@ -178,8 +187,10 @@ def main(argv: list[str] | None = None) -> int:
     lines += ["", "## Pillars", ""]
     for p in PILLARS:
         ok = [r["measurement"] for r in out_rows if r["pillar"] == p and r["verdict"].startswith("pass")]
-        lines.append(f"- {p}: {len(ok)} measurement(s) passing so far ({', '.join(ok) or 'none'}) -> "
-                     + ("can be assessed" if len(ok) >= 2 else "NOT ASSESSED under the plan's rule (needs 2)"))
+        wait = [r["measurement"] for r in out_rows if r["pillar"] == p and r["verdict"].startswith("robust")]
+        lines.append(f"- {p}: {len(ok)} passing ({', '.join(ok) or 'none'}); {len(wait)} robust and awaiting coach ratings "
+                     f"({', '.join(wait) or 'none'}) -> " + ("can be assessed" if len(ok) >= 2 else
+                     "could reach 2 once coaches rate checkpoints" if len(ok) + len(wait) >= 2 else "NOT ASSESSED (needs 2)"))
     (out / "entry_tests.md").write_text("\n".join(lines) + "\n", encoding="utf-8")
     print("\n".join(lines))
     return 0

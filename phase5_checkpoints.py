@@ -5,8 +5,10 @@ Phase 5: one measurement per rubric checkpoint (docs/phase1/rubric_v0.json).
 Each measurement M01..M12 belongs to one checkpoint C01..C12 and names the fault
 F01..F12 that a tip would give. Rules for every measurement (plan, Section 6):
   - time windows in milliseconds, converted with the clip's fps (never fixed frame counts);
-  - distances in body lengths (BL): median nose-to-ankle height over the 300 ms
-    before set-up, in pixels; values are reported as % BL;
+  - windows anchored on contact wherever possible (the most accurate key frame: automatic
+    contact is out by a median 1 frame, automatic set-up by 6 and follow-through by 8);
+  - distances in body lengths (BL): median nose-to-ankle height from 1000 to 700 ms before
+    contact (the set-up), in pixels; values are reported as % BL;
   - left-handers mirrored (x -> width - x) and front/back sides swapped, so every
     clip reads as a right-hander. After the mirror, the off side is camera-left
     (smaller x) for a camera behind the bowler. Checked on the reference clip from the
@@ -46,6 +48,7 @@ L = {"sh": 11, "el": 13, "wr": 15, "hip": 23, "knee": 25, "ank": 27}
 R = {"sh": 12, "el": 14, "wr": 16, "hip": 24, "knee": 26, "ank": 28}
 ANCHORS = ["setup_frame", "hands_start_up_frame", "front_foot_down_frame", "hands_peak_frame",
            "contact_frame", "follow_through_frame"]
+MEASUREMENT_SET = "v2"  # v1 (14 Nov) used set-up / hands / follow-through anchors; v2 (15 Nov) anchors M01, M03, M06, M08, M09, M11, M12 on contact
 MIN_VIS = 0.2  # MediaPipe still places hidden points; below 0.2 they are guesses
 
 
@@ -103,9 +106,15 @@ def load_clip(npz: Path, handedness: str, drive: str = "off") -> Clip:
     return Clip(xy, fps, w, h, {int(f): i for i, f in enumerate(frame_idx)}, front, back, drive or "off")
 
 
+def _setup_window(c: Clip, a: dict[str, int]) -> range:
+    """The set-up, anchored on contact: 1000 to 700 ms before it (validated set-up is a median
+    964 ms before contact; automatic contact is out by 1 frame, automatic set-up by 6)."""
+    k = a["contact_frame"]
+    return range(k - c.ms(1000), k - c.ms(700) + 1)
+
+
 def body_length(c: Clip, a: dict[str, int]) -> float:
-    s = a["setup_frame"]
-    frames = range(s - c.ms(300), s + 1)
+    frames = _setup_window(c, a)
     nose = c.series(frames, NOSE)
     ank = c.series(frames, (L["ank"], R["ank"]))
     with np.errstate(all="ignore"):
@@ -135,13 +144,20 @@ def _speed(c: Clip, frames: list[int], idx: int | tuple[int, ...]) -> np.ndarray
 # Each returns (value, reason-if-blank). Direction: "higher_worse" or "higher_better",
 # registered before the entry tests are run (14 Nov 2026).
 
+def _top_hand_peak(c, k: int) -> int | None:
+    """Frame where the top hand is highest between 450 and 100 ms before contact (contact-anchored)."""
+    fr = list(range(k - c.ms(450), k - c.ms(100) + 1))
+    y = c.series(fr, c.front["wr"])[:, 1]
+    return fr[int(np.nanargmin(y))] if np.isfinite(y).any() else None
+
+
 def m01_head_still_setup(c, a, bl):
-    """SD of head position over the 300 ms before the hands start up, % BL."""
-    hs = a["hands_start_up_frame"]
-    p = c.series(range(hs - c.ms(300), hs + 1), NOSE)
+    """SD of head position from 1000 to 700 ms before contact (the set-up, before the hands start), % BL."""
+    k = a["contact_frame"]
+    p = c.series(range(k - c.ms(1000), k - c.ms(700) + 1), NOSE)
     p = p[np.isfinite(p).all(axis=1)]
     if len(p) < 4:
-        return np.nan, "head not seen before the backlift"
+        return np.nan, "set-up not in the clip (needs 1 s before contact)"
     return _pct(float(np.sqrt(p.var(axis=0).sum())), bl), ""
 
 
@@ -158,15 +174,18 @@ def m02_balanced_base(c, a, bl):
 
 def m03_backlift_straight(c, a, bl):
     """Sideways travel of the top hand towards the off side (gully), relative to the shoulders,
-    from hands-start-up to the top of the backlift, % BL. The whole body moves across in the
-    stride, so the hand is measured against the shoulder midpoint, not the picture."""
+    from the set-up (850-700 ms before contact) to the top of the backlift, % BL. The whole body
+    moves across in the stride, so the hand is measured against the shoulder midpoint."""
+    k = a["contact_frame"]
     w, sh = c.front["wr"], (L["sh"], R["sh"])
-    def rel(f):
-        fr = range(f - 1, f + 2)
+    top = _top_hand_peak(c, k)
+    if top is None:
+        return np.nan, "top hand not seen in the backlift"
+    def rel(fr):
         with np.errstate(all="ignore"):
             return float(np.nanmedian(c.series(fr, w)[:, 0] - c.series(fr, sh)[:, 0]))
-    v = rel(a["hands_start_up_frame"]) - rel(a["hands_peak_frame"])  # off side is smaller x after the mirror
-    return (_pct(v, bl), "") if np.isfinite(v) else (np.nan, "top hand or shoulders not seen at the backlift")
+    v = rel(range(k - c.ms(850), k - c.ms(700) + 1)) - rel(range(top - 1, top + 2))  # off side is smaller x
+    return (_pct(v, bl), "") if np.isfinite(v) else (np.nan, "top hand or shoulders not seen at set-up")
 
 
 def m04_head_leads(c, a, bl):
@@ -194,8 +213,9 @@ def m05_front_foot_line(c, a, bl):
 
 
 def m06_front_knee_bends(c, a, bl):
-    """Smallest front-knee angle from foot-down to 100 ms after contact, degrees (2D)."""
-    fr = range(a["front_foot_down_frame"], a["contact_frame"] + c.ms(100) + 1)
+    """Smallest front-knee angle from 150 ms before to 100 ms after contact, degrees (2D)."""
+    k = a["contact_frame"]
+    fr = range(k - c.ms(150), k + c.ms(100) + 1)
     angs = [_angle(c.pt(f, c.front["hip"]), c.pt(f, c.front["knee"]), c.pt(f, c.front["ank"])) for f in fr]
     angs = [x for x in angs if np.isfinite(x)]
     return (float(min(angs)), "") if angs else (np.nan, "front leg not seen")
@@ -220,10 +240,11 @@ def m07_stays_side_on(c, a, bl):
 
 
 def m08_downswing_straight(c, a, bl):
-    """Largest sideways bow of the hands' path from the top of the backlift to contact, % BL."""
-    hp, k = a["hands_peak_frame"], a["contact_frame"]
-    if k <= hp + 1:
-        return np.nan, "contact is not after the top of the backlift"
+    """Largest sideways bow of the top hand's path from the top of the backlift to contact, % BL."""
+    k = a["contact_frame"]
+    hp = _top_hand_peak(c, k)
+    if hp is None:
+        return np.nan, "top hand not seen in the backlift"
     p = c.series(range(hp, k + 1), c.front["wr"])
     p = p[np.isfinite(p).all(axis=1)]
     if len(p) < 3:
@@ -238,14 +259,19 @@ def m08_downswing_straight(c, a, bl):
 
 
 def m09_one_rhythm(c, a, bl):
-    """Longest pause of the hands between hands-start-up and contact, ms (speed under 15% of peak)."""
-    fr = list(range(a["hands_start_up_frame"], a["contact_frame"] + 1))
-    if len(fr) < 4:
-        return np.nan, "backlift to contact too short to judge"
+    """Longest pause of the top hand (speed under 15% of its peak) from the start of the swing
+    to contact, ms. The swing starts at the first frame after 700 ms before contact where the
+    hand moves faster than 30% of its peak (contact-anchored, no set-up detector)."""
+    k = a["contact_frame"]
+    fr = list(range(k - c.ms(700), k + 1))
     sp = _speed(c, fr, c.front["wr"])
     if not np.isfinite(sp).any():
         return np.nan, "hands not seen"
-    slow = sp < 0.15 * np.nanmax(sp)
+    peak = np.nanmax(sp)
+    moving = np.where(sp > 0.30 * peak)[0]
+    if len(moving) == 0:
+        return np.nan, "hands do not move"
+    slow = sp[moving[0]:] < 0.15 * peak
     run = best = 0
     for s in slow:
         run = run + 1 if s else 0
@@ -265,24 +291,24 @@ def m10_head_over_ball(c, a, bl):
 
 
 def m11_balance_finish(c, a, bl):
-    """Sideways gap between the hips and the front foot, ±100 ms around the follow-through, % BL."""
-    ft = a["follow_through_frame"]
-    fr = range(ft - c.ms(100), ft + c.ms(100) + 1)
+    """Sideways gap between the hips and the front foot, 400 to 700 ms after contact, % BL."""
+    k = a["contact_frame"]
+    fr = range(k + c.ms(400), k + c.ms(700) + 1)
     v = np.abs(c.series(fr, (L["hip"], R["hip"]))[:, 0] - c.series(fr, c.front["ank"])[:, 0])
     with np.errstate(all="ignore"):
         v = float(np.nanmedian(v))
-    return (_pct(v, bl), "") if np.isfinite(v) else (np.nan, "hips or front foot not seen at the finish")
+    return (_pct(v, bl), "") if np.isfinite(v) else (np.nan, "finish not in the clip (needs 0.7 s after contact)")
 
 
 def m12_hands_through(c, a, bl):
-    """Height of the hands above the shoulders at the follow-through, % BL (negative = below)."""
-    ft = a["follow_through_frame"]
-    fr = range(ft - c.ms(70), ft + c.ms(70) + 1)
+    """Highest the top hand gets above the shoulders from 150 to 700 ms after contact, % BL."""
+    k = a["contact_frame"]
+    fr = range(k + c.ms(150), k + c.ms(700) + 1)
     hands = c.series(fr, c.front["wr"])[:, 1]
     sh = c.series(fr, (L["sh"], R["sh"]))[:, 1]
     with np.errstate(all="ignore"):
-        v = float(np.nanmedian(sh - hands))  # image y grows downwards
-    return (_pct(v, bl), "") if np.isfinite(v) else (np.nan, "hands or shoulders not seen at the finish")
+        v = float(np.nanmax(sh - hands))  # image y grows downwards
+    return (_pct(v, bl), "") if np.isfinite(v) else (np.nan, "hands or shoulders not seen after contact")
 
 
 MEASURES: list[tuple[str, str, str, str, str, str, Callable]] = [
@@ -305,8 +331,7 @@ MEASURES: list[tuple[str, str, str, str, str, str, Callable]] = [
 def toes_point_off(c: Clip, a: dict[str, int]) -> str:
     """'yes' if the toes point camera-left (the off side after the mirror) over the set-up window.
     'no' means the handedness or the camera position is probably wrong for this clip."""
-    s = a["setup_frame"]
-    fr = range(s - c.ms(300), s + 1)
+    fr = _setup_window(c, a)
     d = np.concatenate([c.series(fr, 31)[:, 0] - c.series(fr, 29)[:, 0], c.series(fr, 32)[:, 0] - c.series(fr, 30)[:, 0]])
     d = d[np.isfinite(d)]
     if len(d) < 3:
@@ -349,6 +374,8 @@ def anchor_sets(anchor_csv: Path, auto_table: Path | None) -> dict[str, dict[str
 
 
 def main(argv: list[str] | None = None) -> int:
+    import warnings
+    warnings.simplefilter("ignore", RuntimeWarning)  # all-NaN windows are reported as blanks with a reason
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--cache-dir", default=str(SCRIPT_DIR / "calibration_output" / "pose_cache"))
     ap.add_argument("--anchors", default=str(SCRIPT_DIR / "anchor_truth.csv"))
@@ -371,7 +398,7 @@ def main(argv: list[str] | None = None) -> int:
             if k not in by_clip:
                 continue
             for r in measure_clip(clip, by_clip[k]):
-                rows.append({"filename": npz.stem, "anchor_set": set_name, "handedness": hand.get(k, "right"), "drive_type": clip.drive,
+                rows.append({"filename": npz.stem, "measurement_set": MEASUREMENT_SET, "anchor_set": set_name, "handedness": hand.get(k, "right"), "drive_type": clip.drive,
                              "fps": round(clip.fps, 3), **r})
     for k in sets["validated"]:
         if k not in caches:

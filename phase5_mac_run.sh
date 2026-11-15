@@ -13,8 +13,9 @@ DEFAULT_VIDS="$HOME/Documents/01 Work/03 BattingIQ/03 Working Folders/battingiq-
 VIDS="${1:-$DEFAULT_VIDS}"
 DATE="$(date +%F)"
 CACHE="calibration_output/pose_cache"
-OUT="baselines/phase5_${DATE}"
 cd "$(dirname "$0")"
+SET="$(sed -n 's/^MEASUREMENT_SET = "\(v[0-9]*\)".*/\1/p' phase5_checkpoints.py)"
+OUT="baselines/phase5_${DATE}_${SET}"
 
 say()  { printf '\n==> %s\n' "$*"; }
 fail() { printf '\nSTOP: %s\n' "$*" >&2; exit 1; }
@@ -56,7 +57,7 @@ cat "$OUT/entry_tests.md"
 
 say "Commit and push the tables (no landmarks, frames or video)"
 git add "$OUT"
-git commit -q -m "Phase 5 checkpoint measurements on the clips (${DATE})" || echo "nothing new to commit"
+git commit -q -m "Phase 5 checkpoint measurements ${SET} on the clips (${DATE})" || echo "nothing new to commit"
 ok=0
 for i in 1 2 3 4; do git pull -q --rebase origin "$BRANCH" && git push -q -u origin "$BRANCH" && { ok=1; break; } || sleep $((2 ** i)); done
 [ "$ok" = 1 ] && say "Done. Pushed $OUT" || echo "Push failed: run  git push -u origin $BRANCH  by hand."

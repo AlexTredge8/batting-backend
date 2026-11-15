@@ -125,3 +125,23 @@ def test_entry_tests_pass_a_good_measurement_and_fail_a_noisy_one(tmp_path):
     assert res["M01"]["test1_tracks"] == "pass" and res["M01"]["test3_auto_anchors"] == "pass"
     assert res["M01"]["verdict"].startswith("pass so far")
     assert res["M02"]["test1_tracks"] == "fail" and res["M02"]["verdict"] == "fail"
+
+
+def test_uniform_rater_leaves_test_one_undecided(tmp_path):
+    clips = [f"clip{i:02d}.mov" for i in range(14)]
+    rows = [{"filename": c, "anchor_set": s, "measurement": "M01", "checkpoint": "C01", "fault": "F01", "pillar": "tracking",
+             "unit": "% BL", "direction": "higher_worse", "value": float(i)} for i, c in enumerate(clips) for s in ("validated", "auto")]
+    meas = tmp_path / "m.csv"
+    with meas.open("w", newline="") as h:
+        w = csv.DictWriter(h, fieldnames=list(rows[0].keys()))
+        w.writeheader()
+        w.writerows(rows)
+    rat = tmp_path / "r.csv"
+    rat.write_text("filename,C01\n" + "".join(f"{c},{1 if i == 0 else 2}\n" for i, c in enumerate(clips)))
+    gt = tmp_path / "gt.csv"
+    gt.write_text("filename,tracking_score\n")
+    out = tmp_path / "out"
+    p5e.main(["--measurements", str(meas), "--ratings", f"{rat}:model", "--ground-truth", str(gt), "--out", str(out)])
+    res = next(csv.DictReader((out / "entry_tests.csv").open()))
+    assert res["test1_tracks"].startswith("not decided")
+    assert res["verdict"] == "robust; awaiting coach ratings"
