@@ -7,7 +7,7 @@
 > - Fill in every `[square bracket]`. Delete any clause marked *[only if true]* until the feature exists.
 > - **Decisions for Alex:** minimum age (3.1, draft says 13: **decide knowingly**); refund approach (10.3, draft gives a pro-rata refund in the first 14 days); keeping period for non-training videos (13.7); whether to run the training reward (13.5, **HIGH RISK until offer terms exist**).
 > - **Subscriptions:** the DMCC Act 2024 subscription rules are expected to apply to new subscriptions from **1 January 2027** (UNVERIFIED: based on law-firm reports of draft regulations laid on 19 October 2026). Sections 9 to 11 are written to that standard already. Check the final regulations before paid launch.
-> - **Statutory references** in the review were checked only against search extracts, because legislation.gov.uk could not be opened in this session. A solicitor should review before launch.
+> - **Every legal source behind these clauses is UNVERIFIED.** The review saw only search extracts, because legislation.gov.uk, gov.uk and ecb.co.uk could not be opened in this session. A solicitor should review before launch.
 
 **Version:** 1.0 draft. **Effective date:** [date]. **Previous versions:** none.
 
@@ -86,7 +86,7 @@
 - with a hard ball, always wear a helmet with a faceguard and proper protective equipment;
 - stop if anything hurts.
 
-7.2 **Players under 18** should do drills with an adult supervising, and must wear a helmet with a faceguard when batting against a hard ball, in nets and in matches, in line with ECB safety guidance.
+7.2 **Players under 18** should do drills with an adult supervising, and must wear a helmet with a faceguard when batting against a hard ball, in nets and in matches, in line with ECB safety guidance. *[UNVERIFIED: confirm the current ECB helmet guidance for young players before publishing.]*
 
 7.3 **Filming safely.** When filming, stand or place the phone well away from the path of the ball and the bat (behind a net, or behind the bowler's stumps). Never film from in front of the batter's hitting zone.
 

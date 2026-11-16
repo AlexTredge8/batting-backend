@@ -5,6 +5,7 @@
 > **Notes for Alex (delete this box before sharing).**
 > - This is written to show a club welfare officer. Keep it to two pages when printed.
 > - Fill in every `[square bracket]`. Check the contact details for your county and the ECB before you share it.
+> - **Every ECB and NSPCC point below is UNVERIFIED:** it was seen only in search extracts, not read in full.
 > - The ECB Safe Hands policy (current version March 2026) and the ECB photography guidance were found in searches but **not read in full**, because ecb.co.uk could not be opened in this session. The points below follow the club and county versions of that guidance (UNVERIFIED against the ECB's own text). Ask the welfare officer to point out anything that differs from their club's policy.
 > - Data protection details (lawful basis, DPIA, retention) are in `dp_review.md` and `dpia_batting_iq.md`. This policy only summarises them.
 > - Reasons and sources for each rule are in `consumer_and_safeguarding_review.md` (Issues 6 to 8).
