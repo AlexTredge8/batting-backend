@@ -1,0 +1,19 @@
+measurement,checkpoint,fault,pillar,unit,direction,clips,coverage,test0_coverage,rated_clips,rho_checkpoint,rho_ci,test1_tracks,test2_worse_filming,auto_clips,rho_auto,median_abs_auto_diff,iqr,test3_auto_anchors,rho_alex_pillar,verdict
+M01,C01,F01,tracking,% BL,higher_worse,17,0.94,pass,13,0.57,0.31 to 0.82,not decided: rater gives nearly every clip the same rating,fail (lowres),14,0.91,0.086,1.389,pass,0.06,fail
+M02,C02,F02,stability,% BL,higher_worse,17,0.94,pass,13,-0.23,-0.60 to 0.00,not decided: rater gives nearly every clip the same rating,fail (tilt),16,0.91,0.651,4.801,pass,-0.24,fail
+M03,C03,F03,access,"% BL, off side +",higher_worse,17,1.0,pass,13,0.17,-0.45 to 0.74,not decided: rater gives nearly every clip the same rating,fail (lowres),16,0.96,0.232,11.477,pass,-0.32,fail
+M04,C04,F04,tracking,"% BL, off side +",higher_better,17,1.0,pass,14,-0.24,-0.65 to 0.18,fail (provisional: model ratings),"fail (lowres, tilt)",16,0.9,1.049,8.169,pass,-0.52,fail
+M05,C05,F05,access,"% BL, drive side +",higher_better,17,0.94,pass,12,-0.48,-0.77 to -0.48,not decided: rater gives nearly every clip the same rating,fail (lowres),16,0.97,0.948,12.626,pass,0.31,fail
+M06,C06,F06,stability,degrees,higher_worse,17,1.0,pass,14,-0.2,-0.59 to 0.16,not decided: rater gives nearly every clip the same rating,fail (lowres),17,0.86,1.698,12.417,pass,-0.35,fail
+M07,C07,F07,access,ratio,higher_worse,17,0.94,pass,13,0.0,-0.31 to 0.31,not decided: rater gives nearly every clip the same rating,"fail (lowres, lowfps)",16,0.86,0.234,0.962,pass,-0.33,fail
+M08,C08,F08,access,"% BL, away from drive side +",higher_worse,17,0.94,pass,13,0.32,-0.25 to 0.79,pass (provisional: model ratings),fail (lowres),16,0.92,1.188,20.755,pass,0.15,fail
+M09,C09,F09,flow,ms,higher_worse,17,0.94,pass,13,-0.1,-0.63 to 0.47,fail (provisional: model ratings),"fail (lowres, lowfps, tilt)",16,0.69,13.933,85.269,fail,0.17,fail
+M10,C10,F10,tracking,"% BL, off side +",higher_better,17,1.0,pass,14,0.25,-0.40 to 0.77,fail (provisional: model ratings),"fail (lowres, tilt)",17,0.8,0.803,5.14,pass,-0.04,fail
+M11,C11,F11,stability,% BL,higher_worse,17,0.94,pass,13,-0.06,-0.74 to 0.63,not decided: rater gives nearly every clip the same rating,"fail (lowres, tilt)",16,0.97,0.089,2.799,pass,0.02,fail
+M12,C12,F12,flow,% BL,higher_better,17,1.0,pass,14,0.54,0.17 to 0.84,pass (provisional: model ratings),fail (lowres),17,0.99,0.018,10.36,pass,0.3,fail
+M13,C12,F12,flow,ratio,higher_better,17,0.76,fail,11,0.19,-0.41 to 0.71,fail (provisional: model ratings),fail (lowres),12,0.9,0.0,3.473,pass,0.45,fail
+M14,C09,F09,flow,ms (absolute),higher_worse,17,0.53,fail,7,-0.58,-0.91 to 0.21,not enough ratings,"fail (lowres, lowfps, tilt)",8,0.76,0.0,76.056,fail,0.0,fail
+M15,C01,F01,tracking,% BL (absolute),higher_worse,17,1.0,pass,14,0.0,-0.72 to 0.72,not decided: rater gives nearly every clip the same rating,"fail (lowres, tilt)",16,0.97,0.15,10.557,pass,0.06,fail
+M16,C16,F16,stability,% BL,higher_worse,17,1.0,pass,0,,,not enough ratings,"fail (lowres, tilt)",17,0.89,0.81,4.282,pass,0.25,fail
+M17,C13,F13,flow,% BL,higher_better,17,1.0,pass,0,,,not enough ratings,fail (lowres),17,0.93,0.411,10.001,pass,-0.38,fail
+M18,C17,F17,tracking,% BL,higher_worse,17,0.94,pass,0,,,not enough ratings,"fail (lowres, tilt)",15,0.99,0.124,11.328,pass,0.41,fail
