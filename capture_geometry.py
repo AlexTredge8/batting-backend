@@ -14,7 +14,8 @@ How (camera_roll_deg):
     batter's set-up; the shot itself, and any follow-through camera movement, comes later);
   - the batter is masked out (the pose bounding box padded by 20% on each side) where the pose is
     known, so the batter's own lean cannot leak in; a thin border (2%) is masked too;
-  - Canny edges, then cv2.HoughLinesP; long lines only (at least 15% of the frame height), within
+  - Canny edges, then cv2.HoughLinesP, each segment refined by a least-squares fit to its edge
+    pixels (sub-pixel angle); long lines only (at least 15% of the frame height), within
     20 degrees of vertical;
   - the roll is the length-weighted median angle from vertical. Sign as standing_axis_tilt_deg:
     positive = the top of a vertical line is camera-right of its bottom (the phone rolled so the
@@ -102,7 +103,35 @@ def line_segments(frame: np.ndarray, box: tuple[int, int, int, int] | None = Non
     min_len = ROLL_MIN_LEN_FRAC * min(h, w)  # the per-direction length rule is applied in roll_from_segments
     segs = cv2.HoughLinesP(edges, 1, np.pi / 360, threshold=max(20, int(0.5 * min_len)),
                            minLineLength=min_len, maxLineGap=max(3, int(0.01 * h)))
-    return np.zeros((0, 4)) if segs is None else segs.reshape(-1, 4).astype(float)
+    return np.zeros((0, 4)) if segs is None else _refine(edges, segs.reshape(-1, 4).astype(float))
+
+
+def _refine(edges: np.ndarray, segs: np.ndarray, tol: float = 1.5) -> np.ndarray:
+    """Least-squares fit of each segment to the edge pixels within tol px of it. Hough endpoints sit on
+    whole pixels, so a long edge a fraction of a degree off vertical snaps to exactly 0; the fit
+    recovers the fraction (on the reference clip it moved the estimate from 0.00 to 0.28 degrees, and
+    the +3/-3 degree copies from +3.46/-2.49 to +3.45/-2.61, i.e. +3.17/-2.89 against the original)."""
+    import cv2
+
+    ys, xs = np.nonzero(edges)
+    pts = np.column_stack([xs, ys]).astype(float)
+    out = []
+    for x1, y1, x2, y2 in segs:
+        d = np.array([x2 - x1, y2 - y1])
+        length = float(np.hypot(*d))
+        if length == 0:
+            continue
+        u = d / length
+        rel = pts - (x1, y1)
+        t, s = rel @ u, rel @ np.array([-u[1], u[0]])
+        k = (np.abs(s) <= tol) & (t >= 0) & (t <= length)
+        if k.sum() < 10:
+            out.append((x1, y1, x2, y2))
+            continue
+        vx, vy, x0, y0 = cv2.fitLine(pts[k].astype(np.float32), cv2.DIST_L2, 0, 0.01, 0.01).ravel()
+        tt = (pts[k] - (x0, y0)) @ (vx, vy)
+        out.append((x0 + vx * tt.min(), y0 + vy * tt.min(), x0 + vx * tt.max(), y0 + vy * tt.max()))
+    return np.array(out, dtype=float).reshape(-1, 4)
 
 
 def _weighted_percentile(v: np.ndarray, w: np.ndarray, q: float) -> float:
