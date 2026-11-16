@@ -81,3 +81,15 @@ Only once it beats the four-rule scorer on held-out players, on clips that mix v
 7. The tip and the "nothing major to fix" path are already in the Lovable result shape (`coaching_points`). No frontend change is needed beyond showing F00.
 
 Nothing in this list has been done. It needs explicit approval because it changes live behaviour.
+
+## Check the AI's tips (Alex validates, 16 Nov 2026)
+
+Alex does not score clips from scratch here: he checks the AI's answer. One offline file, same style and privacy as the Phase 2 and Phase 5 files (no network, clips built in, faces blurred, progress kept on the device, answer code at the end).
+
+- **Mac:** `./phase6_validate_file.sh` writes `~/Desktop/BattingIQ_check_the_AI.html` and its `_key_PRIVATE.csv`.
+- **Per clip (about 10 to 15 seconds):** the AI's main fault and its one-line tip (`fault_tips_v0_3.json`), then "Yes, that's the main thing" / "Partly — it's there but not the main thing" / "No". Partly or No opens the fault list (chain order, with "Nothing major to fix") to pick the right main fault with one tap. "How sure are you?" is optional; "Can't judge this clip" skips it.
+- **Suggestions:** `phase6_suggestions.py` takes the main fault from four AI sources already in the repo (Phase 6 measurements, Gemini checkpoints, Gemini absolute, stills model), mapped to rubric v0.3 IDs (F14 is now F07). To limit anchoring and to compare the sources, each clip's source is drawn at random with a fixed seed (balanced across sources) among those with an answer. The source is in the private key only; the page never shows it, nor Cam's answers.
+- **Answer code:** `VIQ1.<build>.<role><level>.<name>.<items>.<check>`, 4 characters per clip: clip index, verdict (y/p/n/x), the coach's main fault (number in base 36, `z` for yes or can't judge), confidence (l/m/h, x = not given).
+- **Decode:** `python phase6_validation_codes.py --codes codes.txt --key ~/Desktop/BattingIQ_check_the_AI_key_PRIVATE.csv --out baselines/phase6_validation_<date>/alex_validation.csv` prints agreement overall and per AI source, Alex's main fault against Cam's (exact), and how often the measurement-based suggestion was right.
+
+Tests: `tests/test_phase6_validation.py`.

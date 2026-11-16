@@ -124,7 +124,9 @@ function setVerdict(v){
   const a = cur(); a.v = a.v === v ? "" : v;
   if (a.v !== "p" && a.v !== "n") a.f = "";
   save(); paint();
-  if ((a.v === "p" || a.v === "n") && !a.f) $("pickBox").scrollIntoView({behavior: "smooth", block: "nearest"});
+  if ((a.v === "p" || a.v === "n") && !a.f){ // bring the list up under the (sticky) clip, so the pick is one tap away
+    const clip = document.querySelector("#session .clip").getBoundingClientRect();
+    window.scrollTo(0, window.scrollY + $("pickBox").getBoundingClientRect().top - clip.height - 12); }
 }
 document.querySelectorAll("#verdicts button").forEach(b => b.onclick = () => setVerdict(b.dataset.v));
 $("cant").onclick = () => setVerdict("x");
@@ -185,7 +187,7 @@ function answerCode(){
   return body + "." + sum.toString(36);
 }
 function finish(){
-  $("session").hidden = true; $("head").hidden = false; $("done").hidden = false; $("code").value = answerCode();
+  $("session").hidden = true; $("head").hidden = false; $("done").hidden = false; $("code").value = answerCode(); window.scrollTo(0, 0);
   const vs = state.order.map(id => (state.ans[id] || {}).v), c = v => vs.filter(x => x === v).length;
   $("tally").textContent = "The AI was right on " + c("y") + ", partly right on " + c("p") + " and wrong on " + c("n") + " of the " + state.order.length + " clips"
     + (c("x") ? " (" + c("x") + " you could not judge)." : ".");
