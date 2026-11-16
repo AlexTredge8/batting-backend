@@ -231,13 +231,16 @@ def _read_frames(video_path: str | Path, indices: Sequence[int] | None) -> tuple
         cap.release()
 
 
-def camera_roll_deg(source, frame_indices: Sequence[int] | None = None, boxes: dict | Sequence | None = None) -> dict:
+def camera_roll_deg(source, frame_indices: Sequence[int] | None = None, boxes: dict | Sequence | None = None,
+                    box_frame_size: tuple[float, float] | None = None) -> dict:
     """The phone's roll, in degrees, from the background's long vertical lines (module notes).
 
     source: a video path (frames are decoded at frame_indices; default: 5 evenly spaced over the first
     40% of the clip), or a sequence of frames (BGR or grey arrays), used as given.
     boxes: the batter's box per frame, to mask out: {frame index: (x0, y0, x1, y1) or None} for a video,
     or a list parallel to the frames. Missing: no mask for that frame.
+    box_frame_size: (width, height) the boxes were made for; if the decoded frames differ (e.g. the
+    orientation was handled differently), the boxes are not used and "mask_skipped" says so.
 
     Returns {"roll_deg": float or None (None unless confidence is "ok"), "raw_roll_deg", "confidence":
     "ok" / "unknown", "n_lines" (distinct lines), "n_segments", "iqr_deg", "source": "vertical" /
@@ -245,18 +248,24 @@ def camera_roll_deg(source, frame_indices: Sequence[int] | None = None, boxes: d
     """
     if isinstance(source, (str, Path)):
         idx, frames = _read_frames(source, frame_indices)
-        box_of = (lambda j, i: (boxes or {}).get(i)) if isinstance(boxes, dict) or boxes is None else \
-            (lambda j, i: boxes[j] if j < len(boxes) else None)
     else:
         frames = list(source)
         idx = list(frame_indices) if frame_indices is not None else list(range(len(frames)))
-        box_of = (lambda j, i: (boxes or {}).get(i)) if isinstance(boxes, dict) or boxes is None else \
-            (lambda j, i: boxes[j] if j < len(boxes) else None)
+
+    def box_of(j: int, i: int):
+        if boxes is None:
+            return None
+        if isinstance(boxes, dict):
+            return boxes.get(i)
+        return boxes[j] if j < len(boxes) else None
     if not frames:
         out = roll_from_segments([], 1, 1)
         out.update(frames=[], masked_frames=0)
         return out
     h, w = frames[0].shape[:2]
+    mask_skipped = box_frame_size is not None and (abs(box_frame_size[0] - w) > 1 or abs(box_frame_size[1] - h) > 1)
+    if mask_skipped:
+        box_of = lambda j, i: None  # noqa: E731
     segs, masked = [], 0
     for j, (i, f) in enumerate(zip(idx, frames)):
         b = box_of(j, i)
@@ -264,6 +273,8 @@ def camera_roll_deg(source, frame_indices: Sequence[int] | None = None, boxes: d
         segs.append(line_segments(f, b))
     out = roll_from_segments(segs, w, h)
     out.update(frames=[int(i) for i in idx], masked_frames=int(masked))
+    if mask_skipped:
+        out["mask_skipped"] = f"frame size {w}x{h} is not the pose's {box_frame_size[0]:.0f}x{box_frame_size[1]:.0f}"
     return out
 
 

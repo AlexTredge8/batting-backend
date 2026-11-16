@@ -18,10 +18,12 @@ are Cam's checkpoints in rubric v0.2, docs/phase1/rubric_v0_2.json). Rules for e
     feet (toe minus heel points camera-left at set-up); toes_point_off flags clips where not;
   - the hands are the top (front) wrist: the bottom wrist is mostly hidden behind the body;
   - landmarks with visibility under 0.2 are dropped, then smoothed with a 5-frame moving median before measuring;
-  - v7 (16 Nov 2026): before measuring, every landmark is rotated about the set-up ankle midpoint so
-    the batter's standing axis at set-up (ankle midpoint to shoulder midpoint) is vertical
-    (level_clip), so a phone held off level does not move the sideways measurements. Done after the
-    mirror; the result is the same either way round, as the axis is mirrored with the picture;
+  - v8 (16 Nov 2026): before measuring, every landmark is rotated by minus the CAMERA ROLL, estimated
+    from the long vertical lines in the background (capture_geometry.camera_roll_deg, cached per clip
+    as <stem>.roll.json next to the pose cache), only when that estimate's confidence is "ok"; otherwise
+    nothing is rotated. So a phone held off level does not move the sideways measurements, and a
+    batter's real lean is kept. v7 levelled to the batter's own standing axis instead, which also
+    removed a real lean (-7 degrees on the reference clip, camera level); LEVEL_MODE reproduces v6/v7;
   - a measurement is blank (NaN) with a reason when its frames or landmarks are missing.
 
 Nothing here scores or changes the product. Phase 5 entry tests
@@ -29,6 +31,12 @@ Nothing here scores or changes the product. Phase 5 entry tests
 
   python phase5_checkpoints.py --cache-dir calibration_output/pose_cache --out <dir>
       [--anchors anchor_truth.csv] [--auto-table baselines/phase0_2026-11-14/baseline_table.csv]
+      [--video-dir <clips>]
+
+--video-dir (v8): where the clips are. For each pose cache <stem>.npz the camera roll is read from
+<stem>.roll.json in the same folder; if that is missing and the clip is found under --video-dir, it is
+computed (about 5 frames from the first 40% of the clip, the batter masked out) and cached there. With
+neither, the clip is not rotated and roll_source is "none".
 
 Writes checkpoint_measurements.csv: one row per clip x anchor set x measurement.
 No landmarks or frames are written.
@@ -48,15 +56,16 @@ import numpy as np
 
 SCRIPT_DIR = Path(__file__).resolve().parent
 sys.path.insert(0, str(SCRIPT_DIR))
-from phase0_baseline_table import key_of, load_csv  # noqa: E402
+from phase0_baseline_table import find_video, key_of, load_csv  # noqa: E402
 from metrics_calculator import standing_axis_tilt_deg  # noqa: E402
+import capture_geometry  # noqa: E402
 
 NOSE = 0
 L = {"sh": 11, "el": 13, "wr": 15, "hip": 23, "knee": 25, "ank": 27}
 R = {"sh": 12, "el": 14, "wr": 16, "hip": 24, "knee": 26, "ank": 28}
 ANCHORS = ["setup_frame", "hands_start_up_frame", "front_foot_down_frame", "hands_peak_frame",
            "contact_frame", "follow_through_frame"]
-MEASUREMENT_SET = "v7"  # v7 (16 Nov): all landmarks rotated so the batter's standing axis at set-up (ankle midpoint to shoulder midpoint) is vertical, so camera roll does not move the sideways measurements (robustness for test 2; IDs, definitions, directions and thresholds unchanged); v6 (16 Nov): M18 head, hands and feet in line at set-up (Radford, via Alex); v5 (15 Nov): M14-M17 added (foot-landing/downswing coupling, head over the base at set-up, weight over the front foot at contact, trigger), M01-M13 unchanged; v4 (15 Nov): hands = the more visible wrist; M09 total slow time; v3 (15 Nov): M06, M08, M09 reworked for robustness, M13 added, geometry handedness from the feet; v1 (14 Nov) used set-up / hands / follow-through anchors; v2 (15 Nov) anchors M01, M03, M06, M08, M09, M11, M12 on contact
+MEASUREMENT_SET = "v8"  # v8 (16 Nov): rotated by the camera roll from the background lines (confidence "ok" only), not by the batter's standing axis, which also held a real lean; v7 (16 Nov): all landmarks rotated so the batter's standing axis at set-up (ankle midpoint to shoulder midpoint) is vertical, so camera roll does not move the sideways measurements (robustness for test 2; IDs, definitions, directions and thresholds unchanged); v6 (16 Nov): M18 head, hands and feet in line at set-up (Radford, via Alex); v5 (15 Nov): M14-M17 added (foot-landing/downswing coupling, head over the base at set-up, weight over the front foot at contact, trigger), M01-M13 unchanged; v4 (15 Nov): hands = the more visible wrist; M09 total slow time; v3 (15 Nov): M06, M08, M09 reworked for robustness, M13 added, geometry handedness from the feet; v1 (14 Nov) used set-up / hands / follow-through anchors; v2 (15 Nov) anchors M01, M03, M06, M08, M09, M11, M12 on contact
 MIN_VIS = 0.2  # MediaPipe still places hidden points; below 0.2 they are guesses
 
 
@@ -72,6 +81,8 @@ class Clip:
     back: dict[str, int]
     drive: str = "off"    # off / straight / on, from clip_sheet.csv
     hand: int = 15        # the wrist tracked as "the hands": the more visible one over the clip (v4)
+    mirrored: bool = False  # x was mirrored (left-hander geometry)
+    roll: dict | None = None  # camera roll of the video as filmed (capture_geometry.camera_roll_deg), v8
 
     def row(self, frame: int) -> int | None:
         return self.pos.get(int(frame))
@@ -98,7 +109,7 @@ def _moving_median(a: np.ndarray, k: int = 5) -> np.ndarray:
     return out
 
 
-def load_clip(npz: Path, handedness: str, drive: str = "off") -> Clip:
+def load_clip(npz: Path, handedness: str, drive: str = "off", roll: dict | None = None) -> Clip:
     d = np.load(npz)
     arr, frame_idx = d["landmarks"].astype(float), d["frame_idx"]
     w, h, fps = float(d["width"]), float(d["height"]), float(d["fps"])
@@ -120,7 +131,8 @@ def load_clip(npz: Path, handedness: str, drive: str = "off") -> Clip:
     other = back["wr"]
     hand = other if (np.isfinite(vis[other]) and vis[other] > (vis[front["wr"]] if np.isfinite(vis[front["wr"]]) else -1) + 0.1) \
         else front["wr"]  # the top (front) hand unless the other wrist is clearly more visible
-    return Clip(xy, fps, w, h, {int(f): i for i, f in enumerate(frame_idx)}, front, back, drive or "off", hand)
+    return Clip(xy, fps, w, h, {int(f): i for i, f in enumerate(frame_idx)}, front, back, drive or "off", hand,
+                left_handed, roll)
 
 
 def _setup_window(c: Clip, a: dict[str, int]) -> range:
@@ -130,7 +142,25 @@ def _setup_window(c: Clip, a: dict[str, int]) -> range:
     return range(k - c.ms(1000), k - c.ms(700) + 1)
 
 
-LEVEL_TO_STANDING_AXIS = True  # v7. False reproduces v6 (used only for before/after comparisons)
+# How the picture is levelled before measuring. "camera_roll" is v8 (the registered set);
+# "standing_axis" reproduces v7 and "none" reproduces v6 (before/after comparisons only).
+LEVEL_MODES = ("camera_roll", "standing_axis", "none")
+LEVEL_MODE = "camera_roll"
+LEVEL_TO_STANDING_AXIS = False  # v7 switch, kept for old calls: True forces "standing_axis" when LEVEL_MODE is not set otherwise
+
+
+def _level_mode(level: bool | str | None) -> str:
+    """measure_clip's level argument: None = LEVEL_MODE (or v7 if LEVEL_TO_STANDING_AXIS), False = "none"
+    (v6), True = "standing_axis" (v7, as the old switch meant), or one of LEVEL_MODES."""
+    if level is None:
+        return "standing_axis" if LEVEL_TO_STANDING_AXIS else LEVEL_MODE
+    if level is True:
+        return "standing_axis"
+    if level is False:
+        return "none"
+    if level not in LEVEL_MODES:
+        raise ValueError(f"level must be one of {LEVEL_MODES}")
+    return level
 
 
 def setup_axis_tilt(c: Clip, a: dict[str, int]) -> tuple[float | None, np.ndarray | None]:
@@ -160,6 +190,56 @@ def level_clip(c: Clip, a: dict[str, int]) -> tuple[Clip, float | None]:
     d = c.xy - pivot
     xy = np.stack([pivot[0] + d[..., 0] * cs - d[..., 1] * sn, pivot[1] + d[..., 0] * sn + d[..., 1] * cs], axis=-1)
     return replace(c, xy=xy), tilt
+
+
+def clip_camera_roll(c: Clip) -> float | None:
+    """The camera roll in this clip's measurement picture (after the left-hander mirror, which flips its
+    sign), degrees, or None when there is no estimate with confidence "ok"."""
+    r = c.roll or {}
+    if r.get("confidence") != "ok" or r.get("roll_deg") is None:
+        return None
+    return -float(r["roll_deg"]) if c.mirrored else float(r["roll_deg"])
+
+
+def level_by_camera_roll(c: Clip) -> tuple[Clip, float | None]:
+    """v8 (16 Nov 2026): rotate every landmark about the frame centre by minus the camera roll, so the
+    background's vertical lines are vertical. Only when the roll's confidence is "ok"; otherwise the clip
+    is returned as it is. The batter's own lean is kept. Returns the clip and the roll removed (or None)."""
+    roll = clip_camera_roll(c)
+    if roll is None:
+        return c, None
+    xy = capture_geometry.rotate_points(c.xy, -roll, (c.width / 2.0, c.height / 2.0))
+    return replace(c, xy=xy), roll
+
+
+def roll_for_npz(npz: Path, video_dir: Path | None) -> dict:
+    """The camera roll for the clip behind this pose cache: <stem>.roll.json next to it if present (same
+    roll version), else computed from the video under video_dir and cached there, else
+    {"source": "none"} (not rotated). The batter is masked out with the pose box of each sampled frame."""
+    cache = npz.with_name(f"{npz.stem}.roll.json")
+    if cache.exists():
+        try:
+            r = json.loads(cache.read_text(encoding="utf-8"))
+            if r.get("version") == capture_geometry.ROLL_VERSION:
+                return r
+        except (OSError, ValueError):
+            pass
+    video = find_video(video_dir, npz.name) if video_dir else None
+    if video is None:
+        return {"roll_deg": None, "confidence": "unknown", "source": "none", "n_lines": 0,
+                "version": capture_geometry.ROLL_VERSION, "note": "no video found: not rotated"}
+    d = np.load(npz)
+    w, h, idx = float(d["width"]), float(d["height"]), d["frame_idx"]
+    frames = capture_geometry.roll_frame_indices(int(idx.max()) + 1 if len(idx) else 0)
+    row = {int(f): i for i, f in enumerate(idx)}
+    boxes = {f: capture_geometry.batter_box(d["landmarks"][row[f]], w, h) for f in frames if f in row}
+    r = capture_geometry.camera_roll_deg(video, frames, boxes, box_frame_size=(w, h))
+    r["video"] = video.name
+    try:
+        cache.write_text(json.dumps(r, indent=2) + "\n", encoding="utf-8")
+    except OSError:
+        pass
+    return r
 
 
 def body_length(c: Clip, a: dict[str, int]) -> float:
@@ -565,11 +645,19 @@ def toes_point_off(c: Clip, a: dict[str, int]) -> str:
     return "yes" if np.median(d) < 0 else "no"
 
 
-def measure_clip(c: Clip, anchors: dict[str, int], level: bool | None = None) -> list[dict]:
+def measure_clip(c: Clip, anchors: dict[str, int], level: bool | str | None = None) -> list[dict]:
     a = {k: int(v) for k, v in anchors.items()}
-    tilt = None
-    if (LEVEL_TO_STANDING_AXIS if level is None else level):
-        c, tilt = level_clip(c, a)  # v7: before any measurement, body length included
+    mode = _level_mode(level)
+    tilt, _ = setup_axis_tilt(c, a)  # for information only from v8 (it holds the batter's lean as well as any roll)
+    roll = clip_camera_roll(c)
+    levelled_by = "none"
+    if mode == "camera_roll":
+        c, removed = level_by_camera_roll(c)  # v8: before any measurement, body length included
+        levelled_by = "camera_roll" if removed is not None else "none"
+    elif mode == "standing_axis":
+        c, removed = level_clip(c, a)  # v7
+        levelled_by = "standing_axis" if removed is not None else "none"
+    r = c.roll or {}
     bl = body_length(c, a)
     toes = toes_point_off(c, a)
     rows = []
@@ -585,7 +673,10 @@ def measure_clip(c: Clip, anchors: dict[str, int], level: bool | None = None) ->
                      "direction": direction, "value": "" if not np.isfinite(v) else round(float(v), 3),
                      "blank_reason": why, "body_length_px": round(bl, 1) if np.isfinite(bl) else "",
                      "toes_point_off": toes,
-                     "setup_axis_tilt_deg": "" if tilt is None else round(float(tilt), 2)})
+                     "setup_axis_tilt_deg": "" if tilt is None else round(float(tilt), 2),
+                     "camera_roll_deg": "" if roll is None else round(roll, 2),
+                     "roll_confidence": r.get("confidence", "unknown"), "roll_source": r.get("source", "none"),
+                     "roll_lines": r.get("n_lines", 0), "levelled_by": levelled_by})
     return rows
 
 
@@ -612,7 +703,10 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("--auto-table", default=str(SCRIPT_DIR / "baselines" / "phase0_2026-11-14" / "baseline_table.csv"))
     ap.add_argument("--clip-sheet", default=str(SCRIPT_DIR / "clip_sheet.csv"))
     ap.add_argument("--out", required=True)
+    ap.add_argument("--video-dir", default=None,
+                    help="the clips, to compute each clip's camera roll (v8); cached as <stem>.roll.json next to the pose cache")
     args = ap.parse_args(argv)
+    video_dir = Path(args.video_dir).expanduser() if args.video_dir else None
 
     sheet = load_csv(Path(args.clip_sheet))
     hand = {key_of(r["filename"]): (r.get("handedness") or "right") for r in sheet}
@@ -624,12 +718,13 @@ def main(argv: list[str] | None = None) -> int:
     rows, missing = [], []
     for k, npz in sorted(caches.items()):
         given = hand.get(k, "right")
-        clip = load_clip(npz, given, drive.get(k, "off"))
+        roll = roll_for_npz(npz, video_dir)
+        clip = load_clip(npz, given, drive.get(k, "off"), roll)
         geo, source = given, "clip sheet"
         decide = sets.get("auto", {}).get(k) or sets["validated"].get(k)  # the product only has automatic key frames
         if decide and toes_point_off(clip, decide) == "no":
             other = "left" if given == "right" else "right"
-            flipped = load_clip(npz, other, drive.get(k, "off"))
+            flipped = load_clip(npz, other, drive.get(k, "off"), roll)
             if toes_point_off(flipped, decide) == "yes":
                 clip, geo, source = flipped, other, "feet (toes point the other way: left-handed, mirrored video or camera behind the batter)"
         for set_name, by_clip in sets.items():

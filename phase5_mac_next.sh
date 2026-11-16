@@ -17,7 +17,7 @@ export PATH="$PWD/.venv310/bin:$PATH"
 SET="$(sed -n 's/^MEASUREMENT_SET = "\(v[0-9]*\)".*/\1/p' phase5_checkpoints.py)"
 OUT="baselines/phase5_$(date +%F)_${SET}"
 echo "==> Measurements ($SET)"
-"$PY" phase5_checkpoints.py --out "$OUT" 2>&1 | grep -v -i warning
+"$PY" phase5_checkpoints.py --out "$OUT" --video-dir "$VIDS" 2>&1 | grep -v -i warning
 echo "==> Worse-filming test (one line per clip and variant)"
 "$PY" phase5_degrade_test.py --video-dir "$VIDS" --out "$OUT" 2>&1 | grep -E "^  (lowres|lowfps|tilt):|^\|" || true
 echo "==> Entry tests"

@@ -16,6 +16,7 @@ from pathlib import Path
 from typing import Any
 
 import cv2
+import numpy as np
 
 from pose_extractor     import extract_poses
 from metrics_calculator import calculate_metrics
@@ -42,6 +43,7 @@ from config             import (
     CAPTURE_MAX_TILT_DEG,
 )
 from metrics_calculator import standing_axis_tilt_deg
+import capture_geometry
 
 
 def _handedness_to_front_side(handedness: str) -> str:
@@ -123,9 +125,38 @@ def _setup_axis_tilt(metrics, phases, video_meta: dict) -> float | None:
     return standing_axis_tilt_deg(ank, sh) if ank else None
 
 
-def _capture_checks(metrics, phases, video_meta: dict) -> tuple[dict, list[str]]:
+def _camera_roll(video_path, frame_poses, video_meta: dict) -> dict | None:
+    """The phone's roll from the background's long vertical lines (capture_geometry.camera_roll_deg),
+    with the batter masked out by the pose box. A light re-read of 5 frames from the first 40% of the
+    clip, chosen among frames that have a pose. None without a video path; confidence "unknown" if the read fails."""
+    if not video_path:
+        return None
+    try:
+        posed = {int(fp.frame_idx): fp for fp in (frame_poses or []) if getattr(fp, "landmarks", None)}
+        indices, boxes = None, {}
+        if posed:
+            last = max(posed)
+            early = sorted(i for i in posed if i <= capture_geometry.ROLL_CLIP_SHARE * last)
+            if early:
+                indices = sorted({early[int(round(j))] for j in
+                                  np.linspace(0, len(early) - 1, min(capture_geometry.ROLL_N_FRAMES, len(early)))})
+                pick = [(i, posed[i]) for i in indices]
+                w, h = video_meta.get("width"), video_meta.get("height")
+                if w and h:
+                    boxes = {i: capture_geometry.batter_box(fp.landmarks, float(w), float(h)) for i, fp in pick}
+        size = (float(video_meta["width"]), float(video_meta["height"])) if video_meta.get("width") and video_meta.get("height") else None
+        return capture_geometry.camera_roll_deg(video_path, indices, boxes or None, box_frame_size=size if boxes else None)
+    except Exception as exc:  # never let a filming check break an analysis
+        return {"roll_deg": None, "confidence": "unknown", "source": "none", "n_lines": 0,
+                "error": f"{type(exc).__name__}: {exc}"[:200]}
+
+
+def _capture_checks(metrics, phases, video_meta: dict, video_path=None, frame_poses=None) -> tuple[dict, list[str]]:
     """Plain-English capture warnings from facts the pipeline already has. Never changes a score.
-    The resolution and tilt checks are the Phase 3 filming gate (docs/phase3/capture_standard.md)."""
+    The resolution and tilt checks are the Phase 3 filming gate (docs/phase3/capture_standard.md).
+    The tilt check uses the camera roll from the background (from 16 Nov 2026, v8), not the batter's
+    standing axis, which also holds any real lean; it needs video_path (5 frames are re-read) and is
+    silent when the roll is unknown. setup_axis_tilt_deg is still reported, for information only."""
     warnings: list[str] = []
     setup = int(getattr(phases, "setup_end", 0) or 0)
     window = [m for m in metrics[max(0, setup - 10): setup + 1] if getattr(m, "detected", False)]
@@ -157,14 +188,19 @@ def _capture_checks(metrics, phases, video_meta: dict) -> tuple[dict, list[str]]
             "positions are measured less precisely. Use the phone's normal camera at 1080p (720p at the "
             "least) and upload the original video, not a copy sent through a messaging app."
         )
-    tilt = _setup_axis_tilt(metrics, phases, video_meta)
-    if tilt is not None and abs(tilt) > CAPTURE_MAX_TILT_DEG:
+    tilt = _setup_axis_tilt(metrics, phases, video_meta)  # information only (holds the batter's lean too)
+    roll = _camera_roll(video_path, frame_poses, video_meta) or {}
+    roll_deg = roll.get("roll_deg") if roll.get("confidence") == "ok" else None
+    if roll_deg is not None and abs(roll_deg) > CAPTURE_MAX_TILT_DEG:
         warnings.append(
-            f"The phone looks tilted: the batter's standing line at set-up is {abs(tilt):.0f} degrees off "
-            "upright in the picture, which moves the sideways measurements. Hold the phone level, or "
-            "rest it on something flat. If the batter was really leaning to one side, ignore this."
+            f"The phone looks tilted: upright lines in the background lean {abs(roll_deg):.0f} degrees in the "
+            "picture, which moves the sideways measurements. Hold the phone level, or rest it on something flat."
         )
     return {"batter_height_fraction": batter_frac, "duration_s": duration, "short_side_px": short_side,
+            "camera_roll_deg": round(float(roll_deg), 1) if roll_deg is not None else None,
+            "roll_confidence": roll.get("confidence", "unknown") if roll else "unknown",
+            "roll_lines": roll.get("n_lines") if roll else None,
+            "roll_source": roll.get("source", "none") if roll else "none",
             "setup_axis_tilt_deg": round(tilt, 1) if tilt is not None else None}, warnings
 
 
@@ -649,7 +685,8 @@ def analyse(video_path: str, output_dir: str = None, verbose: bool = True,
     quality, warnings = _build_analysis_quality(result, result.metadata)
     result.metadata["analysis_quality"] = quality
     result.metadata["warnings"] = warnings
-    capture, capture_warnings = _capture_checks(metrics, result.phases, video_meta)
+    capture, capture_warnings = _capture_checks(metrics, result.phases, video_meta, video_path=video_path,
+                                                frame_poses=frame_poses)
     quality["capture"] = capture
     quality["handedness_check"] = video_meta.get("handedness_check")
     warnings = warnings + capture_warnings

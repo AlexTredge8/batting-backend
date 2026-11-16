@@ -28,6 +28,10 @@ height is only re-compressed. All 18 calibration clips are portrait, so the heig
 --lowres-height 1280 gives 720 px on the short side, the Phase 3 gate's minimum
 (docs/phase3/capture_standard.md); --lowres-height 720 would give about 406 px, below the gate.
 Re-registering test 2 at the gate's minimum is a proposal awaiting Alex (docs/phase5/README.md).
+From measurement set v8 (16 Nov 2026) each clip and each variant is levelled by its own camera roll,
+estimated from the background of that video (capture_geometry.camera_roll_deg; cached as
+<stem>.roll.json next to its pose cache). So the tilt variant is judged on the roll the estimate finds
+in the rotated video (about +3 degrees), not on a roll the test already knows.
 Writes tables only. Variant videos and landmarks stay in calibration_output/degrade/ (not committed).
 """
 
@@ -122,7 +126,7 @@ def main(argv: list[str] | None = None) -> int:
     # original measurements (validated key frames) from the production pose cache
     orig_dir = work / "original"
     phase5_checkpoints.main(["--cache-dir", args.mp_cache, "--anchors", args.anchors, "--auto-table", str(work / "none.csv"),
-                             "--clip-sheet", args.clip_sheet, "--out", str(orig_dir)])
+                             "--clip-sheet", args.clip_sheet, "--out", str(orig_dir), "--video-dir", str(vids)])
 
     rows_anchor, rows_sheet = [], []
     for k, a in sorted(anchors.items()):
@@ -154,7 +158,7 @@ def main(argv: list[str] | None = None) -> int:
     var_dir = work / "variants"
     phase5_checkpoints.main(["--cache-dir", str(work / "pose_cache"), "--anchors", str(work / "variant_anchors.csv"),
                              "--auto-table", str(work / "none.csv"), "--clip-sheet", str(work / "variant_sheet.csv"),
-                             "--out", str(var_dir)])
+                             "--out", str(var_dir), "--video-dir", str(work / "videos")])
 
     def values(path: Path) -> dict[tuple[str, str], float]:
         d = {}
