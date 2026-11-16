@@ -1,0 +1,217 @@
+filename,field,expected,source,truth_note,run1,run2,consistent,agrees
+Alex T_Straightdrive Good.MOV,shot_type,front-foot drive,by construction,every clip in the swipe file is a front-foot drive,front-foot drive,front-foot drive,1,1/1
+Alex T_Straightdrive Good.MOV,drive_direction,straight,filename,,off,off,1,0/0
+Alex T_Straightdrive Good.MOV,camera_position,behind the bowler,"hub guess, not confirmed",behind bowler,behind the bowler,behind the bowler,1,1/1
+Alex T_Straightdrive Good.MOV,batter_handedness,right,confirmed,,right,right,1,1/1
+Alex T_Straightdrive Good.MOV,feed,bowling machine,"hub guess, not confirmed",,throw-down,throw-down,1,0/0
+Alex T_Straightdrive Good.MOV,venue,indoor net lane,"hub guess, not confirmed",,indoor net lane,indoor net lane,1,1/1
+Alex T_Straightdrive Good.MOV,whole_batter_visible,,none,,yes,yes,1,/
+Alex T_Straightdrive Good.MOV,phone_level,,none,,yes,yes,1,/
+Alex T_Straightdrive Good.MOV,number_of_people_visible,1,"hub guess, not confirmed",,1,1,1,1/1
+Alex T_Straightdrive Good.MOV,multiple_shots_in_clip,no,by construction,clips are trimmed to one shot,no,no,1,1/1
+Alex T_Straightdrive Good.MOV,batter_size,small,measured,18.5% (nose to ankle),medium,medium,1,0/0
+Alex T_Straightdrive Good.MOV,usable_for_analysis,yes,confirmed,coach scored it as filmed correctly,yes,yes,1,1/1
+AlexT_Ondrive Good.MOV,shot_type,front-foot drive,by construction,every clip in the swipe file is a front-foot drive,front-foot drive,front-foot drive,1,1/1
+AlexT_Ondrive Good.MOV,drive_direction,on,filename,,straight,straight,1,0/0
+AlexT_Ondrive Good.MOV,camera_position,behind the bowler,"hub guess, not confirmed",behind bowler,behind the bowler,behind the bowler,1,1/1
+AlexT_Ondrive Good.MOV,batter_handedness,right,confirmed,,right,right,1,1/1
+AlexT_Ondrive Good.MOV,feed,bowling machine,"hub guess, not confirmed",,unclear,unclear,1,0/0
+AlexT_Ondrive Good.MOV,venue,indoor net lane,"hub guess, not confirmed",,indoor net lane,indoor net lane,1,1/1
+AlexT_Ondrive Good.MOV,whole_batter_visible,,none,,yes,yes,1,/
+AlexT_Ondrive Good.MOV,phone_level,,none,,yes,yes,1,/
+AlexT_Ondrive Good.MOV,number_of_people_visible,1,"hub guess, not confirmed",,1,1,1,1/1
+AlexT_Ondrive Good.MOV,multiple_shots_in_clip,no,by construction,clips are trimmed to one shot,no,no,1,1/1
+AlexT_Ondrive Good.MOV,batter_size,small,measured,19.3% (nose to ankle),medium,medium,1,0/0
+AlexT_Ondrive Good.MOV,usable_for_analysis,yes,confirmed,coach scored it as filmed correctly,yes,yes,1,1/1
+Cam T_LH Offdrive Elite.mov,shot_type,front-foot drive,by construction,every clip in the swipe file is a front-foot drive,front-foot drive,front-foot drive,1,1/1
+Cam T_LH Offdrive Elite.mov,drive_direction,off,filename,,off,off,1,1/1
+Cam T_LH Offdrive Elite.mov,camera_position,behind the bowler,"hub guess, not confirmed",behind bowler,behind the bowler,behind the bowler,1,1/1
+Cam T_LH Offdrive Elite.mov,batter_handedness,left,confirmed,,right,right,1,0/0
+Cam T_LH Offdrive Elite.mov,feed,bowling machine,"hub guess, not confirmed",,throw-down,throw-down,1,0/0
+Cam T_LH Offdrive Elite.mov,venue,indoor net lane,"hub guess, not confirmed",,indoor net lane,indoor net lane,1,1/1
+Cam T_LH Offdrive Elite.mov,whole_batter_visible,,none,,yes,yes,1,/
+Cam T_LH Offdrive Elite.mov,phone_level,,none,,yes,yes,1,/
+Cam T_LH Offdrive Elite.mov,number_of_people_visible,1,"hub guess, not confirmed",,1,1,1,1/1
+Cam T_LH Offdrive Elite.mov,multiple_shots_in_clip,no,by construction,clips are trimmed to one shot,no,no,1,1/1
+Cam T_LH Offdrive Elite.mov,batter_size,medium,measured,32.6% (nose to ankle),large,large,1,0/0
+Cam T_LH Offdrive Elite.mov,usable_for_analysis,yes,confirmed,coach scored it as filmed correctly,yes,yes,1,1/1
+Cam T_Offdrive Elite.mp4,shot_type,front-foot drive,by construction,every clip in the swipe file is a front-foot drive,front-foot drive,front-foot drive,1,1/1
+Cam T_Offdrive Elite.mp4,drive_direction,off,filename,,straight,straight,1,0/0
+Cam T_Offdrive Elite.mp4,camera_position,behind the bowler,"hub guess, not confirmed",behind bowler,behind the bowler,behind the bowler,1,1/1
+Cam T_Offdrive Elite.mp4,batter_handedness,left,confirmed,,right,right,1,0/0
+Cam T_Offdrive Elite.mp4,feed,bowling machine,"hub guess, not confirmed",,unclear,unclear,1,0/0
+Cam T_Offdrive Elite.mp4,venue,indoor net lane,"hub guess, not confirmed",,indoor net lane,indoor net lane,1,1/1
+Cam T_Offdrive Elite.mp4,whole_batter_visible,,none,,yes,yes,1,/
+Cam T_Offdrive Elite.mp4,phone_level,,none,,yes,yes,1,/
+Cam T_Offdrive Elite.mp4,number_of_people_visible,1,"hub guess, not confirmed",,1,1,1,1/1
+Cam T_Offdrive Elite.mp4,multiple_shots_in_clip,no,by construction,clips are trimmed to one shot,no,no,1,1/1
+Cam T_Offdrive Elite.mp4,batter_size,small,measured,19.3% (nose to ankle),medium,medium,1,0/0
+Cam T_Offdrive Elite.mp4,usable_for_analysis,yes,confirmed,coach scored it as filmed correctly,yes,yes,1,1/1
+Cam T_Offdrive Good.mp4,shot_type,front-foot drive,by construction,every clip in the swipe file is a front-foot drive,front-foot drive,front-foot drive,1,1/1
+Cam T_Offdrive Good.mp4,drive_direction,off,filename,,straight,straight,1,0/0
+Cam T_Offdrive Good.mp4,camera_position,behind the bowler,"hub guess, not confirmed",behind bowler,side-on,side-on,1,0/0
+Cam T_Offdrive Good.mp4,batter_handedness,left,confirmed,,right,right,1,0/0
+Cam T_Offdrive Good.mp4,feed,bowling machine,"hub guess, not confirmed",,throw-down,throw-down,1,0/0
+Cam T_Offdrive Good.mp4,venue,indoor net lane,"hub guess, not confirmed",,indoor net lane,indoor net lane,1,1/1
+Cam T_Offdrive Good.mp4,whole_batter_visible,,none,,yes,yes,1,/
+Cam T_Offdrive Good.mp4,phone_level,,none,,yes,yes,1,/
+Cam T_Offdrive Good.mp4,number_of_people_visible,1,"hub guess, not confirmed",,1,1,1,1/1
+Cam T_Offdrive Good.mp4,multiple_shots_in_clip,no,by construction,clips are trimmed to one shot,no,no,1,1/1
+Cam T_Offdrive Good.mp4,batter_size,medium,measured,35.3% (nose to ankle),large,large,1,0/0
+Cam T_Offdrive Good.mp4,usable_for_analysis,yes,confirmed,coach scored it as filmed correctly,yes,yes,1,1/1
+Cam T_Ondrive Elite.mov,shot_type,front-foot drive,by construction,every clip in the swipe file is a front-foot drive,front-foot drive,front-foot drive,1,1/1
+Cam T_Ondrive Elite.mov,drive_direction,on,filename,,straight,straight,1,0/0
+Cam T_Ondrive Elite.mov,camera_position,behind the bowler,"hub guess, not confirmed",behind bowler,behind the bowler,behind the bowler,1,1/1
+Cam T_Ondrive Elite.mov,batter_handedness,left,confirmed,,right,right,1,0/0
+Cam T_Ondrive Elite.mov,feed,bowling machine,"hub guess, not confirmed",,throw-down,throw-down,1,0/0
+Cam T_Ondrive Elite.mov,venue,indoor net lane,"hub guess, not confirmed",,indoor net lane,indoor net lane,1,1/1
+Cam T_Ondrive Elite.mov,whole_batter_visible,,none,,yes,yes,1,/
+Cam T_Ondrive Elite.mov,phone_level,,none,,yes,yes,1,/
+Cam T_Ondrive Elite.mov,number_of_people_visible,1,"hub guess, not confirmed",,1,1,1,1/1
+Cam T_Ondrive Elite.mov,multiple_shots_in_clip,no,by construction,clips are trimmed to one shot,no,no,1,1/1
+Cam T_Ondrive Elite.mov,batter_size,large,measured,40.4% (nose to ankle),large,large,1,1/1
+Cam T_Ondrive Elite.mov,usable_for_analysis,yes,confirmed,coach scored it as filmed correctly,yes,yes,1,1/1
+Dan P_Offdrive Average.MOV,shot_type,front-foot drive,by construction,every clip in the swipe file is a front-foot drive,front-foot drive,front-foot drive,1,1/1
+Dan P_Offdrive Average.MOV,drive_direction,off,filename,,straight,straight,1,0/0
+Dan P_Offdrive Average.MOV,camera_position,behind the bowler,"hub guess, not confirmed",behind bowler,behind the bowler,behind the bowler,1,1/1
+Dan P_Offdrive Average.MOV,batter_handedness,left,confirmed,,right,right,1,0/0
+Dan P_Offdrive Average.MOV,feed,throw-down,"hub guess, not confirmed",,throw-down,throw-down,1,1/1
+Dan P_Offdrive Average.MOV,venue,outdoor net,"hub guess, not confirmed",,outdoor net,outdoor net,1,1/1
+Dan P_Offdrive Average.MOV,whole_batter_visible,,none,,yes,yes,1,/
+Dan P_Offdrive Average.MOV,phone_level,,none,,yes,yes,1,/
+Dan P_Offdrive Average.MOV,number_of_people_visible,1,"hub guess, not confirmed",,2,2,1,0/0
+Dan P_Offdrive Average.MOV,multiple_shots_in_clip,no,by construction,clips are trimmed to one shot,no,no,1,1/1
+Dan P_Offdrive Average.MOV,batter_size,small,measured,9.5% (nose to ankle),small,small,1,1/1
+Dan P_Offdrive Average.MOV,usable_for_analysis,yes,confirmed,coach scored it as filmed correctly,no,no,1,0/0
+Drive_Average 2.MOV,shot_type,front-foot drive,by construction,every clip in the swipe file is a front-foot drive,front-foot drive,front-foot drive,1,1/1
+Drive_Average 2.MOV,drive_direction,off,"hub guess, not confirmed",,straight,straight,1,0/0
+Drive_Average 2.MOV,camera_position,behind the bowler,"hub guess, not confirmed",behind bowler,behind the bowler,behind the bowler,1,1/1
+Drive_Average 2.MOV,batter_handedness,right,confirmed,,right,right,1,1/1
+Drive_Average 2.MOV,feed,throw-down,"hub guess, not confirmed",,throw-down,throw-down,1,1/1
+Drive_Average 2.MOV,venue,outdoor net,"hub guess, not confirmed",,outdoor net,outdoor net,1,1/1
+Drive_Average 2.MOV,whole_batter_visible,,none,,yes,yes,1,/
+Drive_Average 2.MOV,phone_level,,none,,yes,yes,1,/
+Drive_Average 2.MOV,number_of_people_visible,1,"hub guess, not confirmed",,1,1,1,1/1
+Drive_Average 2.MOV,multiple_shots_in_clip,no,by construction,clips are trimmed to one shot,no,no,1,1/1
+Drive_Average 2.MOV,batter_size,small,measured,8.7% (nose to ankle),small,small,1,1/1
+Drive_Average 2.MOV,usable_for_analysis,yes,confirmed,coach scored it as filmed correctly,no,no,1,0/0
+Drive_Average.MOV,shot_type,front-foot drive,by construction,every clip in the swipe file is a front-foot drive,front-foot drive,front-foot drive,1,1/1
+Drive_Average.MOV,drive_direction,off,"hub guess, not confirmed",,off,off,1,1/1
+Drive_Average.MOV,camera_position,other,"hub guess, not confirmed",angle (~20-30 deg),side-on,side-on,1,0/0
+Drive_Average.MOV,batter_handedness,right,confirmed,,right,right,1,1/1
+Drive_Average.MOV,feed,throw-down,"hub guess, not confirmed",,throw-down,throw-down,1,1/1
+Drive_Average.MOV,venue,sports hall,"hub guess, not confirmed",,sports hall,sports hall,1,1/1
+Drive_Average.MOV,whole_batter_visible,,none,,yes,yes,1,/
+Drive_Average.MOV,phone_level,,none,,yes,yes,1,/
+Drive_Average.MOV,number_of_people_visible,2+,"hub guess, not confirmed",,4,4,1,1/1
+Drive_Average.MOV,multiple_shots_in_clip,no,by construction,clips are trimmed to one shot,no,no,1,1/1
+Drive_Average.MOV,batter_size,small,measured,17.6% (nose to ankle),medium,medium,1,0/0
+Drive_Average.MOV,usable_for_analysis,yes,confirmed,coach scored it as filmed correctly,yes,yes,1,1/1
+Drive_Beginner 2.MOV,shot_type,front-foot drive,by construction,every clip in the swipe file is a front-foot drive,front-foot drive,front-foot drive,1,1/1
+Drive_Beginner 2.MOV,drive_direction,off,"hub guess, not confirmed",,straight,straight,1,0/0
+Drive_Beginner 2.MOV,camera_position,other,"hub guess, not confirmed",angle (~20-30 deg),side-on,side-on,1,0/0
+Drive_Beginner 2.MOV,batter_handedness,right,confirmed,,right,right,1,1/1
+Drive_Beginner 2.MOV,feed,throw-down,"hub guess, not confirmed",,throw-down,throw-down,1,1/1
+Drive_Beginner 2.MOV,venue,sports hall,"hub guess, not confirmed",,sports hall,sports hall,1,1/1
+Drive_Beginner 2.MOV,whole_batter_visible,,none,,yes,yes,1,/
+Drive_Beginner 2.MOV,phone_level,,none,,yes,yes,1,/
+Drive_Beginner 2.MOV,number_of_people_visible,2+,"hub guess, not confirmed",,4,4,1,1/1
+Drive_Beginner 2.MOV,multiple_shots_in_clip,no,by construction,clips are trimmed to one shot,no,no,1,1/1
+Drive_Beginner 2.MOV,batter_size,small,measured,17.6% (nose to ankle),medium,medium,1,0/0
+Drive_Beginner 2.MOV,usable_for_analysis,yes,confirmed,coach scored it as filmed correctly,yes,yes,1,1/1
+Drive_Beginner 3.MOV,shot_type,front-foot drive,by construction,every clip in the swipe file is a front-foot drive,front-foot drive,front-foot drive,1,1/1
+Drive_Beginner 3.MOV,drive_direction,off,"hub guess, not confirmed",,straight,straight,1,0/0
+Drive_Beginner 3.MOV,camera_position,other,"hub guess, not confirmed",angle (~20-30 deg),side-on,side-on,1,0/0
+Drive_Beginner 3.MOV,batter_handedness,right,confirmed,,right,right,1,1/1
+Drive_Beginner 3.MOV,feed,throw-down,"hub guess, not confirmed",,throw-down,throw-down,1,1/1
+Drive_Beginner 3.MOV,venue,sports hall,"hub guess, not confirmed",,sports hall,sports hall,1,1/1
+Drive_Beginner 3.MOV,whole_batter_visible,,none,,yes,yes,1,/
+Drive_Beginner 3.MOV,phone_level,,none,,yes,yes,1,/
+Drive_Beginner 3.MOV,number_of_people_visible,1,"hub guess, not confirmed",,3,3,1,0/0
+Drive_Beginner 3.MOV,multiple_shots_in_clip,no,by construction,clips are trimmed to one shot,no,no,1,1/1
+Drive_Beginner 3.MOV,batter_size,medium,measured,20.3% (nose to ankle),medium,medium,1,1/1
+Drive_Beginner 3.MOV,usable_for_analysis,yes,confirmed,coach scored it as filmed correctly,yes,yes,1,1/1
+Drive_Beginner 4.MOV,shot_type,front-foot drive,by construction,every clip in the swipe file is a front-foot drive,front-foot drive,front-foot drive,1,1/1
+Drive_Beginner 4.MOV,drive_direction,off,"hub guess, not confirmed",,straight,straight,1,0/0
+Drive_Beginner 4.MOV,camera_position,behind the bowler,"hub guess, not confirmed",behind bowler,behind the bowler,behind the bowler,1,1/1
+Drive_Beginner 4.MOV,batter_handedness,right,confirmed,,right,right,1,1/1
+Drive_Beginner 4.MOV,feed,throw-down,"hub guess, not confirmed",,throw-down,throw-down,1,1/1
+Drive_Beginner 4.MOV,venue,outdoor net,"hub guess, not confirmed",,outdoor net,outdoor net,1,1/1
+Drive_Beginner 4.MOV,whole_batter_visible,,none,,yes,yes,1,/
+Drive_Beginner 4.MOV,phone_level,,none,,yes,yes,1,/
+Drive_Beginner 4.MOV,number_of_people_visible,1,"hub guess, not confirmed",,1,1,1,1/1
+Drive_Beginner 4.MOV,multiple_shots_in_clip,no,by construction,clips are trimmed to one shot,no,no,1,1/1
+Drive_Beginner 4.MOV,batter_size,,none,,small,small,1,/
+Drive_Beginner 4.MOV,usable_for_analysis,no,known,pose found in 40.9% of frames,no,no,1,1/1
+Drive_beginner.MOV,shot_type,front-foot drive,by construction,every clip in the swipe file is a front-foot drive,defensive,defensive,1,0/0
+Drive_beginner.MOV,drive_direction,off,"hub guess, not confirmed",,not a drive,not a drive,1,0/0
+Drive_beginner.MOV,camera_position,other,"hub guess, not confirmed",angle (~20-30 deg),side-on,side-on,1,0/0
+Drive_beginner.MOV,batter_handedness,right,confirmed,,right,right,1,1/1
+Drive_beginner.MOV,feed,throw-down,"hub guess, not confirmed",,throw-down,throw-down,1,1/1
+Drive_beginner.MOV,venue,sports hall,"hub guess, not confirmed",,sports hall,sports hall,1,1/1
+Drive_beginner.MOV,whole_batter_visible,,none,,yes,yes,1,/
+Drive_beginner.MOV,phone_level,,none,,yes,yes,1,/
+Drive_beginner.MOV,number_of_people_visible,1,"hub guess, not confirmed",,2,2,1,0/0
+Drive_beginner.MOV,multiple_shots_in_clip,no,by construction,clips are trimmed to one shot,no,no,1,1/1
+Drive_beginner.MOV,batter_size,medium,measured,21.0% (nose to ankle),medium,medium,1,1/1
+Drive_beginner.MOV,usable_for_analysis,yes,confirmed,coach scored it as filmed correctly,yes,yes,1,1/1
+Female_Average.mp4,shot_type,front-foot drive,by construction,every clip in the swipe file is a front-foot drive,front-foot drive,front-foot drive,1,1/1
+Female_Average.mp4,drive_direction,off,"hub guess, not confirmed",,off,off,1,1/1
+Female_Average.mp4,camera_position,behind the bowler,"hub guess, not confirmed",behind bowler,behind the bowler,behind the bowler,1,1/1
+Female_Average.mp4,batter_handedness,right,confirmed,,right,right,1,1/1
+Female_Average.mp4,feed,throw-down,"hub guess, not confirmed",,throw-down,throw-down,1,1/1
+Female_Average.mp4,venue,outdoor net,"hub guess, not confirmed",,outdoor net,outdoor net,1,1/1
+Female_Average.mp4,whole_batter_visible,,none,,yes,yes,1,/
+Female_Average.mp4,phone_level,,none,,yes,yes,1,/
+Female_Average.mp4,number_of_people_visible,1,"hub guess, not confirmed",,1,1,1,1/1
+Female_Average.mp4,multiple_shots_in_clip,no,by construction,clips are trimmed to one shot,yes,yes,1,0/0
+Female_Average.mp4,batter_size,small,measured,12.9% (nose to ankle),small,small,1,1/1
+Female_Average.mp4,usable_for_analysis,no,confirmed,coach: not filmed correctly,no,no,1,1/1
+Ollie P_Offdrive Average.mov,shot_type,front-foot drive,by construction,every clip in the swipe file is a front-foot drive,front-foot drive,front-foot drive,1,1/1
+Ollie P_Offdrive Average.mov,drive_direction,off,filename,,off,off,1,1/1
+Ollie P_Offdrive Average.mov,camera_position,behind the bowler,"hub guess, not confirmed",behind bowler,behind the batter,behind the batter,1,0/0
+Ollie P_Offdrive Average.mov,batter_handedness,right,confirmed,,right,right,1,1/1
+Ollie P_Offdrive Average.mov,feed,bowler,"hub guess, not confirmed",,bowling machine,bowling machine,1,0/0
+Ollie P_Offdrive Average.mov,venue,indoor net lane,"hub guess, not confirmed",,indoor net lane,indoor net lane,1,1/1
+Ollie P_Offdrive Average.mov,whole_batter_visible,,none,,yes,yes,1,/
+Ollie P_Offdrive Average.mov,phone_level,,none,,yes,yes,1,/
+Ollie P_Offdrive Average.mov,number_of_people_visible,2+,known,two people in frame,2,2,1,1/1
+Ollie P_Offdrive Average.mov,multiple_shots_in_clip,no,by construction,clips are trimmed to one shot,no,no,1,1/1
+Ollie P_Offdrive Average.mov,batter_size,,none,,medium,medium,1,/
+Ollie P_Offdrive Average.mov,usable_for_analysis,no,known,two people in frame,no,no,1,1/1
+Oscar V_Beginner.mp4,shot_type,front-foot drive,by construction,every clip in the swipe file is a front-foot drive,front-foot drive,front-foot drive,1,1/1
+Oscar V_Beginner.mp4,drive_direction,off,"hub guess, not confirmed",,off,off,1,1/1
+Oscar V_Beginner.mp4,camera_position,behind the bowler,"hub guess, not confirmed",behind bowler,behind the bowler,behind the bowler,1,1/1
+Oscar V_Beginner.mp4,batter_handedness,right,confirmed,,right,right,1,1/1
+Oscar V_Beginner.mp4,feed,throw-down,"hub guess, not confirmed",,throw-down,throw-down,1,1/1
+Oscar V_Beginner.mp4,venue,outdoor net,"hub guess, not confirmed",,indoor net lane,indoor net lane,1,0/0
+Oscar V_Beginner.mp4,whole_batter_visible,,none,,yes,yes,1,/
+Oscar V_Beginner.mp4,phone_level,,none,,yes,yes,1,/
+Oscar V_Beginner.mp4,number_of_people_visible,1,"hub guess, not confirmed",,1,1,1,1/1
+Oscar V_Beginner.mp4,multiple_shots_in_clip,no,by construction,clips are trimmed to one shot,no,no,1,1/1
+Oscar V_Beginner.mp4,batter_size,medium,measured,21.2% (nose to ankle),medium,medium,1,1/1
+Oscar V_Beginner.mp4,usable_for_analysis,yes,confirmed,coach scored it as filmed correctly,yes,yes,1,1/1
+Straight Drive_Beginner.mp4,shot_type,front-foot drive,by construction,every clip in the swipe file is a front-foot drive,front-foot drive,front-foot drive,1,1/1
+Straight Drive_Beginner.mp4,drive_direction,straight,filename,,straight,straight,1,1/1
+Straight Drive_Beginner.mp4,camera_position,behind the bowler,"hub guess, not confirmed",behind bowler,behind the bowler,behind the bowler,1,1/1
+Straight Drive_Beginner.mp4,batter_handedness,right,confirmed,,right,right,1,1/1
+Straight Drive_Beginner.mp4,feed,throw-down,"hub guess, not confirmed",,throw-down,throw-down,1,1/1
+Straight Drive_Beginner.mp4,venue,outdoor net,"hub guess, not confirmed",,outdoor net,outdoor net,1,1/1
+Straight Drive_Beginner.mp4,whole_batter_visible,,none,,yes,yes,1,/
+Straight Drive_Beginner.mp4,phone_level,,none,,yes,yes,1,/
+Straight Drive_Beginner.mp4,number_of_people_visible,1,"hub guess, not confirmed",,1,1,1,1/1
+Straight Drive_Beginner.mp4,multiple_shots_in_clip,no,by construction,clips are trimmed to one shot,no,no,1,1/1
+Straight Drive_Beginner.mp4,batter_size,small,measured,12.5% (nose to ankle),small,small,1,1/1
+Straight Drive_Beginner.mp4,usable_for_analysis,yes,confirmed,coach scored it as filmed correctly,no,no,1,0/0
+Viv P_Offdrive Elite.mov,shot_type,front-foot drive,by construction,every clip in the swipe file is a front-foot drive,front-foot drive,front-foot drive,1,1/1
+Viv P_Offdrive Elite.mov,drive_direction,off,filename,,off,off,1,1/1
+Viv P_Offdrive Elite.mov,camera_position,behind the bowler,"hub guess, not confirmed",behind bowler,behind the bowler,behind the bowler,1,1/1
+Viv P_Offdrive Elite.mov,batter_handedness,right,confirmed,,right,right,1,1/1
+Viv P_Offdrive Elite.mov,feed,bowling machine,"hub guess, not confirmed",,throw-down,throw-down,1,0/0
+Viv P_Offdrive Elite.mov,venue,indoor net lane,"hub guess, not confirmed",,indoor net lane,indoor net lane,1,1/1
+Viv P_Offdrive Elite.mov,whole_batter_visible,,none,,yes,yes,1,/
+Viv P_Offdrive Elite.mov,phone_level,,none,,yes,yes,1,/
+Viv P_Offdrive Elite.mov,number_of_people_visible,1,"hub guess, not confirmed",,1,1,1,1/1
+Viv P_Offdrive Elite.mov,multiple_shots_in_clip,no,by construction,clips are trimmed to one shot,no,no,1,1/1
+Viv P_Offdrive Elite.mov,batter_size,medium,measured,24.6% (nose to ankle),medium,medium,1,1/1
+Viv P_Offdrive Elite.mov,usable_for_analysis,yes,confirmed,coach scored it as filmed correctly,yes,yes,1,1/1

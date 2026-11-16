@@ -1,0 +1,37 @@
+filename,run,shot_type,drive_direction,camera_position,batter_handedness,feed,venue,whole_batter_visible,phone_level,number_of_people_visible,multiple_shots_in_clip,batter_size,usable_reason,usable_for_analysis,error,prompt_tokens,answer_tokens,thinking_tokens
+Alex T_Straightdrive Good.MOV,1,front-foot drive,off,behind the bowler,right,throw-down,indoor net lane,yes,yes,1,no,medium,"The batter is clearly visible, whole body in frame, from a suitable angle.",yes,,1713,165,0
+AlexT_Ondrive Good.MOV,1,front-foot drive,straight,behind the bowler,right,unclear,indoor net lane,yes,yes,1,no,medium,"The batter is clearly visible, whole body in frame, from a suitable angle.",yes,,1713,164,0
+Cam T_LH Offdrive Elite.mov,1,front-foot drive,off,behind the bowler,right,throw-down,indoor net lane,yes,yes,1,no,large,"Clear, full-body view of a single shot from a suitable angle.",yes,,2189,164,505
+Cam T_Offdrive Elite.mp4,1,front-foot drive,straight,behind the bowler,right,unclear,indoor net lane,yes,yes,1,no,medium,"The clip is clear, shows the whole batter, and is from a suitable angle.",yes,,1977,165,0
+Cam T_Offdrive Good.mp4,1,front-foot drive,straight,side-on,right,throw-down,indoor net lane,yes,yes,1,no,large,,yes,,2703,149,0
+Cam T_Ondrive Elite.mov,1,front-foot drive,straight,behind the bowler,right,throw-down,indoor net lane,yes,yes,1,no,large,,yes,,2505,149,0
+Dan P_Offdrive Average.MOV,1,front-foot drive,straight,behind the bowler,right,throw-down,outdoor net,yes,yes,2,no,small,The batter is too small in the frame for detailed analysis.,no,,2241,160,0
+Drive_Average 2.MOV,1,front-foot drive,straight,behind the bowler,right,throw-down,outdoor net,yes,yes,1,no,small,The batter is too small in the frame for detailed analysis.,no,,2109,160,0
+Drive_Average.MOV,1,front-foot drive,off,side-on,right,throw-down,sports hall,yes,yes,4,no,medium,"The batter is clearly visible from a side-on angle, playing a single shot.",yes,,2241,165,0
+Drive_Beginner 2.MOV,1,front-foot drive,straight,side-on,right,throw-down,sports hall,yes,yes,4,no,medium,Good side-on view of the whole batter playing one shot.,yes,,2109,161,0
+Drive_Beginner 3.MOV,1,front-foot drive,straight,side-on,right,throw-down,sports hall,yes,yes,3,no,medium,"The clip is clear, shows the whole batter from a side-on angle, and captures a single shot.",yes,,1779,170,0
+Drive_Beginner 4.MOV,1,front-foot drive,straight,behind the bowler,right,throw-down,outdoor net,yes,yes,1,no,small,The batter is too small in the frame for detailed analysis.,no,,2043,160,0
+Drive_beginner.MOV,1,defensive,not a drive,side-on,right,throw-down,sports hall,yes,yes,2,no,medium,"The clip is clear, shows the whole batter from a good side-on angle, and captures a single shot.",yes,,1515,171,0
+Female_Average.mp4,1,front-foot drive,off,behind the bowler,right,throw-down,outdoor net,yes,yes,1,yes,small,Multiple shots in clip,no,,6333,153,0
+Ollie P_Offdrive Average.mov,1,front-foot drive,off,behind the batter,right,bowling machine,indoor net lane,yes,yes,2,no,medium,"The camera is behind the batter, which is not ideal for technique analysis.",no,,1749,164,0
+Oscar V_Beginner.mp4,1,front-foot drive,off,behind the bowler,right,throw-down,indoor net lane,yes,yes,1,no,medium,,yes,,2505,149,0
+Straight Drive_Beginner.mp4,1,front-foot drive,straight,behind the bowler,right,throw-down,outdoor net,yes,yes,1,no,small,Batter is too small in the frame for detailed analysis.,no,,2967,160,0
+Viv P_Offdrive Elite.mov,1,front-foot drive,off,behind the bowler,right,throw-down,indoor net lane,yes,yes,1,no,medium,Good clear view of the whole batter from a suitable angle.,yes,,2109,161,0
+Alex T_Straightdrive Good.MOV,2,front-foot drive,off,behind the bowler,right,throw-down,indoor net lane,yes,yes,1,no,medium,"The batter is clearly visible, whole body in frame, from a suitable angle.",yes,,1713,165,0
+AlexT_Ondrive Good.MOV,2,front-foot drive,straight,behind the bowler,right,unclear,indoor net lane,yes,yes,1,no,medium,"The batter is clearly visible, whole body in frame, from a suitable angle.",yes,,1713,164,0
+Cam T_LH Offdrive Elite.mov,2,front-foot drive,off,behind the bowler,right,throw-down,indoor net lane,yes,yes,1,no,large,"Clear, full-body view of a single shot from a suitable angle.",yes,,2189,164,505
+Cam T_Offdrive Elite.mp4,2,front-foot drive,straight,behind the bowler,right,unclear,indoor net lane,yes,yes,1,no,medium,"The clip is clear, shows the whole batter, and is from a suitable angle.",yes,,1977,165,0
+Cam T_Offdrive Good.mp4,2,front-foot drive,straight,side-on,right,throw-down,indoor net lane,yes,yes,1,no,large,,yes,,2703,149,0
+Cam T_Ondrive Elite.mov,2,front-foot drive,straight,behind the bowler,right,throw-down,indoor net lane,yes,yes,1,no,large,,yes,,2505,149,0
+Dan P_Offdrive Average.MOV,2,front-foot drive,straight,behind the bowler,right,throw-down,outdoor net,yes,yes,2,no,small,The batter is too small in the frame for detailed analysis.,no,,2241,160,0
+Drive_Average 2.MOV,2,front-foot drive,straight,behind the bowler,right,throw-down,outdoor net,yes,yes,1,no,small,The batter is too small in the frame for detailed analysis.,no,,2109,160,0
+Drive_Average.MOV,2,front-foot drive,off,side-on,right,throw-down,sports hall,yes,yes,4,no,medium,"The batter is clearly visible from a side-on angle, playing a single shot.",yes,,2241,165,0
+Drive_Beginner 2.MOV,2,front-foot drive,straight,side-on,right,throw-down,sports hall,yes,yes,4,no,medium,Good side-on view of the whole batter playing one shot.,yes,,2109,161,0
+Drive_Beginner 3.MOV,2,front-foot drive,straight,side-on,right,throw-down,sports hall,yes,yes,3,no,medium,"The clip is clear, shows the whole batter from a side-on angle, and captures a single shot.",yes,,1779,170,0
+Drive_Beginner 4.MOV,2,front-foot drive,straight,behind the bowler,right,throw-down,outdoor net,yes,yes,1,no,small,The batter is too small in the frame for detailed analysis.,no,,2043,160,0
+Drive_beginner.MOV,2,defensive,not a drive,side-on,right,throw-down,sports hall,yes,yes,2,no,medium,"The clip is clear, shows the whole batter from a good side-on angle, and captures a single shot.",yes,,1515,171,0
+Female_Average.mp4,2,front-foot drive,off,behind the bowler,right,throw-down,outdoor net,yes,yes,1,yes,small,Multiple shots in clip,no,,6333,153,0
+Ollie P_Offdrive Average.mov,2,front-foot drive,off,behind the batter,right,bowling machine,indoor net lane,yes,yes,2,no,medium,"The camera is behind the batter, which is not ideal for technique analysis.",no,,1749,164,0
+Oscar V_Beginner.mp4,2,front-foot drive,off,behind the bowler,right,throw-down,indoor net lane,yes,yes,1,no,medium,,yes,,2505,149,0
+Straight Drive_Beginner.mp4,2,front-foot drive,straight,behind the bowler,right,throw-down,outdoor net,yes,yes,1,no,small,Batter is too small in the frame for detailed analysis.,no,,2967,160,0
+Viv P_Offdrive Elite.mov,2,front-foot drive,off,behind the bowler,right,throw-down,indoor net lane,yes,yes,1,no,medium,Good clear view of the whole batter from a suitable angle.,yes,,2109,161,0
