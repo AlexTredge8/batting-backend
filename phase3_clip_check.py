@@ -373,7 +373,7 @@ def verdict(agree: float | None, n_scored: int, consist: float | None, n_consist
                 else "accuracy unknown (no ground truth); not consistent enough")
     tail = ""
     if truth_classes < 2:
-        tail = "; only one right answer in this set, so it shows no false alarms, not that it catches the problem"
+        tail = "; only one right answer in this set, so this measures false alarms only, not whether it catches the problem"
     pre = "provisional (ground truth is a hub guess): " if unconfirmed else ""
     if agree >= AGREE_OK and (consist is None or consist >= CONSIST_OK):
         return pre + "reliable enough for an automatic check" + tail
