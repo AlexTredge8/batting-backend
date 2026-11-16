@@ -19,6 +19,15 @@ Pass (fixed 15 Nov 2026, before any variant was run; same rule as the two-phone 
   IQR of the original values.
 
   python phase5_degrade_test.py --video-dir <clips> --out baselines/phase5_degrade_<date>
+      [--lowres-height 360]
+
+--lowres-height (added 16 Nov 2026) sets the height of the lowres variant. The default, 360, is the
+registered test and stays the default for the record. Any other value names the variant
+"lowres<height>" (its own pose cache), and never scales a clip up: a clip already at or below that
+height is only re-compressed. All 18 calibration clips are portrait, so the height is the LONG side:
+--lowres-height 1280 gives 720 px on the short side, the Phase 3 gate's minimum
+(docs/phase3/capture_standard.md); --lowres-height 720 would give about 406 px, below the gate.
+Re-registering test 2 at the gate's minimum is a proposal awaiting Alex (docs/phase5/README.md).
 Writes tables only. Variant videos and landmarks stay in calibration_output/degrade/ (not committed).
 """
 
@@ -48,6 +57,15 @@ VARIANTS = {
     "tilt": ["-vf", "rotate=3*PI/180:fillcolor=black,crop=iw*0.84:ih*0.84,scale=trunc(iw/0.84/2)*2:trunc(ih/0.84/2)*2", "-crf", "20"],
 }
 MAX_IQR_SHARE = 0.25
+LOWRES_HEIGHT_REGISTERED = 360
+
+
+def lowres_variant(height: int) -> tuple[str, list[str]]:
+    """(variant name, ffmpeg args) for the lowres variant at this height. The registered 360 px variant
+    keeps its exact name and arguments; any other height gets its own name and is never scaled up."""
+    if height == LOWRES_HEIGHT_REGISTERED:
+        return "lowres", VARIANTS["lowres"]
+    return f"lowres{height}", ["-vf", f"scale=-2:'min(ih,{height})'", "-crf", "32"]
 
 
 def _fps(path: Path) -> float:
@@ -58,13 +76,16 @@ def _fps(path: Path) -> float:
     return float(f)
 
 
-def make_variant(src: Path, dst: Path, name: str) -> float:
+def make_variant(src: Path, dst: Path, name: str, lowres_height: int = LOWRES_HEIGHT_REGISTERED) -> float:
     """Writes the variant; returns its frame rate."""
     ffmpeg = shutil.which("ffmpeg")
     if not ffmpeg:
         raise SystemExit("ffmpeg is not on PATH")
     src_fps = _fps(src)
-    args = VARIANTS[name] or ["-vf", f"fps={src_fps / 2:.4f}", "-crf", "20"]
+    if name.startswith("lowres"):
+        args = lowres_variant(lowres_height)[1]
+    else:
+        args = VARIANTS[name] or ["-vf", f"fps={src_fps / 2:.4f}", "-crf", "20"]
     dst.parent.mkdir(parents=True, exist_ok=True)
     out = subprocess.run([ffmpeg, "-v", "error", "-y", "-i", str(src), *args, "-c:v", "libx264", "-preset", "veryfast",
                           "-pix_fmt", "yuv420p", "-an", str(dst)], capture_output=True)
@@ -82,6 +103,8 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("--anchors", default=str(SCRIPT_DIR / "anchor_truth.csv"))
     ap.add_argument("--clip-sheet", default=str(SCRIPT_DIR / "clip_sheet.csv"))
     ap.add_argument("--variants", default="lowres,lowfps,tilt")
+    ap.add_argument("--lowres-height", type=int, default=LOWRES_HEIGHT_REGISTERED,
+                    help="height of the lowres variant (default 360, the registered test; see the notes above)")
     args = ap.parse_args(argv)
 
     import warnings
@@ -93,7 +116,8 @@ def main(argv: list[str] | None = None) -> int:
     anchors = {key_of(r["filename"]): r for r in load_csv(Path(args.anchors)) if all(r.get(a, "").strip() for a in ANCHORS)}
     sheet = load_csv(Path(args.clip_sheet))
     sheet_by = {key_of(r["filename"]): r for r in sheet}
-    variants = [v for v in args.variants.split(",") if v]
+    lowres_name = lowres_variant(args.lowres_height)[0]
+    variants = [lowres_name if v == "lowres" else v for v in args.variants.split(",") if v]
 
     # original measurements (validated key frames) from the production pose cache
     orig_dir = work / "original"
@@ -112,7 +136,7 @@ def main(argv: list[str] | None = None) -> int:
             npz = work / "pose_cache" / f"{dst.stem}.npz"
             if not npz.exists():
                 print(f"  {v}: {src.name}", flush=True)
-                vfps = make_variant(src, dst, v)
+                vfps = make_variant(src, dst, v, args.lowres_height)
                 pose_facts(dst, None, work / "pose_cache")
             else:
                 vfps = float(np.load(npz)["fps"])

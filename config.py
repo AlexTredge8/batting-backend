@@ -41,6 +41,21 @@ def _env_bool(name: str, default: bool) -> bool:
 FRONT_SIDE = "left"           # default for right-handed batters
 DEFAULT_HANDEDNESS = "right"  # used when API caller doesn't specify
 
+# ---------------------------------------------------------------------------
+# Filming checks (Phase 3 gate, 16 Nov 2026): what footage is "allowed".
+# Both are plain-English WARNINGS in run_analysis._capture_checks; scores are never changed.
+# docs/phase3/capture_standard.md says what these mean for users and for the Phase 5 tests.
+# ---------------------------------------------------------------------------
+# Below 720 px on the short side (720p portrait or landscape), the pose points move noticeably:
+# on the Phase 5 worse-filming test a 360 px copy changed almost every measurement by more than a
+# quarter of the spread between clips. A phone's normal camera at 1080p clears this easily.
+CAPTURE_MIN_SHORT_SIDE_PX = 720
+# The batter's standing axis at set-up (ankle midpoint to shoulder midpoint, 1000 to 700 ms before
+# contact) more than this many degrees from the picture's vertical. A 3 degree roll shifts the head
+# against the feet by about 5% of body length, which broke the sideways measurements on the Phase 5
+# test. A real sideways lean of the batter shows up the same way, so this is a warning only.
+CAPTURE_MAX_TILT_DEG = 3.0
+
 # Processing mode
 # ---------------
 # LOCAL_MODE=True  → full frame rate, source resolution. This is the path every

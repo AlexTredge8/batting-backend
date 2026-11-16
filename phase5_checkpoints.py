@@ -18,6 +18,10 @@ are Cam's checkpoints in rubric v0.2, docs/phase1/rubric_v0_2.json). Rules for e
     feet (toe minus heel points camera-left at set-up); toes_point_off flags clips where not;
   - the hands are the top (front) wrist: the bottom wrist is mostly hidden behind the body;
   - landmarks with visibility under 0.2 are dropped, then smoothed with a 5-frame moving median before measuring;
+  - v7 (16 Nov 2026): before measuring, every landmark is rotated about the set-up ankle midpoint so
+    the batter's standing axis at set-up (ankle midpoint to shoulder midpoint) is vertical
+    (level_clip), so a phone held off level does not move the sideways measurements. Done after the
+    mirror; the result is the same either way round, as the axis is mirrored with the picture;
   - a measurement is blank (NaN) with a reason when its frames or landmarks are missing.
 
 Nothing here scores or changes the product. Phase 5 entry tests
@@ -36,7 +40,7 @@ import argparse
 import csv
 import json
 import sys
-from dataclasses import dataclass
+from dataclasses import dataclass, replace
 from pathlib import Path
 from typing import Callable
 
@@ -45,13 +49,14 @@ import numpy as np
 SCRIPT_DIR = Path(__file__).resolve().parent
 sys.path.insert(0, str(SCRIPT_DIR))
 from phase0_baseline_table import key_of, load_csv  # noqa: E402
+from metrics_calculator import standing_axis_tilt_deg  # noqa: E402
 
 NOSE = 0
 L = {"sh": 11, "el": 13, "wr": 15, "hip": 23, "knee": 25, "ank": 27}
 R = {"sh": 12, "el": 14, "wr": 16, "hip": 24, "knee": 26, "ank": 28}
 ANCHORS = ["setup_frame", "hands_start_up_frame", "front_foot_down_frame", "hands_peak_frame",
            "contact_frame", "follow_through_frame"]
-MEASUREMENT_SET = "v6"  # v6 (16 Nov): M18 head, hands and feet in line at set-up (Radford, via Alex); v5 (15 Nov): M14-M17 added (foot-landing/downswing coupling, head over the base at set-up, weight over the front foot at contact, trigger), M01-M13 unchanged; v4 (15 Nov): hands = the more visible wrist; M09 total slow time; v3 (15 Nov): M06, M08, M09 reworked for robustness, M13 added, geometry handedness from the feet; v1 (14 Nov) used set-up / hands / follow-through anchors; v2 (15 Nov) anchors M01, M03, M06, M08, M09, M11, M12 on contact
+MEASUREMENT_SET = "v7"  # v7 (16 Nov): all landmarks rotated so the batter's standing axis at set-up (ankle midpoint to shoulder midpoint) is vertical, so camera roll does not move the sideways measurements (robustness for test 2; IDs, definitions, directions and thresholds unchanged); v6 (16 Nov): M18 head, hands and feet in line at set-up (Radford, via Alex); v5 (15 Nov): M14-M17 added (foot-landing/downswing coupling, head over the base at set-up, weight over the front foot at contact, trigger), M01-M13 unchanged; v4 (15 Nov): hands = the more visible wrist; M09 total slow time; v3 (15 Nov): M06, M08, M09 reworked for robustness, M13 added, geometry handedness from the feet; v1 (14 Nov) used set-up / hands / follow-through anchors; v2 (15 Nov) anchors M01, M03, M06, M08, M09, M11, M12 on contact
 MIN_VIS = 0.2  # MediaPipe still places hidden points; below 0.2 they are guesses
 
 
@@ -123,6 +128,38 @@ def _setup_window(c: Clip, a: dict[str, int]) -> range:
     964 ms before contact; automatic contact is out by 1 frame, automatic set-up by 6)."""
     k = a["contact_frame"]
     return range(k - c.ms(1000), k - c.ms(700) + 1)
+
+
+LEVEL_TO_STANDING_AXIS = True  # v7. False reproduces v6 (used only for before/after comparisons)
+
+
+def setup_axis_tilt(c: Clip, a: dict[str, int]) -> tuple[float | None, np.ndarray | None]:
+    """The batter's standing axis over the set-up window (ankle midpoint to shoulder midpoint, median
+    over 1000 to 700 ms before contact), as degrees from the image vertical (positive = shoulders
+    camera-right of the ankles), and the median ankle midpoint (the pivot). (None, None) if unknown."""
+    fr = _setup_window(c, a)
+    ank = c.series(fr, (L["ank"], R["ank"]))
+    tilt = standing_axis_tilt_deg(ank, c.series(fr, (L["sh"], R["sh"])))
+    if tilt is None:
+        return None, None
+    ok = ank[np.isfinite(ank).all(axis=1)]
+    return tilt, np.median(ok, axis=0)
+
+
+def level_clip(c: Clip, a: dict[str, int]) -> tuple[Clip, float | None]:
+    """v7 (16 Nov 2026): rotate every landmark about the set-up ankle midpoint so the batter's standing
+    axis at set-up is vertical. A phone held a few degrees off level shifts the head against the feet
+    sideways by about 5% BL per 3 degrees; this removes that before any sideways (x) measurement.
+    It also removes any real sideways lean of the batter at set-up: from the pose alone the two are
+    the same thing. Returns the levelled clip and the tilt that was removed (None: left as it was)."""
+    tilt, pivot = setup_axis_tilt(c, a)
+    if tilt is None:
+        return c, None
+    phi = np.radians(-tilt)  # rotate by minus the tilt: the axis ends up pointing straight up
+    cs, sn = np.cos(phi), np.sin(phi)
+    d = c.xy - pivot
+    xy = np.stack([pivot[0] + d[..., 0] * cs - d[..., 1] * sn, pivot[1] + d[..., 0] * sn + d[..., 1] * cs], axis=-1)
+    return replace(c, xy=xy), tilt
 
 
 def body_length(c: Clip, a: dict[str, int]) -> float:
@@ -528,8 +565,11 @@ def toes_point_off(c: Clip, a: dict[str, int]) -> str:
     return "yes" if np.median(d) < 0 else "no"
 
 
-def measure_clip(c: Clip, anchors: dict[str, int]) -> list[dict]:
+def measure_clip(c: Clip, anchors: dict[str, int], level: bool | None = None) -> list[dict]:
     a = {k: int(v) for k, v in anchors.items()}
+    tilt = None
+    if (LEVEL_TO_STANDING_AXIS if level is None else level):
+        c, tilt = level_clip(c, a)  # v7: before any measurement, body length included
     bl = body_length(c, a)
     toes = toes_point_off(c, a)
     rows = []
@@ -544,7 +584,8 @@ def measure_clip(c: Clip, anchors: dict[str, int]) -> list[dict]:
         rows.append({"measurement": mid, "checkpoint": cp, "fault": fault, "pillar": pillar, "unit": unit,
                      "direction": direction, "value": "" if not np.isfinite(v) else round(float(v), 3),
                      "blank_reason": why, "body_length_px": round(bl, 1) if np.isfinite(bl) else "",
-                     "toes_point_off": toes})
+                     "toes_point_off": toes,
+                     "setup_axis_tilt_deg": "" if tilt is None else round(float(tilt), 2)})
     return rows
 
 

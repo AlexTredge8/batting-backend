@@ -38,7 +38,10 @@ from config             import (
     SETUP_DETECTOR_VERSION,
     PROCESSING_MODE,
     ANCHOR_MODE,
+    CAPTURE_MIN_SHORT_SIDE_PX,
+    CAPTURE_MAX_TILT_DEG,
 )
+from metrics_calculator import standing_axis_tilt_deg
 
 
 def _handedness_to_front_side(handedness: str) -> str:
@@ -95,8 +98,34 @@ def _handedness_from_feet(frame_poses) -> dict:
     return {"handedness": hand, "median_toe_dx": round(med, 4), "samples": len(d)}
 
 
+def _setup_axis_tilt(metrics, phases, video_meta: dict) -> float | None:
+    """The batter's standing axis at set-up, degrees from the picture's vertical (positive = shoulders
+    camera-right of the ankles): ankle midpoint to shoulder midpoint, median over 1000 to 700 ms before
+    the detected contact (the same contact-anchored window as the Phase 5 measurements, v7).
+    None when contact, the frame size or enough detected frames are missing."""
+    try:
+        k = int(getattr(phases, "contact", None))
+    except (TypeError, ValueError):
+        return None
+    w, h = video_meta.get("width"), video_meta.get("height")
+    if not w or not h or not (0 <= k < len(metrics)):
+        return None
+    t_contact = getattr(metrics[k], "timestamp_s", None)
+    if t_contact is None:
+        return None
+    ank, sh = [], []
+    for m in metrics:
+        t = getattr(m, "timestamp_s", None)
+        if not getattr(m, "detected", False) or t is None or not (t_contact - 1.0 <= t <= t_contact - 0.7):
+            continue
+        ank.append(((m.front_ankle_x + m.back_ankle_x) / 2 * w, (m.front_ankle_y + m.back_ankle_y) / 2 * h))
+        sh.append((m.shoulder_mid_x * w, m.shoulder_mid_y * h))
+    return standing_axis_tilt_deg(ank, sh) if ank else None
+
+
 def _capture_checks(metrics, phases, video_meta: dict) -> tuple[dict, list[str]]:
-    """Plain-English capture warnings from facts the pipeline already has. Never changes a score."""
+    """Plain-English capture warnings from facts the pipeline already has. Never changes a score.
+    The resolution and tilt checks are the Phase 3 filming gate (docs/phase3/capture_standard.md)."""
     warnings: list[str] = []
     setup = int(getattr(phases, "setup_end", 0) or 0)
     window = [m for m in metrics[max(0, setup - 10): setup + 1] if getattr(m, "detected", False)]
@@ -120,7 +149,23 @@ def _capture_checks(metrics, phases, video_meta: dict) -> tuple[dict, list[str]]
             "This clip is very short, so the set-up may be cut off. Start filming before the bowler "
             "runs in and stop after the follow-through."
         )
-    return {"batter_height_fraction": batter_frac, "duration_s": duration}, warnings
+    w, h = video_meta.get("width"), video_meta.get("height")
+    short_side = int(min(w, h)) if w and h else None
+    if short_side is not None and short_side < CAPTURE_MIN_SHORT_SIDE_PX:
+        warnings.append(
+            f"This video was filmed at low resolution ({short_side} pixels on its short side), so body "
+            "positions are measured less precisely. Use the phone's normal camera at 1080p (720p at the "
+            "least) and upload the original video, not a copy sent through a messaging app."
+        )
+    tilt = _setup_axis_tilt(metrics, phases, video_meta)
+    if tilt is not None and abs(tilt) > CAPTURE_MAX_TILT_DEG:
+        warnings.append(
+            f"The phone looks tilted: the batter's standing line at set-up is {abs(tilt):.0f} degrees off "
+            "upright in the picture, which moves the sideways measurements. Hold the phone level, or "
+            "rest it on something flat. If the batter was really leaning to one side, ignore this."
+        )
+    return {"batter_height_fraction": batter_frac, "duration_s": duration, "short_side_px": short_side,
+            "setup_axis_tilt_deg": round(tilt, 1) if tilt is not None else None}, warnings
 
 
 def _annotate_pillar_evidence(report: dict) -> None:

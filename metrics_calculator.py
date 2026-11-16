@@ -377,3 +377,35 @@ def metrics_to_dict(m: FrameMetrics) -> dict:
     """Serialise a FrameMetrics to a plain dict for JSON output."""
     return {k: round(v, 5) if isinstance(v, float) else v
             for k, v in m.__dict__.items()}
+
+
+# ---------------------------------------------------------------------------
+# Standing axis at set-up (added 16 Nov 2026)
+# ---------------------------------------------------------------------------
+
+def standing_axis_tilt_deg(ankle_mid, shoulder_mid, min_frames: int = 3) -> float | None:
+    """The batter's standing axis at set-up, as an angle from the image vertical, in degrees.
+
+    The axis runs from the midpoint of the two ankles to the midpoint of the two shoulders.
+    Inputs are [n, 2] arrays of (x, y) in PIXELS (normalised coordinates must be scaled by the
+    frame's width and height first, or the angle is distorted by the aspect ratio), one row per
+    frame of the set-up window; rows with a missing value are ignored. The axis is the median
+    of the per-frame ankle-to-shoulder vectors. Positive = the shoulders are camera-right of
+    the ankles (image x grows to the right, y downwards). None when fewer than min_frames
+    frames have both points, or the shoulders are not above the ankles.
+
+    Used by the Phase 5 measurements (v7: landmarks are rotated so this axis is vertical) and
+    by the capture checks (a warning when it is more than CAPTURE_MAX_TILT_DEG off vertical).
+    A camera roll and a real sideways lean of the batter both show up here; the two cannot be
+    told apart from the pose alone.
+    """
+    a = np.asarray(ankle_mid, dtype=float).reshape(-1, 2)
+    s = np.asarray(shoulder_mid, dtype=float).reshape(-1, 2)
+    v = s - a
+    v = v[np.isfinite(v).all(axis=1)]
+    if len(v) < min_frames:
+        return None
+    dx, dy = float(np.median(v[:, 0])), float(np.median(v[:, 1]))
+    if not dy < 0:  # shoulders must be above the ankles (image y grows downwards)
+        return None
+    return math.degrees(math.atan2(dx, -dy))

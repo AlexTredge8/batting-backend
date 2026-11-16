@@ -289,3 +289,86 @@ def test_entry_tests_read_rubric_v0_2_checkpoints(tmp_path):
     ratings, kinds = p5e.load_ratings([f"{rat}:coach"])
     assert ratings[next(iter(ratings))] == {"C01": 2.0, "C13": 1.0}  # X left out, non-checkpoint columns ignored
     assert kinds == ["coach"]
+
+
+# --- v7: levelled to the batter's standing axis (16 Nov 2026) --------------------------------------
+
+SIDEWAYS = ("M02", "M04", "M10", "M11", "M15", "M16", "M18")
+
+
+def _rotate(arr: np.ndarray, deg: float, centre=(W / 2, H / 2)) -> np.ndarray:
+    """The same figure filmed with the phone rolled by deg degrees (rotation in pixels about centre)."""
+    out = arr.copy()
+    x, y = arr[..., 0] * W - centre[0], arr[..., 1] * H - centre[1]
+    t = np.radians(deg)
+    out[..., 0] = (centre[0] + x * np.cos(t) - y * np.sin(t)) / W
+    out[..., 1] = (centre[1] + x * np.sin(t) + y * np.cos(t)) / H
+    return out
+
+
+def _lefty(rh: np.ndarray) -> np.ndarray:
+    lh = rh.copy()
+    lh[..., 0] = 1.0 - lh[..., 0]
+    for i, j in [(11, 12), (13, 14), (15, 16), (23, 24), (25, 26), (27, 28), (29, 30), (31, 32), (7, 8)]:
+        lh[:, [i, j]] = lh[:, [j, i]]
+    return lh
+
+
+def test_standing_axis_tilt_sign_and_unknown():
+    from metrics_calculator import standing_axis_tilt_deg
+    ank = np.array([[100.0, 600.0]] * 5)
+    assert abs(standing_axis_tilt_deg(ank, np.array([[100.0, 200.0]] * 5))) < 1e-9
+    assert np.isclose(standing_axis_tilt_deg(ank, np.array([[100 + 400 * np.tan(np.radians(3)), 200.0]] * 5)), 3.0)
+    assert standing_axis_tilt_deg(ank, np.array([[np.nan, 200.0]] * 5)) is None  # shoulders not seen
+    assert standing_axis_tilt_deg(ank[:2], np.array([[100.0, 200.0]] * 2)) is None  # too few frames
+
+
+def test_level_clip_makes_the_standing_axis_vertical(tmp_path):
+    clip = p5.load_clip(_save(tmp_path, "r", _rotate(_figure(), 3.0)), "right")
+    tilt, _ = p5.setup_axis_tilt(clip, ANCH)
+    levelled, removed = p5.level_clip(clip, ANCH)
+    assert removed == tilt and 2.0 < abs(tilt) < 4.5
+    assert abs(p5.setup_axis_tilt(levelled, ANCH)[0]) < 0.05
+
+
+def test_three_degree_roll_leaves_sideways_measurements_nearly_unchanged(tmp_path):
+    for kw in ({}, {"head_setup_off": 20, "com_lag": 20, "head_lean": 15}):
+        base = _figure(**kw)
+        flat = _values(_save(tmp_path, "flat", base))
+        rows = {d: {r["measurement"]: r for r in p5.measure_clip(p5.load_clip(_save(tmp_path, f"r{d}", _rotate(base, d)), "right"), ANCH)}
+                for d in (3.0, -3.0)}
+        old = {r["measurement"]: r["value"] for r in
+               p5.measure_clip(p5.load_clip(_save(tmp_path, "r3old", _rotate(base, 3.0)), "right"), ANCH, level=False)}
+        old_flat = {r["measurement"]: r["value"] for r in p5.measure_clip(p5.load_clip(_save(tmp_path, "f_old", base), "right"),
+                                                                          ANCH, level=False)}
+        for m in SIDEWAYS:
+            for d in (3.0, -3.0):
+                assert abs(float(rows[d][m]["value"]) - float(flat[m])) < 0.3, (kw, m, d)  # % BL
+        # without levelling (v6) the same roll moves at least one of them by several % BL
+        assert max(abs(float(old[m]) - float(old_flat[m])) for m in SIDEWAYS) > 2.0
+        # the removed tilt is the figure's own axis plus the roll (a positive roll turns the top camera-right)
+        assert np.isclose(float(rows[3.0]["M02"]["setup_axis_tilt_deg"]) - _tilt_of(tmp_path, base), 3.0, atol=0.1)
+
+
+def _tilt_of(tmp_path, arr) -> float:
+    rows = p5.measure_clip(p5.load_clip(_save(tmp_path, "t", arr), "right"), ANCH)
+    return float(rows[0]["setup_axis_tilt_deg"])
+
+
+def test_levelled_left_hander_still_mirrors_the_right_hander(tmp_path):
+    kw = dict(peak=60, head_setup_off=20, trigger=15, trigger_at=72, com_lag=20)
+    rh = _rotate(_figure(**kw), 3.0)  # rolled phone: the mirror must still match exactly
+    a = _values(_save(tmp_path, "rh", rh), "right")
+    b = _values(_save(tmp_path, "lh", _lefty(rh)), "left")
+    for m in a:
+        if a[m] == "" or (isinstance(a[m], float) and np.isnan(a[m])):
+            assert b[m] == "" or np.isnan(b[m]), m
+            continue
+        assert np.isclose(float(a[m]), float(b[m]), atol=1e-6), m
+
+
+def test_lowres_height_flag_keeps_the_registered_variant_by_default():
+    import phase5_degrade_test as dg
+    assert dg.lowres_variant(360) == ("lowres", ["-vf", "scale=-2:360", "-crf", "32"])  # the registered test
+    name, args = dg.lowres_variant(1280)
+    assert name == "lowres1280" and "min(ih,1280)" in args[1] and args[-1] == "32"  # own cache name; never upscales

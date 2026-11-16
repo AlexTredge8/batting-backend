@@ -10,6 +10,7 @@ One measurement per rubric checkpoint (`docs/phase1/rubric_v0.json`), each tied 
 - Left-handers are mirrored, so every clip reads as a right-hander. After the mirror the off side is camera-left. The feet confirm this on the reference clip (toes point camera-left at set-up); `toes_point_off = no` flags a clip where the handedness or camera position is probably wrong.
 - The hands are the top (front) wrist. From behind the bowler the bottom wrist is hidden most of the time (visibility median 0.12 on the reference clip).
 - Points under 0.2 visibility are dropped; positions are smoothed with a 5-frame moving median.
+- From v7, every landmark is rotated about the set-up ankle midpoint so the batter's standing axis at set-up (ankle midpoint to shoulder midpoint, median over 1000 to 700 ms before contact) is vertical, so a phone held off level does not move the sideways measurements. Each row records the tilt removed (`setup_axis_tilt_deg`).
 - A blank value always carries a reason.
 
 ## The measurements
@@ -102,3 +103,35 @@ The entry-test thresholds are unchanged. `phase5_entry_tests.py` now reads any c
 - M17: on this clip the window (1000 to 450 ms before contact) catches the start of the stride. The front ankle starts moving about 530 ms before contact, so most of the 2.9% is stride, not trigger. Research puts the stride start at about 580 ms on average, so on many clips the window's end will overlap the stride.
 
 **v6, 16 Nov 2026 (registered before any clip run).** Added M18 (C17/F17, tracking, lower is better). It measures how well the head, hands and feet line up sideways at set-up: the spread of the nose, the hands and the ankle midpoint, 1000 to 700 ms before contact, as % BL. It follows Alex's correction of the Radford point: "hands, feet and head level over off stump; it is about line". The stumps are not tracked, so M18 measures the three lining up with each other, not their position against off stump. M15 (head over the base) is unchanged.
+
+**v7, registered 16 Nov 2026, before the 18 clips were run with it.** Motivated by the v6 worse-filming result (`baselines/phase5_2026-11-16_v6/degrade_test.md`): the 3 degree tilt variant broke every sideways measurement (M02, M04, M10, M11, M15, M16, M18; change 0.43 to 0.98 of the spread between clips). That is expected: a 3 degree roll shifts the head against the feet by about 5% BL. This is a robustness change for test 2, not a change to fit the coaches. IDs, definitions, directions and thresholds are unchanged.
+
+- The change: before any measurement (body length included), every landmark is rotated about the median ankle midpoint of the set-up window so that the batter's standing axis at set-up is vertical (`level_clip` in `phase5_checkpoints.py`). The axis runs from the ankle midpoint to the shoulder midpoint, median over 1000 to 700 ms before contact (the contact-anchored set-up window, `_setup_window`). It is applied after the left-hander mirror; the result is the same either way round, as the axis is mirrored with the picture. If the axis cannot be found, the clip is measured as it is and `setup_axis_tilt_deg` is blank. `MEASUREMENT_SET` is now v7. Setting `LEVEL_TO_STANDING_AXIS = False` reproduces v6.
+- Unit tests: a synthetic figure rolled by +3 or -3 degrees gives the same M02, M04, M10, M11, M15, M16 and M18 as the level figure (within 0.3% BL; in practice the same to 3 decimals), where v6 moved them by 1.8 to 5.3% BL; a rolled left-hander still mirrors the right-hander exactly.
+- What was seen before registering, stated so it is not read as fitting later: the axis angle alone (not the measurements) was computed on the reference clip, at -7.0 degrees, and the tilt variant's at -4.1 (so the variant adds 2.9 degrees, as it should). The reference camera is level (the long vertical edges in the background have a median tilt of 0.0 degrees), so the -7.0 is the batter's own lean: shoulders over the off side of the feet at set-up, his head over off stump. **So v7 also removes a real sideways lean at set-up.** From the pose alone a lean and a rolled phone are the same thing. M02, M15 and M18 were partly measuring that lean, so v7 changes what they read, not only how steadily they read it.
+
+**v7 on the reference clip, 16 Nov 2026 (after the registration above; no definition changed).** Viv P_Offdrive Elite, validated key frames, the tilt variant made locally with `phase5_degrade_test.py` (production pose path). "Change" is |tilt - original| as a share of the v6 between-clip IQR (one clip, so this is a check, not test 2):
+
+| Meas. | v6 original | v6 tilt | v6 change | v7 original | v7 tilt | v7 change |
+|---|---|---|---|---|---|---|
+| M02 | 6.1 | 9.4 | 0.68 | 13.0 | 13.4 | 0.09 |
+| M04 | 17.6 | 13.4 | 0.50 | 6.1 | 6.7 | 0.08 |
+| M10 | 31.6 | 28.5 | 0.60 | 27.0 | 25.7 | 0.25 |
+| M11 | 4.5 | 7.5 | 1.07 | 11.2 | 11.4 | 0.04 |
+| M15 | 17.3 | 12.4 | 0.46 | 4.8 | 5.1 | 0.03 |
+| M16 | 1.3 | 5.4 | 0.95 | 10.1 | 10.4 | 0.08 |
+| M18 | 17.3 | 14.7 | 0.23 | 9.5 | 11.0 | 0.13 |
+
+The roll is removed: all seven are under 0.25 on this clip, M10 only just (0.247); in v6 only M18 was (0.23). The other measurements change little (M13 0.57 to 0.39; M01, M03, M05, M07, M08 and M17 at 0.08 or under either way; M06, M09 and M12 unchanged). Three things to watch on the full run:
+
+- The values move a long way on this clip because its 7 degree lean is rotated out: M15 (head over the base) from 17.3 to 4.8% BL, M16 from 1.3 to 10.1, M04 from 17.6 to 6.1. The between-clip spread may shrink as well, which would raise the change/spread share even where the change itself is smaller.
+- The axis is estimated from the pose, so pose noise now reaches every sideways measurement. On the 360 px copy the axis came out at -5.1 degrees against -7.0, and M02, M11, M16 and M18 moved more under v7 than v6 (change/v6 IQR 0.91 to 2.07, 0.08 to 0.76, 0.94 to 2.21, 0.17 to 0.49). On the half-frame-rate copy everything is under 0.25 with v7 except M09 (1.51, unchanged from v6) and M13 (blank on that copy); v6 also had M04 at 0.30.
+- `setup_axis_tilt_deg` per clip shows how much real lean there is across the 18 clips. If batters differ by several degrees, v7 removes a real difference between them.
+
+**Filming gate and test 2 (16 Nov 2026).** The plan says the gate defines what footage is "allowed". Two filming checks were added to the live analysis as warnings (`docs/phase3/capture_standard.md`): under 720 px on the short side, and the batter's standing axis at set-up more than 3 degrees off vertical. Clips failing either (after the warning) are outside allowed footage. The registered lowres variant (360 px tall: about 204 px on the short side of these portrait clips) is therefore refused footage, and failing on it says the footage is unreliable, not that the measurement is. The tilt variant (3 degrees) sits at the edge of allowed footage and lowfps is not covered by the gate, so both stay fair tests. Caveat: on the reference clip the tilt check fires (-7.0 degrees, a real lean with a level camera), so the 3 degree threshold needs the v7 spread of `setup_axis_tilt_deg` before it can become a refusal.
+
+**Decision for Alex (proposed 16 Nov 2026, not adopted).** Re-register test 2's lowres variant at the gate's minimum, 720 px on the short side, in place of 360 px tall. It is implemented behind a flag, `phase5_degrade_test.py --lowres-height`; the default stays 360 for the record, and nothing changes without Alex's yes. Because all 18 clips are portrait, 720 px on the short side is `--lowres-height 1280` (`--lowres-height 720` would give about 406 px, still refused). The variant is named `lowres1280` with its own pose cache, and never scales a clip up: 7 of the 18 clips are already under 720 px on the short side (all under 1280 tall), so for them the variant is the same size, compressed harder (CRF 32). Options for those 7: keep them (a compression-only test) or leave them out of test 2 as outside allowed footage. The same pass rule applies (median change at most 0.25 of the IQR). If Alex says yes, the command is:
+
+```
+cd ~/Documents/battingiq-phase0 && git pull && PATH="$PWD/.venv310/bin:$PATH" .venv310/bin/python phase5_degrade_test.py --video-dir "$HOME/Documents/01 Work/03 BattingIQ/03 Working Folders/battingiq-groundtruth:/videos:" --out baselines/phase5_$(date +%F)_v7_lowres1280 --variants lowres --lowres-height 1280
+```
