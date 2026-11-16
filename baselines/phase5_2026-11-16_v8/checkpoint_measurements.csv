@@ -1,0 +1,613 @@
+filename,measurement_set,anchor_set,handedness,geometry_handedness,geometry_source,drive_type,fps,measurement,checkpoint,fault,pillar,unit,direction,value,blank_reason,body_length_px,toes_point_off,setup_axis_tilt_deg,camera_roll_deg,roll_confidence,roll_source,roll_lines,levelled_by
+Alex T_Straightdrive Good,v8,validated,right,right,clip sheet,straight,30.339,M01,C01,F01,tracking,% BL,higher_worse,,set-up not in the clip (needs 1 s before contact),226.1,yes,,-1.29,ok,vertical,44,camera_roll
+Alex T_Straightdrive Good,v8,validated,right,right,clip sheet,straight,30.339,M02,C02,F02,stability,% BL,higher_worse,5.158,,226.1,yes,,-1.29,ok,vertical,44,camera_roll
+Alex T_Straightdrive Good,v8,validated,right,right,clip sheet,straight,30.339,M03,C03,F03,access,"% BL, off side +",higher_worse,9.513,,226.1,yes,,-1.29,ok,vertical,44,camera_roll
+Alex T_Straightdrive Good,v8,validated,right,right,clip sheet,straight,30.339,M04,C04,F04,tracking,"% BL, off side +",higher_better,20.118,,226.1,yes,,-1.29,ok,vertical,44,camera_roll
+Alex T_Straightdrive Good,v8,validated,right,right,clip sheet,straight,30.339,M05,C05,F05,access,"% BL, drive side +",higher_better,1.343,,226.1,yes,,-1.29,ok,vertical,44,camera_roll
+Alex T_Straightdrive Good,v8,validated,right,right,clip sheet,straight,30.339,M06,C06,F06,stability,degrees,higher_worse,153.227,,226.1,yes,,-1.29,ok,vertical,44,camera_roll
+Alex T_Straightdrive Good,v8,validated,right,right,clip sheet,straight,30.339,M07,C07,F07,access,ratio,higher_worse,1.175,,226.1,yes,,-1.29,ok,vertical,44,camera_roll
+Alex T_Straightdrive Good,v8,validated,right,right,clip sheet,straight,30.339,M08,C08,F08,access,"% BL, away from drive side +",higher_worse,4.688,,226.1,yes,,-1.29,ok,vertical,44,camera_roll
+Alex T_Straightdrive Good,v8,validated,right,right,clip sheet,straight,30.339,M09,C09,F09,flow,ms,higher_worse,0.0,,226.1,yes,,-1.29,ok,vertical,44,camera_roll
+Alex T_Straightdrive Good,v8,validated,right,right,clip sheet,straight,30.339,M10,C10,F10,tracking,"% BL, off side +",higher_better,29.452,,226.1,yes,,-1.29,ok,vertical,44,camera_roll
+Alex T_Straightdrive Good,v8,validated,right,right,clip sheet,straight,30.339,M11,C11,F11,stability,% BL,higher_worse,2.886,,226.1,yes,,-1.29,ok,vertical,44,camera_roll
+Alex T_Straightdrive Good,v8,validated,right,right,clip sheet,straight,30.339,M12,C12,F12,flow,% BL,higher_better,13.912,,226.1,yes,,-1.29,ok,vertical,44,camera_roll
+Alex T_Straightdrive Good,v8,validated,right,right,clip sheet,straight,30.339,M13,C12,F12,flow,ratio,higher_better,1.919,,226.1,yes,,-1.29,ok,vertical,44,camera_roll
+Alex T_Straightdrive Good,v8,validated,right,right,clip sheet,straight,30.339,M14,C09,F09,flow,ms (absolute),higher_worse,,front foot still moving at contact,226.1,yes,,-1.29,ok,vertical,44,camera_roll
+Alex T_Straightdrive Good,v8,validated,right,right,clip sheet,straight,30.339,M15,C01,F01,tracking,% BL (absolute),higher_worse,37.011,,226.1,yes,,-1.29,ok,vertical,44,camera_roll
+Alex T_Straightdrive Good,v8,validated,right,right,clip sheet,straight,30.339,M16,C16,F16,stability,% BL,higher_worse,5.346,,226.1,yes,,-1.29,ok,vertical,44,camera_roll
+Alex T_Straightdrive Good,v8,validated,right,right,clip sheet,straight,30.339,M17,C13,F13,flow,% BL,higher_better,98.115,,226.1,yes,,-1.29,ok,vertical,44,camera_roll
+Alex T_Straightdrive Good,v8,validated,right,right,clip sheet,straight,30.339,M18,C17,F17,tracking,% BL,higher_worse,,"head, hands or feet not seen at set-up (needs 1 s before contact)",226.1,yes,,-1.29,ok,vertical,44,camera_roll
+Alex T_Straightdrive Good,v8,auto,right,right,clip sheet,straight,30.339,M01,C01,F01,tracking,% BL,higher_worse,,set-up not in the clip (needs 1 s before contact),226.1,yes,,-1.29,ok,vertical,44,camera_roll
+Alex T_Straightdrive Good,v8,auto,right,right,clip sheet,straight,30.339,M02,C02,F02,stability,% BL,higher_worse,39.47,,226.1,yes,,-1.29,ok,vertical,44,camera_roll
+Alex T_Straightdrive Good,v8,auto,right,right,clip sheet,straight,30.339,M03,C03,F03,access,"% BL, off side +",higher_worse,9.513,,226.1,yes,,-1.29,ok,vertical,44,camera_roll
+Alex T_Straightdrive Good,v8,auto,right,right,clip sheet,straight,30.339,M04,C04,F04,tracking,"% BL, off side +",higher_better,15.968,,226.1,yes,,-1.29,ok,vertical,44,camera_roll
+Alex T_Straightdrive Good,v8,auto,right,right,clip sheet,straight,30.339,M05,C05,F05,access,"% BL, drive side +",higher_better,-7.967,,226.1,yes,,-1.29,ok,vertical,44,camera_roll
+Alex T_Straightdrive Good,v8,auto,right,right,clip sheet,straight,30.339,M06,C06,F06,stability,degrees,higher_worse,153.227,,226.1,yes,,-1.29,ok,vertical,44,camera_roll
+Alex T_Straightdrive Good,v8,auto,right,right,clip sheet,straight,30.339,M07,C07,F07,access,ratio,higher_worse,1.303,,226.1,yes,,-1.29,ok,vertical,44,camera_roll
+Alex T_Straightdrive Good,v8,auto,right,right,clip sheet,straight,30.339,M08,C08,F08,access,"% BL, away from drive side +",higher_worse,4.688,,226.1,yes,,-1.29,ok,vertical,44,camera_roll
+Alex T_Straightdrive Good,v8,auto,right,right,clip sheet,straight,30.339,M09,C09,F09,flow,ms,higher_worse,0.0,,226.1,yes,,-1.29,ok,vertical,44,camera_roll
+Alex T_Straightdrive Good,v8,auto,right,right,clip sheet,straight,30.339,M10,C10,F10,tracking,"% BL, off side +",higher_better,29.452,,226.1,yes,,-1.29,ok,vertical,44,camera_roll
+Alex T_Straightdrive Good,v8,auto,right,right,clip sheet,straight,30.339,M11,C11,F11,stability,% BL,higher_worse,2.886,,226.1,yes,,-1.29,ok,vertical,44,camera_roll
+Alex T_Straightdrive Good,v8,auto,right,right,clip sheet,straight,30.339,M12,C12,F12,flow,% BL,higher_better,13.912,,226.1,yes,,-1.29,ok,vertical,44,camera_roll
+Alex T_Straightdrive Good,v8,auto,right,right,clip sheet,straight,30.339,M13,C12,F12,flow,ratio,higher_better,1.919,,226.1,yes,,-1.29,ok,vertical,44,camera_roll
+Alex T_Straightdrive Good,v8,auto,right,right,clip sheet,straight,30.339,M14,C09,F09,flow,ms (absolute),higher_worse,,front foot still moving at contact,226.1,yes,,-1.29,ok,vertical,44,camera_roll
+Alex T_Straightdrive Good,v8,auto,right,right,clip sheet,straight,30.339,M15,C01,F01,tracking,% BL (absolute),higher_worse,37.011,,226.1,yes,,-1.29,ok,vertical,44,camera_roll
+Alex T_Straightdrive Good,v8,auto,right,right,clip sheet,straight,30.339,M16,C16,F16,stability,% BL,higher_worse,5.346,,226.1,yes,,-1.29,ok,vertical,44,camera_roll
+Alex T_Straightdrive Good,v8,auto,right,right,clip sheet,straight,30.339,M17,C13,F13,flow,% BL,higher_better,98.115,,226.1,yes,,-1.29,ok,vertical,44,camera_roll
+Alex T_Straightdrive Good,v8,auto,right,right,clip sheet,straight,30.339,M18,C17,F17,tracking,% BL,higher_worse,,"head, hands or feet not seen at set-up (needs 1 s before contact)",226.1,yes,,-1.29,ok,vertical,44,camera_roll
+AlexT_Ondrive Good,v8,validated,right,right,clip sheet,on,30.356,M01,C01,F01,tracking,% BL,higher_worse,1.606,,246.5,yes,-5.24,-1.45,ok,vertical,40,camera_roll
+AlexT_Ondrive Good,v8,validated,right,right,clip sheet,on,30.356,M02,C02,F02,stability,% BL,higher_worse,3.719,,246.5,yes,-5.24,-1.45,ok,vertical,40,camera_roll
+AlexT_Ondrive Good,v8,validated,right,right,clip sheet,on,30.356,M03,C03,F03,access,"% BL, off side +",higher_worse,13.083,,246.5,yes,-5.24,-1.45,ok,vertical,40,camera_roll
+AlexT_Ondrive Good,v8,validated,right,right,clip sheet,on,30.356,M04,C04,F04,tracking,"% BL, off side +",higher_better,16.694,,246.5,yes,-5.24,-1.45,ok,vertical,40,camera_roll
+AlexT_Ondrive Good,v8,validated,right,right,clip sheet,on,30.356,M05,C05,F05,access,"% BL, drive side +",higher_better,-1.634,,246.5,yes,-5.24,-1.45,ok,vertical,40,camera_roll
+AlexT_Ondrive Good,v8,validated,right,right,clip sheet,on,30.356,M06,C06,F06,stability,degrees,higher_worse,152.629,,246.5,yes,-5.24,-1.45,ok,vertical,40,camera_roll
+AlexT_Ondrive Good,v8,validated,right,right,clip sheet,on,30.356,M07,C07,F07,access,ratio,higher_worse,1.367,,246.5,yes,-5.24,-1.45,ok,vertical,40,camera_roll
+AlexT_Ondrive Good,v8,validated,right,right,clip sheet,on,30.356,M08,C08,F08,access,"% BL, away from drive side +",higher_worse,-4.922,,246.5,yes,-5.24,-1.45,ok,vertical,40,camera_roll
+AlexT_Ondrive Good,v8,validated,right,right,clip sheet,on,30.356,M09,C09,F09,flow,ms,higher_worse,36.86,,246.5,yes,-5.24,-1.45,ok,vertical,40,camera_roll
+AlexT_Ondrive Good,v8,validated,right,right,clip sheet,on,30.356,M10,C10,F10,tracking,"% BL, off side +",higher_better,27.624,,246.5,yes,-5.24,-1.45,ok,vertical,40,camera_roll
+AlexT_Ondrive Good,v8,validated,right,right,clip sheet,on,30.356,M11,C11,F11,stability,% BL,higher_worse,8.026,,246.5,yes,-5.24,-1.45,ok,vertical,40,camera_roll
+AlexT_Ondrive Good,v8,validated,right,right,clip sheet,on,30.356,M12,C12,F12,flow,% BL,higher_better,15.412,,246.5,yes,-5.24,-1.45,ok,vertical,40,camera_roll
+AlexT_Ondrive Good,v8,validated,right,right,clip sheet,on,30.356,M13,C12,F12,flow,ratio,higher_better,1.407,,246.5,yes,-5.24,-1.45,ok,vertical,40,camera_roll
+AlexT_Ondrive Good,v8,validated,right,right,clip sheet,on,30.356,M14,C09,F09,flow,ms (absolute),higher_worse,,front foot still moving at contact,246.5,yes,-5.24,-1.45,ok,vertical,40,camera_roll
+AlexT_Ondrive Good,v8,validated,right,right,clip sheet,on,30.356,M15,C01,F01,tracking,% BL (absolute),higher_worse,9.319,,246.5,yes,-5.24,-1.45,ok,vertical,40,camera_roll
+AlexT_Ondrive Good,v8,validated,right,right,clip sheet,on,30.356,M16,C16,F16,stability,% BL,higher_worse,4.935,,246.5,yes,-5.24,-1.45,ok,vertical,40,camera_roll
+AlexT_Ondrive Good,v8,validated,right,right,clip sheet,on,30.356,M17,C13,F13,flow,% BL,higher_better,2.369,,246.5,yes,-5.24,-1.45,ok,vertical,40,camera_roll
+AlexT_Ondrive Good,v8,validated,right,right,clip sheet,on,30.356,M18,C17,F17,tracking,% BL,higher_worse,9.319,,246.5,yes,-5.24,-1.45,ok,vertical,40,camera_roll
+AlexT_Ondrive Good,v8,auto,right,right,clip sheet,on,30.356,M01,C01,F01,tracking,% BL,higher_worse,1.763,,245.2,yes,-5.25,-1.45,ok,vertical,40,camera_roll
+AlexT_Ondrive Good,v8,auto,right,right,clip sheet,on,30.356,M02,C02,F02,stability,% BL,higher_worse,3.739,,245.2,yes,-5.25,-1.45,ok,vertical,40,camera_roll
+AlexT_Ondrive Good,v8,auto,right,right,clip sheet,on,30.356,M03,C03,F03,access,"% BL, off side +",higher_worse,13.245,,245.2,yes,-5.25,-1.45,ok,vertical,40,camera_roll
+AlexT_Ondrive Good,v8,auto,right,right,clip sheet,on,30.356,M04,C04,F04,tracking,"% BL, off side +",higher_better,21.053,,245.2,yes,-5.25,-1.45,ok,vertical,40,camera_roll
+AlexT_Ondrive Good,v8,auto,right,right,clip sheet,on,30.356,M05,C05,F05,access,"% BL, drive side +",higher_better,-1.643,,245.2,yes,-5.25,-1.45,ok,vertical,40,camera_roll
+AlexT_Ondrive Good,v8,auto,right,right,clip sheet,on,30.356,M06,C06,F06,stability,degrees,higher_worse,154.698,,245.2,yes,-5.25,-1.45,ok,vertical,40,camera_roll
+AlexT_Ondrive Good,v8,auto,right,right,clip sheet,on,30.356,M07,C07,F07,access,ratio,higher_worse,1.367,,245.2,yes,-5.25,-1.45,ok,vertical,40,camera_roll
+AlexT_Ondrive Good,v8,auto,right,right,clip sheet,on,30.356,M08,C08,F08,access,"% BL, away from drive side +",higher_worse,-2.928,,245.2,yes,-5.25,-1.45,ok,vertical,40,camera_roll
+AlexT_Ondrive Good,v8,auto,right,right,clip sheet,on,30.356,M09,C09,F09,flow,ms,higher_worse,38.451,,245.2,yes,-5.25,-1.45,ok,vertical,40,camera_roll
+AlexT_Ondrive Good,v8,auto,right,right,clip sheet,on,30.356,M10,C10,F10,tracking,"% BL, off side +",higher_better,27.774,,245.2,yes,-5.25,-1.45,ok,vertical,40,camera_roll
+AlexT_Ondrive Good,v8,auto,right,right,clip sheet,on,30.356,M11,C11,F11,stability,% BL,higher_worse,7.962,,245.2,yes,-5.25,-1.45,ok,vertical,40,camera_roll
+AlexT_Ondrive Good,v8,auto,right,right,clip sheet,on,30.356,M12,C12,F12,flow,% BL,higher_better,15.495,,245.2,yes,-5.25,-1.45,ok,vertical,40,camera_roll
+AlexT_Ondrive Good,v8,auto,right,right,clip sheet,on,30.356,M13,C12,F12,flow,ratio,higher_better,1.158,,245.2,yes,-5.25,-1.45,ok,vertical,40,camera_roll
+AlexT_Ondrive Good,v8,auto,right,right,clip sheet,on,30.356,M14,C09,F09,flow,ms (absolute),higher_worse,,front foot still moving at contact,245.2,yes,-5.25,-1.45,ok,vertical,40,camera_roll
+AlexT_Ondrive Good,v8,auto,right,right,clip sheet,on,30.356,M15,C01,F01,tracking,% BL (absolute),higher_worse,9.387,,245.2,yes,-5.25,-1.45,ok,vertical,40,camera_roll
+AlexT_Ondrive Good,v8,auto,right,right,clip sheet,on,30.356,M16,C16,F16,stability,% BL,higher_worse,5.011,,245.2,yes,-5.25,-1.45,ok,vertical,40,camera_roll
+AlexT_Ondrive Good,v8,auto,right,right,clip sheet,on,30.356,M17,C13,F13,flow,% BL,higher_better,2.382,,245.2,yes,-5.25,-1.45,ok,vertical,40,camera_roll
+AlexT_Ondrive Good,v8,auto,right,right,clip sheet,on,30.356,M18,C17,F17,tracking,% BL,higher_worse,9.387,,245.2,yes,-5.25,-1.45,ok,vertical,40,camera_roll
+Cam T_LH Offdrive Elite,v8,validated,left,left,clip sheet,off,30.204,M01,C01,F01,tracking,% BL,higher_worse,2.174,,991.4,yes,-3.84,,unknown,none,0,none
+Cam T_LH Offdrive Elite,v8,validated,left,left,clip sheet,off,30.204,M02,C02,F02,stability,% BL,higher_worse,5.458,,991.4,yes,-3.84,,unknown,none,0,none
+Cam T_LH Offdrive Elite,v8,validated,left,left,clip sheet,off,30.204,M03,C03,F03,access,"% BL, off side +",higher_worse,3.185,,991.4,yes,-3.84,,unknown,none,0,none
+Cam T_LH Offdrive Elite,v8,validated,left,left,clip sheet,off,30.204,M04,C04,F04,tracking,"% BL, off side +",higher_better,18.666,,991.4,yes,-3.84,,unknown,none,0,none
+Cam T_LH Offdrive Elite,v8,validated,left,left,clip sheet,off,30.204,M05,C05,F05,access,"% BL, drive side +",higher_better,11.737,,991.4,yes,-3.84,,unknown,none,0,none
+Cam T_LH Offdrive Elite,v8,validated,left,left,clip sheet,off,30.204,M06,C06,F06,stability,degrees,higher_worse,166.096,,991.4,yes,-3.84,,unknown,none,0,none
+Cam T_LH Offdrive Elite,v8,validated,left,left,clip sheet,off,30.204,M07,C07,F07,access,ratio,higher_worse,1.102,,991.4,yes,-3.84,,unknown,none,0,none
+Cam T_LH Offdrive Elite,v8,validated,left,left,clip sheet,off,30.204,M08,C08,F08,access,"% BL, away from drive side +",higher_worse,17.266,,991.4,yes,-3.84,,unknown,none,0,none
+Cam T_LH Offdrive Elite,v8,validated,left,left,clip sheet,off,30.204,M09,C09,F09,flow,ms,higher_worse,128.177,,991.4,yes,-3.84,,unknown,none,0,none
+Cam T_LH Offdrive Elite,v8,validated,left,left,clip sheet,off,30.204,M10,C10,F10,tracking,"% BL, off side +",higher_better,30.342,,991.4,yes,-3.84,,unknown,none,0,none
+Cam T_LH Offdrive Elite,v8,validated,left,left,clip sheet,off,30.204,M11,C11,F11,stability,% BL,higher_worse,4.148,,991.4,yes,-3.84,,unknown,none,0,none
+Cam T_LH Offdrive Elite,v8,validated,left,left,clip sheet,off,30.204,M12,C12,F12,flow,% BL,higher_better,26.878,,991.4,yes,-3.84,,unknown,none,0,none
+Cam T_LH Offdrive Elite,v8,validated,left,left,clip sheet,off,30.204,M13,C12,F12,flow,ratio,higher_better,8.341,,991.4,yes,-3.84,,unknown,none,0,none
+Cam T_LH Offdrive Elite,v8,validated,left,left,clip sheet,off,30.204,M14,C09,F09,flow,ms (absolute),higher_worse,,front foot still moving at contact,991.4,yes,-3.84,,unknown,none,0,none
+Cam T_LH Offdrive Elite,v8,validated,left,left,clip sheet,off,30.204,M15,C01,F01,tracking,% BL (absolute),higher_worse,10.215,,991.4,yes,-3.84,,unknown,none,0,none
+Cam T_LH Offdrive Elite,v8,validated,left,left,clip sheet,off,30.204,M16,C16,F16,stability,% BL,higher_worse,2.948,,991.4,yes,-3.84,,unknown,none,0,none
+Cam T_LH Offdrive Elite,v8,validated,left,left,clip sheet,off,30.204,M17,C13,F13,flow,% BL,higher_better,0.89,,991.4,yes,-3.84,,unknown,none,0,none
+Cam T_LH Offdrive Elite,v8,validated,left,left,clip sheet,off,30.204,M18,C17,F17,tracking,% BL,higher_worse,10.215,,991.4,yes,-3.84,,unknown,none,0,none
+Cam T_LH Offdrive Elite,v8,auto,left,left,clip sheet,off,30.204,M01,C01,F01,tracking,% BL,higher_worse,2.029,,996.9,yes,-3.76,,unknown,none,0,none
+Cam T_LH Offdrive Elite,v8,auto,left,left,clip sheet,off,30.204,M02,C02,F02,stability,% BL,higher_worse,5.428,,996.9,yes,-3.76,,unknown,none,0,none
+Cam T_LH Offdrive Elite,v8,auto,left,left,clip sheet,off,30.204,M03,C03,F03,access,"% BL, off side +",higher_worse,2.984,,996.9,yes,-3.76,,unknown,none,0,none
+Cam T_LH Offdrive Elite,v8,auto,left,left,clip sheet,off,30.204,M04,C04,F04,tracking,"% BL, off side +",higher_better,18.437,,996.9,yes,-3.76,,unknown,none,0,none
+Cam T_LH Offdrive Elite,v8,auto,left,left,clip sheet,off,30.204,M05,C05,F05,access,"% BL, drive side +",higher_better,11.673,,996.9,yes,-3.76,,unknown,none,0,none
+Cam T_LH Offdrive Elite,v8,auto,left,left,clip sheet,off,30.204,M06,C06,F06,stability,degrees,higher_worse,166.049,,996.9,yes,-3.76,,unknown,none,0,none
+Cam T_LH Offdrive Elite,v8,auto,left,left,clip sheet,off,30.204,M07,C07,F07,access,ratio,higher_worse,1.067,,996.9,yes,-3.76,,unknown,none,0,none
+Cam T_LH Offdrive Elite,v8,auto,left,left,clip sheet,off,30.204,M08,C08,F08,access,"% BL, away from drive side +",higher_worse,17.279,,996.9,yes,-3.76,,unknown,none,0,none
+Cam T_LH Offdrive Elite,v8,auto,left,left,clip sheet,off,30.204,M09,C09,F09,flow,ms,higher_worse,114.419,,996.9,yes,-3.76,,unknown,none,0,none
+Cam T_LH Offdrive Elite,v8,auto,left,left,clip sheet,off,30.204,M10,C10,F10,tracking,"% BL, off side +",higher_better,30.841,,996.9,yes,-3.76,,unknown,none,0,none
+Cam T_LH Offdrive Elite,v8,auto,left,left,clip sheet,off,30.204,M11,C11,F11,stability,% BL,higher_worse,4.266,,996.9,yes,-3.76,,unknown,none,0,none
+Cam T_LH Offdrive Elite,v8,auto,left,left,clip sheet,off,30.204,M12,C12,F12,flow,% BL,higher_better,26.73,,996.9,yes,-3.76,,unknown,none,0,none
+Cam T_LH Offdrive Elite,v8,auto,left,left,clip sheet,off,30.204,M13,C12,F12,flow,ratio,higher_better,8.341,,996.9,yes,-3.76,,unknown,none,0,none
+Cam T_LH Offdrive Elite,v8,auto,left,left,clip sheet,off,30.204,M14,C09,F09,flow,ms (absolute),higher_worse,,front foot still moving at contact,996.9,yes,-3.76,,unknown,none,0,none
+Cam T_LH Offdrive Elite,v8,auto,left,left,clip sheet,off,30.204,M15,C01,F01,tracking,% BL (absolute),higher_worse,9.984,,996.9,yes,-3.76,,unknown,none,0,none
+Cam T_LH Offdrive Elite,v8,auto,left,left,clip sheet,off,30.204,M16,C16,F16,stability,% BL,higher_worse,1.309,,996.9,yes,-3.76,,unknown,none,0,none
+Cam T_LH Offdrive Elite,v8,auto,left,left,clip sheet,off,30.204,M17,C13,F13,flow,% BL,higher_better,0.885,,996.9,yes,-3.76,,unknown,none,0,none
+Cam T_LH Offdrive Elite,v8,auto,left,left,clip sheet,off,30.204,M18,C17,F17,tracking,% BL,higher_worse,9.984,,996.9,yes,-3.76,,unknown,none,0,none
+Cam T_Offdrive Elite,v8,validated,left,left,clip sheet,off,30.0,M01,C01,F01,tracking,% BL,higher_worse,0.796,,156.1,yes,-4.79,,unknown,horizontal_fallback,4,none
+Cam T_Offdrive Elite,v8,validated,left,left,clip sheet,off,30.0,M02,C02,F02,stability,% BL,higher_worse,7.531,,156.1,yes,-4.79,,unknown,horizontal_fallback,4,none
+Cam T_Offdrive Elite,v8,validated,left,left,clip sheet,off,30.0,M03,C03,F03,access,"% BL, off side +",higher_worse,3.214,,156.1,yes,-4.79,,unknown,horizontal_fallback,4,none
+Cam T_Offdrive Elite,v8,validated,left,left,clip sheet,off,30.0,M04,C04,F04,tracking,"% BL, off side +",higher_better,16.77,,156.1,yes,-4.79,,unknown,horizontal_fallback,4,none
+Cam T_Offdrive Elite,v8,validated,left,left,clip sheet,off,30.0,M05,C05,F05,access,"% BL, drive side +",higher_better,4.079,,156.1,yes,-4.79,,unknown,horizontal_fallback,4,none
+Cam T_Offdrive Elite,v8,validated,left,left,clip sheet,off,30.0,M06,C06,F06,stability,degrees,higher_worse,169.059,,156.1,yes,-4.79,,unknown,horizontal_fallback,4,none
+Cam T_Offdrive Elite,v8,validated,left,left,clip sheet,off,30.0,M07,C07,F07,access,ratio,higher_worse,1.844,,156.1,yes,-4.79,,unknown,horizontal_fallback,4,none
+Cam T_Offdrive Elite,v8,validated,left,left,clip sheet,off,30.0,M08,C08,F08,access,"% BL, away from drive side +",higher_worse,11.792,,156.1,yes,-4.79,,unknown,horizontal_fallback,4,none
+Cam T_Offdrive Elite,v8,validated,left,left,clip sheet,off,30.0,M09,C09,F09,flow,ms,higher_worse,71.375,,156.1,yes,-4.79,,unknown,horizontal_fallback,4,none
+Cam T_Offdrive Elite,v8,validated,left,left,clip sheet,off,30.0,M10,C10,F10,tracking,"% BL, off side +",higher_better,30.642,,156.1,yes,-4.79,,unknown,horizontal_fallback,4,none
+Cam T_Offdrive Elite,v8,validated,left,left,clip sheet,off,30.0,M11,C11,F11,stability,% BL,higher_worse,2.8,,156.1,yes,-4.79,,unknown,horizontal_fallback,4,none
+Cam T_Offdrive Elite,v8,validated,left,left,clip sheet,off,30.0,M12,C12,F12,flow,% BL,higher_better,12.378,,156.1,yes,-4.79,,unknown,horizontal_fallback,4,none
+Cam T_Offdrive Elite,v8,validated,left,left,clip sheet,off,30.0,M13,C12,F12,flow,ratio,higher_better,,hands do not come down before contact,156.1,yes,-4.79,,unknown,horizontal_fallback,4,none
+Cam T_Offdrive Elite,v8,validated,left,left,clip sheet,off,30.0,M14,C09,F09,flow,ms (absolute),higher_worse,,front foot still moving at contact,156.1,yes,-4.79,,unknown,horizontal_fallback,4,none
+Cam T_Offdrive Elite,v8,validated,left,left,clip sheet,off,30.0,M15,C01,F01,tracking,% BL (absolute),higher_worse,15.488,,156.1,yes,-4.79,,unknown,horizontal_fallback,4,none
+Cam T_Offdrive Elite,v8,validated,left,left,clip sheet,off,30.0,M16,C16,F16,stability,% BL,higher_worse,3.165,,156.1,yes,-4.79,,unknown,horizontal_fallback,4,none
+Cam T_Offdrive Elite,v8,validated,left,left,clip sheet,off,30.0,M17,C13,F13,flow,% BL,higher_better,5.19,,156.1,yes,-4.79,,unknown,horizontal_fallback,4,none
+Cam T_Offdrive Elite,v8,validated,left,left,clip sheet,off,30.0,M18,C17,F17,tracking,% BL,higher_worse,15.488,,156.1,yes,-4.79,,unknown,horizontal_fallback,4,none
+Cam T_Offdrive Elite,v8,auto,left,left,clip sheet,off,30.0,M01,C01,F01,tracking,% BL,higher_worse,0.72,,156.4,yes,-5.01,,unknown,horizontal_fallback,4,none
+Cam T_Offdrive Elite,v8,auto,left,left,clip sheet,off,30.0,M02,C02,F02,stability,% BL,higher_worse,7.908,,156.4,yes,-5.01,,unknown,horizontal_fallback,4,none
+Cam T_Offdrive Elite,v8,auto,left,left,clip sheet,off,30.0,M03,C03,F03,access,"% BL, off side +",higher_worse,1.955,,156.4,yes,-5.01,,unknown,horizontal_fallback,4,none
+Cam T_Offdrive Elite,v8,auto,left,left,clip sheet,off,30.0,M04,C04,F04,tracking,"% BL, off side +",higher_better,17.341,,156.4,yes,-5.01,,unknown,horizontal_fallback,4,none
+Cam T_Offdrive Elite,v8,auto,left,left,clip sheet,off,30.0,M05,C05,F05,access,"% BL, drive side +",higher_better,4.224,,156.4,yes,-5.01,,unknown,horizontal_fallback,4,none
+Cam T_Offdrive Elite,v8,auto,left,left,clip sheet,off,30.0,M06,C06,F06,stability,degrees,higher_worse,169.098,,156.4,yes,-5.01,,unknown,horizontal_fallback,4,none
+Cam T_Offdrive Elite,v8,auto,left,left,clip sheet,off,30.0,M07,C07,F07,access,ratio,higher_worse,2.085,,156.4,yes,-5.01,,unknown,horizontal_fallback,4,none
+Cam T_Offdrive Elite,v8,auto,left,left,clip sheet,off,30.0,M08,C08,F08,access,"% BL, away from drive side +",higher_worse,11.775,,156.4,yes,-5.01,,unknown,horizontal_fallback,4,none
+Cam T_Offdrive Elite,v8,auto,left,left,clip sheet,off,30.0,M09,C09,F09,flow,ms,higher_worse,72.269,,156.4,yes,-5.01,,unknown,horizontal_fallback,4,none
+Cam T_Offdrive Elite,v8,auto,left,left,clip sheet,off,30.0,M10,C10,F10,tracking,"% BL, off side +",higher_better,30.828,,156.4,yes,-5.01,,unknown,horizontal_fallback,4,none
+Cam T_Offdrive Elite,v8,auto,left,left,clip sheet,off,30.0,M11,C11,F11,stability,% BL,higher_worse,1.093,,156.4,yes,-5.01,,unknown,horizontal_fallback,4,none
+Cam T_Offdrive Elite,v8,auto,left,left,clip sheet,off,30.0,M12,C12,F12,flow,% BL,higher_better,12.36,,156.4,yes,-5.01,,unknown,horizontal_fallback,4,none
+Cam T_Offdrive Elite,v8,auto,left,left,clip sheet,off,30.0,M13,C12,F12,flow,ratio,higher_better,,hands do not come down before contact,156.4,yes,-5.01,,unknown,horizontal_fallback,4,none
+Cam T_Offdrive Elite,v8,auto,left,left,clip sheet,off,30.0,M14,C09,F09,flow,ms (absolute),higher_worse,,front foot still moving at contact,156.4,yes,-5.01,,unknown,horizontal_fallback,4,none
+Cam T_Offdrive Elite,v8,auto,left,left,clip sheet,off,30.0,M15,C01,F01,tracking,% BL (absolute),higher_worse,15.612,,156.4,yes,-5.01,,unknown,horizontal_fallback,4,none
+Cam T_Offdrive Elite,v8,auto,left,left,clip sheet,off,30.0,M16,C16,F16,stability,% BL,higher_worse,1.823,,156.4,yes,-5.01,,unknown,horizontal_fallback,4,none
+Cam T_Offdrive Elite,v8,auto,left,left,clip sheet,off,30.0,M17,C13,F13,flow,% BL,higher_better,6.065,,156.4,yes,-5.01,,unknown,horizontal_fallback,4,none
+Cam T_Offdrive Elite,v8,auto,left,left,clip sheet,off,30.0,M18,C17,F17,tracking,% BL,higher_worse,15.612,,156.4,yes,-5.01,,unknown,horizontal_fallback,4,none
+Cam T_Offdrive Good,v8,validated,left,left,clip sheet,off,29.88,M01,C01,F01,tracking,% BL,higher_worse,0.917,,282.5,yes,-4.83,,unknown,horizontal_fallback,4,none
+Cam T_Offdrive Good,v8,validated,left,left,clip sheet,off,29.88,M02,C02,F02,stability,% BL,higher_worse,4.936,,282.5,yes,-4.83,,unknown,horizontal_fallback,4,none
+Cam T_Offdrive Good,v8,validated,left,left,clip sheet,off,29.88,M03,C03,F03,access,"% BL, off side +",higher_worse,7.398,,282.5,yes,-4.83,,unknown,horizontal_fallback,4,none
+Cam T_Offdrive Good,v8,validated,left,left,clip sheet,off,29.88,M04,C04,F04,tracking,"% BL, off side +",higher_better,19.933,,282.5,yes,-4.83,,unknown,horizontal_fallback,4,none
+Cam T_Offdrive Good,v8,validated,left,left,clip sheet,off,29.88,M05,C05,F05,access,"% BL, drive side +",higher_better,9.32,,282.5,yes,-4.83,,unknown,horizontal_fallback,4,none
+Cam T_Offdrive Good,v8,validated,left,left,clip sheet,off,29.88,M06,C06,F06,stability,degrees,higher_worse,162.637,,282.5,yes,-4.83,,unknown,horizontal_fallback,4,none
+Cam T_Offdrive Good,v8,validated,left,left,clip sheet,off,29.88,M07,C07,F07,access,ratio,higher_worse,1.871,,282.5,yes,-4.83,,unknown,horizontal_fallback,4,none
+Cam T_Offdrive Good,v8,validated,left,left,clip sheet,off,29.88,M08,C08,F08,access,"% BL, away from drive side +",higher_worse,3.609,,282.5,yes,-4.83,,unknown,horizontal_fallback,4,none
+Cam T_Offdrive Good,v8,validated,left,left,clip sheet,off,29.88,M09,C09,F09,flow,ms,higher_worse,90.922,,282.5,yes,-4.83,,unknown,horizontal_fallback,4,none
+Cam T_Offdrive Good,v8,validated,left,left,clip sheet,off,29.88,M10,C10,F10,tracking,"% BL, off side +",higher_better,27.977,,282.5,yes,-4.83,,unknown,horizontal_fallback,4,none
+Cam T_Offdrive Good,v8,validated,left,left,clip sheet,off,29.88,M11,C11,F11,stability,% BL,higher_worse,3.085,,282.5,yes,-4.83,,unknown,horizontal_fallback,4,none
+Cam T_Offdrive Good,v8,validated,left,left,clip sheet,off,29.88,M12,C12,F12,flow,% BL,higher_better,5.684,,282.5,yes,-4.83,,unknown,horizontal_fallback,4,none
+Cam T_Offdrive Good,v8,validated,left,left,clip sheet,off,29.88,M13,C12,F12,flow,ratio,higher_better,11.567,,282.5,yes,-4.83,,unknown,horizontal_fallback,4,none
+Cam T_Offdrive Good,v8,validated,left,left,clip sheet,off,29.88,M14,C09,F09,flow,ms (absolute),higher_worse,213.83,,282.5,yes,-4.83,,unknown,horizontal_fallback,4,none
+Cam T_Offdrive Good,v8,validated,left,left,clip sheet,off,29.88,M15,C01,F01,tracking,% BL (absolute),higher_worse,13.181,,282.5,yes,-4.83,,unknown,horizontal_fallback,4,none
+Cam T_Offdrive Good,v8,validated,left,left,clip sheet,off,29.88,M16,C16,F16,stability,% BL,higher_worse,2.607,,282.5,yes,-4.83,,unknown,horizontal_fallback,4,none
+Cam T_Offdrive Good,v8,validated,left,left,clip sheet,off,29.88,M17,C13,F13,flow,% BL,higher_better,0.811,,282.5,yes,-4.83,,unknown,horizontal_fallback,4,none
+Cam T_Offdrive Good,v8,validated,left,left,clip sheet,off,29.88,M18,C17,F17,tracking,% BL,higher_worse,13.181,,282.5,yes,-4.83,,unknown,horizontal_fallback,4,none
+Cam T_Offdrive Good,v8,auto,left,left,clip sheet,off,29.88,M01,C01,F01,tracking,% BL,higher_worse,0.917,,282.5,yes,-4.83,,unknown,horizontal_fallback,4,none
+Cam T_Offdrive Good,v8,auto,left,left,clip sheet,off,29.88,M02,C02,F02,stability,% BL,higher_worse,5.969,,282.5,yes,-4.83,,unknown,horizontal_fallback,4,none
+Cam T_Offdrive Good,v8,auto,left,left,clip sheet,off,29.88,M03,C03,F03,access,"% BL, off side +",higher_worse,7.398,,282.5,yes,-4.83,,unknown,horizontal_fallback,4,none
+Cam T_Offdrive Good,v8,auto,left,left,clip sheet,off,29.88,M04,C04,F04,tracking,"% BL, off side +",higher_better,20.116,,282.5,yes,-4.83,,unknown,horizontal_fallback,4,none
+Cam T_Offdrive Good,v8,auto,left,left,clip sheet,off,29.88,M05,C05,F05,access,"% BL, drive side +",higher_better,7.178,,282.5,yes,-4.83,,unknown,horizontal_fallback,4,none
+Cam T_Offdrive Good,v8,auto,left,left,clip sheet,off,29.88,M06,C06,F06,stability,degrees,higher_worse,162.637,,282.5,yes,-4.83,,unknown,horizontal_fallback,4,none
+Cam T_Offdrive Good,v8,auto,left,left,clip sheet,off,29.88,M07,C07,F07,access,ratio,higher_worse,1.416,,282.5,yes,-4.83,,unknown,horizontal_fallback,4,none
+Cam T_Offdrive Good,v8,auto,left,left,clip sheet,off,29.88,M08,C08,F08,access,"% BL, away from drive side +",higher_worse,3.609,,282.5,yes,-4.83,,unknown,horizontal_fallback,4,none
+Cam T_Offdrive Good,v8,auto,left,left,clip sheet,off,29.88,M09,C09,F09,flow,ms,higher_worse,90.922,,282.5,yes,-4.83,,unknown,horizontal_fallback,4,none
+Cam T_Offdrive Good,v8,auto,left,left,clip sheet,off,29.88,M10,C10,F10,tracking,"% BL, off side +",higher_better,27.977,,282.5,yes,-4.83,,unknown,horizontal_fallback,4,none
+Cam T_Offdrive Good,v8,auto,left,left,clip sheet,off,29.88,M11,C11,F11,stability,% BL,higher_worse,3.085,,282.5,yes,-4.83,,unknown,horizontal_fallback,4,none
+Cam T_Offdrive Good,v8,auto,left,left,clip sheet,off,29.88,M12,C12,F12,flow,% BL,higher_better,5.684,,282.5,yes,-4.83,,unknown,horizontal_fallback,4,none
+Cam T_Offdrive Good,v8,auto,left,left,clip sheet,off,29.88,M13,C12,F12,flow,ratio,higher_better,11.567,,282.5,yes,-4.83,,unknown,horizontal_fallback,4,none
+Cam T_Offdrive Good,v8,auto,left,left,clip sheet,off,29.88,M14,C09,F09,flow,ms (absolute),higher_worse,213.83,,282.5,yes,-4.83,,unknown,horizontal_fallback,4,none
+Cam T_Offdrive Good,v8,auto,left,left,clip sheet,off,29.88,M15,C01,F01,tracking,% BL (absolute),higher_worse,13.181,,282.5,yes,-4.83,,unknown,horizontal_fallback,4,none
+Cam T_Offdrive Good,v8,auto,left,left,clip sheet,off,29.88,M16,C16,F16,stability,% BL,higher_worse,2.607,,282.5,yes,-4.83,,unknown,horizontal_fallback,4,none
+Cam T_Offdrive Good,v8,auto,left,left,clip sheet,off,29.88,M17,C13,F13,flow,% BL,higher_better,0.811,,282.5,yes,-4.83,,unknown,horizontal_fallback,4,none
+Cam T_Offdrive Good,v8,auto,left,left,clip sheet,off,29.88,M18,C17,F17,tracking,% BL,higher_worse,13.181,,282.5,yes,-4.83,,unknown,horizontal_fallback,4,none
+Cam T_Ondrive Elite,v8,validated,left,left,clip sheet,on,30.073,M01,C01,F01,tracking,% BL,higher_worse,0.758,,768.8,yes,-4.47,-1.68,ok,horizontal_fallback,6,camera_roll
+Cam T_Ondrive Elite,v8,validated,left,left,clip sheet,on,30.073,M02,C02,F02,stability,% BL,higher_worse,1.818,,768.8,yes,-4.47,-1.68,ok,horizontal_fallback,6,camera_roll
+Cam T_Ondrive Elite,v8,validated,left,left,clip sheet,on,30.073,M03,C03,F03,access,"% BL, off side +",higher_worse,-3.074,,768.8,yes,-4.47,-1.68,ok,horizontal_fallback,6,camera_roll
+Cam T_Ondrive Elite,v8,validated,left,left,clip sheet,on,30.073,M04,C04,F04,tracking,"% BL, off side +",higher_better,14.5,,768.8,yes,-4.47,-1.68,ok,horizontal_fallback,6,camera_roll
+Cam T_Ondrive Elite,v8,validated,left,left,clip sheet,on,30.073,M05,C05,F05,access,"% BL, drive side +",higher_better,-5.245,,768.8,yes,-4.47,-1.68,ok,horizontal_fallback,6,camera_roll
+Cam T_Ondrive Elite,v8,validated,left,left,clip sheet,on,30.073,M06,C06,F06,stability,degrees,higher_worse,164.501,,768.8,yes,-4.47,-1.68,ok,horizontal_fallback,6,camera_roll
+Cam T_Ondrive Elite,v8,validated,left,left,clip sheet,on,30.073,M07,C07,F07,access,ratio,higher_worse,1.445,,768.8,yes,-4.47,-1.68,ok,horizontal_fallback,6,camera_roll
+Cam T_Ondrive Elite,v8,validated,left,left,clip sheet,on,30.073,M08,C08,F08,access,"% BL, away from drive side +",higher_worse,-18.946,,768.8,yes,-4.47,-1.68,ok,horizontal_fallback,6,camera_roll
+Cam T_Ondrive Elite,v8,validated,left,left,clip sheet,on,30.073,M09,C09,F09,flow,ms,higher_worse,114.443,,768.8,yes,-4.47,-1.68,ok,horizontal_fallback,6,camera_roll
+Cam T_Ondrive Elite,v8,validated,left,left,clip sheet,on,30.073,M10,C10,F10,tracking,"% BL, off side +",higher_better,22.281,,768.8,yes,-4.47,-1.68,ok,horizontal_fallback,6,camera_roll
+Cam T_Ondrive Elite,v8,validated,left,left,clip sheet,on,30.073,M11,C11,F11,stability,% BL,higher_worse,2.854,,768.8,yes,-4.47,-1.68,ok,horizontal_fallback,6,camera_roll
+Cam T_Ondrive Elite,v8,validated,left,left,clip sheet,on,30.073,M12,C12,F12,flow,% BL,higher_better,20.571,,768.8,yes,-4.47,-1.68,ok,horizontal_fallback,6,camera_roll
+Cam T_Ondrive Elite,v8,validated,left,left,clip sheet,on,30.073,M13,C12,F12,flow,ratio,higher_better,73.352,,768.8,yes,-4.47,-1.68,ok,horizontal_fallback,6,camera_roll
+Cam T_Ondrive Elite,v8,validated,left,left,clip sheet,on,30.073,M14,C09,F09,flow,ms (absolute),higher_worse,114.608,,768.8,yes,-4.47,-1.68,ok,horizontal_fallback,6,camera_roll
+Cam T_Ondrive Elite,v8,validated,left,left,clip sheet,on,30.073,M15,C01,F01,tracking,% BL (absolute),higher_worse,7.09,,768.8,yes,-4.47,-1.68,ok,horizontal_fallback,6,camera_roll
+Cam T_Ondrive Elite,v8,validated,left,left,clip sheet,on,30.073,M16,C16,F16,stability,% BL,higher_worse,2.49,,768.8,yes,-4.47,-1.68,ok,horizontal_fallback,6,camera_roll
+Cam T_Ondrive Elite,v8,validated,left,left,clip sheet,on,30.073,M17,C13,F13,flow,% BL,higher_better,0.827,,768.8,yes,-4.47,-1.68,ok,horizontal_fallback,6,camera_roll
+Cam T_Ondrive Elite,v8,validated,left,left,clip sheet,on,30.073,M18,C17,F17,tracking,% BL,higher_worse,11.065,,768.8,yes,-4.47,-1.68,ok,horizontal_fallback,6,camera_roll
+Cam T_Ondrive Elite,v8,auto,left,left,clip sheet,on,30.073,M01,C01,F01,tracking,% BL,higher_worse,0.758,,768.8,yes,-4.47,-1.68,ok,horizontal_fallback,6,camera_roll
+Cam T_Ondrive Elite,v8,auto,left,left,clip sheet,on,30.073,M02,C02,F02,stability,% BL,higher_worse,2.348,,768.8,yes,-4.47,-1.68,ok,horizontal_fallback,6,camera_roll
+Cam T_Ondrive Elite,v8,auto,left,left,clip sheet,on,30.073,M03,C03,F03,access,"% BL, off side +",higher_worse,-3.074,,768.8,yes,-4.47,-1.68,ok,horizontal_fallback,6,camera_roll
+Cam T_Ondrive Elite,v8,auto,left,left,clip sheet,on,30.073,M04,C04,F04,tracking,"% BL, off side +",higher_better,14.611,,768.8,yes,-4.47,-1.68,ok,horizontal_fallback,6,camera_roll
+Cam T_Ondrive Elite,v8,auto,left,left,clip sheet,on,30.073,M05,C05,F05,access,"% BL, drive side +",higher_better,-5.59,,768.8,yes,-4.47,-1.68,ok,horizontal_fallback,6,camera_roll
+Cam T_Ondrive Elite,v8,auto,left,left,clip sheet,on,30.073,M06,C06,F06,stability,degrees,higher_worse,164.501,,768.8,yes,-4.47,-1.68,ok,horizontal_fallback,6,camera_roll
+Cam T_Ondrive Elite,v8,auto,left,left,clip sheet,on,30.073,M07,C07,F07,access,ratio,higher_worse,1.208,,768.8,yes,-4.47,-1.68,ok,horizontal_fallback,6,camera_roll
+Cam T_Ondrive Elite,v8,auto,left,left,clip sheet,on,30.073,M08,C08,F08,access,"% BL, away from drive side +",higher_worse,-18.946,,768.8,yes,-4.47,-1.68,ok,horizontal_fallback,6,camera_roll
+Cam T_Ondrive Elite,v8,auto,left,left,clip sheet,on,30.073,M09,C09,F09,flow,ms,higher_worse,114.443,,768.8,yes,-4.47,-1.68,ok,horizontal_fallback,6,camera_roll
+Cam T_Ondrive Elite,v8,auto,left,left,clip sheet,on,30.073,M10,C10,F10,tracking,"% BL, off side +",higher_better,22.281,,768.8,yes,-4.47,-1.68,ok,horizontal_fallback,6,camera_roll
+Cam T_Ondrive Elite,v8,auto,left,left,clip sheet,on,30.073,M11,C11,F11,stability,% BL,higher_worse,2.854,,768.8,yes,-4.47,-1.68,ok,horizontal_fallback,6,camera_roll
+Cam T_Ondrive Elite,v8,auto,left,left,clip sheet,on,30.073,M12,C12,F12,flow,% BL,higher_better,20.571,,768.8,yes,-4.47,-1.68,ok,horizontal_fallback,6,camera_roll
+Cam T_Ondrive Elite,v8,auto,left,left,clip sheet,on,30.073,M13,C12,F12,flow,ratio,higher_better,73.352,,768.8,yes,-4.47,-1.68,ok,horizontal_fallback,6,camera_roll
+Cam T_Ondrive Elite,v8,auto,left,left,clip sheet,on,30.073,M14,C09,F09,flow,ms (absolute),higher_worse,114.608,,768.8,yes,-4.47,-1.68,ok,horizontal_fallback,6,camera_roll
+Cam T_Ondrive Elite,v8,auto,left,left,clip sheet,on,30.073,M15,C01,F01,tracking,% BL (absolute),higher_worse,7.09,,768.8,yes,-4.47,-1.68,ok,horizontal_fallback,6,camera_roll
+Cam T_Ondrive Elite,v8,auto,left,left,clip sheet,on,30.073,M16,C16,F16,stability,% BL,higher_worse,2.49,,768.8,yes,-4.47,-1.68,ok,horizontal_fallback,6,camera_roll
+Cam T_Ondrive Elite,v8,auto,left,left,clip sheet,on,30.073,M17,C13,F13,flow,% BL,higher_better,0.827,,768.8,yes,-4.47,-1.68,ok,horizontal_fallback,6,camera_roll
+Cam T_Ondrive Elite,v8,auto,left,left,clip sheet,on,30.073,M18,C17,F17,tracking,% BL,higher_worse,11.065,,768.8,yes,-4.47,-1.68,ok,horizontal_fallback,6,camera_roll
+Dan P_Offdrive Average,v8,validated,left,left,clip sheet,off,30.0,M01,C01,F01,tracking,% BL,higher_worse,8.513,,179.4,yes,-6.4,,unknown,vertical,27,none
+Dan P_Offdrive Average,v8,validated,left,left,clip sheet,off,30.0,M02,C02,F02,stability,% BL,higher_worse,1.15,,179.4,yes,-6.4,,unknown,vertical,27,none
+Dan P_Offdrive Average,v8,validated,left,left,clip sheet,off,30.0,M03,C03,F03,access,"% BL, off side +",higher_worse,9.599,,179.4,yes,-6.4,,unknown,vertical,27,none
+Dan P_Offdrive Average,v8,validated,left,left,clip sheet,off,30.0,M04,C04,F04,tracking,"% BL, off side +",higher_better,21.46,,179.4,yes,-6.4,,unknown,vertical,27,none
+Dan P_Offdrive Average,v8,validated,left,left,clip sheet,off,30.0,M05,C05,F05,access,"% BL, drive side +",higher_better,-29.032,,179.4,yes,-6.4,,unknown,vertical,27,none
+Dan P_Offdrive Average,v8,validated,left,left,clip sheet,off,30.0,M06,C06,F06,stability,degrees,higher_worse,165.644,,179.4,yes,-6.4,,unknown,vertical,27,none
+Dan P_Offdrive Average,v8,validated,left,left,clip sheet,off,30.0,M07,C07,F07,access,ratio,higher_worse,0.867,,179.4,yes,-6.4,,unknown,vertical,27,none
+Dan P_Offdrive Average,v8,validated,left,left,clip sheet,off,30.0,M08,C08,F08,access,"% BL, away from drive side +",higher_worse,5.414,,179.4,yes,-6.4,,unknown,vertical,27,none
+Dan P_Offdrive Average,v8,validated,left,left,clip sheet,off,30.0,M09,C09,F09,flow,ms,higher_worse,0.0,,179.4,yes,-6.4,,unknown,vertical,27,none
+Dan P_Offdrive Average,v8,validated,left,left,clip sheet,off,30.0,M10,C10,F10,tracking,"% BL, off side +",higher_better,27.878,,179.4,yes,-6.4,,unknown,vertical,27,none
+Dan P_Offdrive Average,v8,validated,left,left,clip sheet,off,30.0,M11,C11,F11,stability,% BL,higher_worse,3.451,,179.4,yes,-6.4,,unknown,vertical,27,none
+Dan P_Offdrive Average,v8,validated,left,left,clip sheet,off,30.0,M12,C12,F12,flow,% BL,higher_better,16.162,,179.4,yes,-6.4,,unknown,vertical,27,none
+Dan P_Offdrive Average,v8,validated,left,left,clip sheet,off,30.0,M13,C12,F12,flow,ratio,higher_better,,hands do not come down before contact,179.4,yes,-6.4,,unknown,vertical,27,none
+Dan P_Offdrive Average,v8,validated,left,left,clip sheet,off,30.0,M14,C09,F09,flow,ms (absolute),higher_worse,1.757,,179.4,yes,-6.4,,unknown,vertical,27,none
+Dan P_Offdrive Average,v8,validated,left,left,clip sheet,off,30.0,M15,C01,F01,tracking,% BL (absolute),higher_worse,14.185,,179.4,yes,-6.4,,unknown,vertical,27,none
+Dan P_Offdrive Average,v8,validated,left,left,clip sheet,off,30.0,M16,C16,F16,stability,% BL,higher_worse,1.474,,179.4,yes,-6.4,,unknown,vertical,27,none
+Dan P_Offdrive Average,v8,validated,left,left,clip sheet,off,30.0,M17,C13,F13,flow,% BL,higher_better,18.229,,179.4,yes,-6.4,,unknown,vertical,27,none
+Dan P_Offdrive Average,v8,validated,left,left,clip sheet,off,30.0,M18,C17,F17,tracking,% BL,higher_worse,14.185,,179.4,yes,-6.4,,unknown,vertical,27,none
+Dan P_Offdrive Average,v8,auto,left,left,clip sheet,off,30.0,M01,C01,F01,tracking,% BL,higher_worse,8.551,,179.4,yes,-6.34,,unknown,vertical,27,none
+Dan P_Offdrive Average,v8,auto,left,left,clip sheet,off,30.0,M02,C02,F02,stability,% BL,higher_worse,0.34,,179.4,yes,-6.34,,unknown,vertical,27,none
+Dan P_Offdrive Average,v8,auto,left,left,clip sheet,off,30.0,M03,C03,F03,access,"% BL, off side +",higher_worse,9.371,,179.4,yes,-6.34,,unknown,vertical,27,none
+Dan P_Offdrive Average,v8,auto,left,left,clip sheet,off,30.0,M04,C04,F04,tracking,"% BL, off side +",higher_better,21.46,,179.4,yes,-6.34,,unknown,vertical,27,none
+Dan P_Offdrive Average,v8,auto,left,left,clip sheet,off,30.0,M05,C05,F05,access,"% BL, drive side +",higher_better,-29.109,,179.4,yes,-6.34,,unknown,vertical,27,none
+Dan P_Offdrive Average,v8,auto,left,left,clip sheet,off,30.0,M06,C06,F06,stability,degrees,higher_worse,165.594,,179.4,yes,-6.34,,unknown,vertical,27,none
+Dan P_Offdrive Average,v8,auto,left,left,clip sheet,off,30.0,M07,C07,F07,access,ratio,higher_worse,0.937,,179.4,yes,-6.34,,unknown,vertical,27,none
+Dan P_Offdrive Average,v8,auto,left,left,clip sheet,off,30.0,M08,C08,F08,access,"% BL, away from drive side +",higher_worse,7.131,,179.4,yes,-6.34,,unknown,vertical,27,none
+Dan P_Offdrive Average,v8,auto,left,left,clip sheet,off,30.0,M09,C09,F09,flow,ms,higher_worse,0.0,,179.4,yes,-6.34,,unknown,vertical,27,none
+Dan P_Offdrive Average,v8,auto,left,left,clip sheet,off,30.0,M10,C10,F10,tracking,"% BL, off side +",higher_better,27.075,,179.4,yes,-6.34,,unknown,vertical,27,none
+Dan P_Offdrive Average,v8,auto,left,left,clip sheet,off,30.0,M11,C11,F11,stability,% BL,higher_worse,3.341,,179.4,yes,-6.34,,unknown,vertical,27,none
+Dan P_Offdrive Average,v8,auto,left,left,clip sheet,off,30.0,M12,C12,F12,flow,% BL,higher_better,16.626,,179.4,yes,-6.34,,unknown,vertical,27,none
+Dan P_Offdrive Average,v8,auto,left,left,clip sheet,off,30.0,M13,C12,F12,flow,ratio,higher_better,,hands do not come down before contact,179.4,yes,-6.34,,unknown,vertical,27,none
+Dan P_Offdrive Average,v8,auto,left,left,clip sheet,off,30.0,M14,C09,F09,flow,ms (absolute),higher_worse,3.521,,179.4,yes,-6.34,,unknown,vertical,27,none
+Dan P_Offdrive Average,v8,auto,left,left,clip sheet,off,30.0,M15,C01,F01,tracking,% BL (absolute),higher_worse,14.14,,179.4,yes,-6.34,,unknown,vertical,27,none
+Dan P_Offdrive Average,v8,auto,left,left,clip sheet,off,30.0,M16,C16,F16,stability,% BL,higher_worse,1.028,,179.4,yes,-6.34,,unknown,vertical,27,none
+Dan P_Offdrive Average,v8,auto,left,left,clip sheet,off,30.0,M17,C13,F13,flow,% BL,higher_better,19.507,,179.4,yes,-6.34,,unknown,vertical,27,none
+Dan P_Offdrive Average,v8,auto,left,left,clip sheet,off,30.0,M18,C17,F17,tracking,% BL,higher_worse,14.14,,179.4,yes,-6.34,,unknown,vertical,27,none
+Drive_Average,v8,validated,right,right,clip sheet,off,29.977,M01,C01,F01,tracking,% BL,higher_worse,2.281,,329.1,yes,-4.36,,unknown,vertical,54,none
+Drive_Average,v8,validated,right,right,clip sheet,off,29.977,M02,C02,F02,stability,% BL,higher_worse,1.595,,329.1,yes,-4.36,,unknown,vertical,54,none
+Drive_Average,v8,validated,right,right,clip sheet,off,29.977,M03,C03,F03,access,"% BL, off side +",higher_worse,5.579,,329.1,yes,-4.36,,unknown,vertical,54,none
+Drive_Average,v8,validated,right,right,clip sheet,off,29.977,M04,C04,F04,tracking,"% BL, off side +",higher_better,36.552,,329.1,yes,-4.36,,unknown,vertical,54,none
+Drive_Average,v8,validated,right,right,clip sheet,off,29.977,M05,C05,F05,access,"% BL, drive side +",higher_better,-0.893,,329.1,yes,-4.36,,unknown,vertical,54,none
+Drive_Average,v8,validated,right,right,clip sheet,off,29.977,M06,C06,F06,stability,degrees,higher_worse,164.906,,329.1,yes,-4.36,,unknown,vertical,54,none
+Drive_Average,v8,validated,right,right,clip sheet,off,29.977,M07,C07,F07,access,ratio,higher_worse,0.773,,329.1,yes,-4.36,,unknown,vertical,54,none
+Drive_Average,v8,validated,right,right,clip sheet,off,29.977,M08,C08,F08,access,"% BL, away from drive side +",higher_worse,36.044,,329.1,yes,-4.36,,unknown,vertical,54,none
+Drive_Average,v8,validated,right,right,clip sheet,off,29.977,M09,C09,F09,flow,ms,higher_worse,82.415,,329.1,yes,-4.36,,unknown,vertical,54,none
+Drive_Average,v8,validated,right,right,clip sheet,off,29.977,M10,C10,F10,tracking,"% BL, off side +",higher_better,31.754,,329.1,yes,-4.36,,unknown,vertical,54,none
+Drive_Average,v8,validated,right,right,clip sheet,off,29.977,M11,C11,F11,stability,% BL,higher_worse,0.418,,329.1,yes,-4.36,,unknown,vertical,54,none
+Drive_Average,v8,validated,right,right,clip sheet,off,29.977,M12,C12,F12,flow,% BL,higher_better,11.424,,329.1,yes,-4.36,,unknown,vertical,54,none
+Drive_Average,v8,validated,right,right,clip sheet,off,29.977,M13,C12,F12,flow,ratio,higher_better,2.448,,329.1,yes,-4.36,,unknown,vertical,54,none
+Drive_Average,v8,validated,right,right,clip sheet,off,29.977,M14,C09,F09,flow,ms (absolute),higher_worse,107.346,,329.1,yes,-4.36,,unknown,vertical,54,none
+Drive_Average,v8,validated,right,right,clip sheet,off,29.977,M15,C01,F01,tracking,% BL (absolute),higher_worse,10.0,,329.1,yes,-4.36,,unknown,vertical,54,none
+Drive_Average,v8,validated,right,right,clip sheet,off,29.977,M16,C16,F16,stability,% BL,higher_worse,16.78,,329.1,yes,-4.36,,unknown,vertical,54,none
+Drive_Average,v8,validated,right,right,clip sheet,off,29.977,M17,C13,F13,flow,% BL,higher_better,6.13,,329.1,yes,-4.36,,unknown,vertical,54,none
+Drive_Average,v8,validated,right,right,clip sheet,off,29.977,M18,C17,F17,tracking,% BL,higher_worse,12.218,,329.1,yes,-4.36,,unknown,vertical,54,none
+Drive_Average,v8,auto,right,right,clip sheet,off,29.977,M01,C01,F01,tracking,% BL,higher_worse,1.805,,329.2,yes,-4.11,,unknown,vertical,54,none
+Drive_Average,v8,auto,right,right,clip sheet,off,29.977,M02,C02,F02,stability,% BL,higher_worse,0.599,,329.2,yes,-4.11,,unknown,vertical,54,none
+Drive_Average,v8,auto,right,right,clip sheet,off,29.977,M03,C03,F03,access,"% BL, off side +",higher_worse,3.091,,329.2,yes,-4.11,,unknown,vertical,54,none
+Drive_Average,v8,auto,right,right,clip sheet,off,29.977,M04,C04,F04,tracking,"% BL, off side +",higher_better,23.259,,329.2,yes,-4.11,,unknown,vertical,54,none
+Drive_Average,v8,auto,right,right,clip sheet,off,29.977,M05,C05,F05,access,"% BL, drive side +",higher_better,-2.234,,329.2,yes,-4.11,,unknown,vertical,54,none
+Drive_Average,v8,auto,right,right,clip sheet,off,29.977,M06,C06,F06,stability,degrees,higher_worse,160.867,,329.2,yes,-4.11,,unknown,vertical,54,none
+Drive_Average,v8,auto,right,right,clip sheet,off,29.977,M07,C07,F07,access,ratio,higher_worse,0.747,,329.2,yes,-4.11,,unknown,vertical,54,none
+Drive_Average,v8,auto,right,right,clip sheet,off,29.977,M08,C08,F08,access,"% BL, away from drive side +",higher_worse,23.878,,329.2,yes,-4.11,,unknown,vertical,54,none
+Drive_Average,v8,auto,right,right,clip sheet,off,29.977,M09,C09,F09,flow,ms,higher_worse,66.324,,329.2,yes,-4.11,,unknown,vertical,54,none
+Drive_Average,v8,auto,right,right,clip sheet,off,29.977,M10,C10,F10,tracking,"% BL, off side +",higher_better,29.513,,329.2,yes,-4.11,,unknown,vertical,54,none
+Drive_Average,v8,auto,right,right,clip sheet,off,29.977,M11,C11,F11,stability,% BL,higher_worse,0.953,,329.2,yes,-4.11,,unknown,vertical,54,none
+Drive_Average,v8,auto,right,right,clip sheet,off,29.977,M12,C12,F12,flow,% BL,higher_better,11.421,,329.2,yes,-4.11,,unknown,vertical,54,none
+Drive_Average,v8,auto,right,right,clip sheet,off,29.977,M13,C12,F12,flow,ratio,higher_better,2.448,,329.2,yes,-4.11,,unknown,vertical,54,none
+Drive_Average,v8,auto,right,right,clip sheet,off,29.977,M14,C09,F09,flow,ms (absolute),higher_worse,107.346,,329.2,yes,-4.11,,unknown,vertical,54,none
+Drive_Average,v8,auto,right,right,clip sheet,off,29.977,M15,C01,F01,tracking,% BL (absolute),higher_worse,9.488,,329.2,yes,-4.11,,unknown,vertical,54,none
+Drive_Average,v8,auto,right,right,clip sheet,off,29.977,M16,C16,F16,stability,% BL,higher_worse,19.034,,329.2,yes,-4.11,,unknown,vertical,54,none
+Drive_Average,v8,auto,right,right,clip sheet,off,29.977,M17,C13,F13,flow,% BL,higher_better,7.52,,329.2,yes,-4.11,,unknown,vertical,54,none
+Drive_Average,v8,auto,right,right,clip sheet,off,29.977,M18,C17,F17,tracking,% BL,higher_worse,12.215,,329.2,yes,-4.11,,unknown,vertical,54,none
+Drive_Average 2,v8,validated,right,right,clip sheet,off,29.973,M01,C01,F01,tracking,% BL,higher_worse,2.479,,152.6,yes,-11.06,,unknown,vertical,755,none
+Drive_Average 2,v8,validated,right,right,clip sheet,off,29.973,M02,C02,F02,stability,% BL,higher_worse,5.031,,152.6,yes,-11.06,,unknown,vertical,755,none
+Drive_Average 2,v8,validated,right,right,clip sheet,off,29.973,M03,C03,F03,access,"% BL, off side +",higher_worse,-1.363,,152.6,yes,-11.06,,unknown,vertical,755,none
+Drive_Average 2,v8,validated,right,right,clip sheet,off,29.973,M04,C04,F04,tracking,"% BL, off side +",higher_better,41.307,,152.6,yes,-11.06,,unknown,vertical,755,none
+Drive_Average 2,v8,validated,right,right,clip sheet,off,29.973,M05,C05,F05,access,"% BL, drive side +",higher_better,-21.433,,152.6,yes,-11.06,,unknown,vertical,755,none
+Drive_Average 2,v8,validated,right,right,clip sheet,off,29.973,M06,C06,F06,stability,degrees,higher_worse,167.03,,152.6,yes,-11.06,,unknown,vertical,755,none
+Drive_Average 2,v8,validated,right,right,clip sheet,off,29.973,M07,C07,F07,access,ratio,higher_worse,4.034,,152.6,yes,-11.06,,unknown,vertical,755,none
+Drive_Average 2,v8,validated,right,right,clip sheet,off,29.973,M08,C08,F08,access,"% BL, away from drive side +",higher_worse,30.841,,152.6,yes,-11.06,,unknown,vertical,755,none
+Drive_Average 2,v8,validated,right,right,clip sheet,off,29.973,M09,C09,F09,flow,ms,higher_worse,247.733,,152.6,yes,-11.06,,unknown,vertical,755,none
+Drive_Average 2,v8,validated,right,right,clip sheet,off,29.973,M10,C10,F10,tracking,"% BL, off side +",higher_better,30.877,,152.6,yes,-11.06,,unknown,vertical,755,none
+Drive_Average 2,v8,validated,right,right,clip sheet,off,29.973,M11,C11,F11,stability,% BL,higher_worse,0.811,,152.6,yes,-11.06,,unknown,vertical,755,none
+Drive_Average 2,v8,validated,right,right,clip sheet,off,29.973,M12,C12,F12,flow,% BL,higher_better,22.878,,152.6,yes,-11.06,,unknown,vertical,755,none
+Drive_Average 2,v8,validated,right,right,clip sheet,off,29.973,M13,C12,F12,flow,ratio,higher_better,22.203,,152.6,yes,-11.06,,unknown,vertical,755,none
+Drive_Average 2,v8,validated,right,right,clip sheet,off,29.973,M14,C09,F09,flow,ms (absolute),higher_worse,,front foot still moving at contact,152.6,yes,-11.06,,unknown,vertical,755,none
+Drive_Average 2,v8,validated,right,right,clip sheet,off,29.973,M15,C01,F01,tracking,% BL (absolute),higher_worse,29.016,,152.6,yes,-11.06,,unknown,vertical,755,none
+Drive_Average 2,v8,validated,right,right,clip sheet,off,29.973,M16,C16,F16,stability,% BL,higher_worse,10.977,,152.6,yes,-11.06,,unknown,vertical,755,none
+Drive_Average 2,v8,validated,right,right,clip sheet,off,29.973,M17,C13,F13,flow,% BL,higher_better,10.304,,152.6,yes,-11.06,,unknown,vertical,755,none
+Drive_Average 2,v8,validated,right,right,clip sheet,off,29.973,M18,C17,F17,tracking,% BL,higher_worse,29.016,,152.6,yes,-11.06,,unknown,vertical,755,none
+Drive_Average 2,v8,auto,right,right,clip sheet,off,29.973,M01,C01,F01,tracking,% BL,higher_worse,2.535,,154.5,yes,-11.02,,unknown,vertical,755,none
+Drive_Average 2,v8,auto,right,right,clip sheet,off,29.973,M02,C02,F02,stability,% BL,higher_worse,3.949,,154.5,yes,-11.02,,unknown,vertical,755,none
+Drive_Average 2,v8,auto,right,right,clip sheet,off,29.973,M03,C03,F03,access,"% BL, off side +",higher_worse,-8.619,,154.5,yes,-11.02,,unknown,vertical,755,none
+Drive_Average 2,v8,auto,right,right,clip sheet,off,29.973,M04,C04,F04,tracking,"% BL, off side +",higher_better,38.846,,154.5,yes,-11.02,,unknown,vertical,755,none
+Drive_Average 2,v8,auto,right,right,clip sheet,off,29.973,M05,C05,F05,access,"% BL, drive side +",higher_better,-33.169,,154.5,yes,-11.02,,unknown,vertical,755,none
+Drive_Average 2,v8,auto,right,right,clip sheet,off,29.973,M06,C06,F06,stability,degrees,higher_worse,165.332,,154.5,yes,-11.02,,unknown,vertical,755,none
+Drive_Average 2,v8,auto,right,right,clip sheet,off,29.973,M07,C07,F07,access,ratio,higher_worse,2.35,,154.5,yes,-11.02,,unknown,vertical,755,none
+Drive_Average 2,v8,auto,right,right,clip sheet,off,29.973,M08,C08,F08,access,"% BL, away from drive side +",higher_worse,29.546,,154.5,yes,-11.02,,unknown,vertical,755,none
+Drive_Average 2,v8,auto,right,right,clip sheet,off,29.973,M09,C09,F09,flow,ms,higher_worse,232.397,,154.5,yes,-11.02,,unknown,vertical,755,none
+Drive_Average 2,v8,auto,right,right,clip sheet,off,29.973,M10,C10,F10,tracking,"% BL, off side +",higher_better,31.925,,154.5,yes,-11.02,,unknown,vertical,755,none
+Drive_Average 2,v8,auto,right,right,clip sheet,off,29.973,M11,C11,F11,stability,% BL,higher_worse,0.804,,154.5,yes,-11.02,,unknown,vertical,755,none
+Drive_Average 2,v8,auto,right,right,clip sheet,off,29.973,M12,C12,F12,flow,% BL,higher_better,22.605,,154.5,yes,-11.02,,unknown,vertical,755,none
+Drive_Average 2,v8,auto,right,right,clip sheet,off,29.973,M13,C12,F12,flow,ratio,higher_better,22.203,,154.5,yes,-11.02,,unknown,vertical,755,none
+Drive_Average 2,v8,auto,right,right,clip sheet,off,29.973,M14,C09,F09,flow,ms (absolute),higher_worse,,front foot still moving at contact,154.5,yes,-11.02,,unknown,vertical,755,none
+Drive_Average 2,v8,auto,right,right,clip sheet,off,29.973,M15,C01,F01,tracking,% BL (absolute),higher_worse,28.668,,154.5,yes,-11.02,,unknown,vertical,755,none
+Drive_Average 2,v8,auto,right,right,clip sheet,off,29.973,M16,C16,F16,stability,% BL,higher_worse,10.167,,154.5,yes,-11.02,,unknown,vertical,755,none
+Drive_Average 2,v8,auto,right,right,clip sheet,off,29.973,M17,C13,F13,flow,% BL,higher_better,9.893,,154.5,yes,-11.02,,unknown,vertical,755,none
+Drive_Average 2,v8,auto,right,right,clip sheet,off,29.973,M18,C17,F17,tracking,% BL,higher_worse,28.668,,154.5,yes,-11.02,,unknown,vertical,755,none
+Drive_beginner,v8,validated,right,right,clip sheet,off,26.277,M01,C01,F01,tracking,% BL,higher_worse,0.846,,388.6,yes,-4.68,2.16,ok,vertical,24,camera_roll
+Drive_beginner,v8,validated,right,right,clip sheet,off,26.277,M02,C02,F02,stability,% BL,higher_worse,4.511,,388.6,yes,-4.68,2.16,ok,vertical,24,camera_roll
+Drive_beginner,v8,validated,right,right,clip sheet,off,26.277,M03,C03,F03,access,"% BL, off side +",higher_worse,-1.82,,388.6,yes,-4.68,2.16,ok,vertical,24,camera_roll
+Drive_beginner,v8,validated,right,right,clip sheet,off,26.277,M04,C04,F04,tracking,"% BL, off side +",higher_better,40.303,,388.6,yes,-4.68,2.16,ok,vertical,24,camera_roll
+Drive_beginner,v8,validated,right,right,clip sheet,off,26.277,M05,C05,F05,access,"% BL, drive side +",higher_better,-17.836,,388.6,yes,-4.68,2.16,ok,vertical,24,camera_roll
+Drive_beginner,v8,validated,right,right,clip sheet,off,26.277,M06,C06,F06,stability,degrees,higher_worse,150.528,,388.6,yes,-4.68,2.16,ok,vertical,24,camera_roll
+Drive_beginner,v8,validated,right,right,clip sheet,off,26.277,M07,C07,F07,access,ratio,higher_worse,0.163,,388.6,yes,-4.68,2.16,ok,vertical,24,camera_roll
+Drive_beginner,v8,validated,right,right,clip sheet,off,26.277,M08,C08,F08,access,"% BL, away from drive side +",higher_worse,33.604,,388.6,yes,-4.68,2.16,ok,vertical,24,camera_roll
+Drive_beginner,v8,validated,right,right,clip sheet,off,26.277,M09,C09,F09,flow,ms,higher_worse,56.508,,388.6,yes,-4.68,2.16,ok,vertical,24,camera_roll
+Drive_beginner,v8,validated,right,right,clip sheet,off,26.277,M10,C10,F10,tracking,"% BL, off side +",higher_better,36.397,,388.6,yes,-4.68,2.16,ok,vertical,24,camera_roll
+Drive_beginner,v8,validated,right,right,clip sheet,off,26.277,M11,C11,F11,stability,% BL,higher_worse,0.167,,388.6,yes,-4.68,2.16,ok,vertical,24,camera_roll
+Drive_beginner,v8,validated,right,right,clip sheet,off,26.277,M12,C12,F12,flow,% BL,higher_better,-7.667,,388.6,yes,-4.68,2.16,ok,vertical,24,camera_roll
+Drive_beginner,v8,validated,right,right,clip sheet,off,26.277,M13,C12,F12,flow,ratio,higher_better,0.667,,388.6,yes,-4.68,2.16,ok,vertical,24,camera_roll
+Drive_beginner,v8,validated,right,right,clip sheet,off,26.277,M14,C09,F09,flow,ms (absolute),higher_worse,154.515,,388.6,yes,-4.68,2.16,ok,vertical,24,camera_roll
+Drive_beginner,v8,validated,right,right,clip sheet,off,26.277,M15,C01,F01,tracking,% BL (absolute),higher_worse,18.685,,388.6,yes,-4.68,2.16,ok,vertical,24,camera_roll
+Drive_beginner,v8,validated,right,right,clip sheet,off,26.277,M16,C16,F16,stability,% BL,higher_worse,14.836,,388.6,yes,-4.68,2.16,ok,vertical,24,camera_roll
+Drive_beginner,v8,validated,right,right,clip sheet,off,26.277,M17,C13,F13,flow,% BL,higher_better,7.716,,388.6,yes,-4.68,2.16,ok,vertical,24,camera_roll
+Drive_beginner,v8,validated,right,right,clip sheet,off,26.277,M18,C17,F17,tracking,% BL,higher_worse,29.03,,388.6,yes,-4.68,2.16,ok,vertical,24,camera_roll
+Drive_beginner,v8,auto,right,right,clip sheet,off,26.277,M01,C01,F01,tracking,% BL,higher_worse,,set-up not in the clip (needs 1 s before contact),388.4,unknown,,2.16,ok,vertical,24,camera_roll
+Drive_beginner,v8,auto,right,right,clip sheet,off,26.277,M02,C02,F02,stability,% BL,higher_worse,4.513,,388.4,unknown,,2.16,ok,vertical,24,camera_roll
+Drive_beginner,v8,auto,right,right,clip sheet,off,26.277,M03,C03,F03,access,"% BL, off side +",higher_worse,,top hand or shoulders not seen at set-up,388.4,unknown,,2.16,ok,vertical,24,camera_roll
+Drive_beginner,v8,auto,right,right,clip sheet,off,26.277,M04,C04,F04,tracking,"% BL, off side +",higher_better,28.667,,388.4,unknown,,2.16,ok,vertical,24,camera_roll
+Drive_beginner,v8,auto,right,right,clip sheet,off,26.277,M05,C05,F05,access,"% BL, drive side +",higher_better,-11.035,,388.4,unknown,,2.16,ok,vertical,24,camera_roll
+Drive_beginner,v8,auto,right,right,clip sheet,off,26.277,M06,C06,F06,stability,degrees,higher_worse,123.985,,388.4,unknown,,2.16,ok,vertical,24,camera_roll
+Drive_beginner,v8,auto,right,right,clip sheet,off,26.277,M07,C07,F07,access,ratio,higher_worse,1.074,,388.4,unknown,,2.16,ok,vertical,24,camera_roll
+Drive_beginner,v8,auto,right,right,clip sheet,off,26.277,M08,C08,F08,access,"% BL, away from drive side +",higher_worse,13.127,,388.4,unknown,,2.16,ok,vertical,24,camera_roll
+Drive_beginner,v8,auto,right,right,clip sheet,off,26.277,M09,C09,F09,flow,ms,higher_worse,0.0,,388.4,unknown,,2.16,ok,vertical,24,camera_roll
+Drive_beginner,v8,auto,right,right,clip sheet,off,26.277,M10,C10,F10,tracking,"% BL, off side +",higher_better,30.586,,388.4,unknown,,2.16,ok,vertical,24,camera_roll
+Drive_beginner,v8,auto,right,right,clip sheet,off,26.277,M11,C11,F11,stability,% BL,higher_worse,0.21,,388.4,unknown,,2.16,ok,vertical,24,camera_roll
+Drive_beginner,v8,auto,right,right,clip sheet,off,26.277,M12,C12,F12,flow,% BL,higher_better,-7.67,,388.4,unknown,,2.16,ok,vertical,24,camera_roll
+Drive_beginner,v8,auto,right,right,clip sheet,off,26.277,M13,C12,F12,flow,ratio,higher_better,1.97,,388.4,unknown,,2.16,ok,vertical,24,camera_roll
+Drive_beginner,v8,auto,right,right,clip sheet,off,26.277,M14,C09,F09,flow,ms (absolute),higher_worse,,front foot still moving at contact,388.4,unknown,,2.16,ok,vertical,24,camera_roll
+Drive_beginner,v8,auto,right,right,clip sheet,off,26.277,M15,C01,F01,tracking,% BL (absolute),higher_worse,,head or feet not seen at set-up (needs 1 s before contact),388.4,unknown,,2.16,ok,vertical,24,camera_roll
+Drive_beginner,v8,auto,right,right,clip sheet,off,26.277,M16,C16,F16,stability,% BL,higher_worse,17.925,,388.4,unknown,,2.16,ok,vertical,24,camera_roll
+Drive_beginner,v8,auto,right,right,clip sheet,off,26.277,M17,C13,F13,flow,% BL,higher_better,4.275,,388.4,unknown,,2.16,ok,vertical,24,camera_roll
+Drive_beginner,v8,auto,right,right,clip sheet,off,26.277,M18,C17,F17,tracking,% BL,higher_worse,,"head, hands or feet not seen at set-up (needs 1 s before contact)",388.4,unknown,,2.16,ok,vertical,24,camera_roll
+Drive_Beginner 2,v8,validated,right,right,clip sheet,off,29.984,M01,C01,F01,tracking,% BL,higher_worse,1.446,,324.5,yes,-3.89,,unknown,vertical,14,none
+Drive_Beginner 2,v8,validated,right,right,clip sheet,off,29.984,M02,C02,F02,stability,% BL,higher_worse,0.726,,324.5,yes,-3.89,,unknown,vertical,14,none
+Drive_Beginner 2,v8,validated,right,right,clip sheet,off,29.984,M03,C03,F03,access,"% BL, off side +",higher_worse,-2.215,,324.5,yes,-3.89,,unknown,vertical,14,none
+Drive_Beginner 2,v8,validated,right,right,clip sheet,off,29.984,M04,C04,F04,tracking,"% BL, off side +",higher_better,29.165,,324.5,yes,-3.89,,unknown,vertical,14,none
+Drive_Beginner 2,v8,validated,right,right,clip sheet,off,29.984,M05,C05,F05,access,"% BL, drive side +",higher_better,3.167,,324.5,yes,-3.89,,unknown,vertical,14,none
+Drive_Beginner 2,v8,validated,right,right,clip sheet,off,29.984,M06,C06,F06,stability,degrees,higher_worse,132.246,,324.5,yes,-3.89,,unknown,vertical,14,none
+Drive_Beginner 2,v8,validated,right,right,clip sheet,off,29.984,M07,C07,F07,access,ratio,higher_worse,1.309,,324.5,yes,-3.89,,unknown,vertical,14,none
+Drive_Beginner 2,v8,validated,right,right,clip sheet,off,29.984,M08,C08,F08,access,"% BL, away from drive side +",higher_worse,25.969,,324.5,yes,-3.89,,unknown,vertical,14,none
+Drive_Beginner 2,v8,validated,right,right,clip sheet,off,29.984,M09,C09,F09,flow,ms,higher_worse,138.516,,324.5,yes,-3.89,,unknown,vertical,14,none
+Drive_Beginner 2,v8,validated,right,right,clip sheet,off,29.984,M10,C10,F10,tracking,"% BL, off side +",higher_better,14.891,,324.5,yes,-3.89,,unknown,vertical,14,none
+Drive_Beginner 2,v8,validated,right,right,clip sheet,off,29.984,M11,C11,F11,stability,% BL,higher_worse,10.008,,324.5,yes,-3.89,,unknown,vertical,14,none
+Drive_Beginner 2,v8,validated,right,right,clip sheet,off,29.984,M12,C12,F12,flow,% BL,higher_better,-10.513,,324.5,yes,-3.89,,unknown,vertical,14,none
+Drive_Beginner 2,v8,validated,right,right,clip sheet,off,29.984,M13,C12,F12,flow,ratio,higher_better,0.835,,324.5,yes,-3.89,,unknown,vertical,14,none
+Drive_Beginner 2,v8,validated,right,right,clip sheet,off,29.984,M14,C09,F09,flow,ms (absolute),higher_worse,131.755,,324.5,yes,-3.89,,unknown,vertical,14,none
+Drive_Beginner 2,v8,validated,right,right,clip sheet,off,29.984,M15,C01,F01,tracking,% BL (absolute),higher_worse,12.864,,324.5,yes,-3.89,,unknown,vertical,14,none
+Drive_Beginner 2,v8,validated,right,right,clip sheet,off,29.984,M16,C16,F16,stability,% BL,higher_worse,5.637,,324.5,yes,-3.89,,unknown,vertical,14,none
+Drive_Beginner 2,v8,validated,right,right,clip sheet,off,29.984,M17,C13,F13,flow,% BL,higher_better,3.324,,324.5,yes,-3.89,,unknown,vertical,14,none
+Drive_Beginner 2,v8,validated,right,right,clip sheet,off,29.984,M18,C17,F17,tracking,% BL,higher_worse,14.886,,324.5,yes,-3.89,,unknown,vertical,14,none
+Drive_Beginner 2,v8,auto,right,right,clip sheet,off,29.984,M01,C01,F01,tracking,% BL,higher_worse,3.958,,318.4,yes,-4.87,,unknown,vertical,14,none
+Drive_Beginner 2,v8,auto,right,right,clip sheet,off,29.984,M02,C02,F02,stability,% BL,higher_worse,0.851,,318.4,yes,-4.87,,unknown,vertical,14,none
+Drive_Beginner 2,v8,auto,right,right,clip sheet,off,29.984,M03,C03,F03,access,"% BL, off side +",higher_worse,-24.252,,318.4,yes,-4.87,,unknown,vertical,14,none
+Drive_Beginner 2,v8,auto,right,right,clip sheet,off,29.984,M04,C04,F04,tracking,"% BL, off side +",higher_better,27.813,,318.4,yes,-4.87,,unknown,vertical,14,none
+Drive_Beginner 2,v8,auto,right,right,clip sheet,off,29.984,M05,C05,F05,access,"% BL, drive side +",higher_better,4.157,,318.4,yes,-4.87,,unknown,vertical,14,none
+Drive_Beginner 2,v8,auto,right,right,clip sheet,off,29.984,M06,C06,F06,stability,degrees,higher_worse,162.517,,318.4,yes,-4.87,,unknown,vertical,14,none
+Drive_Beginner 2,v8,auto,right,right,clip sheet,off,29.984,M07,C07,F07,access,ratio,higher_worse,2.294,,318.4,yes,-4.87,,unknown,vertical,14,none
+Drive_Beginner 2,v8,auto,right,right,clip sheet,off,29.984,M08,C08,F08,access,"% BL, away from drive side +",higher_worse,6.39,,318.4,yes,-4.87,,unknown,vertical,14,none
+Drive_Beginner 2,v8,auto,right,right,clip sheet,off,29.984,M09,C09,F09,flow,ms,higher_worse,59.484,,318.4,yes,-4.87,,unknown,vertical,14,none
+Drive_Beginner 2,v8,auto,right,right,clip sheet,off,29.984,M10,C10,F10,tracking,"% BL, off side +",higher_better,10.242,,318.4,yes,-4.87,,unknown,vertical,14,none
+Drive_Beginner 2,v8,auto,right,right,clip sheet,off,29.984,M11,C11,F11,stability,% BL,higher_worse,11.193,,318.4,yes,-4.87,,unknown,vertical,14,none
+Drive_Beginner 2,v8,auto,right,right,clip sheet,off,29.984,M12,C12,F12,flow,% BL,higher_better,-25.338,,318.4,yes,-4.87,,unknown,vertical,14,none
+Drive_Beginner 2,v8,auto,right,right,clip sheet,off,29.984,M13,C12,F12,flow,ratio,higher_better,,hands do not come down before contact,318.4,yes,-4.87,,unknown,vertical,14,none
+Drive_Beginner 2,v8,auto,right,right,clip sheet,off,29.984,M14,C09,F09,flow,ms (absolute),higher_worse,254.033,,318.4,yes,-4.87,,unknown,vertical,14,none
+Drive_Beginner 2,v8,auto,right,right,clip sheet,off,29.984,M15,C01,F01,tracking,% BL (absolute),higher_worse,15.495,,318.4,yes,-4.87,,unknown,vertical,14,none
+Drive_Beginner 2,v8,auto,right,right,clip sheet,off,29.984,M16,C16,F16,stability,% BL,higher_worse,7.856,,318.4,yes,-4.87,,unknown,vertical,14,none
+Drive_Beginner 2,v8,auto,right,right,clip sheet,off,29.984,M17,C13,F13,flow,% BL,higher_better,7.37,,318.4,yes,-4.87,,unknown,vertical,14,none
+Drive_Beginner 2,v8,auto,right,right,clip sheet,off,29.984,M18,C17,F17,tracking,% BL,higher_worse,19.463,,318.4,yes,-4.87,,unknown,vertical,14,none
+Drive_Beginner 3,v8,validated,right,right,clip sheet,off,26.503,M01,C01,F01,tracking,% BL,higher_worse,1.282,,353.2,yes,-6.13,0.98,ok,vertical,25,camera_roll
+Drive_Beginner 3,v8,validated,right,right,clip sheet,off,26.503,M02,C02,F02,stability,% BL,higher_worse,4.439,,353.2,yes,-6.13,0.98,ok,vertical,25,camera_roll
+Drive_Beginner 3,v8,validated,right,right,clip sheet,off,26.503,M03,C03,F03,access,"% BL, off side +",higher_worse,-1.623,,353.2,yes,-6.13,0.98,ok,vertical,25,camera_roll
+Drive_Beginner 3,v8,validated,right,right,clip sheet,off,26.503,M04,C04,F04,tracking,"% BL, off side +",higher_better,17.693,,353.2,yes,-6.13,0.98,ok,vertical,25,camera_roll
+Drive_Beginner 3,v8,validated,right,right,clip sheet,off,26.503,M05,C05,F05,access,"% BL, drive side +",higher_better,13.375,,353.2,yes,-6.13,0.98,ok,vertical,25,camera_roll
+Drive_Beginner 3,v8,validated,right,right,clip sheet,off,26.503,M06,C06,F06,stability,degrees,higher_worse,153.804,,353.2,yes,-6.13,0.98,ok,vertical,25,camera_roll
+Drive_Beginner 3,v8,validated,right,right,clip sheet,off,26.503,M07,C07,F07,access,ratio,higher_worse,0.134,,353.2,yes,-6.13,0.98,ok,vertical,25,camera_roll
+Drive_Beginner 3,v8,validated,right,right,clip sheet,off,26.503,M08,C08,F08,access,"% BL, away from drive side +",higher_worse,-3.315,,353.2,yes,-6.13,0.98,ok,vertical,25,camera_roll
+Drive_Beginner 3,v8,validated,right,right,clip sheet,off,26.503,M09,C09,F09,flow,ms,higher_worse,47.461,,353.2,yes,-6.13,0.98,ok,vertical,25,camera_roll
+Drive_Beginner 3,v8,validated,right,right,clip sheet,off,26.503,M10,C10,F10,tracking,"% BL, off side +",higher_better,31.864,,353.2,yes,-6.13,0.98,ok,vertical,25,camera_roll
+Drive_Beginner 3,v8,validated,right,right,clip sheet,off,26.503,M11,C11,F11,stability,% BL,higher_worse,,finish not in the clip (needs 0.7 s after contact),353.2,yes,-6.13,0.98,ok,vertical,25,camera_roll
+Drive_Beginner 3,v8,validated,right,right,clip sheet,off,26.503,M12,C12,F12,flow,% BL,higher_better,6.201,,353.2,yes,-6.13,0.98,ok,vertical,25,camera_roll
+Drive_Beginner 3,v8,validated,right,right,clip sheet,off,26.503,M13,C12,F12,flow,ratio,higher_better,3.27,,353.2,yes,-6.13,0.98,ok,vertical,25,camera_roll
+Drive_Beginner 3,v8,validated,right,right,clip sheet,off,26.503,M14,C09,F09,flow,ms (absolute),higher_worse,125.536,,353.2,yes,-6.13,0.98,ok,vertical,25,camera_roll
+Drive_Beginner 3,v8,validated,right,right,clip sheet,off,26.503,M15,C01,F01,tracking,% BL (absolute),higher_worse,15.154,,353.2,yes,-6.13,0.98,ok,vertical,25,camera_roll
+Drive_Beginner 3,v8,validated,right,right,clip sheet,off,26.503,M16,C16,F16,stability,% BL,higher_worse,0.567,,353.2,yes,-6.13,0.98,ok,vertical,25,camera_roll
+Drive_Beginner 3,v8,validated,right,right,clip sheet,off,26.503,M17,C13,F13,flow,% BL,higher_better,12.342,,353.2,yes,-6.13,0.98,ok,vertical,25,camera_roll
+Drive_Beginner 3,v8,validated,right,right,clip sheet,off,26.503,M18,C17,F17,tracking,% BL,higher_worse,24.73,,353.2,yes,-6.13,0.98,ok,vertical,25,camera_roll
+Drive_Beginner 3,v8,auto,right,right,clip sheet,off,26.503,M01,C01,F01,tracking,% BL,higher_worse,0.858,,367.5,yes,-5.6,0.98,ok,vertical,25,camera_roll
+Drive_Beginner 3,v8,auto,right,right,clip sheet,off,26.503,M02,C02,F02,stability,% BL,higher_worse,5.058,,367.5,yes,-5.6,0.98,ok,vertical,25,camera_roll
+Drive_Beginner 3,v8,auto,right,right,clip sheet,off,26.503,M03,C03,F03,access,"% BL, off side +",higher_worse,-1.571,,367.5,yes,-5.6,0.98,ok,vertical,25,camera_roll
+Drive_Beginner 3,v8,auto,right,right,clip sheet,off,26.503,M04,C04,F04,tracking,"% BL, off side +",higher_better,15.795,,367.5,yes,-5.6,0.98,ok,vertical,25,camera_roll
+Drive_Beginner 3,v8,auto,right,right,clip sheet,off,26.503,M05,C05,F05,access,"% BL, drive side +",higher_better,13.691,,367.5,yes,-5.6,0.98,ok,vertical,25,camera_roll
+Drive_Beginner 3,v8,auto,right,right,clip sheet,off,26.503,M06,C06,F06,stability,degrees,higher_worse,144.647,,367.5,yes,-5.6,0.98,ok,vertical,25,camera_roll
+Drive_Beginner 3,v8,auto,right,right,clip sheet,off,26.503,M07,C07,F07,access,ratio,higher_worse,0.092,,367.5,yes,-5.6,0.98,ok,vertical,25,camera_roll
+Drive_Beginner 3,v8,auto,right,right,clip sheet,off,26.503,M08,C08,F08,access,"% BL, away from drive side +",higher_worse,-6.095,,367.5,yes,-5.6,0.98,ok,vertical,25,camera_roll
+Drive_Beginner 3,v8,auto,right,right,clip sheet,off,26.503,M09,C09,F09,flow,ms,higher_worse,144.8,,367.5,yes,-5.6,0.98,ok,vertical,25,camera_roll
+Drive_Beginner 3,v8,auto,right,right,clip sheet,off,26.503,M10,C10,F10,tracking,"% BL, off side +",higher_better,29.66,,367.5,yes,-5.6,0.98,ok,vertical,25,camera_roll
+Drive_Beginner 3,v8,auto,right,right,clip sheet,off,26.503,M11,C11,F11,stability,% BL,higher_worse,5.762,,367.5,yes,-5.6,0.98,ok,vertical,25,camera_roll
+Drive_Beginner 3,v8,auto,right,right,clip sheet,off,26.503,M12,C12,F12,flow,% BL,higher_better,5.96,,367.5,yes,-5.6,0.98,ok,vertical,25,camera_roll
+Drive_Beginner 3,v8,auto,right,right,clip sheet,off,26.503,M13,C12,F12,flow,ratio,higher_better,3.526,,367.5,yes,-5.6,0.98,ok,vertical,25,camera_roll
+Drive_Beginner 3,v8,auto,right,right,clip sheet,off,26.503,M14,C09,F09,flow,ms (absolute),higher_worse,126.68,,367.5,yes,-5.6,0.98,ok,vertical,25,camera_roll
+Drive_Beginner 3,v8,auto,right,right,clip sheet,off,26.503,M15,C01,F01,tracking,% BL (absolute),higher_worse,13.247,,367.5,yes,-5.6,0.98,ok,vertical,25,camera_roll
+Drive_Beginner 3,v8,auto,right,right,clip sheet,off,26.503,M16,C16,F16,stability,% BL,higher_worse,3.149,,367.5,yes,-5.6,0.98,ok,vertical,25,camera_roll
+Drive_Beginner 3,v8,auto,right,right,clip sheet,off,26.503,M17,C13,F13,flow,% BL,higher_better,4.975,,367.5,yes,-5.6,0.98,ok,vertical,25,camera_roll
+Drive_Beginner 3,v8,auto,right,right,clip sheet,off,26.503,M18,C17,F17,tracking,% BL,higher_worse,23.073,,367.5,yes,-5.6,0.98,ok,vertical,25,camera_roll
+Drive_Beginner 4,v8,validated,right,right,clip sheet,off,26.43,M01,C01,F01,tracking,% BL,higher_worse,3.351,,120.4,yes,74.69,,unknown,vertical,171,none
+Drive_Beginner 4,v8,validated,right,right,clip sheet,off,26.43,M02,C02,F02,stability,% BL,higher_worse,,hips or feet not seen at set-up,120.4,yes,74.69,,unknown,vertical,171,none
+Drive_Beginner 4,v8,validated,right,right,clip sheet,off,26.43,M03,C03,F03,access,"% BL, off side +",higher_worse,54.893,,120.4,yes,74.69,,unknown,vertical,171,none
+Drive_Beginner 4,v8,validated,right,right,clip sheet,off,26.43,M04,C04,F04,tracking,"% BL, off side +",higher_better,25.134,,120.4,yes,74.69,,unknown,vertical,171,none
+Drive_Beginner 4,v8,validated,right,right,clip sheet,off,26.43,M05,C05,F05,access,"% BL, drive side +",higher_better,,front foot not seen,120.4,yes,74.69,,unknown,vertical,171,none
+Drive_Beginner 4,v8,validated,right,right,clip sheet,off,26.43,M06,C06,F06,stability,degrees,higher_worse,165.432,,120.4,yes,74.69,,unknown,vertical,171,none
+Drive_Beginner 4,v8,validated,right,right,clip sheet,off,26.43,M07,C07,F07,access,ratio,higher_worse,,shoulders not seen,120.4,yes,74.69,,unknown,vertical,171,none
+Drive_Beginner 4,v8,validated,right,right,clip sheet,off,26.43,M08,C08,F08,access,"% BL, away from drive side +",higher_worse,,top hand or shoulders not seen around contact,120.4,yes,74.69,,unknown,vertical,171,none
+Drive_Beginner 4,v8,validated,right,right,clip sheet,off,26.43,M09,C09,F09,flow,ms,higher_worse,,hands not seen in the swing,120.4,yes,74.69,,unknown,vertical,171,none
+Drive_Beginner 4,v8,validated,right,right,clip sheet,off,26.43,M10,C10,F10,tracking,"% BL, off side +",higher_better,15.369,,120.4,yes,74.69,,unknown,vertical,171,none
+Drive_Beginner 4,v8,validated,right,right,clip sheet,off,26.43,M11,C11,F11,stability,% BL,higher_worse,10.3,,120.4,yes,74.69,,unknown,vertical,171,none
+Drive_Beginner 4,v8,validated,right,right,clip sheet,off,26.43,M12,C12,F12,flow,% BL,higher_better,12.837,,120.4,yes,74.69,,unknown,vertical,171,none
+Drive_Beginner 4,v8,validated,right,right,clip sheet,off,26.43,M13,C12,F12,flow,ratio,higher_better,,hands do not come down before contact,120.4,yes,74.69,,unknown,vertical,171,none
+Drive_Beginner 4,v8,validated,right,right,clip sheet,off,26.43,M14,C09,F09,flow,ms (absolute),higher_worse,,front foot not seen before contact,120.4,yes,74.69,,unknown,vertical,171,none
+Drive_Beginner 4,v8,validated,right,right,clip sheet,off,26.43,M15,C01,F01,tracking,% BL (absolute),higher_worse,356.9,,120.4,yes,74.69,,unknown,vertical,171,none
+Drive_Beginner 4,v8,validated,right,right,clip sheet,off,26.43,M16,C16,F16,stability,% BL,higher_worse,9.381,,120.4,yes,74.69,,unknown,vertical,171,none
+Drive_Beginner 4,v8,validated,right,right,clip sheet,off,26.43,M17,C13,F13,flow,% BL,higher_better,34.149,,120.4,yes,74.69,,unknown,vertical,171,none
+Drive_Beginner 4,v8,validated,right,right,clip sheet,off,26.43,M18,C17,F17,tracking,% BL,higher_worse,359.242,,120.4,yes,74.69,,unknown,vertical,171,none
+Drive_Beginner 4,v8,auto,right,right,clip sheet,off,26.43,M01,C01,F01,tracking,% BL,higher_worse,,set-up not in the clip (needs 1 s before contact),113.4,yes,75.17,,unknown,vertical,171,none
+Drive_Beginner 4,v8,auto,right,right,clip sheet,off,26.43,M02,C02,F02,stability,% BL,higher_worse,,hips or feet not seen at set-up,113.4,yes,75.17,,unknown,vertical,171,none
+Drive_Beginner 4,v8,auto,right,right,clip sheet,off,26.43,M03,C03,F03,access,"% BL, off side +",higher_worse,32.773,,113.4,yes,75.17,,unknown,vertical,171,none
+Drive_Beginner 4,v8,auto,right,right,clip sheet,off,26.43,M04,C04,F04,tracking,"% BL, off side +",higher_better,,head or front foot not seen at foot-down,113.4,yes,75.17,,unknown,vertical,171,none
+Drive_Beginner 4,v8,auto,right,right,clip sheet,off,26.43,M05,C05,F05,access,"% BL, drive side +",higher_better,,front foot not seen,113.4,yes,75.17,,unknown,vertical,171,none
+Drive_Beginner 4,v8,auto,right,right,clip sheet,off,26.43,M06,C06,F06,stability,degrees,higher_worse,163.353,,113.4,yes,75.17,,unknown,vertical,171,none
+Drive_Beginner 4,v8,auto,right,right,clip sheet,off,26.43,M07,C07,F07,access,ratio,higher_worse,,shoulders not seen,113.4,yes,75.17,,unknown,vertical,171,none
+Drive_Beginner 4,v8,auto,right,right,clip sheet,off,26.43,M08,C08,F08,access,"% BL, away from drive side +",higher_worse,,top hand or shoulders not seen around contact,113.4,yes,75.17,,unknown,vertical,171,none
+Drive_Beginner 4,v8,auto,right,right,clip sheet,off,26.43,M09,C09,F09,flow,ms,higher_worse,,hands not seen in the swing,113.4,yes,75.17,,unknown,vertical,171,none
+Drive_Beginner 4,v8,auto,right,right,clip sheet,off,26.43,M10,C10,F10,tracking,"% BL, off side +",higher_better,-13.473,,113.4,yes,75.17,,unknown,vertical,171,none
+Drive_Beginner 4,v8,auto,right,right,clip sheet,off,26.43,M11,C11,F11,stability,% BL,higher_worse,10.934,,113.4,yes,75.17,,unknown,vertical,171,none
+Drive_Beginner 4,v8,auto,right,right,clip sheet,off,26.43,M12,C12,F12,flow,% BL,higher_better,13.627,,113.4,yes,75.17,,unknown,vertical,171,none
+Drive_Beginner 4,v8,auto,right,right,clip sheet,off,26.43,M13,C12,F12,flow,ratio,higher_better,,top hand not seen around contact,113.4,yes,75.17,,unknown,vertical,171,none
+Drive_Beginner 4,v8,auto,right,right,clip sheet,off,26.43,M14,C09,F09,flow,ms (absolute),higher_worse,,front foot not seen before contact,113.4,yes,75.17,,unknown,vertical,171,none
+Drive_Beginner 4,v8,auto,right,right,clip sheet,off,26.43,M15,C01,F01,tracking,% BL (absolute),higher_worse,381.469,,113.4,yes,75.17,,unknown,vertical,171,none
+Drive_Beginner 4,v8,auto,right,right,clip sheet,off,26.43,M16,C16,F16,stability,% BL,higher_worse,15.869,,113.4,yes,75.17,,unknown,vertical,171,none
+Drive_Beginner 4,v8,auto,right,right,clip sheet,off,26.43,M17,C13,F13,flow,% BL,higher_better,36.251,,113.4,yes,75.17,,unknown,vertical,171,none
+Drive_Beginner 4,v8,auto,right,right,clip sheet,off,26.43,M18,C17,F17,tracking,% BL,higher_worse,383.956,,113.4,yes,75.17,,unknown,vertical,171,none
+Ollie P_Offdrive Average,v8,validated,right,right,clip sheet,off,38.618,M01,C01,F01,tracking,% BL,higher_worse,0.999,,123.0,yes,,0.01,ok,horizontal_fallback,13,camera_roll
+Ollie P_Offdrive Average,v8,validated,right,right,clip sheet,off,38.618,M02,C02,F02,stability,% BL,higher_worse,20.151,,123.0,yes,,0.01,ok,horizontal_fallback,13,camera_roll
+Ollie P_Offdrive Average,v8,validated,right,right,clip sheet,off,38.618,M03,C03,F03,access,"% BL, off side +",higher_worse,40.628,,123.0,yes,,0.01,ok,horizontal_fallback,13,camera_roll
+Ollie P_Offdrive Average,v8,validated,right,right,clip sheet,off,38.618,M04,C04,F04,tracking,"% BL, off side +",higher_better,-9.652,,123.0,yes,,0.01,ok,horizontal_fallback,13,camera_roll
+Ollie P_Offdrive Average,v8,validated,right,right,clip sheet,off,38.618,M05,C05,F05,access,"% BL, drive side +",higher_better,-4.026,,123.0,yes,,0.01,ok,horizontal_fallback,13,camera_roll
+Ollie P_Offdrive Average,v8,validated,right,right,clip sheet,off,38.618,M06,C06,F06,stability,degrees,higher_worse,155.493,,123.0,yes,,0.01,ok,horizontal_fallback,13,camera_roll
+Ollie P_Offdrive Average,v8,validated,right,right,clip sheet,off,38.618,M07,C07,F07,access,ratio,higher_worse,0.234,,123.0,yes,,0.01,ok,horizontal_fallback,13,camera_roll
+Ollie P_Offdrive Average,v8,validated,right,right,clip sheet,off,38.618,M08,C08,F08,access,"% BL, away from drive side +",higher_worse,-13.315,,123.0,yes,,0.01,ok,horizontal_fallback,13,camera_roll
+Ollie P_Offdrive Average,v8,validated,right,right,clip sheet,off,38.618,M09,C09,F09,flow,ms,higher_worse,84.923,,123.0,yes,,0.01,ok,horizontal_fallback,13,camera_roll
+Ollie P_Offdrive Average,v8,validated,right,right,clip sheet,off,38.618,M10,C10,F10,tracking,"% BL, off side +",higher_better,2.168,,123.0,yes,,0.01,ok,horizontal_fallback,13,camera_roll
+Ollie P_Offdrive Average,v8,validated,right,right,clip sheet,off,38.618,M11,C11,F11,stability,% BL,higher_worse,13.486,,123.0,yes,,0.01,ok,horizontal_fallback,13,camera_roll
+Ollie P_Offdrive Average,v8,validated,right,right,clip sheet,off,38.618,M12,C12,F12,flow,% BL,higher_better,-5.59,,123.0,yes,,0.01,ok,horizontal_fallback,13,camera_roll
+Ollie P_Offdrive Average,v8,validated,right,right,clip sheet,off,38.618,M13,C12,F12,flow,ratio,higher_better,2.405,,123.0,yes,,0.01,ok,horizontal_fallback,13,camera_roll
+Ollie P_Offdrive Average,v8,validated,right,right,clip sheet,off,38.618,M14,C09,F09,flow,ms (absolute),higher_worse,201.758,,123.0,yes,,0.01,ok,horizontal_fallback,13,camera_roll
+Ollie P_Offdrive Average,v8,validated,right,right,clip sheet,off,38.618,M15,C01,F01,tracking,% BL (absolute),higher_worse,26.73,,123.0,yes,,0.01,ok,horizontal_fallback,13,camera_roll
+Ollie P_Offdrive Average,v8,validated,right,right,clip sheet,off,38.618,M16,C16,F16,stability,% BL,higher_worse,6.13,,123.0,yes,,0.01,ok,horizontal_fallback,13,camera_roll
+Ollie P_Offdrive Average,v8,validated,right,right,clip sheet,off,38.618,M17,C13,F13,flow,% BL,higher_better,16.174,,123.0,yes,,0.01,ok,horizontal_fallback,13,camera_roll
+Ollie P_Offdrive Average,v8,validated,right,right,clip sheet,off,38.618,M18,C17,F17,tracking,% BL,higher_worse,34.071,,123.0,yes,,0.01,ok,horizontal_fallback,13,camera_roll
+Ollie P_Offdrive Average,v8,auto,right,right,clip sheet,off,38.618,M01,C01,F01,tracking,% BL,higher_worse,0.923,,123.0,yes,,0.01,ok,horizontal_fallback,13,camera_roll
+Ollie P_Offdrive Average,v8,auto,right,right,clip sheet,off,38.618,M02,C02,F02,stability,% BL,higher_worse,11.234,,123.0,yes,,0.01,ok,horizontal_fallback,13,camera_roll
+Ollie P_Offdrive Average,v8,auto,right,right,clip sheet,off,38.618,M03,C03,F03,access,"% BL, off side +",higher_worse,40.938,,123.0,yes,,0.01,ok,horizontal_fallback,13,camera_roll
+Ollie P_Offdrive Average,v8,auto,right,right,clip sheet,off,38.618,M04,C04,F04,tracking,"% BL, off side +",higher_better,9.632,,123.0,yes,,0.01,ok,horizontal_fallback,13,camera_roll
+Ollie P_Offdrive Average,v8,auto,right,right,clip sheet,off,38.618,M05,C05,F05,access,"% BL, drive side +",higher_better,-9.165,,123.0,yes,,0.01,ok,horizontal_fallback,13,camera_roll
+Ollie P_Offdrive Average,v8,auto,right,right,clip sheet,off,38.618,M06,C06,F06,stability,degrees,higher_worse,161.225,,123.0,yes,,0.01,ok,horizontal_fallback,13,camera_roll
+Ollie P_Offdrive Average,v8,auto,right,right,clip sheet,off,38.618,M07,C07,F07,access,ratio,higher_worse,0.096,,123.0,yes,,0.01,ok,horizontal_fallback,13,camera_roll
+Ollie P_Offdrive Average,v8,auto,right,right,clip sheet,off,38.618,M08,C08,F08,access,"% BL, away from drive side +",higher_worse,2.534,,123.0,yes,,0.01,ok,horizontal_fallback,13,camera_roll
+Ollie P_Offdrive Average,v8,auto,right,right,clip sheet,off,38.618,M09,C09,F09,flow,ms,higher_worse,99.031,,123.0,yes,,0.01,ok,horizontal_fallback,13,camera_roll
+Ollie P_Offdrive Average,v8,auto,right,right,clip sheet,off,38.618,M10,C10,F10,tracking,"% BL, off side +",higher_better,2.945,,123.0,yes,,0.01,ok,horizontal_fallback,13,camera_roll
+Ollie P_Offdrive Average,v8,auto,right,right,clip sheet,off,38.618,M11,C11,F11,stability,% BL,higher_worse,13.486,,123.0,yes,,0.01,ok,horizontal_fallback,13,camera_roll
+Ollie P_Offdrive Average,v8,auto,right,right,clip sheet,off,38.618,M12,C12,F12,flow,% BL,higher_better,-5.59,,123.0,yes,,0.01,ok,horizontal_fallback,13,camera_roll
+Ollie P_Offdrive Average,v8,auto,right,right,clip sheet,off,38.618,M13,C12,F12,flow,ratio,higher_better,6.396,,123.0,yes,,0.01,ok,horizontal_fallback,13,camera_roll
+Ollie P_Offdrive Average,v8,auto,right,right,clip sheet,off,38.618,M14,C09,F09,flow,ms (absolute),higher_worse,201.758,,123.0,yes,,0.01,ok,horizontal_fallback,13,camera_roll
+Ollie P_Offdrive Average,v8,auto,right,right,clip sheet,off,38.618,M15,C01,F01,tracking,% BL (absolute),higher_worse,25.595,,123.0,yes,,0.01,ok,horizontal_fallback,13,camera_roll
+Ollie P_Offdrive Average,v8,auto,right,right,clip sheet,off,38.618,M16,C16,F16,stability,% BL,higher_worse,6.139,,123.0,yes,,0.01,ok,horizontal_fallback,13,camera_roll
+Ollie P_Offdrive Average,v8,auto,right,right,clip sheet,off,38.618,M17,C13,F13,flow,% BL,higher_better,16.174,,123.0,yes,,0.01,ok,horizontal_fallback,13,camera_roll
+Ollie P_Offdrive Average,v8,auto,right,right,clip sheet,off,38.618,M18,C17,F17,tracking,% BL,higher_worse,32.937,,123.0,yes,,0.01,ok,horizontal_fallback,13,camera_roll
+Oscar V_Beginner,v8,validated,right,right,clip sheet,off,30.0,M01,C01,F01,tracking,% BL,higher_worse,0.5,,174.0,yes,-4.46,-0.01,ok,horizontal_fallback,15,camera_roll
+Oscar V_Beginner,v8,validated,right,right,clip sheet,off,30.0,M02,C02,F02,stability,% BL,higher_worse,1.308,,174.0,yes,-4.46,-0.01,ok,horizontal_fallback,15,camera_roll
+Oscar V_Beginner,v8,validated,right,right,clip sheet,off,30.0,M03,C03,F03,access,"% BL, off side +",higher_worse,-0.707,,174.0,yes,-4.46,-0.01,ok,horizontal_fallback,15,camera_roll
+Oscar V_Beginner,v8,validated,right,right,clip sheet,off,30.0,M04,C04,F04,tracking,"% BL, off side +",higher_better,21.581,,174.0,yes,-4.46,-0.01,ok,horizontal_fallback,15,camera_roll
+Oscar V_Beginner,v8,validated,right,right,clip sheet,off,30.0,M05,C05,F05,access,"% BL, drive side +",higher_better,5.507,,174.0,yes,-4.46,-0.01,ok,horizontal_fallback,15,camera_roll
+Oscar V_Beginner,v8,validated,right,right,clip sheet,off,30.0,M06,C06,F06,stability,degrees,higher_worse,147.946,,174.0,yes,-4.46,-0.01,ok,horizontal_fallback,15,camera_roll
+Oscar V_Beginner,v8,validated,right,right,clip sheet,off,30.0,M07,C07,F07,access,ratio,higher_worse,0.336,,174.0,yes,-4.46,-0.01,ok,horizontal_fallback,15,camera_roll
+Oscar V_Beginner,v8,validated,right,right,clip sheet,off,30.0,M08,C08,F08,access,"% BL, away from drive side +",higher_worse,-0.822,,174.0,yes,-4.46,-0.01,ok,horizontal_fallback,15,camera_roll
+Oscar V_Beginner,v8,validated,right,right,clip sheet,off,30.0,M09,C09,F09,flow,ms,higher_worse,138.645,,174.0,yes,-4.46,-0.01,ok,horizontal_fallback,15,camera_roll
+Oscar V_Beginner,v8,validated,right,right,clip sheet,off,30.0,M10,C10,F10,tracking,"% BL, off side +",higher_better,29.338,,174.0,yes,-4.46,-0.01,ok,horizontal_fallback,15,camera_roll
+Oscar V_Beginner,v8,validated,right,right,clip sheet,off,30.0,M11,C11,F11,stability,% BL,higher_worse,4.509,,174.0,yes,-4.46,-0.01,ok,horizontal_fallback,15,camera_roll
+Oscar V_Beginner,v8,validated,right,right,clip sheet,off,30.0,M12,C12,F12,flow,% BL,higher_better,20.67,,174.0,yes,-4.46,-0.01,ok,horizontal_fallback,15,camera_roll
+Oscar V_Beginner,v8,validated,right,right,clip sheet,off,30.0,M13,C12,F12,flow,ratio,higher_better,1.182,,174.0,yes,-4.46,-0.01,ok,horizontal_fallback,15,camera_roll
+Oscar V_Beginner,v8,validated,right,right,clip sheet,off,30.0,M14,C09,F09,flow,ms (absolute),higher_worse,107.024,,174.0,yes,-4.46,-0.01,ok,horizontal_fallback,15,camera_roll
+Oscar V_Beginner,v8,validated,right,right,clip sheet,off,30.0,M15,C01,F01,tracking,% BL (absolute),higher_worse,11.358,,174.0,yes,-4.46,-0.01,ok,horizontal_fallback,15,camera_roll
+Oscar V_Beginner,v8,validated,right,right,clip sheet,off,30.0,M16,C16,F16,stability,% BL,higher_worse,1.474,,174.0,yes,-4.46,-0.01,ok,horizontal_fallback,15,camera_roll
+Oscar V_Beginner,v8,validated,right,right,clip sheet,off,30.0,M17,C13,F13,flow,% BL,higher_better,4.655,,174.0,yes,-4.46,-0.01,ok,horizontal_fallback,15,camera_roll
+Oscar V_Beginner,v8,validated,right,right,clip sheet,off,30.0,M18,C17,F17,tracking,% BL,higher_worse,13.575,,174.0,yes,-4.46,-0.01,ok,horizontal_fallback,15,camera_roll
+Oscar V_Beginner,v8,auto,right,right,clip sheet,off,30.0,M01,C01,F01,tracking,% BL,higher_worse,0.592,,173.9,yes,-4.59,-0.01,ok,horizontal_fallback,15,camera_roll
+Oscar V_Beginner,v8,auto,right,right,clip sheet,off,30.0,M02,C02,F02,stability,% BL,higher_worse,0.681,,173.9,yes,-4.59,-0.01,ok,horizontal_fallback,15,camera_roll
+Oscar V_Beginner,v8,auto,right,right,clip sheet,off,30.0,M03,C03,F03,access,"% BL, off side +",higher_worse,-0.651,,173.9,yes,-4.59,-0.01,ok,horizontal_fallback,15,camera_roll
+Oscar V_Beginner,v8,auto,right,right,clip sheet,off,30.0,M04,C04,F04,tracking,"% BL, off side +",higher_better,22.327,,173.9,yes,-4.59,-0.01,ok,horizontal_fallback,15,camera_roll
+Oscar V_Beginner,v8,auto,right,right,clip sheet,off,30.0,M05,C05,F05,access,"% BL, drive side +",higher_better,6.413,,173.9,yes,-4.59,-0.01,ok,horizontal_fallback,15,camera_roll
+Oscar V_Beginner,v8,auto,right,right,clip sheet,off,30.0,M06,C06,F06,stability,degrees,higher_worse,147.946,,173.9,yes,-4.59,-0.01,ok,horizontal_fallback,15,camera_roll
+Oscar V_Beginner,v8,auto,right,right,clip sheet,off,30.0,M07,C07,F07,access,ratio,higher_worse,1.096,,173.9,yes,-4.59,-0.01,ok,horizontal_fallback,15,camera_roll
+Oscar V_Beginner,v8,auto,right,right,clip sheet,off,30.0,M08,C08,F08,access,"% BL, away from drive side +",higher_worse,-0.29,,173.9,yes,-4.59,-0.01,ok,horizontal_fallback,15,camera_roll
+Oscar V_Beginner,v8,auto,right,right,clip sheet,off,30.0,M09,C09,F09,flow,ms,higher_worse,136.503,,173.9,yes,-4.59,-0.01,ok,horizontal_fallback,15,camera_roll
+Oscar V_Beginner,v8,auto,right,right,clip sheet,off,30.0,M10,C10,F10,tracking,"% BL, off side +",higher_better,29.364,,173.9,yes,-4.59,-0.01,ok,horizontal_fallback,15,camera_roll
+Oscar V_Beginner,v8,auto,right,right,clip sheet,off,30.0,M11,C11,F11,stability,% BL,higher_worse,4.084,,173.9,yes,-4.59,-0.01,ok,horizontal_fallback,15,camera_roll
+Oscar V_Beginner,v8,auto,right,right,clip sheet,off,30.0,M12,C12,F12,flow,% BL,higher_better,20.688,,173.9,yes,-4.59,-0.01,ok,horizontal_fallback,15,camera_roll
+Oscar V_Beginner,v8,auto,right,right,clip sheet,off,30.0,M13,C12,F12,flow,ratio,higher_better,1.182,,173.9,yes,-4.59,-0.01,ok,horizontal_fallback,15,camera_roll
+Oscar V_Beginner,v8,auto,right,right,clip sheet,off,30.0,M14,C09,F09,flow,ms (absolute),higher_worse,107.024,,173.9,yes,-4.59,-0.01,ok,horizontal_fallback,15,camera_roll
+Oscar V_Beginner,v8,auto,right,right,clip sheet,off,30.0,M15,C01,F01,tracking,% BL (absolute),higher_worse,11.371,,173.9,yes,-4.59,-0.01,ok,horizontal_fallback,15,camera_roll
+Oscar V_Beginner,v8,auto,right,right,clip sheet,off,30.0,M16,C16,F16,stability,% BL,higher_worse,1.335,,173.9,yes,-4.59,-0.01,ok,horizontal_fallback,15,camera_roll
+Oscar V_Beginner,v8,auto,right,right,clip sheet,off,30.0,M17,C13,F13,flow,% BL,higher_better,4.714,,173.9,yes,-4.59,-0.01,ok,horizontal_fallback,15,camera_roll
+Oscar V_Beginner,v8,auto,right,right,clip sheet,off,30.0,M18,C17,F17,tracking,% BL,higher_worse,13.607,,173.9,yes,-4.59,-0.01,ok,horizontal_fallback,15,camera_roll
+Straight Drive_Beginner,v8,validated,right,right,clip sheet,straight,30.0,M01,C01,F01,tracking,% BL,higher_worse,0.628,,96.8,yes,-9.31,0.23,ok,vertical,17,camera_roll
+Straight Drive_Beginner,v8,validated,right,right,clip sheet,straight,30.0,M02,C02,F02,stability,% BL,higher_worse,8.145,,96.8,yes,-9.31,0.23,ok,vertical,17,camera_roll
+Straight Drive_Beginner,v8,validated,right,right,clip sheet,straight,30.0,M03,C03,F03,access,"% BL, off side +",higher_worse,-6.33,,96.8,yes,-9.31,0.23,ok,vertical,17,camera_roll
+Straight Drive_Beginner,v8,validated,right,right,clip sheet,straight,30.0,M04,C04,F04,tracking,"% BL, off side +",higher_better,23.922,,96.8,yes,-9.31,0.23,ok,vertical,17,camera_roll
+Straight Drive_Beginner,v8,validated,right,right,clip sheet,straight,30.0,M05,C05,F05,access,"% BL, drive side +",higher_better,-9.177,,96.8,yes,-9.31,0.23,ok,vertical,17,camera_roll
+Straight Drive_Beginner,v8,validated,right,right,clip sheet,straight,30.0,M06,C06,F06,stability,degrees,higher_worse,167.87,,96.8,yes,-9.31,0.23,ok,vertical,17,camera_roll
+Straight Drive_Beginner,v8,validated,right,right,clip sheet,straight,30.0,M07,C07,F07,access,ratio,higher_worse,2.895,,96.8,yes,-9.31,0.23,ok,vertical,17,camera_roll
+Straight Drive_Beginner,v8,validated,right,right,clip sheet,straight,30.0,M08,C08,F08,access,"% BL, away from drive side +",higher_worse,1.037,,96.8,yes,-9.31,0.23,ok,vertical,17,camera_roll
+Straight Drive_Beginner,v8,validated,right,right,clip sheet,straight,30.0,M09,C09,F09,flow,ms,higher_worse,143.593,,96.8,yes,-9.31,0.23,ok,vertical,17,camera_roll
+Straight Drive_Beginner,v8,validated,right,right,clip sheet,straight,30.0,M10,C10,F10,tracking,"% BL, off side +",higher_better,25.848,,96.8,yes,-9.31,0.23,ok,vertical,17,camera_roll
+Straight Drive_Beginner,v8,validated,right,right,clip sheet,straight,30.0,M11,C11,F11,stability,% BL,higher_worse,3.33,,96.8,yes,-9.31,0.23,ok,vertical,17,camera_roll
+Straight Drive_Beginner,v8,validated,right,right,clip sheet,straight,30.0,M12,C12,F12,flow,% BL,higher_better,13.395,,96.8,yes,-9.31,0.23,ok,vertical,17,camera_roll
+Straight Drive_Beginner,v8,validated,right,right,clip sheet,straight,30.0,M13,C12,F12,flow,ratio,higher_better,2.602,,96.8,yes,-9.31,0.23,ok,vertical,17,camera_roll
+Straight Drive_Beginner,v8,validated,right,right,clip sheet,straight,30.0,M14,C09,F09,flow,ms (absolute),higher_worse,,front foot still moving at contact,96.8,yes,-9.31,0.23,ok,vertical,17,camera_roll
+Straight Drive_Beginner,v8,validated,right,right,clip sheet,straight,30.0,M15,C01,F01,tracking,% BL (absolute),higher_worse,22.837,,96.8,yes,-9.31,0.23,ok,vertical,17,camera_roll
+Straight Drive_Beginner,v8,validated,right,right,clip sheet,straight,30.0,M16,C16,F16,stability,% BL,higher_worse,5.515,,96.8,yes,-9.31,0.23,ok,vertical,17,camera_roll
+Straight Drive_Beginner,v8,validated,right,right,clip sheet,straight,30.0,M17,C13,F13,flow,% BL,higher_better,1.58,,96.8,yes,-9.31,0.23,ok,vertical,17,camera_roll
+Straight Drive_Beginner,v8,validated,right,right,clip sheet,straight,30.0,M18,C17,F17,tracking,% BL,higher_worse,22.837,,96.8,yes,-9.31,0.23,ok,vertical,17,camera_roll
+Straight Drive_Beginner,v8,auto,right,right,clip sheet,straight,30.0,M01,C01,F01,tracking,% BL,higher_worse,0.71,,96.5,yes,-9.35,0.23,ok,vertical,17,camera_roll
+Straight Drive_Beginner,v8,auto,right,right,clip sheet,straight,30.0,M02,C02,F02,stability,% BL,higher_worse,6.805,,96.5,yes,-9.35,0.23,ok,vertical,17,camera_roll
+Straight Drive_Beginner,v8,auto,right,right,clip sheet,straight,30.0,M03,C03,F03,access,"% BL, off side +",higher_worse,-7.985,,96.5,yes,-9.35,0.23,ok,vertical,17,camera_roll
+Straight Drive_Beginner,v8,auto,right,right,clip sheet,straight,30.0,M04,C04,F04,tracking,"% BL, off side +",higher_better,24.489,,96.5,yes,-9.35,0.23,ok,vertical,17,camera_roll
+Straight Drive_Beginner,v8,auto,right,right,clip sheet,straight,30.0,M05,C05,F05,access,"% BL, drive side +",higher_better,-10.452,,96.5,yes,-9.35,0.23,ok,vertical,17,camera_roll
+Straight Drive_Beginner,v8,auto,right,right,clip sheet,straight,30.0,M06,C06,F06,stability,degrees,higher_worse,169.912,,96.5,yes,-9.35,0.23,ok,vertical,17,camera_roll
+Straight Drive_Beginner,v8,auto,right,right,clip sheet,straight,30.0,M07,C07,F07,access,ratio,higher_worse,8.047,,96.5,yes,-9.35,0.23,ok,vertical,17,camera_roll
+Straight Drive_Beginner,v8,auto,right,right,clip sheet,straight,30.0,M08,C08,F08,access,"% BL, away from drive side +",higher_worse,2.097,,96.5,yes,-9.35,0.23,ok,vertical,17,camera_roll
+Straight Drive_Beginner,v8,auto,right,right,clip sheet,straight,30.0,M09,C09,F09,flow,ms,higher_worse,128.251,,96.5,yes,-9.35,0.23,ok,vertical,17,camera_roll
+Straight Drive_Beginner,v8,auto,right,right,clip sheet,straight,30.0,M10,C10,F10,tracking,"% BL, off side +",higher_better,26.676,,96.5,yes,-9.35,0.23,ok,vertical,17,camera_roll
+Straight Drive_Beginner,v8,auto,right,right,clip sheet,straight,30.0,M11,C11,F11,stability,% BL,higher_worse,3.342,,96.5,yes,-9.35,0.23,ok,vertical,17,camera_roll
+Straight Drive_Beginner,v8,auto,right,right,clip sheet,straight,30.0,M12,C12,F12,flow,% BL,higher_better,13.442,,96.5,yes,-9.35,0.23,ok,vertical,17,camera_roll
+Straight Drive_Beginner,v8,auto,right,right,clip sheet,straight,30.0,M13,C12,F12,flow,ratio,higher_better,2.602,,96.5,yes,-9.35,0.23,ok,vertical,17,camera_roll
+Straight Drive_Beginner,v8,auto,right,right,clip sheet,straight,30.0,M14,C09,F09,flow,ms (absolute),higher_worse,41.936,,96.5,yes,-9.35,0.23,ok,vertical,17,camera_roll
+Straight Drive_Beginner,v8,auto,right,right,clip sheet,straight,30.0,M15,C01,F01,tracking,% BL (absolute),higher_worse,23.017,,96.5,yes,-9.35,0.23,ok,vertical,17,camera_roll
+Straight Drive_Beginner,v8,auto,right,right,clip sheet,straight,30.0,M16,C16,F16,stability,% BL,higher_worse,4.707,,96.5,yes,-9.35,0.23,ok,vertical,17,camera_roll
+Straight Drive_Beginner,v8,auto,right,right,clip sheet,straight,30.0,M17,C13,F13,flow,% BL,higher_better,1.866,,96.5,yes,-9.35,0.23,ok,vertical,17,camera_roll
+Straight Drive_Beginner,v8,auto,right,right,clip sheet,straight,30.0,M18,C17,F17,tracking,% BL,higher_worse,23.017,,96.5,yes,-9.35,0.23,ok,vertical,17,camera_roll
+Viv P_Offdrive Elite,v8,validated,right,right,clip sheet,off,30.035,M01,C01,F01,tracking,% BL,higher_worse,0.817,,206.5,yes,-7.06,0.18,ok,vertical,20,camera_roll
+Viv P_Offdrive Elite,v8,validated,right,right,clip sheet,off,30.035,M02,C02,F02,stability,% BL,higher_worse,6.149,,206.5,yes,-7.06,0.18,ok,vertical,20,camera_roll
+Viv P_Offdrive Elite,v8,validated,right,right,clip sheet,off,30.035,M03,C03,F03,access,"% BL, off side +",higher_worse,20.531,,206.5,yes,-7.06,0.18,ok,vertical,20,camera_roll
+Viv P_Offdrive Elite,v8,validated,right,right,clip sheet,off,30.035,M04,C04,F04,tracking,"% BL, off side +",higher_better,17.264,,206.5,yes,-7.06,0.18,ok,vertical,20,camera_roll
+Viv P_Offdrive Elite,v8,validated,right,right,clip sheet,off,30.035,M05,C05,F05,access,"% BL, drive side +",higher_better,18.88,,206.5,yes,-7.06,0.18,ok,vertical,20,camera_roll
+Viv P_Offdrive Elite,v8,validated,right,right,clip sheet,off,30.035,M06,C06,F06,stability,degrees,higher_worse,162.78,,206.5,yes,-7.06,0.18,ok,vertical,20,camera_roll
+Viv P_Offdrive Elite,v8,validated,right,right,clip sheet,off,30.035,M07,C07,F07,access,ratio,higher_worse,0.627,,206.5,yes,-7.06,0.18,ok,vertical,20,camera_roll
+Viv P_Offdrive Elite,v8,validated,right,right,clip sheet,off,30.035,M08,C08,F08,access,"% BL, away from drive side +",higher_worse,11.044,,206.5,yes,-7.06,0.18,ok,vertical,20,camera_roll
+Viv P_Offdrive Elite,v8,validated,right,right,clip sheet,off,30.035,M09,C09,F09,flow,ms,higher_worse,39.587,,206.5,yes,-7.06,0.18,ok,vertical,20,camera_roll
+Viv P_Offdrive Elite,v8,validated,right,right,clip sheet,off,30.035,M10,C10,F10,tracking,"% BL, off side +",higher_better,31.694,,206.5,yes,-7.06,0.18,ok,vertical,20,camera_roll
+Viv P_Offdrive Elite,v8,validated,right,right,clip sheet,off,30.035,M11,C11,F11,stability,% BL,higher_worse,4.448,,206.5,yes,-7.06,0.18,ok,vertical,20,camera_roll
+Viv P_Offdrive Elite,v8,validated,right,right,clip sheet,off,30.035,M12,C12,F12,flow,% BL,higher_better,16.847,,206.5,yes,-7.06,0.18,ok,vertical,20,camera_roll
+Viv P_Offdrive Elite,v8,validated,right,right,clip sheet,off,30.035,M13,C12,F12,flow,ratio,higher_better,4.88,,206.5,yes,-7.06,0.18,ok,vertical,20,camera_roll
+Viv P_Offdrive Elite,v8,validated,right,right,clip sheet,off,30.035,M14,C09,F09,flow,ms (absolute),higher_worse,,front foot still moving at contact,206.5,yes,-7.06,0.18,ok,vertical,20,camera_roll
+Viv P_Offdrive Elite,v8,validated,right,right,clip sheet,off,30.035,M15,C01,F01,tracking,% BL (absolute),higher_worse,17.373,,206.5,yes,-7.06,0.18,ok,vertical,20,camera_roll
+Viv P_Offdrive Elite,v8,validated,right,right,clip sheet,off,30.035,M16,C16,F16,stability,% BL,higher_worse,1.22,,206.5,yes,-7.06,0.18,ok,vertical,20,camera_roll
+Viv P_Offdrive Elite,v8,validated,right,right,clip sheet,off,30.035,M17,C13,F13,flow,% BL,higher_better,2.795,,206.5,yes,-7.06,0.18,ok,vertical,20,camera_roll
+Viv P_Offdrive Elite,v8,validated,right,right,clip sheet,off,30.035,M18,C17,F17,tracking,% BL,higher_worse,17.373,,206.5,yes,-7.06,0.18,ok,vertical,20,camera_roll
+Viv P_Offdrive Elite,v8,auto,right,right,clip sheet,off,30.035,M01,C01,F01,tracking,% BL,higher_worse,0.705,,206.6,yes,-7.0,0.18,ok,vertical,20,camera_roll
+Viv P_Offdrive Elite,v8,auto,right,right,clip sheet,off,30.035,M02,C02,F02,stability,% BL,higher_worse,6.46,,206.6,yes,-7.0,0.18,ok,vertical,20,camera_roll
+Viv P_Offdrive Elite,v8,auto,right,right,clip sheet,off,30.035,M03,C03,F03,access,"% BL, off side +",higher_worse,20.294,,206.6,yes,-7.0,0.18,ok,vertical,20,camera_roll
+Viv P_Offdrive Elite,v8,auto,right,right,clip sheet,off,30.035,M04,C04,F04,tracking,"% BL, off side +",higher_better,17.253,,206.6,yes,-7.0,0.18,ok,vertical,20,camera_roll
+Viv P_Offdrive Elite,v8,auto,right,right,clip sheet,off,30.035,M05,C05,F05,access,"% BL, drive side +",higher_better,18.92,,206.6,yes,-7.0,0.18,ok,vertical,20,camera_roll
+Viv P_Offdrive Elite,v8,auto,right,right,clip sheet,off,30.035,M06,C06,F06,stability,degrees,higher_worse,162.78,,206.6,yes,-7.0,0.18,ok,vertical,20,camera_roll
+Viv P_Offdrive Elite,v8,auto,right,right,clip sheet,off,30.035,M07,C07,F07,access,ratio,higher_worse,0.358,,206.6,yes,-7.0,0.18,ok,vertical,20,camera_roll
+Viv P_Offdrive Elite,v8,auto,right,right,clip sheet,off,30.035,M08,C08,F08,access,"% BL, away from drive side +",higher_worse,10.809,,206.6,yes,-7.0,0.18,ok,vertical,20,camera_roll
+Viv P_Offdrive Elite,v8,auto,right,right,clip sheet,off,30.035,M09,C09,F09,flow,ms,higher_worse,73.244,,206.6,yes,-7.0,0.18,ok,vertical,20,camera_roll
+Viv P_Offdrive Elite,v8,auto,right,right,clip sheet,off,30.035,M10,C10,F10,tracking,"% BL, off side +",higher_better,30.535,,206.6,yes,-7.0,0.18,ok,vertical,20,camera_roll
+Viv P_Offdrive Elite,v8,auto,right,right,clip sheet,off,30.035,M11,C11,F11,stability,% BL,higher_worse,4.498,,206.6,yes,-7.0,0.18,ok,vertical,20,camera_roll
+Viv P_Offdrive Elite,v8,auto,right,right,clip sheet,off,30.035,M12,C12,F12,flow,% BL,higher_better,16.836,,206.6,yes,-7.0,0.18,ok,vertical,20,camera_roll
+Viv P_Offdrive Elite,v8,auto,right,right,clip sheet,off,30.035,M13,C12,F12,flow,ratio,higher_better,4.88,,206.6,yes,-7.0,0.18,ok,vertical,20,camera_roll
+Viv P_Offdrive Elite,v8,auto,right,right,clip sheet,off,30.035,M14,C09,F09,flow,ms (absolute),higher_worse,,front foot still moving at contact,206.6,yes,-7.0,0.18,ok,vertical,20,camera_roll
+Viv P_Offdrive Elite,v8,auto,right,right,clip sheet,off,30.035,M15,C01,F01,tracking,% BL (absolute),higher_worse,17.306,,206.6,yes,-7.0,0.18,ok,vertical,20,camera_roll
+Viv P_Offdrive Elite,v8,auto,right,right,clip sheet,off,30.035,M16,C16,F16,stability,% BL,higher_worse,1.636,,206.6,yes,-7.0,0.18,ok,vertical,20,camera_roll
+Viv P_Offdrive Elite,v8,auto,right,right,clip sheet,off,30.035,M17,C13,F13,flow,% BL,higher_better,2.042,,206.6,yes,-7.0,0.18,ok,vertical,20,camera_roll
+Viv P_Offdrive Elite,v8,auto,right,right,clip sheet,off,30.035,M18,C17,F17,tracking,% BL,higher_worse,17.306,,206.6,yes,-7.0,0.18,ok,vertical,20,camera_roll
