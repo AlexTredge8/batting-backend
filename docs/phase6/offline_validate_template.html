@@ -83,6 +83,8 @@ textarea{width:100%;font:13px/1.4 ui-monospace,Menlo,Consolas,monospace;word-bre
         <div class="faults" id="faults"></div>
       </div>
       <div class="row conf"><span class="small">How sure are you? <span class="muted">(optional)</span></span><span class="row" id="conf"><button data-c="l">Not very</button><button data-c="m">Fairly</button><button data-c="h">Very</button></span></div>
+      <div class="verdicts"><button id="nofix">Nothing major to fix: it's a good drive</button></div>
+      <p class="small muted" id="vidErr" hidden>This clip will not play. Tap "Skip" to go on.</p>
       <div class="foot"><button id="cant" data-v="x">Can't judge this clip</button>
         <span class="row"><button id="prev">← Back</button><button class="go" id="next" disabled>Next clip →</button></span></div>
       <p class="small muted" id="need"></p>
@@ -130,6 +132,15 @@ function setVerdict(v){
 }
 document.querySelectorAll("#verdicts button").forEach(b => b.onclick = () => setVerdict(b.dataset.v));
 $("cant").onclick = () => setVerdict("x");
+// One tap for "nothing major to fix": agrees if the AI said so, otherwise a "No" with F00 as the main fault.
+$("nofix").onclick = () => {
+  const a = cur(), s = SUGG[curId()];
+  if (s === "F00") { a.v = a.v === "y" ? "" : "y"; a.f = ""; }
+  else if (a.v === "n" && a.f === "F00") { a.v = ""; a.f = ""; }
+  else { a.v = "n"; a.f = "F00"; }
+  save(); paint();
+};
+$("v").addEventListener("error", () => { $("vidErr").hidden = false; });
 document.querySelectorAll("#conf button").forEach(b => b.onclick = () => { const a = cur(); a.c = a.c === b.dataset.c ? "" : b.dataset.c; save(); paint(); });
 document.querySelectorAll("#roles button").forEach(b => b.onclick = () => { state.role = b.dataset.role; document.querySelectorAll("#roles button").forEach(x => x.classList.toggle("on", x === b)); $("start").disabled = false; });
 $("start").onclick = () => {
@@ -154,9 +165,13 @@ function paint(){
   $("pickBox").hidden = !(a.v === "p" || a.v === "n");
   document.querySelectorAll("#faults button").forEach(b => { b.hidden = b.dataset.f === s; b.classList.toggle("on", a.f === b.dataset.f); });
   document.querySelectorAll("#conf button").forEach(b => b.classList.toggle("on", a.c === b.dataset.c));
-  $("next").disabled = !complete(a);
-  $("next").textContent = state.i + 1 >= state.order.length ? "Finish →" : "Next clip →";
-  $("need").textContent = (a.v === "p" || a.v === "n") && !a.f ? "Pick the main thing to fix to go on." : "";
+  // "Next" always works: with no complete answer it becomes "Skip" and nothing is saved for this clip.
+  const done = complete(a), last = state.i + 1 >= state.order.length;
+  $("next").disabled = false;
+  $("next").textContent = done ? (last ? "Finish →" : "Next clip →") : (last ? "Skip and finish →" : "Skip →");
+  $("nofix").hidden = s === "F00";  // the AI already says "nothing major": the Yes button covers it
+  $("nofix").classList.toggle("on", a.v === "n" && a.f === "F00");
+  $("need").textContent = (a.v === "p" || a.v === "n") && !a.f ? "Pick the main thing to fix, or tap Skip." : "";
   const n = state.order.filter(x => complete(state.ans[x])).length;
   $("prog").style.width = (100 * n / state.order.length) + "%";
 }
@@ -165,10 +180,11 @@ function show(){
   const id = curId(), f = FBY[SUGG[id]] || ["", "", "", ""];
   $("clipNo").textContent = "Clip " + (state.i + 1) + " of " + state.order.length;
   $("aiFault").textContent = f[2]; $("aiTip").textContent = "Tip: " + f[3];
+  $("vidErr").hidden = true;
   $("v").src = urls[id]; $("v").playbackRate = rate; const pr = $("v").play(); if (pr) pr.catch(() => {});
   paint(); window.scrollTo(0, 0);
 }
-$("next").onclick = () => { if (!complete(cur())) return; state.i += 1; save(); show(); };
+$("next").onclick = () => { state.i += 1; save(); show(); };
 $("prev").onclick = () => { state.i = Math.max(0, state.i - 1); save(); show(); };
 document.addEventListener("keydown", e => {
   if ($("session").hidden || e.metaKey || e.ctrlKey || e.altKey || /INPUT|TEXTAREA|SELECT/.test(e.target.tagName)) return;
@@ -188,9 +204,10 @@ function answerCode(){
 }
 function finish(){
   $("session").hidden = true; $("head").hidden = false; $("done").hidden = false; $("code").value = answerCode(); window.scrollTo(0, 0);
-  const vs = state.order.map(id => (state.ans[id] || {}).v), c = v => vs.filter(x => x === v).length;
-  $("tally").textContent = "The AI was right on " + c("y") + ", partly right on " + c("p") + " and wrong on " + c("n") + " of the " + state.order.length + " clips"
-    + (c("x") ? " (" + c("x") + " you could not judge)." : ".");
+  const vs = state.order.filter(id => complete(state.ans[id])).map(id => state.ans[id].v), c = v => vs.filter(x => x === v).length;
+  $("tally").textContent = "The AI was right on " + c("y") + ", partly right on " + c("p") + " and wrong on " + c("n") + " of the " + vs.length + " clips you answered"
+    + (c("x") ? " (" + c("x") + " you could not judge)" : "")
+    + (state.order.filter(id => !complete(state.ans[id])).length ? "; " + state.order.filter(id => !complete(state.ans[id])).length + " skipped." : ".");
 }
 $("copy").onclick = async () => {
   try { await navigator.clipboard.writeText($("code").value); $("copyNote").textContent = "Copied. Paste it into your chat with Claude."; }

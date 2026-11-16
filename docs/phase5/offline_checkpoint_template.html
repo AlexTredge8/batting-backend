@@ -65,6 +65,7 @@ textarea{width:100%;font:13px/1.4 ui-monospace,Menlo,Consolas,monospace;word-bre
   <section class="panel" id="session" hidden>
     <div class="score"><span class="small muted" id="clipNo"></span><div class="bar"><i id="prog"></i></div></div>
     <div class="clip solo"><video id="v" muted loop playsinline autoplay></video>
+      <p class="small muted" id="vidErr" hidden>This clip will not play. Tap "Skip this clip" to go on.</p>
       <div class="row"><button id="restart">Restart</button><button data-rate="1" class="on">1×</button><button data-rate="0.5">0.5×</button><button data-rate="0.25">0.25×</button></div></div>
     <div class="panel">
       <div class="cps" id="cps"></div>
@@ -114,9 +115,11 @@ function paint(){
   const a = cur();
   document.querySelectorAll(".cp").forEach(row => { const v = a[row.dataset.cp]; row.classList.toggle("set", !!v);
     row.querySelectorAll("button").forEach(b => b.classList.toggle("on", b.dataset.v === v)); });
-  $("next").disabled = !complete(a);
-  const left = CPS.filter(([cid]) => !a[cid]).length;
-  $("need").textContent = left ? left + " checkpoint" + (left > 1 ? "s" : "") + " still to rate (X if you cannot judge it)." : "";
+  // "Next" always works: unrated points are saved as X (cannot judge); a clip with nothing rated is skipped.
+  const left = CPS.filter(([cid]) => !a[cid]).length, any = CPS.some(([cid]) => a[cid]);
+  $("next").disabled = false;
+  $("next").textContent = !any ? "Skip this clip →" : (left ? "Next (unrated count as X) →" : "Next clip →");
+  $("need").textContent = left ? left + " checkpoint" + (left > 1 ? "s" : "") + " not rated yet. You can still go on: they will count as X." : "";
   const n = state.order.filter(id => complete(state.ans[id])).length;
   $("prog").style.width = (100 * n / state.order.length) + "%";
 }
@@ -124,14 +127,17 @@ function show(){
   if (state.i >= state.order.length){ finish(); return; }
   const id = state.order[state.i];
   $("clipNo").textContent = "Clip " + (state.i + 1) + " of " + state.order.length;
+  $("vidErr").hidden = true;
   $("v").src = urls[id]; $("v").playbackRate = rate; const pr = $("v").play(); if (pr) pr.catch(() => {});
   paint(); window.scrollTo(0, 0);
 }
+$("v").addEventListener("error", () => { $("vidErr").hidden = false; });
 $("next").onclick = () => { state.i += 1; save(); show(); };
 $("prev").onclick = () => { state.i = Math.max(0, state.i - 1); save(); show(); };
 function answerCode(){
   // CIQ2.<build>.<role><level>.<name>.<n checkpoints>.<items>.<check>; item = clip index (1 char base 36) + n ratings (2/1/0/x)
-  const items = state.order.filter(id => complete(state.ans[id])).map(id => ids.indexOf(id).toString(36) + CPS.map(([cid]) => state.ans[id][cid]).join("")).join("");
+  const rated = id => state.ans[id] && CPS.some(([cid]) => state.ans[id][cid]);
+  const items = state.order.filter(rated).map(id => ids.indexOf(id).toString(36) + CPS.map(([cid]) => state.ans[id][cid] || "x").join("")).join("");
   const body = ["CIQ2", DATA.build, state.role + (state.level || "x"), encodeURIComponent(state.name || "-"), CPS.length.toString(36), items].join(".");
   let sum = 0; for (const ch of body) sum = (sum + ch.charCodeAt(0)) % 36;
   return body + "." + sum.toString(36);
