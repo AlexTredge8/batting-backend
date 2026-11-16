@@ -18,6 +18,10 @@ PRIVACY: the file IS the footage. Whoever receives it can forward it. Face blur 
 trimming reduce what it shows; only send it to people you would show the clips to.
 
   python phase2_offline_pairs.py --video-dir "<clips>" --out ~/Desktop/BattingIQ_which_drive.html
+
+--validate-out writes the "Check the AI's tips" file instead (or as well): for each clip the AI's
+main fault and its tip (from --suggestions, made by phase6_suggestions.py), and the coach answers
+yes / partly / no. Which AI source made each suggestion goes in the private key only.
 """
 
 from __future__ import annotations
@@ -44,6 +48,9 @@ from phase0_baseline_table import find_video, key_of, load_csv  # noqa: E402
 TEMPLATE = SCRIPT_DIR / "docs" / "phase2" / "offline_pairs_template.html"
 QUICK_TEMPLATE = SCRIPT_DIR / "docs" / "phase2" / "offline_quick_template.html"
 CHECKPOINT_TEMPLATE = SCRIPT_DIR / "docs" / "phase5" / "offline_checkpoint_template.html"
+VALIDATE_TEMPLATE = SCRIPT_DIR / "docs" / "phase6" / "offline_validate_template.html"
+FAULT_TIPS = SCRIPT_DIR / "docs" / "phase6" / "fault_tips_v0_3.json"
+NO_FAULT = "Nothing major to fix"
 NOSE, L_EAR, R_EAR, L_SH, R_SH = 0, 7, 8, 11, 12
 
 
@@ -66,6 +73,29 @@ def rated_checkpoints(rubric: dict) -> list[list[str]]:
     """[id, stage, text] for each checkpoint a coach rates, in the rubric's (chain) order. A checkpoint
     with "rated": false (rubric v0.3: C14, merged into C07) keeps its ID in the rubric but is not shown."""
     return [[c["id"], c["stage"], c["text"]] for c in rubric["checkpoints"] if c.get("rated", True)]
+
+
+def validation_faults(rubric: dict, tips: dict) -> list[list[str]]:
+    """[id, stage, text, tip] for each fault in the rubric's chain order, then F00 ("Nothing major to fix"),
+    for the "Check the AI's tips" file. Every fault must have a tip."""
+    stage = {c["id"]: c["stage"] for c in rubric["checkpoints"]}
+    tip = tips["tips"]
+    out = [[f["id"], stage.get(f.get("checkpoint", ""), ""), f["text"], tip[f["id"]]] for f in rubric["faults_in_chain_order"]]
+    return out + [["F00", "", NO_FAULT, tip["F00"]]]
+
+
+def load_suggestions(path: Path, names: list[str], fault_ids: set[str]) -> dict[str, dict[str, str]]:
+    """filename -> the suggestions row (phase6_suggestions.py) for every clip; stops if a clip has none or an unknown fault."""
+    rows = {key_of(r["filename"]): r for r in load_csv(Path(path))}
+    out = {}
+    for name in names:
+        r = rows.get(key_of(name))
+        if r is None or not r.get("suggested_fault"):
+            raise SystemExit(f"No AI suggestion for {name} in {path}")
+        if r["suggested_fault"] not in fault_ids:
+            raise SystemExit(f"{name}: suggested fault {r['suggested_fault']} is not in the rubric (map it to v0.3 first)")
+        out[name] = r
+    return out
 
 
 def encode_clip(video: Path, start: int, end: int, max_side: int, blur: bool, cache_dir: Path) -> tuple[bytes, dict]:
@@ -146,16 +176,27 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--quick-out", default=None, help="also write the quick coach check (score + main fault per clip), same clips and key")
     parser.add_argument("--checkpoint-out", default=None, help="also write the checkpoint coach check (each rubric checkpoint rated 2/1/0/X per clip), same clips and key")
     parser.add_argument("--rubric", default=str(SCRIPT_DIR / "docs" / "phase1" / "rubric_v0_3.json"), help="rubric whose rated checkpoints the checkpoint file lists, in its order")
+    parser.add_argument("--validate-out", default=None, help="also write the 'Check the AI's tips' file (the AI's main fault per clip, yes / partly / no), same clips and key; needs --suggestions")
+    parser.add_argument("--suggestions", default=None, help="CSV from phase6_suggestions.py: filename,suggested_fault,source,second_fault (the source goes in the key only)")
+    parser.add_argument("--fault-tips", default=str(FAULT_TIPS), help="one-line tip per fault, shown under the AI's main fault")
     args = parser.parse_args(argv)
 
-    if not (args.out or args.quick_out or args.checkpoint_out):
-        raise SystemExit("Give --out (swipe file), --quick-out (quick coach check), --checkpoint-out (checkpoint check), or several.")
-    out = Path(args.out or args.quick_out or args.checkpoint_out).expanduser().resolve()
+    if not (args.out or args.quick_out or args.checkpoint_out or args.validate_out):
+        raise SystemExit("Give --out (swipe file), --quick-out (quick coach check), --checkpoint-out (checkpoint check), --validate-out (check the AI's tips), or several.")
+    if args.validate_out and not args.suggestions:
+        raise SystemExit("--validate-out needs --suggestions (run phase6_suggestions.py first).")
+    out = Path(args.out or args.quick_out or args.checkpoint_out or args.validate_out).expanduser().resolve()
     if SCRIPT_DIR in out.parents:
         raise SystemExit("Write the file outside the repo: it holds the clips.")
     video_dir = Path(args.video_dir).expanduser()
     anchors = {key_of(r["filename"]): r for r in load_csv(Path(args.anchor_truth))}
     names = [r["filename"] for r in load_csv(Path(args.ground_truth))]
+    faults = sugg = None
+    if args.validate_out:  # check the inputs before the slow clip encoding
+        if SCRIPT_DIR in Path(args.validate_out).expanduser().resolve().parents:
+            raise SystemExit("Write the validation file outside the repo: it holds the clips.")
+        faults = validation_faults(json.loads(Path(args.rubric).read_text()), json.loads(Path(args.fault_tips).read_text()))
+        sugg = load_suggestions(Path(args.suggestions), names, {f[0] for f in faults})
     rng = secrets.SystemRandom()
     codes = [f"D{i:02d}" for i in range(1, len(names) + 1)]
     rng.shuffle(codes)
@@ -196,6 +237,17 @@ def main(argv: list[str] | None = None) -> int:
         cpf.write_text(CHECKPOINT_TEMPLATE.read_text().replace("/*__PAYLOAD__*/null", json.dumps(payload))
                        .replace("/*__CPS__*/null", json.dumps(cps)), encoding="utf-8")
         print(f"Wrote {cpf} (checkpoint coach check, {len(cps)} checkpoints from rubric {rub['rubric_version']}, same build {build_id})")
+    if args.validate_out:
+        vf = Path(args.validate_out).expanduser().resolve()
+        extra = [c for c in next(iter(sugg.values())) if c not in ("filename", "suggested_fault", "source", "second_fault")]
+        for row in key_rows:  # which AI source each suggestion came from stays in the private key, never on the page
+            s = sugg[row["filename"]]
+            row.update(suggested_fault=s["suggested_fault"], source=s.get("source", ""), second_fault=s.get("second_fault", ""),
+                       **{c: s.get(c, "") for c in extra})
+        shown = {row["clip_id"]: row["suggested_fault"] for row in key_rows}
+        vf.write_text(VALIDATE_TEMPLATE.read_text().replace("/*__PAYLOAD__*/null", json.dumps(payload))
+                      .replace("/*__FAULTS__*/null", json.dumps(faults)).replace("/*__SUGG__*/null", json.dumps(shown)), encoding="utf-8")
+        print(f"Wrote {vf} (check the AI's tips, {len(faults)} faults incl. F00, same build {build_id})")
     key_path = out.with_name(out.stem + "_key_PRIVATE.csv")
     with key_path.open("w", newline="", encoding="utf-8") as h:
         w = csv.DictWriter(h, fieldnames=list(key_rows[0].keys()))

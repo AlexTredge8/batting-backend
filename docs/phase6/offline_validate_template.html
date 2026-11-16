@@ -1,0 +1,199 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'unsafe-inline'; style-src 'unsafe-inline'; media-src blob: data:; img-src data:">
+<title>Check the AI's Tips</title>
+<style>
+/* Offline file: no fonts, scripts or anything else from the internet (the CSP above blocks it). */
+:root{--bg:#f3f5f2;--surface:#fff;--fg:#17201b;--muted:#5d6b63;--line:#d5ddd7;--turf:#1f6a45;--turf-fg:#fff;--turf-soft:#dcefe4;--ball:#a8322d;--ball-soft:#f6e1df;--amber:#8a5a00;--amber-soft:#f7ecd4;
+  --display:"Avenir Next Condensed","Arial Narrow","Roboto Condensed",Arial,sans-serif;--body:-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;color-scheme:light}
+@media (prefers-color-scheme:dark){:root{--bg:#111613;--surface:#1a211d;--fg:#e7eee9;--muted:#9aa9a0;--line:#2f3a34;--turf:#4cb882;--turf-fg:#0b1a12;--turf-soft:#1d3428;--ball:#e0726a;--ball-soft:#3a2120;--amber:#e3b45a;--amber-soft:#3a2f18;color-scheme:dark}}
+*{box-sizing:border-box}[hidden]{display:none!important}
+html,body{margin:0}body{background:var(--bg);color:var(--fg);font:16px/1.5 var(--body)}
+.wrap{max-width:860px;margin:0 auto;padding:max(16px,env(safe-area-inset-top)) max(16px,env(safe-area-inset-right)) 40px max(16px,env(safe-area-inset-left));display:flex;flex-direction:column;gap:14px}
+h1{font:700 34px/1.05 var(--display);margin:0;letter-spacing:.01em}
+h2{font:700 20px/1.2 var(--display);margin:0;text-transform:uppercase;letter-spacing:.03em}
+p{margin:0}.muted{color:var(--muted)}.small{font-size:14px}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:16px;display:flex;flex-direction:column;gap:12px}
+.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+button,select,input,textarea{font:inherit;color:var(--fg);background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:9px 12px}
+button{cursor:pointer;touch-action:manipulation}button.go{background:var(--turf);color:var(--turf-fg);border-color:var(--turf);font-weight:600}button.on{background:var(--turf-soft);border-color:var(--turf)}
+button:disabled{opacity:.45;cursor:default}
+button:focus-visible,select:focus-visible,input:focus-visible{outline:3px solid var(--turf);outline-offset:2px}
+.choices{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:8px}.choices button{text-align:left;padding:12px}
+.score{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap}
+.bar{height:6px;background:var(--line);border-radius:3px;overflow:hidden;flex:1 1 160px}.bar>i{display:block;height:100%;width:0;background:var(--turf)}
+.clip{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:8px;display:flex;flex-direction:column;gap:8px;min-width:0}
+video{width:100%;max-height:52vh;background:#000;border-radius:8px;display:block}
+.tag{font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+textarea{width:100%;font:13px/1.4 ui-monospace,Menlo,Consolas,monospace;word-break:break-all}
+.ai{border-left:4px solid var(--turf);padding:4px 0 4px 12px;display:flex;flex-direction:column;gap:4px}
+.ai .fault{font:700 22px/1.2 var(--display)}.ai .tip{color:var(--muted);font-size:15px}
+.verdicts{display:grid;grid-template-columns:1fr;gap:8px}
+.verdicts button{font-weight:600;font-size:17px;padding:14px 12px;text-align:left;min-height:52px}
+.verdicts button[data-v="y"].on{background:var(--turf-soft);border-color:var(--turf)}
+.verdicts button[data-v="p"].on{background:var(--amber-soft);border-color:var(--amber)}
+.verdicts button[data-v="n"].on{background:var(--ball-soft);border-color:var(--ball)}
+.faults{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:6px}
+.faults button{text-align:left;padding:9px 10px;font-size:15px;display:flex;flex-direction:column;gap:1px}
+.faults button .s{font-size:11px;letter-spacing:.07em;text-transform:uppercase;color:var(--muted)}
+.conf button{padding:8px 12px}
+.foot{display:flex;gap:10px;flex-wrap:wrap;align-items:center;justify-content:space-between}
+.foot .go{min-width:150px;padding:12px 16px}
+#session .clip{position:sticky;top:0;z-index:2}
+@media (max-width:600px){h1{font-size:28px}#session video{max-height:30vh}.ai .fault{font-size:19px}.verdicts button{font-size:16px}.faults{grid-template-columns:1fr}.faults button{padding:8px 10px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header><h1>Check the AI's tips</h1>
+  <p class="muted">For each drive an AI has picked the main thing to fix, with the tip it would give. Watch the clip and tell us whether it got it right. About 10 to 15 seconds a clip.</p></header>
+
+  <section class="panel" id="who">
+    <h2>About you</h2>
+    <div class="choices" id="roles">
+      <button data-role="Q">Qualified cricket coach</button><button data-role="T">Coach, not yet qualified</button>
+      <button data-role="P">Cricketer</button><button data-role="A">Parent or supporter</button><button data-role="O">Other</button>
+    </div>
+    <div class="row"><label for="level">Highest level you have played or coached</label>
+      <select id="level"><option value="">Choose…</option><option value="n">None</option><option value="s">School or junior club</option><option value="c">Adult club</option><option value="p">County, academy or above</option></select></div>
+    <div class="row"><label for="name">Name or initials (optional)</label><input id="name" maxlength="30" autocomplete="off"></div>
+    <div class="row"><button class="go" id="start" disabled>Start</button></div>
+    <p class="small muted">Trust your own eye: the AI is often wrong, and that is exactly what we need to find out. Everything stays on this device, and your progress is kept if you close the page. Nothing is sent anywhere.</p>
+  </section>
+
+  <section class="panel" id="session" hidden>
+    <div class="score"><span class="small muted" id="clipNo"></span><div class="bar"><i id="prog"></i></div></div>
+    <div class="clip"><video id="v" muted loop playsinline autoplay></video>
+      <div class="row"><button id="restart">Restart</button><button data-rate="1" class="on">1×</button><button data-rate="0.5">0.5×</button><button data-rate="0.25">0.25×</button></div></div>
+    <div class="panel">
+      <div class="ai"><span class="tag">The AI says the main thing to fix is</span><span class="fault" id="aiFault"></span><span class="tip" id="aiTip"></span></div>
+      <div class="verdicts" id="verdicts">
+        <button data-v="y"></button><button data-v="p"></button><button data-v="n"></button>
+      </div>
+      <div id="pickBox" hidden>
+        <h2 id="pickQ">What is the main thing to fix?</h2>
+        <p class="small muted">Pick one.</p>
+        <div class="faults" id="faults"></div>
+      </div>
+      <div class="row conf"><span class="small">How sure are you? <span class="muted">(optional)</span></span><span class="row" id="conf"><button data-c="l">Not very</button><button data-c="m">Fairly</button><button data-c="h">Very</button></span></div>
+      <div class="foot"><button id="cant" data-v="x">Can't judge this clip</button>
+        <span class="row"><button id="prev">← Back</button><button class="go" id="next" disabled>Next clip →</button></span></div>
+      <p class="small muted" id="need"></p>
+    </div>
+  </section>
+
+  <section class="panel" id="done" hidden>
+    <h2>Thank you</h2>
+    <p id="tally"></p>
+    <p>Copy your answer code and paste it into your chat with Claude, or save it as a file. That is all.</p>
+    <textarea id="code" rows="4" readonly></textarea>
+    <div class="row"><button class="go" id="copy">Copy my answer code</button><button id="save">Save it as a file</button><button id="review">Go back over my answers</button></div>
+    <p class="small muted" id="copyNote"></p>
+  </section>
+</div>
+<script>
+const DATA = /*__PAYLOAD__*/null;
+const FAULTS = /*__FAULTS__*/null;   // [id, stage, text, tip] in chain order, then F00
+const SUGG = /*__SUGG__*/null;       // clip id -> the AI's main fault
+const $ = id => document.getElementById(id);
+const ids = DATA.clips.map(c => c.id).sort();
+const urls = {};
+DATA.clips.forEach(c => { const bin = atob(c.b64), u8 = new Uint8Array(bin.length); for (let k = 0; k < bin.length; k++) u8[k] = bin.charCodeAt(k); urls[c.id] = URL.createObjectURL(new Blob([u8], {type: "video/mp4"})); });
+const FBY = {}; FAULTS.forEach(f => FBY[f[0]] = f);
+const STORE = "biq_val_" + DATA.build;
+function load(){ try { return JSON.parse(localStorage.getItem(STORE) || "null"); } catch(e){ return null; } }
+function save(){ try { localStorage.setItem(STORE, JSON.stringify(state)); } catch(e){} }
+let state = load() || {role: "", level: "", name: "", order: [], ans: {}, i: 0};
+function curId(){ return state.order[state.i]; }
+function cur(){ const id = curId(); return state.ans[id] = state.ans[id] || {}; }
+
+FAULTS.forEach(([fid, stage, text]) => {
+  const b = document.createElement("button"); b.dataset.f = fid;
+  b.innerHTML = '<span class="s"></span><span class="t"></span>';
+  b.querySelector(".s").textContent = stage || "No fault"; b.querySelector(".t").textContent = text;
+  b.onclick = () => { const a = cur(); a.f = a.f === fid ? "" : fid; save(); paint(); };
+  $("faults").appendChild(b); });
+function setVerdict(v){
+  const a = cur(); a.v = a.v === v ? "" : v;
+  if (a.v !== "p" && a.v !== "n") a.f = "";
+  save(); paint();
+  if ((a.v === "p" || a.v === "n") && !a.f) $("pickBox").scrollIntoView({behavior: "smooth", block: "nearest"});
+}
+document.querySelectorAll("#verdicts button").forEach(b => b.onclick = () => setVerdict(b.dataset.v));
+$("cant").onclick = () => setVerdict("x");
+document.querySelectorAll("#conf button").forEach(b => b.onclick = () => { const a = cur(); a.c = a.c === b.dataset.c ? "" : b.dataset.c; save(); paint(); });
+document.querySelectorAll("#roles button").forEach(b => b.onclick = () => { state.role = b.dataset.role; document.querySelectorAll("#roles button").forEach(x => x.classList.toggle("on", x === b)); $("start").disabled = false; });
+$("start").onclick = () => {
+  state.level = $("level").value; state.name = $("name").value.trim().replace(/[^\w .'-]/g, "").slice(0, 30);
+  if (!state.order.length){ state.order = ids.slice().sort(() => Math.random() - 0.5); state.i = 0; }
+  save(); $("who").hidden = true; $("session").hidden = false; show();
+};
+let rate = 1;
+document.querySelectorAll("[data-rate]").forEach(b => b.onclick = () => { rate = +b.dataset.rate; document.querySelectorAll("[data-rate]").forEach(x => x.classList.toggle("on", x === b)); $("v").playbackRate = rate; });
+$("restart").onclick = () => { $("v").currentTime = 0; const pr = $("v").play(); if (pr) pr.catch(() => {}); };
+function complete(a){ return !!(a && (a.v === "y" || a.v === "x" || ((a.v === "p" || a.v === "n") && a.f))); }
+function labels(s){
+  return s === "F00"
+    ? {y: "Yes, nothing major to fix", p: "Partly — there is something, but it is small", n: "No — there is a clear fault", q: "What is the main thing to fix?"}
+    : {y: "Yes, that's the main thing", p: "Partly — it's there but not the main thing", n: "No", q: "So what is the main thing to fix?"};
+}
+function paint(){
+  const id = curId(), a = cur(), s = SUGG[id], L = labels(s);
+  document.querySelectorAll("#verdicts button").forEach(b => { b.textContent = L[b.dataset.v]; b.classList.toggle("on", a.v === b.dataset.v); });
+  $("cant").classList.toggle("on", a.v === "x");
+  $("pickQ").textContent = L.q;
+  $("pickBox").hidden = !(a.v === "p" || a.v === "n");
+  document.querySelectorAll("#faults button").forEach(b => { b.hidden = b.dataset.f === s; b.classList.toggle("on", a.f === b.dataset.f); });
+  document.querySelectorAll("#conf button").forEach(b => b.classList.toggle("on", a.c === b.dataset.c));
+  $("next").disabled = !complete(a);
+  $("next").textContent = state.i + 1 >= state.order.length ? "Finish →" : "Next clip →";
+  $("need").textContent = (a.v === "p" || a.v === "n") && !a.f ? "Pick the main thing to fix to go on." : "";
+  const n = state.order.filter(x => complete(state.ans[x])).length;
+  $("prog").style.width = (100 * n / state.order.length) + "%";
+}
+function show(){
+  if (state.i >= state.order.length){ finish(); return; }
+  const id = curId(), f = FBY[SUGG[id]] || ["", "", "", ""];
+  $("clipNo").textContent = "Clip " + (state.i + 1) + " of " + state.order.length;
+  $("aiFault").textContent = f[2]; $("aiTip").textContent = "Tip: " + f[3];
+  $("v").src = urls[id]; $("v").playbackRate = rate; const pr = $("v").play(); if (pr) pr.catch(() => {});
+  paint(); window.scrollTo(0, 0);
+}
+$("next").onclick = () => { if (!complete(cur())) return; state.i += 1; save(); show(); };
+$("prev").onclick = () => { state.i = Math.max(0, state.i - 1); save(); show(); };
+document.addEventListener("keydown", e => {
+  if ($("session").hidden || e.metaKey || e.ctrlKey || e.altKey || /INPUT|TEXTAREA|SELECT/.test(e.target.tagName)) return;
+  const k = e.key.toLowerCase();
+  if (k === "y" || k === "1") setVerdict("y"); else if (k === "p" || k === "2") setVerdict("p"); else if (k === "n" || k === "3") setVerdict("n");
+  else if (k === "x") setVerdict("x"); else if (k === "enter" || k === "arrowright") $("next").click(); else if (k === "arrowleft") $("prev").click();
+});
+function answerCode(){
+  // VIQ1.<build>.<role><level>.<name>.<items>.<check>; item = clip index (1 base-36) + verdict (y/p/n/x)
+  // + chosen main fault (fault number in base 36, z when the verdict is y or x) + confidence (l/m/h, x = not given)
+  const items = state.order.filter(id => complete(state.ans[id])).map(id => { const a = state.ans[id];
+    const f = (a.v === "p" || a.v === "n") ? parseInt(a.f.slice(1), 10).toString(36) : "z";
+    return ids.indexOf(id).toString(36) + a.v + f + (a.c || "x"); }).join("");
+  const body = ["VIQ1", DATA.build, state.role + (state.level || "x"), encodeURIComponent(state.name || "-"), items].join(".");
+  let sum = 0; for (const ch of body) sum = (sum + ch.charCodeAt(0)) % 36;
+  return body + "." + sum.toString(36);
+}
+function finish(){
+  $("session").hidden = true; $("done").hidden = false; $("code").value = answerCode();
+  const vs = state.order.map(id => (state.ans[id] || {}).v), c = v => vs.filter(x => x === v).length;
+  $("tally").textContent = "The AI was right on " + c("y") + ", partly right on " + c("p") + " and wrong on " + c("n") + " of the " + state.order.length + " clips"
+    + (c("x") ? " (" + c("x") + " you could not judge)." : ".");
+}
+$("copy").onclick = async () => {
+  try { await navigator.clipboard.writeText($("code").value); $("copyNote").textContent = "Copied. Paste it into your chat with Claude."; }
+  catch(e){ $("code").focus(); $("code").select(); $("copyNote").textContent = "Your code is selected: copy it (Cmd+C or Ctrl+C) and paste it into your chat with Claude."; }
+};
+$("save").onclick = () => { const a = document.createElement("a"); a.href = URL.createObjectURL(new Blob([$("code").value + "\n"], {type: "text/plain"}));
+  a.download = "batting_iq_check_the_ai_" + (state.name || "anon").replace(/\W+/g, "_") + ".txt"; document.body.appendChild(a); a.click(); a.remove(); };
+$("review").onclick = () => { state.i = 0; $("done").hidden = true; $("session").hidden = false; show(); };
+if (state.order.length && state.role){ $("who").hidden = true; $("session").hidden = false; show(); }
+</script>
+</body>
+</html>
