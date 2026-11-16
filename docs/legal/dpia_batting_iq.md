@@ -11,7 +11,7 @@ Prepared by AI acting in the role of a data-protection reviewer. Not legal advic
 | Status | **Draft: not signed.** Do not launch the training opt-in or use any more under-18 clips until section 7 is signed. |
 | Review | Before each new feature that touches videos or children's data, and at least every 12 months |
 
-This follows the structure of the ICO's sample DPIA template and the Children's code Annex D template: need, processing, consultation, necessity and proportionality, risks, measures, sign-off (UNVERIFIED (snippet): S9, S8 in `dp_review.md`). Source marks follow `dp_review.md`. Facts about the system come from the repository [R].
+This follows the structure of the ICO's sample DPIA template and the Children's code Annex D template: need, processing, consultation, necessity and proportionality, risks, measures, sign-off (VERIFIED (https://ico.org.uk/for-organisations/uk-gdpr-guidance-and-resources/accountability-and-governance/data-protection-impact-assessments-dpias/how-do-we-do-a-dpia/); VERIFIED (https://ico.org.uk/for-organisations/uk-gdpr-guidance-and-resources/childrens-information/childrens-code-guidance-and-resources/age-appropriate-design-a-code-of-practice-for-online-services/2-data-protection-impact-assessments/): the code offers its Annex D template but says there is no definitive template). Source marks follow `dp_review.md`. Facts about the system come from the repository [R].
 
 ---
 
@@ -20,8 +20,8 @@ This follows the structure of the ICO's sample DPIA template and the Children's 
 Batting IQ analyses phone videos of cricketers, many under 18, to give automated scores and tips, and (with consent) uses some videos to train its own model.
 
 A DPIA is required because:
-- **Children's data, in an online service likely to be used by children.** The Children's code says such services inevitably involve processing likely to result in high risk to children, so a DPIA is expected (standard 2) (UNVERIFIED (snippet): S8).
-- **Innovative technology plus another criterion.** AI-based pose estimation and automated scoring is a new application of existing technology, combined with **evaluation or scoring** of individuals and **vulnerable people (children)**. The ICO's list requires a DPIA for innovative technology combined with another criterion (UNVERIFIED (snippet): S7).
+- **Children's data, in an online service likely to be used by children.** The Children's code says such services inevitably involve processing likely to result in high risk to children, so a DPIA is expected (standard 2) (VERIFIED (https://ico.org.uk/for-organisations/uk-gdpr-guidance-and-resources/childrens-information/childrens-code-guidance-and-resources/age-appropriate-design-a-code-of-practice-for-online-services/2-data-protection-impact-assessments/)). The ICO's list also names "offer online services directly to children" as needing a DPIA (VERIFIED (https://ico.org.uk/for-organisations/uk-gdpr-guidance-and-resources/accountability-and-governance/data-protection-impact-assessments-dpias/examples-of-processing-likely-to-result-in-high-risk/)).
+- **Innovative technology plus another criterion.** AI-based pose estimation and automated scoring is a new application of existing technology, combined with **evaluation or scoring** of individuals and **vulnerable people (children)**. The ICO's list requires a DPIA for innovative technology combined with another criterion (VERIFIED (https://ico.org.uk/for-organisations/uk-gdpr-guidance-and-resources/accountability-and-governance/data-protection-impact-assessments-dpias/examples-of-processing-likely-to-result-in-high-risk/)).
 - **Video of identifiable people**, including bystanders.
 - **Use of the data for a new purpose** (model training), and **transfers** to US-based processors.
 
@@ -85,7 +85,7 @@ Benefit to users: cheap, quick coaching feedback, especially for juniors without
 | Club welfare or safeguarding officer | Email the forms and this summary | To do | Do the forms fit the club's filming policy? |
 | 3 to 5 parents and 2 to 3 juniors (13 to 17) | A 3-question message: (1) Is the upload choice clear? (2) Would you say yes, and why? (3) Anything worrying? | To do | Record answers in a line each, no names |
 | Processors | Read their DPAs and security pages | To do (see 6.1, M6) | Region, transfer safeguard, breach notice time |
-| ICO | Free helpline or web chat, only for a specific question | Optional | Prior consultation (Article 36) is needed only if a high risk remains after the measures (UNVERIFIED (snippet): S9). This DPIA expects it will not |
+| ICO | Free helpline or web chat, only for a specific question | Optional | Prior consultation (Article 36) is needed only if a high risk remains after the measures (VERIFIED (https://www.legislation.gov.uk/eur/2016/679/article/36); VERIFIED (https://ico.org.uk/for-organisations/uk-gdpr-guidance-and-resources/accountability-and-governance/data-protection-impact-assessments-dpias/how-do-we-do-a-dpia/)). This DPIA expects it will not |
 | Information security | Self-check against the list in M7 | To do | — |
 
 ---
@@ -125,7 +125,7 @@ Benefit to users: cheap, quick coaching feedback, especially for juniors without
 |---|---|
 | Purpose | Giving the uploader (often a parent or coach) the coaching feedback they asked for. A legitimate, everyday interest. |
 | Necessity | The analysis cannot be given without processing the video. No less intrusive way gives the same result. |
-| Balancing | People filmed include children, whose interests weigh more (Art 6(1)(f), "in particular where the data subject is a child" (UNVERIFIED (snippet): S16)). Mitigations: private storage; no publishing; no identification; no training without the batter's or parent's permission; deletion periods; uploader asked to film only the batter. A batter filmed by a parent or their own coach would reasonably expect feedback to be produced. **Result: passes, with these measures.** |
+| Balancing | People filmed include children, whose interests weigh more (Art 6(1)(f), "in particular where the data subject is a child" (VERIFIED (https://www.legislation.gov.uk/eur/2016/679/article/6))). Mitigations: private storage; no publishing; no identification; no training without the batter's or parent's permission; deletion periods; uploader asked to film only the batter. A batter filmed by a parent or their own coach would reasonably expect feedback to be produced. **Result: passes, with these measures.** |
 | Right to object | Explained in the notice; on objection, delete the video unless there is a compelling reason (there will rarely be one) |
 
 ### 4.4 Information, rights and processors
@@ -203,13 +203,13 @@ Likelihood: **remote / possible / probable**. Severity: **minimal / significant 
 
 1. **Contain** (same day): make anything public private; rotate the Supabase service role key and any exposed secret; sign out sessions; remove the exposed copy.
 2. **Assess** (within 24 hours): what data, whose (children?), how many, could it have been seen or copied, is it encrypted?
-3. **Decide and report**: if a risk to people is likely, report to the ICO without undue delay and within 72 hours of becoming aware, even if details are incomplete (UNVERIFIED (snippet): S29). Exposure of children's videos to anyone outside the team: treat as likely high risk, so also tell the parents and players directly (Article 34, UNVERIFIED wording).
-4. **Log every incident**, even unreported ones: date, what happened, data, people, decision, actions (UNVERIFIED (snippet): S29).
+3. **Decide and report**: if a risk to people is likely, report to the ICO without undue delay and within 72 hours of becoming aware, even if details are incomplete (VERIFIED (https://www.legislation.gov.uk/eur/2016/679/article/33); VERIFIED (https://ico.org.uk/for-organisations/advice-for-small-organisations/72-hours-how-to-respond-to-a-personal-data-breach/)). Exposure of children's videos to anyone outside the team: treat as likely high risk, so also tell the parents and players directly (Article 34(1): "likely to result in a high risk", without undue delay: VERIFIED (https://www.legislation.gov.uk/eur/2016/679/article/34)).
+4. **Log every incident**, even unreported ones: date, what happened, data, people, decision, actions (VERIFIED (https://www.legislation.gov.uk/eur/2016/679/article/33), Article 33(5); VERIFIED (https://ico.org.uk/for-organisations/advice-for-small-organisations/72-hours-how-to-respond-to-a-personal-data-breach/)).
 5. **Learn**: update this DPIA.
 
 ### 6.3 Residual risk summary
 
-With M1 to M19 in place, the residual risks are **low**, except **R1 (unauthorised access)**, which stays **medium** because the harm from exposure of children's images would be severe however unlikely. A medium residual risk does not require prior consultation with the ICO; only an unmitigated **high** residual risk does (UNVERIFIED (snippet): S9).
+With M1 to M19 in place, the residual risks are **low**, except **R1 (unauthorised access)**, which stays **medium** because the harm from exposure of children's images would be severe however unlikely. A medium residual risk does not require prior consultation with the ICO; only an unmitigated **high** residual risk does (VERIFIED (https://www.legislation.gov.uk/eur/2016/679/article/36); VERIFIED (https://ico.org.uk/for-organisations/uk-gdpr-guidance-and-resources/accountability-and-governance/data-protection-impact-assessments-dpias/how-do-we-do-a-dpia/)).
 
 **Without M1, M3, M5 and M9, risks R2 to R5 stay HIGH, and the training opt-in should not go live.**
 
@@ -221,7 +221,7 @@ With M1 to M19 in place, the residual risks are **low**, except **R1 (unauthoris
 |---|---|---|
 | Measures approved by | Alex Tredgett, ____________ | Integrate actions into the project plan, with dates |
 | Residual risks approved by | Alex Tredgett, ____________ | If any high risk remains, consult the ICO before going ahead |
-| DPO advice | Not applicable | Batting IQ does not need a DPO (no large-scale monitoring or special category data: UNVERIFIED test). Advice for this DPIA came from an AI reviewer (`dp_review.md`) |
+| DPO advice | Not applicable | Batting IQ does not need a DPO (no large-scale regular and systematic monitoring or large-scale special category data: VERIFIED (https://www.legislation.gov.uk/eur/2016/679/article/37), Article 37(1)). Advice for this DPIA came from an AI reviewer (`dp_review.md`) |
 | Summary of advice | Go ahead with the analysis service once M3, M4, M6, M7, M9 and M14 are done. Go ahead with the training opt-in only once M1, M2 and M5 are also done. Under-18 clips: only after parent email confirmation is built | |
 | Advice accepted or overruled by | Alex Tredgett, ____________ | If overruled, give reasons |
 | Consultation responses reviewed by | Alex Tredgett, ____________ | If departing from what people said, give reasons |

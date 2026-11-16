@@ -8,7 +8,7 @@ Consent wording version: **`2026-12-v2`**. Replaces the wording in `docs/lovable
 > - **HIGH RISK: do not switch on the v1 upload opt-in.** It lets an uploader agree for someone else, and uses an unconfirmed parent email for under-18s. Use this wording and the flow in Part 1 instead.
 > - The Lovable prompt needs a new pass (call it Pass 1b) to build the flow in Part 1. The database changes are listed in Part 1, section 1.8. This file gives the words; it does not rewrite the prompt.
 > - Do not reword the app text without changing the version.
-> - The child-friendly wording is for ages 13 to 17 in the app, and 12 to 17 on paper (Form A's player agreement). The Children's code asks for information suited to the child's age (UNVERIFIED (snippet): S11 in `dp_review.md`).
+> - The child-friendly wording is for ages 13 to 17 in the app, and 12 to 17 on paper (Form A's player agreement). The Children's code asks for information suited to the child's age (VERIFIED (https://ico.org.uk/for-organisations/uk-gdpr-guidance-and-resources/childrens-information/childrens-code-guidance-and-resources/age-appropriate-design-a-code-of-practice-for-online-services/4-transparency/)).
 
 ---
 
@@ -161,7 +161,7 @@ Change the training filter in `training_data_rules.md` section 3 to add:
 
 ## Part 2. Session consent forms (paper, for filmed net sessions)
 
-> **Note for Alex (delete before printing).** Check the forms with the club's welfare officer, and follow the club's filming policy and the ECB's guidance on photos and filming. Fill in the contact line, the privacy notice link and the session date. Keep signed forms locked away, apart from the clips. These forms are on paper, so section 9 of the DPA 2018 (online services) does not apply, but the same parent-and-child approach is right for children.
+> **Note for Alex (delete before printing).** Check the forms with the club's safeguarding officer (the ECB now calls the welfare officer the "Club Safeguarding Officer": CORRECTED (https://www.ecb.co.uk/about/policies-and-regulations/safeguarding/safeguarding-training)), and follow the club's filming policy and the ECB's guidance on photos and filming. Fill in the contact line, the privacy notice link and the session date. Keep signed forms locked away, apart from the clips. These forms are on paper, so the online-services age rule (UK GDPR Article 8; CORRECTED (https://www.legislation.gov.uk/eur/2016/679/article/8): the draft cited DPA 2018 section 9, which was repealed on 31 December 2020) does not apply, but the same parent-and-child approach is right for children.
 
 ### Form A: players under 18 (parent or guardian consent, and the player's own agreement)
 
@@ -187,7 +187,7 @@ Change the training filter in `training_data_rules.md` section 3 to add:
 
 **Withdrawing.** You or your child can withdraw at any time, before or after filming, all at once or just one box. Email [Privacy email] or tell Cam, giving the child's name and the session date. We then delete your child's clips and measurements (or stop the use you withdrew from) within one month.
 
-**The law.** Under UK GDPR, our lawful basis is your consent. You can ask to see the clips we hold, ask us to correct or delete them, or object. If you are unhappy, tell us first at [Privacy email]; we will acknowledge your complaint within 30 days. You can also complain to the Information Commissioner's Office (ico.org.uk). We follow the ICO's Children's code: we collect only what we need, keep it only as long as we need it, and put your child's best interests first.
+**The law.** Under UK GDPR, our lawful basis is your consent. You can ask to see the clips we hold, ask us to correct or delete them, or object. If you are unhappy, tell us first at [Privacy email]; we will acknowledge your complaint within 30 days. You can also complain to the Information Commission, which replaced the Information Commissioner's Office (ico.org.uk). We follow the ICO's Children's code: we collect only what we need, keep it only as long as we need it, and put your child's best interests first.
 
 **Parent or guardian consent.** Please tick each box you agree to. You can tick box 1 only.
 
@@ -239,7 +239,7 @@ Player's name: ______________________ Signature: ______________________ Date: __
 
 **Your choice.** Taking part is optional and does not affect your coaching or team selection. You can withdraw at any time, from everything or one box: email [Privacy email] or tell Cam. We act within one month.
 
-**The law.** Under UK GDPR, our lawful basis is your consent. You can ask to see, correct or delete your clips, or object. Complaints: tell us first at [Privacy email] (we acknowledge within 30 days); you can also complain to the ICO (ico.org.uk).
+**The law.** Under UK GDPR, our lawful basis is your consent. You can ask to see, correct or delete your clips, or object. Complaints: tell us first at [Privacy email] (we acknowledge within 30 days); you can also complain to the Information Commission, formerly the ICO (ico.org.uk).
 
 - [ ] **1.** I agree to be filmed, and for the clips and measurements to be used to test, train and improve the Batting IQ app, as described above.
 - [ ] **2.** I agree that my clips may be shown, face-blurred and without a name, to qualified coaches in rating tools.

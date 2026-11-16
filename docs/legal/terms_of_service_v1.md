@@ -6,8 +6,8 @@
 > - Reasons and sources for each clause are in `consumer_and_safeguarding_review.md`. Data protection wording (privacy notice, lawful bases, consent text) belongs to `dp_review.md`, `training_data_terms_v2.md` and `consent_wording_v2.md`; section 13.4 here must match `training_data_terms_v2.md` word for word on the training permission. If they differ, theirs wins on data protection.
 > - Fill in every `[square bracket]`. Delete any clause marked *[only if true]* until the feature exists.
 > - **Decisions for Alex:** minimum age (3.1, draft says 13: **decide knowingly**); refund approach (10.3, draft gives a pro-rata refund in the first 14 days); keeping period for non-training videos (13.7); whether to run the training reward (13.5, **HIGH RISK until offer terms exist**).
-> - **Subscriptions:** the DMCC Act 2024 subscription rules are expected to apply to new subscriptions from **1 January 2027** (UNVERIFIED: based on law-firm reports of draft regulations laid on 19 October 2026). Sections 9 to 11 are written to that standard already. Check the final regulations before paid launch.
-> - **Every legal source behind these clauses is UNVERIFIED.** The review saw only search extracts, because legislation.gov.uk, gov.uk and ecb.co.uk could not be opened in this session. A solicitor should review before launch.
+> - **Subscriptions:** the DMCC Act 2024 subscription rules are expected to apply to new subscriptions from **1 January 2027** (VERIFIED (https://www.legislation.gov.uk/ukdsi/2026/9780348287912): the draft Consumer Subscription Contracts (Cancellation and Information) Regulations 2026, dated 19 October 2026, say "Coming into force 1st January 2027"; they are still a draft until Parliament approves them). Sections 9 to 11 are written to that standard already. Check the final made regulations before paid launch.
+> - **Sources were verified on 16 November 2026** for the main statutory points (Consumer Rights Act 2015, Consumer Contracts Regulations 2013, DMCC Act 2024, CAP Code, Online Safety Act 2023): see `verification_log.md`. ECB guidance documents could not be opened (STILL UNVERIFIABLE). Alex has decided not to use a solicitor; the open decisions are in `ALEX_DECISIONS.md`.
 
 **Version:** 1.0 draft. **Effective date:** [date]. **Previous versions:** none.
 
@@ -86,7 +86,7 @@
 - with a hard ball, always wear a helmet with a faceguard and proper protective equipment;
 - stop if anything hurts.
 
-7.2 **Players under 18** should do drills with an adult supervising, and must wear a helmet with a faceguard when batting against a hard ball, in nets and in matches, in line with ECB safety guidance. *[UNVERIFIED: confirm the current ECB helmet guidance for young players before publishing.]*
+7.2 **Players under 18** should do drills with an adult supervising, and must wear a helmet with a faceguard when batting against a hard ball, in nets and in matches, in line with ECB safety guidance. *[STILL UNVERIFIABLE: the ECB safety documents are on resources.ecb.co.uk, which was blocked in the verification pass. Confirm the current ECB helmet guidance for young players with the Club Safeguarding Officer or county board before publishing.]*
 
 7.3 **Filming safely.** When filming, stand or place the phone well away from the path of the ball and the bat (behind a net, or behind the bowler's stumps). Never film from in front of the batter's hitting zone.
 
@@ -238,13 +238,13 @@ If we ever want to do any of these, we will ask you separately, and you can say 
 - (b) you have been vetted as required for your role under the ECB's safeguarding requirements (including any DBS check), and you follow the ECB Safe Hands policy and your club's safeguarding policy;
 - (c) you will contact under-18 players about Batting IQ only through their parent or guardian or through the club's approved channels, never by private message;
 - (d) you will not download, screenshot, copy or share players' videos outside Batting IQ;
-- (e) you will report any safeguarding concern to the club welfare officer and to us at [safeguarding email].
+- (e) you will report any safeguarding concern to the Club Safeguarding Officer (sometimes called the welfare officer) and to us at [safeguarding email].
 
-15.4 **Club account holders** must give us the name and contact details of the club welfare officer, and remove a coach's access as soon as they stop coaching at the club.
+15.4 **Club account holders** must give us the name and contact details of the Club Safeguarding Officer, and remove a coach's access as soon as they stop coaching at the club.
 
-15.5 **Linking players.** A player, or for an under-18 their parent or guardian, must approve each link to a coach or club, and can remove it at any time. We may remove a link, or suspend a coach or club account, if we have a safeguarding concern. We may share information about a safeguarding concern with the club welfare officer, the ECB, the police or children's services where the law allows or requires it.
+15.5 **Linking players.** A player, or for an under-18 their parent or guardian, must approve each link to a coach or club, and can remove it at any time. We may remove a link, or suspend a coach or club account, if we have a safeguarding concern. We may share information about a safeguarding concern with the Club Safeguarding Officer, the County Safeguarding Officer, the Cricket Regulator Safeguarding Team (which handles safeguarding for the ECB), the police or children's services where the law allows or requires it.
 
-15.6 We keep a record of which coach and club accounts view which players' videos, and may share it with the club welfare officer if they ask in connection with a safeguarding concern.
+15.6 We keep a record of which coach and club accounts view which players' videos, and may share it with the Club Safeguarding Officer if they ask in connection with a safeguarding concern.
 
 ## 16. Sharing your results
 
@@ -289,7 +289,7 @@ If you see something on Batting IQ that worries you, especially about a child's 
 19.1 **Your statutory rights.** If you are a consumer, the law gives you rights that these terms cannot take away. In summary:
 - **paid services** must be provided with reasonable care and skill;
 - **paid digital content** must be of satisfactory quality, fit for purpose and as described;
-- if paid digital content we supply damages your device or other digital content because we did not use reasonable care and skill, we will repair the damage or compensate you.
+- if digital content we supply (paid or free) damages your device or other digital content because we did not use reasonable care and skill, we will repair the damage or compensate you.
 
 For more information, contact Citizens Advice (England and Wales) or consumeradvice.scot (Scotland).
 
@@ -311,7 +311,7 @@ For more information, contact Citizens Advice (England and Wales) or consumeradv
 - loss caused by you not following the safety notes in section 7 or the filming guidance;
 - business losses (for example, lost profit or lost coaching income). Batting IQ is for personal use; for coach and club accounts, see the Club Terms.
 
-20.4 **A cap for other loss.** Subject to section 20.2, if you pay for Batting IQ, our total responsibility to you for all other loss in any 12 months is limited to the greater of [£100] and the amount you paid us in those 12 months. If you use Batting IQ free, it is limited to [£100]. *[Solicitor to confirm the cap is fair.]*
+20.4 **A cap for other loss.** Subject to section 20.2, if you pay for Batting IQ, our total responsibility to you for all other loss in any 12 months is limited to the greater of [£100] and the amount you paid us in those 12 months. If you use Batting IQ free, it is limited to [£100]. *[Checked: the cap is subject to 20.2, so it never stops a consumer recovering what they paid for a service (CRA 2015 s57(3): VERIFIED (https://www.legislation.gov.uk/ukpga/2015/15/section/57)) and never restricts digital content quality rights (s47: VERIFIED (https://www.legislation.gov.uk/ukpga/2015/15/section/47)). Whether [£100] is fair under s62 is Alex's decision: see `ALEX_DECISIONS.md`.]*
 
 ## 21. Suspending or closing accounts
 
@@ -330,11 +330,11 @@ Where it is safe and lawful, we will tell you why first and give you a chance to
 
 22.2 We will acknowledge your complaint within [5] working days and aim to give a full answer within [30] days.
 
-22.3 If we cannot settle it, you can go to court (section 24.6). [We do not currently use an alternative dispute resolution (ADR) provider. / You can refer it to [ADR provider], which we agree to use.] *[Choose one.]*
+22.3 If we cannot settle it, you can go to court (section 24.6). [We do not currently use an alternative dispute resolution (ADR) provider. / You can refer it to [ADR provider], which we agree to use.] *[Choose one. CORRECTED (https://www.legislation.gov.uk/uksi/2015/542/contents): the 2015 ADR Regulations are revoked; ADR is now under the DMCC Act 2024 Part 4 Chapter 4 (from 6 April 2026). If you name a provider, check it is accredited under that Act.]*
 
 22.4 **Safeguarding concerns** are not handled as complaints. Email [safeguarding email]. We will act on them straight away under our Safeguarding and Filming Policy. If a child is in immediate danger, call 999.
 
-22.5 **Data protection complaints:** see the Privacy Notice. You can also complain to the Information Commissioner's Office (ico.org.uk).
+22.5 **Data protection complaints:** see the Privacy Notice. You can also complain to the Information Commission, which replaced the Information Commissioner's Office on 30 September 2026 (ico.org.uk). *[CORRECTED (https://www.legislation.gov.uk/uksi/2026/1015/made).]*
 
 ## 23. Changes to these terms
 

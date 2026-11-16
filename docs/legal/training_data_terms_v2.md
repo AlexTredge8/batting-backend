@@ -20,7 +20,7 @@ Placeholders: `[Controller]` (for example "Alex Tredgett, trading as Batting IQ"
 | # | Change | Why (see `dp_review.md`) | Risk it fixes |
 |---|---|---|---|
 | 1 | **Only the batter, or the batter's parent or guardian, can agree to training use.** A coach, friend or other uploader can no longer agree on someone else's behalf. Old clause [X].6 ("the batter has agreed") is deleted. | Consent must come from the person the data is about, or a holder of parental responsibility (Issue 3) | HIGH |
-| 2 | **Under-18s: two yeses.** Players aged 13 to 17 say yes themselves, and a parent or guardian confirms by email. Under 13: parent or guardian only, through the parent's account. Nothing is used until the email is confirmed. | DPA 2018 s9 and Article 8; Children's code; reasonable efforts to verify (Issues 2 to 4) | HIGH |
+| 2 | **Under-18s: two yeses.** Players aged 13 to 17 say yes themselves, and a parent or guardian confirms by email. Under 13: parent or guardian only, through the parent's account. Nothing is used until the email is confirmed. | UK GDPR Article 8 (CORRECTED (https://www.legislation.gov.uk/eur/2016/679/article/8): the draft cited DPA 2018 s9, which was repealed on 31 December 2020); Children's code; reasonable efforts to verify, Article 8(2) (Issues 2 to 4) | HIGH |
 | 3 | **Full privacy notice for the whole app**, not only training. | Articles 13 and 14 (Issue 7) | HIGH |
 | 4 | **Google Gemini disclosed**, with its own separate yes for session clips. | Transparency; specific consent (Issue 6) | MEDIUM |
 | 5 | **Lawful bases per group**: contract for your own account; legitimate interests for people filmed by someone else and bystanders; consent for training; legitimate interests (not legal obligation) for consent records. | Issues 1 and 17 | MEDIUM |
@@ -225,7 +225,7 @@ To use a right, use the account page or email [Privacy email]. It is free. We re
 
 If you are unhappy with how we have handled your data, tell us first at [Privacy email] or through the form at [link]. We will acknowledge your complaint within 30 days (we aim for 3 working days), look into it, and tell you the outcome.
 
-You can also complain to the Information Commissioner's Office (ICO): ico.org.uk. *[Alex: check the current ICO phone number on ico.org.uk before adding it.]*
+You can also complain to the Information Commission (formerly the Information Commissioner's Office, ICO): ico.org.uk, 0303 123 1113. *[Alex: the new name and the number are VERIFIED (https://www.legislation.gov.uk/uksi/2026/1015/made; https://ico.org.uk/for-organisations/data-protection-fee/data-protection-fee/paying-the-data-protection-fee/). Delete this note before publishing.]*
 
 #### 11. Changes
 
@@ -261,4 +261,4 @@ If we change how we use your data, we will update this notice and the version nu
 
 **Your rights.** You can ask us for a copy of your data, ask us to fix it, or ask us to delete it. Just email us. It's free.
 
-**Worried about something?** Talk to a parent, guardian, teacher or coach, or email us. You can also contact the Information Commissioner's Office (ico.org.uk). They make sure organisations look after people's data properly.
+**Worried about something?** Talk to a parent, guardian, teacher or coach, or email us. You can also contact the Information Commission (ico.org.uk). They make sure organisations look after people's data properly.

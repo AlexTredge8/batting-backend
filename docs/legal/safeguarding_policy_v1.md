@@ -3,10 +3,10 @@
 > **Prepared by AI acting in the role of a consumer-law and safeguarding reviewer. Not legal advice. Items marked HIGH RISK or UNVERIFIED should be decided by Alex knowingly.**
 >
 > **Notes for Alex (delete this box before sharing).**
-> - This is written to show a club welfare officer. Keep it to two pages when printed.
+> - This is written to show a Club Safeguarding Officer (often still called the welfare officer). Keep it to two pages when printed.
 > - Fill in every `[square bracket]`. Check the contact details for your county and the ECB before you share it.
-> - **Every ECB and NSPCC point below is UNVERIFIED:** it was seen only in search extracts, not read in full.
-> - The ECB Safe Hands policy (current version March 2026) and the ECB photography guidance were found in searches but **not read in full**, because ecb.co.uk could not be opened in this session. The points below follow the club and county versions of that guidance (UNVERIFIED against the ECB's own text). Ask the welfare officer to point out anything that differs from their club's policy.
+> - **Verification pass, 16 November 2026** (`verification_log.md`). ecb.co.uk was opened. VERIFIED: the Safe Hands Policy (March 2026) and the Safeguarding Regulations 2026 exist (https://www.ecb.co.uk/about/policies-and-regulations/safeguarding/safe-hands); the ECB DBS rules (https://www.ecb.co.uk/about/policies-and-regulations/safeguarding/safer-recruitment); the training (https://www.ecb.co.uk/about/policies-and-regulations/safeguarding/safeguarding-training); the concern route (https://www.ecb.co.uk/about/policies-and-regulations/safeguarding/share-a-concern). CORRECTED: the role names (Club Safeguarding Officer, County Safeguarding Officer, Cricket Regulator Safeguarding Team). **STILL UNVERIFIABLE:** the text of the Safe Hands Policy, the photography guidance and the helmet guidance (they are on resources.ecb.co.uk and play-cricket.ecb.co.uk, which were blocked), and the NSPCC points (nspcc.org.uk was blocked).
+> - The points below on photography follow the club and county versions of the ECB guidance (UNVERIFIED against the ECB's own text). Ask the Club Safeguarding Officer to point out anything that differs from their club's policy.
 > - Data protection details (lawful basis, DPIA, retention) are in `dp_review.md` and `dpia_batting_iq.md`. This policy only summarises them.
 > - Reasons and sources for each rule are in `consumer_and_safeguarding_review.md` (Issues 6 to 8).
 
@@ -35,13 +35,13 @@ It applies to everyone who works with Batting IQ: the owner, coaches who help us
 
 | Role | Who | What they do |
 |---|---|---|
-| **Batting IQ Safeguarding Lead** | [Alex Tredgett], [safeguarding email], [phone] | Owns this policy; receives and acts on concerns; links with club welfare officers; keeps records. |
+| **Batting IQ Safeguarding Lead** | [Alex Tredgett], [safeguarding email], [phone] | Owns this policy; receives and acts on concerns; links with Club Safeguarding Officers; keeps records. |
 | **Deputy** | [Cam [surname]] | Acts when the lead is unavailable; leads on the day at filming sessions. |
-| **Club welfare officer** (each club we work with) | [name, club, contact] | Leads on safeguarding at the club. Approves our filming at the club. Is told about any concern involving their players. |
-| **County safeguarding officer** | [name, county cricket board, contact] | Escalation point if the club welfare officer is unavailable or involved. |
-| **ECB Safeguarding Team** | [contact from ecb.co.uk/safeguarding] | National escalation point. |
+| **Club Safeguarding Officer** (each club we work with; often still called the welfare officer. CORRECTED (https://www.ecb.co.uk/about/policies-and-regulations/safeguarding/safeguarding-training)) | [name, club, contact] | Leads on safeguarding at the club. Approves our filming at the club. Is told about any concern involving their players. |
+| **County Safeguarding Officer** | [name, county cricket board, contact] | Escalation point if the Club Safeguarding Officer is unavailable or involved. |
+| **Cricket Regulator Safeguarding Team** (handles safeguarding for the ECB) | safeguarding@cricketregulator.co.uk (CORRECTED (https://www.ecb.co.uk/about/policies-and-regulations/safeguarding/share-a-concern); the draft said "ECB Safeguarding Team") | National escalation point. Receives the ECB Safeguarding Referral Form. |
 
-Everyone who films or reviews children's videos for Batting IQ must have a current ECB DBS check and have completed ECB safeguarding training appropriate to their role (UNVERIFIED: confirm the current ECB requirement with the welfare officer).
+Everyone who films or reviews children's videos for Batting IQ must have a current ECB DBS check and have completed ECB safeguarding training appropriate to their role. VERIFIED (https://www.ecb.co.uk/about/policies-and-regulations/safeguarding/safer-recruitment): an ECB-specific enhanced DBS check is required for regulated activity roles in cricket; the Club Safeguarding Officer starts the application; the ECB rechecks every 12 months. VERIFIED (https://www.ecb.co.uk/about/policies-and-regulations/safeguarding/safeguarding-training): "Safeguarding Level 2" (about 1 hour, valid 3 years, booked through the County Cricket Board) replaced the old SSR course; a free 30-minute "Introduction to Safeguarding" is open to everyone. Which course a non-club role like Batting IQ's needs: confirm with the county board (UNVERIFIED).
 
 ## 3. Consent
 
@@ -56,7 +56,7 @@ Everyone who films or reviews children's videos for Batting IQ must have a curre
 
 ## 4. Filming sessions
 
-1. **Approval first.** The club welfare officer (or another club official) approves the session in writing: date, place, who will film and why. We follow the club's photography and filming policy.
+1. **Approval first.** The Club Safeguarding Officer (or another club official) approves the session in writing: date, place, who will film and why. We follow the club's photography and filming policy.
 2. **Notice on the day** at the nets, saying filming is taking place and who to speak to.
 3. **Two adults.** At least two adults are present whenever under-18s are filmed, and filming happens in open view, in the net lane only. Parents are welcome to watch.
 4. **What we film.** Only batting in the nets, from behind the bowler, at a distance. No close-ups of faces. No filming in changing rooms or away from the nets. Players in normal cricket kit.
@@ -119,14 +119,14 @@ A concern could be:
 
 1. **Do not investigate yourself.** Listen, reassure the child, do not promise to keep secrets, and write down what was said and seen, with the date and time, as soon as possible.
 2. **Tell the Batting IQ Safeguarding Lead** the same day: [safeguarding email], [phone].
-3. **The Safeguarding Lead tells the club welfare officer** the same day. If they are unavailable or involved, the lead tells the county safeguarding officer or the ECB Safeguarding Team.
-4. **Concerns about an adult** who works with children (e.g. a coach) are also reported through the club welfare officer and the ECB to the Local Authority Designated Officer (LADO), as the ECB process requires (UNVERIFIED: confirm the current ECB route with the welfare officer).
+3. **The Safeguarding Lead tells the Club Safeguarding Officer** the same day. If they are unavailable or involved, the lead sends the ECB Safeguarding Referral Form to the County Safeguarding Officer or to the Cricket Regulator Safeguarding Team at safeguarding@cricketregulator.co.uk (VERIFIED (https://www.ecb.co.uk/about/policies-and-regulations/safeguarding/share-a-concern)).
+4. **Concerns about an adult** who works with children (e.g. a coach) are also reported through the Club Safeguarding Officer and the Cricket Regulator to the Local Authority Designated Officer (LADO), as the ECB process requires (STILL UNVERIFIABLE: the ECB "Responding to, Recording and Reporting Concerns" guidance is on resources.ecb.co.uk, which was blocked; confirm the route with the Club Safeguarding Officer).
 5. **Inappropriate or illegal images:**
    - do not copy, forward or download them;
    - restrict access in the app at once;
    - report to the police, and through the club or ECB route.
 6. **Data breaches** involving children's videos are also handled under our data protection procedures, including reporting to the ICO where required (see `dp_review.md`).
-7. **Advice:** the NSPCC helpline gives free advice to adults worried about a child: [0808 800 5000] (UNVERIFIED: check the current number on nspcc.org.uk).
+7. **Advice:** the NSPCC helpline gives free advice to adults worried about a child: [0808 800 5000] (STILL UNVERIFIABLE: nspcc.org.uk was blocked in the verification pass; check the number before printing).
 
 Records of concerns are kept securely, separately from other records, and shared only with those who need to know.
 
