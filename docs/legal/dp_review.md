@@ -14,7 +14,7 @@ Review date: 16 November 2026. Reviewer: AI, acting as a UK data-protection revi
 
 **What this produces** (all in `docs/legal/`)
 - this review;
-- `training_data_terms_v2.md`: revised Terms of Service clause and privacy notice, with a summary of changes;
+- `training_data_terms_v2.md`: revised Terms of Service clause and privacy notice, with a summary of changes. Its part (a) replaces section 13.4 of `terms_of_service_v1.md` word for word (that file says data protection wording here wins);
 - `consent_wording_v2.md`: revised upload-screen wording and session consent forms, including child-friendly versions;
 - `dpia_batting_iq.md`: a completed DPIA for Alex to check and sign;
 - `ico_fee_and_registration.md`: the ICO fee, which tier, and how to pay.
@@ -27,15 +27,15 @@ Review date: 16 November 2026. Reviewer: AI, acting as a UK data-protection revi
 
 The method was: find a primary source or an official ICO page for each point, draft, then check each point against its source.
 
-**Limitation.** From this session, **legislation.gov.uk, ico.org.uk, supabase.com, railway.com and ai.google.dev could not be reached** (their names did not resolve; the session's network does not allow them). So no primary text was read in full. Points are marked as follows:
+**Limitation.** From this session, **legislation.gov.uk, ico.org.uk, supabase.com, railway.com and ai.google.dev could not be reached** (their names did not resolve; the session's network does not allow them). So no primary text was read in full, and **every legal point in this pack is UNVERIFIED in the strict sense**. Points are marked as follows:
 
 | Mark | Meaning |
 |---|---|
-| **[SN]** | Confirmed only from web search results: summarised extracts of the named page (often the ICO or legislation.gov.uk page itself, sometimes a law firm's summary of it). Reasonably reliable, but the exact wording was not read. |
-| **UNVERIFIED** | From the reviewer's own knowledge. Not confirmed from any source read in this review. Check before relying on it. |
+| **[UNVERIFIED (snippet): Sx]** | Seen only in web search results: summarised extracts of the named source Sx (often the ICO or legislation.gov.uk page itself, sometimes a law firm's summary of it). The page itself could not be opened, so the exact wording was not read. Treat as UNVERIFIED, but more reliable than a plain UNVERIFIED point. |
+| **UNVERIFIED** (on its own) | From the reviewer's own knowledge. No source, not even a search extract, was found in this review. Check before relying on it. |
 | **[R]** | A fact taken from this repository. |
 
-The numbered sources (S1, S2, …) are listed at the end. To upgrade an [SN] or UNVERIFIED point, open the listed page and check it. It takes a few minutes each, and the most important ones are flagged in the action list.
+The numbered sources (S1, S2, …) are listed at the end. To upgrade an [UNVERIFIED (snippet)] or UNVERIFIED point, open the listed page and check it. It takes a few minutes each, and the most important ones are flagged in the action list.
 
 ---
 
@@ -45,13 +45,13 @@ The numbered sources (S1, S2, …) are listed at the end. To upgrade an [SN] or 
 |---|---|---|---|
 | 1 | **Do not switch on the training opt-in (Lovable Pass 1) with the `2026-11-v1` wording.** Change the upload flow so that only the batter (18+) or the batter's parent or guardian can say yes. A coach, friend or other uploader cannot consent for someone else. Use the `2026-12-v2` wording. | HIGH | Issue 3, `consent_wording_v2.md` |
 | 2 | **Do not use any under-18 clip for training or coach rating until the parent or guardian has confirmed by email** (a "confirm" link), and, for players aged 13 to 17, the player has also said yes themselves. | HIGH | Issues 3 and 4 |
-| 3 | **Pay the ICO data protection fee now** (tier 1, £52 a year, or £5 less by direct debit, [SN]). Processing has already started, so this is overdue. | HIGH (legal duty; fixed penalty up to £400 for tier 1, [SN]) | `ico_fee_and_registration.md` |
+| 3 | **Pay the ICO data protection fee now** (tier 1, £52 a year, or £5 less by direct debit, [UNVERIFIED (snippet)]). Processing has already started, so this is overdue. | HIGH (legal duty; fixed penalty up to £400 for tier 1, [UNVERIFIED (snippet)]) | `ico_fee_and_registration.md` |
 | 4 | **Check, complete and sign the DPIA before launch** and before any more children's clips are used. | HIGH | `dpia_batting_iq.md` |
 | 5 | **Publish one full privacy notice for the whole app** (not only the training section), with a short child-friendly version, before launch. It must name Google Gemini, the retention periods and the lawful bases. | HIGH | Issue 7, `training_data_terms_v2.md` |
 | 6 | **Put processor contracts in place and record them:** accept or sign the Supabase, Railway and Google Cloud data processing terms; check whether Lovable's DPA covers your plan; check each one's UK transfer safeguard and data region. | HIGH | Issues 11 and 12 |
 | 7 | **Clean up old data:** delete the pre-opt-in app uploads that `phase4_app_uploads.py` downloaded; write up the consent record for each of the 18 original clips, including whether it covered commercial training and sending face-blurred clips to Google Gemini. | HIGH | Issues 3 and 10 |
 | 8 | **Fix retention and minimisation gaps:** delete storyboard stills when a video is deleted; set a keeping period for videos not shared for training; strip location data from uploaded videos; turn "Hide face" on by default on the share card for everyone. | MEDIUM | Issues 8 and 9 |
-| 9 | **Set up the simple processes the law expects:** a complaints procedure (a legal duty since 19 June 2026, [SN]), a rights-request log, a breach plan and log, and a one-page record of processing. | MEDIUM | Issues 13 to 16 |
+| 9 | **Set up the simple processes the law expects:** a complaints procedure (a legal duty since 19 June 2026, [UNVERIFIED (snippet)]), a rights-request log, a breach plan and log, and a one-page record of processing. | MEDIUM | Issues 13 to 16 |
 | 10 | **Written confidentiality and data terms for Cam and any coach who rates clips**, and a rule that no one builds any feature that recognises who someone is from pose data or faces. | MEDIUM | Issues 5 and 11 |
 
 ---
@@ -64,7 +64,7 @@ Each issue gives: the finding, the risk level, what to change, and the source.
 
 **Finding.** The draft relies on contract (UK GDPR Article 6(1)(b)) for storing and analysing an uploaded video. That is right for an adult account holder who is also the batter. It has two gaps.
 
-1. **Children who hold their own account.** The ICO says that if you rely on contract with a child, you must consider whether the child is competent to enter the contract. If you doubt it, consider another basis such as legitimate interests. The ICO also notes there is no fixed age of contractual capacity in England, Wales and Northern Ireland, and that in Scotland children under 16 largely lack it. The Children's code (Annex C) adds that if a child's contract is voided, contract stops being a valid basis. [SN: S13, S14]
+1. **Children who hold their own account.** The ICO says that if you rely on contract with a child, you must consider whether the child is competent to enter the contract. If you doubt it, consider another basis such as legitimate interests. The ICO also notes there is no fixed age of contractual capacity in England, Wales and Northern Ireland, and that in Scotland children under 16 largely lack it. The Children's code (Annex C) adds that if a child's contract is voided, contract stops being a valid basis. [UNVERIFIED (snippet): S13, S14]
 2. **Batters who are not the account holder.** When a parent, coach or friend uploads a video of someone else, that batter is not party to the contract. Contract can only cover the data of the person who is party to it (Article 6(1)(b) refers to a contract "to which the data subject is party": UNVERIFIED wording). The same applies to bystanders in the background.
 
 **Risk: MEDIUM.**
@@ -72,8 +72,8 @@ Each issue gives: the finding, the risk level, what to change, and the source.
 **What to change.**
 - Adult account holder who is the batter: **contract** (Article 6(1)(b)).
 - Account holders aged 13 to 17: **contract**, provided the service they sign up for is simple and free at that level. Any paid plan for an under-18 should be bought by a parent. Alex may instead choose **legitimate interests** for all under-18 account holders, which avoids the capacity question. Decide once, before launch, and record it in the DPIA: the ICO's guidance is that you should not swap lawful basis later without good reason (UNVERIFIED).
-- A batter filmed and uploaded by someone else, and any bystanders: **legitimate interests** (Article 6(1)(f)): the uploader's and Batting IQ's interest in giving the coaching feedback the uploader asked for. The balancing test must give extra weight to children: Article 6(1)(f) says the individual's interests override "in particular where the data subject is a child". [SN: S16] The legitimate interests assessment is in the DPIA (section 5).
-- **No under-13 account holders.** Under-13s use the app through a parent's account. (Section 9 of the DPA 2018 only bites where consent is the basis, but keeping under-13s off their own accounts simplifies the Children's code duties and makes the parent responsible for the upload.) [SN: S3, S4]
+- A batter filmed and uploaded by someone else, and any bystanders: **legitimate interests** (Article 6(1)(f)): the uploader's and Batting IQ's interest in giving the coaching feedback the uploader asked for. The balancing test must give extra weight to children: Article 6(1)(f) says the individual's interests override "in particular where the data subject is a child". [UNVERIFIED (snippet): S16] The legitimate interests assessment is in the DPIA (section 5).
+- **No under-13 account holders.** Under-13s use the app through a parent's account. (Section 9 of the DPA 2018 only bites where consent is the basis, but keeping under-13s off their own accounts simplifies the Children's code duties and makes the parent responsible for the upload.) [UNVERIFIED (snippet): S3, S4]
 - The privacy notice states these bases in a table (done in `training_data_terms_v2.md`).
 
 **Sources:** S13, S14, S16; S3 and S4 for the age of 13.
@@ -83,8 +83,8 @@ Each issue gives: the finding, the risk level, what to change, and the source.
 **Finding.** The draft uses **consent** (Article 6(1)(a)), asked separately for each video at upload. The alternative is legitimate interests.
 
 **Recommendation: keep consent.** Reasons:
-1. **Children.** Many batters are under 18. Under legitimate interests the balancing test must give children's interests particular weight [SN: S16]. Commercial model training on identifiable videos of children is hard to justify as something they would reasonably expect.
-2. **Reasonable expectations.** People upload a video to get coaching feedback. Few would expect it to be used to build a commercial AI model unless asked. The ICO's work on generative AI said training purposes must be explicit and specific, that reuse for training is not automatically part of the original purpose, and that "invisible processing" weighs against the controller. [SN: S17] (That work was about web scraping, which is a harsher case, but the reasoning carries over.)
+1. **Children.** Many batters are under 18. Under legitimate interests the balancing test must give children's interests particular weight [UNVERIFIED (snippet): S16]. Commercial model training on identifiable videos of children is hard to justify as something they would reasonably expect.
+2. **Reasonable expectations.** People upload a video to get coaching feedback. Few would expect it to be used to build a commercial AI model unless asked. The ICO's work on generative AI said training purposes must be explicit and specific, that reuse for training is not automatically part of the original purpose, and that "invisible processing" weighs against the controller. [UNVERIFIED (snippet): S17] (That work was about web scraping, which is a harsher case, but the reasoning carries over.)
 3. **It matches the business goal.** Goal 5 in `goals_and_constraints.md` is "clips we may lawfully use commercially", by opt-in [R]. Consent also gives people a clear switch, which suits the Children's code.
 4. **Rights clarity.** With consent, withdrawal is simple and absolute. With legitimate interests you would have to handle objections case by case.
 
@@ -94,19 +94,19 @@ Each issue gives: the finding, the risk level, what to change, and the source.
 
 | Condition | Draft status | Change |
 |---|---|---|
-| **Freely given**: not a condition of the service; no detriment for saying no [SN: S15] | Met: optional, unticked, analysis identical either way | Keep. Reward offer: adults only, keep it modest, and the reward is kept on withdrawal (the ICO says some incentive may be possible, [SN: S15]; the exact limits were not read: UNVERIFIED). |
-| **Specific and granular**: separate consent for separate purposes [SN: S15] | Partly met: one tick covers training, testing and coach rating | Acceptable as one purpose ("improve Batting IQ's analysis"). Add a **separate** optional tick if face-blurred clips may be sent to an outside AI service (Google Gemini) during development. |
-| **Informed**: who the controller is, what, why, how long, the right to withdraw [SN: S15] | Mostly met | Add the controller's name, outside AI services, and the link to the full notice. |
+| **Freely given**: not a condition of the service; no detriment for saying no [UNVERIFIED (snippet): S15] | Met: optional, unticked, analysis identical either way | Keep. Reward offer: adults only, keep it modest, and the reward is kept on withdrawal (the ICO says some incentive may be possible, [UNVERIFIED (snippet): S15]; the exact limits were not read: UNVERIFIED). |
+| **Specific and granular**: separate consent for separate purposes [UNVERIFIED (snippet): S15] | Partly met: one tick covers training, testing and coach rating | Acceptable as one purpose ("improve Batting IQ's analysis"). Add a **separate** optional tick if face-blurred clips may be sent to an outside AI service (Google Gemini) during development. |
+| **Informed**: who the controller is, what, why, how long, the right to withdraw [UNVERIFIED (snippet): S15] | Mostly met | Add the controller's name, outside AI services, and the link to the full notice. |
 | **Unambiguous, by a clear positive action** | Met: unticked box, ticked by the user | Keep. |
-| **Withdrawable as easily as it was given** (Article 7(3), [SN: S15]) | Met: a switch in "My videos and data" | Keep. Make sure email withdrawals are actioned within the promised time. |
+| **Withdrawable as easily as it was given** (Article 7(3), [UNVERIFIED (snippet): S15]) | Met: a switch in "My videos and data" | Keep. Make sure email withdrawals are actioned within the promised time. |
 | **Given by the right person**: the data subject, or for a child the holder of parental responsibility | **Not met** (see Issue 3) | Change the flow. |
 | **Provable** (Article 7(1), UNVERIFIED wording) | Met: version, time, who agreed, event log | Keep, and add the new fields in Issue 3. |
 
-**Under-13s and section 9 DPA 2018.** For an information society service (most apps and websites count) relying on consent, a child must be at least 13 to consent for themselves; under 13, consent must be given or authorised by the holder of parental responsibility, and you must make reasonable efforts to verify that, taking available technology into account. [SN: S3, S4] What counts as "reasonable" depends on the risk. [SN: S4]
+**Under-13s and section 9 DPA 2018.** For an information society service (most apps and websites count) relying on consent, a child must be at least 13 to consent for themselves; under 13, consent must be given or authorised by the holder of parental responsibility, and you must make reasonable efforts to verify that, taking available technology into account. [UNVERIFIED (snippet): S3, S4] What counts as "reasonable" depends on the risk. [UNVERIFIED (snippet): S4]
 
 **Batting IQ's choice is stricter: a parent or guardian for all under-18s.** UK law lets a 13- to 17-year-old consent alone. The stricter rule is lawful and defensible here (commercial use, video of a child, sport safeguarding norms). But the Children's code also asks you to respect a child's growing ability to decide. So for 13 to 17 the v2 flow asks for **both**: the young person's own yes, and the parent's or guardian's confirmed yes. Either can withdraw.
 
-**A newer option, noted but not recommended now.** Since the Data (Use and Access) Act 2025 (DUAA), "scientific research" expressly includes commercial research, and consent can be given to "an area" of scientific research. [SN: S21] That could help later (for example for broader research use), but it is not needed for this purpose, its safeguards add work, and it does not remove the need for a lawful basis. Not recommended at this stage.
+**A newer option, noted but not recommended now.** Since the Data (Use and Access) Act 2025 (DUAA), "scientific research" expressly includes commercial research, and consent can be given to "an area" of scientific research. [UNVERIFIED (snippet): S21] That could help later (for example for broader research use), but it is not needed for this purpose, its safeguards add work, and it does not remove the need for a lawful basis. Not recommended at this stage.
 
 **Risk: HIGH** until the changes in Issue 3 are made; **LOW** after.
 
@@ -116,7 +116,7 @@ Each issue gives: the finding, the risk level, what to change, and the source.
 
 **Finding.** The `2026-11-v1` upload screen lets any account holder tick "let us use this video" if the batter is 18 or over, with the helper "If the batter isn't you, only tick this if they have agreed" [R]. Clause [X].6 has the uploader promise that the batter agreed [R].
 
-Consent must come from the person the data is about (the data subject), or, for a child, the holder of parental responsibility (Article 4(11) definition; Article 8(1)) (UNVERIFIED wording; the parental-responsibility point is [SN: S4]). An uploader's promise that someone else agreed is **not** that person's consent, and Batting IQ cannot show it had their consent. The same problem arises if a young player types a made-up parent's name and email.
+Consent must come from the person the data is about (the data subject), or, for a child, the holder of parental responsibility (Article 4(11) definition; Article 8(1)) (UNVERIFIED wording; the parental-responsibility point is [UNVERIFIED (snippet): S4]). An uploader's promise that someone else agreed is **not** that person's consent, and Batting IQ cannot show it had their consent. The same problem arises if a young player types a made-up parent's name and email.
 
 **Risk: HIGH.**
 
@@ -134,25 +134,25 @@ Consent must come from the person the data is about (the data subject), or, for 
 
 ### Issue 4. Children: which Children's code standards apply, and what the app must do
 
-The Children's code (Age Appropriate Design Code) applies to online services "likely to be accessed by children" (under 18). Batting IQ is aimed partly at junior cricketers, so it is in scope. The code has 15 standards [SN: S10]. Since the DUAA, UK GDPR Article 25 (data protection by design) also requires providers of such services to take account of "children's higher protection matters", starting with how children can best be protected and supported when using the service [SN: S18]. Commentators expect the code to be the benchmark for that duty [SN: S18]. (Whether section 81 is fully in force: the main DUAA data protection changes commenced on 5 February 2026 [SN: S20]; the exact commencement of section 81 was not confirmed: UNVERIFIED.)
+The Children's code (Age Appropriate Design Code) applies to online services "likely to be accessed by children" (under 18). Batting IQ is aimed partly at junior cricketers, so it is in scope. The code has 15 standards [UNVERIFIED (snippet): S10]. Since the DUAA, UK GDPR Article 25 (data protection by design) also requires providers of such services to take account of "children's higher protection matters", starting with how children can best be protected and supported when using the service [UNVERIFIED (snippet): S18]. Commentators expect the code to be the benchmark for that duty [UNVERIFIED (snippet): S18]. (Whether section 81 is fully in force: the main DUAA data protection changes commenced on 5 February 2026 [UNVERIFIED (snippet): S20]; the exact commencement of section 81 was not confirmed: UNVERIFIED.)
 
 **Risk: HIGH** overall until the items below are done.
 
-| Standard (number) | What it asks [SN: S10, S11, S12] | What Batting IQ must do, concretely |
+| Standard (number) | What it asks [UNVERIFIED (snippet): S10, S11, S12] | What Batting IQ must do, concretely |
 |---|---|---|
 | 1. Best interests of the child | Make the child's best interests a primary consideration in design. | Record in the DPIA why each feature is good for young players. Keep the score labelled "beta, a guide, not a verdict". Never show scores to clubs or selectors. Never use children's clips for marketing. Use the ICO's best-interests self-assessment once (UNVERIFIED that it is still published in the same form). |
 | 2. DPIA | Do a DPIA that covers children's risks, of different ages. | `dpia_batting_iq.md`, signed before launch. Review it before each new feature that touches children's data. |
 | 3. Age-appropriate application | Take a risk-based approach to recognising users' ages, or apply the code's standards to all users. | Ask date of birth at sign-up (it is already used if present [R]), and block under-13 accounts (direct them to a parent's account). For the training option, which carries the most risk, apply the child protections to anyone under 18 and to anyone whose age is unknown (the v1 flow already hides the option until the age question is answered [R]). The code treats age bands as a guide; the bands commonly used are 0–5, 6–9, 10–12, 13–15 and 16–17 (UNVERIFIED: the bands themselves were not confirmed from a source read). Batting IQ's main bands: under 13 (parent's account), 13–17, adults. |
-| 4. Transparency | Clear, prominent, age-appropriate privacy information; "bite-sized" explanations at the moment data is used; prompts to talk to an adult. [SN: S11] | A short child-friendly privacy summary for 13–17 (in `training_data_terms_v2.md`). Just-in-time text at the upload screen for 13–17 (in `consent_wording_v2.md`), including "Talk to your parent or guardian before you say yes". |
+| 4. Transparency | Clear, prominent, age-appropriate privacy information; "bite-sized" explanations at the moment data is used; prompts to talk to an adult. [UNVERIFIED (snippet): S11] | A short child-friendly privacy summary for 13–17 (in `training_data_terms_v2.md`). Just-in-time text at the upload screen for 13–17 (in `consent_wording_v2.md`), including "Talk to your parent or guardian before you say yes". |
 | 5. Detrimental use of data | Do not use children's data in ways shown to be harmful. | No streaks, leaderboards or public rankings for juniors. Scores never shared with anyone except the account holder unless the user shares them. |
 | 6. Policies and community standards | Uphold your own published terms. | Do what the notice says (30-day removal, face blurring, deletion). The withdrawal and deletion checks in `training_data_rules.md` section 4 are the evidence. |
-| 7. Default settings | High privacy by default. [SN: S10] | Training opt-in off by default and never remembered (already in the v1 flow [R]). **Share card: "Hide face" on by default for every user** (today it is on only when age is unknown [R]). Videos private (bucket is private [R]). |
+| 7. Default settings | High privacy by default. [UNVERIFIED (snippet): S10] | Training opt-in off by default and never remembered (already in the v1 flow [R]). **Share card: "Hide face" on by default for every user** (today it starts on for under-18s and unknown ages, and off for adults [R]; on for everyone is the higher-privacy default and also protects children who appear in an adult's video). Videos private (bucket is private [R]). |
 | 8. Data minimisation | Collect and keep only the minimum needed for each element of the service. | Yes/no age question for the training option, not a second date of birth (done [R]). Strip location metadata on upload. Keep only the pose points the rules use. Set keeping periods (Issue 8). |
 | 9. Data sharing | Do not disclose children's data without a compelling reason. | No sharing with clubs, coaches outside the rating panel, or advertisers. Coaches see face-blurred clips with codes, not names [R]. |
-| 10. Geolocation | Location off by default. [SN: S10] | The app does not ask for location. Phone videos often carry the place they were filmed in their metadata (UNVERIFIED in general terms; it depends on the phone's settings): **strip it on upload** (and from any copy sent to Gemini or rating tools). |
-| 11. Parental controls | If parents can monitor a child, tell the child. [SN: S10] | Batting IQ has no monitoring feature. A parent who uploads a child's video sees that child's results, which is expected. If a "parent dashboard" or parent-linked junior account is ever added, the junior must see that it is on. The guardian confirmation email is not monitoring. |
-| 12. Profiling | Profiling off by default unless there is a compelling reason. [SN: S10] | The technique score is automated evaluation of how a person moves, which is arguably profiling (UK GDPR Article 4(4) mentions "movements": UNVERIFIED wording). It is the core service the user asked for, which is the kind of compelling reason the code accepts (UNVERIFIED). **No other profiling**: no ad targeting, no recommendations based on behaviour. The old notice said "we do not profile you"; v2 says this more accurately. |
-| 13. Nudge techniques | Do not nudge children to give more data or weaken privacy. [SN: S10] | v1 rules already ban pop-ups, highlights and remembered choices [R]. Keep the reward banner hidden from under-18s and unknown ages [R]. For 13–17 the parent form is hidden behind a plain text button [R]: keep. |
+| 10. Geolocation | Location off by default. [UNVERIFIED (snippet): S10] | The app does not ask for location. Phone videos often carry the place they were filmed in their metadata (UNVERIFIED in general terms; it depends on the phone's settings): **strip it on upload** (and from any copy sent to Gemini or rating tools). |
+| 11. Parental controls | If parents can monitor a child, tell the child. [UNVERIFIED (snippet): S10] | Batting IQ has no monitoring feature. A parent who uploads a child's video sees that child's results, which is expected. If a "parent dashboard" or parent-linked junior account is ever added, the junior must see that it is on. The guardian confirmation email is not monitoring. |
+| 12. Profiling | Profiling off by default unless there is a compelling reason. [UNVERIFIED (snippet): S10] | The technique score is automated evaluation of how a person moves, which is arguably profiling (UK GDPR Article 4(4) mentions "movements": UNVERIFIED wording). It is the core service the user asked for, which is the kind of compelling reason the code accepts (UNVERIFIED). **No other profiling**: no ad targeting, no recommendations based on behaviour. The old notice said "we do not profile you"; v2 says this more accurately. |
+| 13. Nudge techniques | Do not nudge children to give more data or weaken privacy. [UNVERIFIED (snippet): S10] | v1 rules already ban pop-ups, highlights and remembered choices [R]. Keep the reward banner hidden from under-18s and unknown ages [R]. For 13–17 the parent form is hidden behind a plain text button [R]: keep. |
 | 14. Connected toys and devices | — | Not applicable (no connected device). |
 | 15. Online tools | Prominent, accessible tools to exercise rights. | "My videos and data" (withdraw, delete) [R]. Add "Download my data" and "Close my account" or a clear email route (the footer already gives one [R]). Add a "Report a concern" link. |
 
@@ -161,15 +161,15 @@ The Children's code (Age Appropriate Design Code) applies to online services "li
 ### Issue 5. Is pose data biometric (special category) data? (UK GDPR Articles 4(14) and 9)
 
 **The test.**
-- "Biometric data" (Article 4(14)) is personal data resulting from specific technical processing relating to the physical, physiological or behavioural characteristics of a person, which allow or confirm their unique identification. [SN: S6; the "allow or confirm" words came from an ICO report summary, not the statute itself]
-- It is **special category** data (Article 9(1)) only when processed **for the purpose of uniquely identifying** a person. The ICO says this directly: biometric data is special category biometric data when you use it to uniquely identify (recognise) someone; not all biometric data is special category. [SN: S5]
-- Photos and videos are not automatically special category or biometric data. They become biometric only when processed by specific technical means that allow unique identification (Recital 51). [SN: S6] The ICO also says a digital photo is not automatically biometric data. [SN: S6]
-- Biometric data can still be special category for another reason, for example if it reveals health. [SN: S5]
+- "Biometric data" (Article 4(14)) is personal data resulting from specific technical processing relating to the physical, physiological or behavioural characteristics of a person, which allow or confirm their unique identification. [UNVERIFIED (snippet): S6; the "allow or confirm" words came from an ICO report summary, not the statute itself]
+- It is **special category** data (Article 9(1)) only when processed **for the purpose of uniquely identifying** a person. The ICO says this directly: biometric data is special category biometric data when you use it to uniquely identify (recognise) someone; not all biometric data is special category. [UNVERIFIED (snippet): S5]
+- Photos and videos are not automatically special category or biometric data. They become biometric only when processed by specific technical means that allow unique identification (Recital 51). [UNVERIFIED (snippet): S6] The ICO also says a digital photo is not automatically biometric data. [UNVERIFIED (snippet): S6]
+- Biometric data can still be special category for another reason, for example if it reveals health. [UNVERIFIED (snippet): S5]
 
 **Applying it to Batting IQ.**
 - MediaPipe pose extraction [R] is specific technical processing of physical and behavioural characteristics (body position and movement). Whether its output could "allow" identification is debatable: movement patterns can in principle single someone out, but a few seconds of a cricket drive from a phone is a weak identifier, and the system is not built or used to recognise anyone. MediaPipe's points include a few coarse face points (nose, eyes, ears, mouth corners) (UNVERIFIED count), but these are not a face template.
-- **Conclusion: the pose data is personal data (it is linked to a video and an account). It may arguably fall within the wide definition of biometric data, but it is not special category data, because Batting IQ does not process it for the purpose of uniquely identifying anyone.** So Article 9 does not apply, and no Article 9 condition (such as explicit consent) is needed. [SN: S5]
-- The videos themselves are personal data (the person is identifiable), not special category data, as long as no face recognition or other identification is run on them. [SN: S6]
+- **Conclusion: the pose data is personal data (it is linked to a video and an account). It may arguably fall within the wide definition of biometric data, but it is not special category data, because Batting IQ does not process it for the purpose of uniquely identifying anyone.** So Article 9 does not apply, and no Article 9 condition (such as explicit consent) is needed. [UNVERIFIED (snippet): S5]
+- The videos themselves are personal data (the person is identifiable), not special category data, as long as no face recognition or other identification is run on them. [UNVERIFIED (snippet): S6]
 
 **What would change this** (and must not happen without a new DPIA and explicit consent):
 - matching a batter across videos by their body or movement ("is this the same player?");
@@ -190,7 +190,7 @@ The Children's code (Age Appropriate Design Code) applies to online services "li
 
 **Finding.** `phase5_video_judge_v2.py` sends face-blurred clips to the Gemini API with a paid-tier key [R]. Face-blurred clips are still personal data: the body, kit, club colours and setting can identify someone to people who know them (the v1 Form A says this itself [R]).
 
-What the Gemini terms say (from archived versions of the terms page; not read in full) [SN: S27]:
+What the Gemini terms say (from archived versions of the terms page; not read in full) [UNVERIFIED (snippet): S27]:
 - On **Paid Services**, Google does not use prompts or responses to improve its products.
 - A March 2026 version adds that Google **logs prompts and responses for a limited period**, solely to detect and prevent breaches of its Prohibited Use Policy (the period was not seen: UNVERIFIED).
 - Once a Cloud Billing account is active, all Gemini API use counts as a Paid Service for how Google uses the data.
@@ -221,7 +221,7 @@ Gaps in the draft:
 - Gemini not disclosed (Issue 6);
 - retention for normal videos and stills left blank [R];
 - no mention of the complaints procedure now required (Issue 15);
-- no child-friendly version (Children's code standard 4, [SN: S11]);
+- no child-friendly version (Children's code standard 4, [UNVERIFIED (snippet): S11]);
 - "We do not profile you" is not accurate (Issue 4, standard 12);
 - people filmed by someone else (Article 14) are not addressed. Where telling them directly is impossible or would take disproportionate effort, the notice on the website is the usual answer (UNVERIFIED), but the uploader should be asked to tell them, which the v2 terms do.
 
@@ -290,14 +290,14 @@ Also: strip location metadata on upload (backend change: re-mux without metadata
 
 ### Issue 11. Processors, and Article 28 contracts
 
-**The law.** A controller must use only processors that give sufficient guarantees, under a written contract that sets out the Article 28(3) terms: act only on documented instructions; confidentiality of staff; Article 32 security; sub-processors only with authorisation and the same terms flowed down; help with rights requests and security; delete or return data at the end; give information and allow audits. [SN: S23] Accepting a provider's standard data processing terms online counts as a written contract if it contains these terms (UNVERIFIED as a general rule, but standard practice).
+**The law.** A controller must use only processors that give sufficient guarantees, under a written contract that sets out the Article 28(3) terms: act only on documented instructions; confidentiality of staff; Article 32 security; sub-processors only with authorisation and the same terms flowed down; help with rights requests and security; delete or return data at the end; give information and allow audits. [UNVERIFIED (snippet): S23] Accepting a provider's standard data processing terms online counts as a written contract if it contains these terms (UNVERIFIED as a general rule, but standard practice).
 
 | Processor | Role | What was found | What to do | Risk |
 |---|---|---|---|---|
-| **Supabase** | Database, storage, sign-in | A published DPA at supabase.com/legal/dpa; a summary says it takes effect when you accept Supabase's terms and incorporates the EU SCCs with the UK International Data Transfer Addendum. Contracting entity varies by version (Supabase, Inc. or Supabase Pte.). [SN: S24] | Check whether the Supabase project is in **your own** Supabase account or was created through **Lovable Cloud** (then Lovable is your processor and Supabase is Lovable's sub-processor). Record the project region (Settings, General). Download the current DPA PDF and keep it with the DPIA. | MEDIUM |
-| **Railway** | Runs the FastAPI analysis server | A standard DPA at railway.com/legal/dpa referring to UK GDPR and the DPA 2018 and to the EU SCCs; can be signed through a self-service form on Railway's compliance page. A UK addendum was not confirmed. [SN: S25] | Sign the DPA through the self-service form. Choose the region closest to the UK if available (UNVERIFIED which regions exist) and record it. Check whether it includes the UK Addendum; if not, see Issue 12. | MEDIUM |
-| **Lovable** | Builds and hosts the web app | A DPA exists; Lovable's page says it is included with Business or Enterprise plans; a signed November 2025 version names Lovable Labs Incorporated and includes SCCs and a UK addendum. A third-party review says Lovable may use data for model training unless you opt out through support. [SN: S26] | Check your plan. If it does not include the DPA, either upgrade, or confirm that no personal data passes through Lovable's own systems (the app's data lives in Supabase). Ask Lovable support to confirm training opt-out for your project. | MEDIUM |
-| **Google (Gemini API)** | One-off development checks | Paid-tier terms: no training on your data; limited abuse logging; data processing terms for paid services. [SN: S27] | Accept the data processing terms on the Cloud account. Record the date of each development run and which clips went. | MEDIUM |
+| **Supabase** | Database, storage, sign-in | A published DPA at supabase.com/legal/dpa; a summary says it takes effect when you accept Supabase's terms and incorporates the EU SCCs with the UK International Data Transfer Addendum. Contracting entity varies by version (Supabase, Inc. or Supabase Pte.). [UNVERIFIED (snippet): S24] | Check whether the Supabase project is in **your own** Supabase account or was created through **Lovable Cloud** (then Lovable is your processor and Supabase is Lovable's sub-processor). Record the project region (Settings, General). Download the current DPA PDF and keep it with the DPIA. | MEDIUM |
+| **Railway** | Runs the FastAPI analysis server | A standard DPA at railway.com/legal/dpa referring to UK GDPR and the DPA 2018 and to the EU SCCs; can be signed through a self-service form on Railway's compliance page. A UK addendum was not confirmed. [UNVERIFIED (snippet): S25] | Sign the DPA through the self-service form. Choose the region closest to the UK if available (UNVERIFIED which regions exist) and record it. Check whether it includes the UK Addendum; if not, see Issue 12. | MEDIUM |
+| **Lovable** | Builds and hosts the web app | A DPA exists; Lovable's page says it is included with Business or Enterprise plans; a signed November 2025 version names Lovable Labs Incorporated and includes SCCs and a UK addendum. A third-party review says Lovable may use data for model training unless you opt out through support. [UNVERIFIED (snippet): S26] | Check your plan. If it does not include the DPA, either upgrade, or confirm that no personal data passes through Lovable's own systems (the app's data lives in Supabase). Ask Lovable support to confirm training opt-out for your project. | MEDIUM |
+| **Google (Gemini API)** | One-off development checks | Paid-tier terms: no training on your data; limited abuse logging; data processing terms for paid services. [UNVERIFIED (snippet): S27] | Accept the data processing terms on the Cloud account. Record the date of each development run and which clips went. | MEDIUM |
 | **Cam and rating coaches** | Rate clips for Batting IQ | No written agreement found [R]; the notice promises they "agree in writing to keep them confidential" [R]. | A one-page coach agreement: use clips only to rate for Batting IQ; keep them confidential; no copies, downloads or screenshots; delete on request; report any loss at once. (They act under Batting IQ's authority; for a self-employed coach, a short Article 28-style agreement is safest: UNVERIFIED whether they are "processors" or persons acting under the controller's authority under Article 29.) | MEDIUM |
 | **Email provider** (for guardian confirmations and the privacy inbox) | Sends and receives email | Not yet chosen [R] | Use a provider with standard data processing terms; record it. | LOW |
 
@@ -306,16 +306,16 @@ Also: strip location metadata on upload (backend change: re-mux without metadata
 ### Issue 12. International transfers (UK GDPR Chapter V)
 
 **The options.**
-- **UK-US data bridge** (the UK Extension to the EU-US Data Privacy Framework): in force since 12 October 2023; works only if the US recipient has self-certified under the DPF **and** the UK Extension. [SN: S28] Its status in November 2026 was not confirmed (UNVERIFIED; commentators flagged that it depends on the EU framework surviving legal challenge [SN: S28]).
-- **UK International Data Transfer Agreement (IDTA)** or the **UK Addendum** to the EU Standard Contractual Clauses, usually built into a provider's DPA. [SN: S24, S26]
+- **UK-US data bridge** (the UK Extension to the EU-US Data Privacy Framework): in force since 12 October 2023; works only if the US recipient has self-certified under the DPF **and** the UK Extension. [UNVERIFIED (snippet): S28] Its status in November 2026 was not confirmed (UNVERIFIED; commentators flagged that it depends on the EU framework surviving legal challenge [UNVERIFIED (snippet): S28]).
+- **UK International Data Transfer Agreement (IDTA)** or the **UK Addendum** to the EU Standard Contractual Clauses, usually built into a provider's DPA. [UNVERIFIED (snippet): S24, S26]
 - **Adequacy**: transfers to a country the UK has found adequate (for example the EEA) need no extra safeguard (UNVERIFIED list).
 - A transfer risk assessment is expected when relying on the IDTA or Addendum (UNVERIFIED; the DUAA changed the test to "not materially lower" protection: UNVERIFIED detail).
 
 | Provider | Likely mechanism | Check |
 |---|---|---|
-| Supabase | UK Addendum in its DPA [SN: S24]; data bridge if certified (not confirmed) | Region of the project; DPA version; dataprivacyframework.gov list |
-| Railway | EU SCCs in its DPA [SN: S25]; UK Addendum not confirmed | DPA text; DPF list |
-| Lovable | SCCs and UK addendum in its DPA [SN: S26] | Plan; DPA |
+| Supabase | UK Addendum in its DPA [UNVERIFIED (snippet): S24]; data bridge if certified (not confirmed) | Region of the project; DPA version; dataprivacyframework.gov list |
+| Railway | EU SCCs in its DPA [UNVERIFIED (snippet): S25]; UK Addendum not confirmed | DPA text; DPF list |
+| Lovable | SCCs and UK addendum in its DPA [UNVERIFIED (snippet): S26] | Plan; DPA |
 | Google | Data bridge or the UK Addendum in Google's terms (UNVERIFIED) | Google Cloud data processing terms |
 
 **Risk: MEDIUM.**
@@ -326,21 +326,21 @@ Also: strip location metadata on upload (backend change: re-mux without metadata
 
 ### Issue 13. Controller obligations: record of processing, DPO, EU users
 
-**Record of processing (Article 30).** Organisations with fewer than 250 staff need only document processing that is not occasional, **or** could result in a risk to people's rights and freedoms, **or** involves special category or criminal offence data. [SN: S22] No sign that the DUAA changed this for the UK. [SN: S22] Batting IQ's uploads are regular (not occasional) and involve children, so **the exemption does not apply: keep a record.** A short table is enough; one is at the end of this review (Annex A).
+**Record of processing (Article 30).** Organisations with fewer than 250 staff need only document processing that is not occasional, **or** could result in a risk to people's rights and freedoms, **or** involves special category or criminal offence data. [UNVERIFIED (snippet): S22] No sign that the DUAA changed this for the UK. [UNVERIFIED (snippet): S22] Batting IQ's uploads are regular (not occasional) and involve children, so **the exemption does not apply: keep a record.** A short table is enough; one is at the end of this review (Annex A).
 
 **Data protection officer (Article 37).** Not required: Batting IQ is not a public authority, and its core activities are not large-scale regular and systematic monitoring or large-scale special category data (UNVERIFIED wording of the test). Name Alex as the privacy contact instead.
 
 **EU users.** If the app is offered to people in the EU (for example Ireland), the EU GDPR may also apply and an EU representative may be needed (EU GDPR Articles 3(2) and 27: UNVERIFIED). **Simplest fix:** say the service is for people in the UK, and do not market it elsewhere. **Risk: LOW.**
 
-**ICO fee.** Batting IQ must pay. Tier 1 (micro organisation: turnover up to £632,000 or no more than 10 staff), **£52 a year** since 17 February 2025, with a £5 discount by direct debit; no exemption applies. [SN: S1, S30] Full steps in `ico_fee_and_registration.md`. **Risk: HIGH until paid** (simple fix).
+**ICO fee.** Batting IQ must pay. Tier 1 (micro organisation: turnover up to £632,000 or no more than 10 staff), **£52 a year** since 17 February 2025, with a £5 discount by direct debit; no exemption applies. [UNVERIFIED (snippet): S1, S30] Full steps in `ico_fee_and_registration.md`. **Risk: HIGH until paid** (simple fix).
 
 **Sources:** S1, S22, S30.
 
 ### Issue 14. DPIA requirement (Article 35 and the ICO's list)
 
-**The law.** A DPIA is required where processing is likely to result in high risk. Article 35(3) gives three examples, and the ICO's Article 35(4) list adds more. [SN: S7, S9] The ICO's list requires a DPIA for **innovative technology combined with another criterion** (for example evaluation or scoring), and the ICO says innovative technology includes new applications of existing technology, including AI. [SN: S7] Commentary on the list says it also covers targeting children and use of biometric data relating to children. [SN: S7] The Children's code says online services in its scope inevitably involve processing likely to result in high risk to children, so a DPIA is expected (standard 2). [SN: S8]
+**The law.** A DPIA is required where processing is likely to result in high risk. Article 35(3) gives three examples, and the ICO's Article 35(4) list adds more. [UNVERIFIED (snippet): S7, S9] The ICO's list requires a DPIA for **innovative technology combined with another criterion** (for example evaluation or scoring), and the ICO says innovative technology includes new applications of existing technology, including AI. [UNVERIFIED (snippet): S7] Commentary on the list says it also covers targeting children and use of biometric data relating to children. [UNVERIFIED (snippet): S7] The Children's code says online services in its scope inevitably involve processing likely to result in high risk to children, so a DPIA is expected (standard 2). [UNVERIFIED (snippet): S8]
 
-**Applying it.** Batting IQ: children's data, video of identifiable people, AI-based automated scoring (evaluation or scoring), new use of pose estimation, commercial model training. **A DPIA is required.** If a high risk remains after the measures, the ICO must be consulted before processing (Article 36). [SN: S9] The DPIA in this pack concludes the residual risk is medium at worst once the measures are in, so prior consultation should not be needed, provided Alex completes the HIGH actions.
+**Applying it.** Batting IQ: children's data, video of identifiable people, AI-based automated scoring (evaluation or scoring), new use of pose estimation, commercial model training. **A DPIA is required.** If a high risk remains after the measures, the ICO must be consulted before processing (Article 36). [UNVERIFIED (snippet): S9] The DPIA in this pack concludes the residual risk is medium at worst once the measures are in, so prior consultation should not be needed, provided Alex completes the HIGH actions.
 
 **Risk: HIGH** until signed.
 
@@ -348,9 +348,9 @@ Also: strip location metadata on upload (backend change: re-mux without metadata
 
 ### Issue 15. Rights handling and complaints
 
-**Rights.** Access, rectification, erasure, restriction, objection (for legitimate interests processing), portability (for consent and contract processing), and withdrawal of consent (UNVERIFIED article-by-article detail). Reply within one month (UNVERIFIED: Article 12(3); extendable for complex cases). Since 5 February 2026, a subject access search need only be reasonable and proportionate, and the clock can be paused while you wait for clarification you reasonably need. [SN: S20]
+**Rights.** Access, rectification, erasure, restriction, objection (for legitimate interests processing), portability (for consent and contract processing), and withdrawal of consent (UNVERIFIED article-by-article detail). Reply within one month (UNVERIFIED: Article 12(3); extendable for complex cases). Since 5 February 2026, a subject access search need only be reasonable and proportionate, and the clock can be paused while you wait for clarification you reasonably need. [UNVERIFIED (snippet): S20]
 
-**Complaints (new duty).** Since **19 June 2026**, every controller must have a way for people to complain about its handling of their data (new section 164A DPA 2018): acknowledge a complaint within **30 days**, take appropriate steps to respond, and make it easy to complain, for example with an electronic form. [SN: S19] The ICO can decline to act on a complaint not first put to the controller. [SN: S19]
+**Complaints (new duty).** Since **19 June 2026**, every controller must have a way for people to complain about its handling of their data (new section 164A DPA 2018): acknowledge a complaint within **30 days**, take appropriate steps to respond, and make it easy to complain, for example with an electronic form. [UNVERIFIED (snippet): S19] The ICO can decline to act on a complaint not first put to the controller. [UNVERIFIED (snippet): S19]
 
 **Children's rights.** A child can exercise their own rights if competent. The old draft's "from about age 12" is a common rule of thumb in Scotland's law and ICO guidance (UNVERIFIED). Keep it as guidance, not a rule.
 
@@ -367,14 +367,14 @@ Also: strip location metadata on upload (backend change: re-mux without metadata
 
 ### Issue 16. Breach process (Articles 33 and 34)
 
-**The law.** Report a personal data breach to the ICO without undue delay and, where feasible, within **72 hours** of becoming aware of it, unless it is unlikely to result in a risk to people. The clock starts when you become aware, not when the investigation ends. You can report in stages and must explain any delay. Record **all** breaches, including ones you do not report. [SN: S29] Tell the people affected without undue delay if the breach is likely to result in a **high** risk (Article 34, UNVERIFIED wording). Processors must tell you without undue delay (Article 33(2), UNVERIFIED wording).
+**The law.** Report a personal data breach to the ICO without undue delay and, where feasible, within **72 hours** of becoming aware of it, unless it is unlikely to result in a risk to people. The clock starts when you become aware, not when the investigation ends. You can report in stages and must explain any delay. Record **all** breaches, including ones you do not report. [UNVERIFIED (snippet): S29] Tell the people affected without undue delay if the breach is likely to result in a **high** risk (Article 34, UNVERIFIED wording). Processors must tell you without undue delay (Article 33(2), UNVERIFIED wording).
 
 **Risk: MEDIUM** (no plan exists [R]).
 
 **What to change.** A breach plan (in the DPIA, section 7):
 1. Contain: revoke keys, make anything public private, rotate the service role key, sign out sessions.
 2. Assess within 24 hours: what data, whose (children?), how many, could it be seen or copied?
-3. Children's videos exposed to anyone outside the team: treat as likely high risk. Report to the ICO within 72 hours (online form; the ICO has a 72-hour guide for small organisations [SN: S29]) and tell the parents and players.
+3. Children's videos exposed to anyone outside the team: treat as likely high risk. Report to the ICO within 72 hours (online form; the ICO has a 72-hour guide for small organisations [UNVERIFIED (snippet): S29]) and tell the parents and players.
 4. Log every incident, even small ones (for example a clip shown to the wrong coach).
 
 **Sources:** S29.
@@ -411,7 +411,7 @@ Controller: [Alex Tredgett, trading as Batting IQ / Batting IQ Ltd], [address], 
 
 ## Sources
 
-All marked [SN]: seen only as summarised web search results, because the primary sites were blocked in this session. URLs are for Alex to open and check.
+All marked [UNVERIFIED (snippet)]: seen only as summarised web search results, because the primary sites were blocked in this session. URLs are for Alex to open and check.
 
 | ID | Source | URL | What it supports |
 |---|---|---|---|
