@@ -1,0 +1,61 @@
+filename,group,group_name,C01,C02,C03,note,prompt_tokens,candidates_tokens,thoughts_tokens,error,C04,C05,C06,C07,C08,C09,C10,C11,C12
+Cam T_Offdrive Good.mp4,1,Set-up and backlift,yes,partly,yes,"The batter maintains a level head and lifts the hands straight back, though the stance is slightly wide.",2032,60,355,,,,,,,,,,
+Cam T_Offdrive Good.mp4,2,Movement to the ball,,,,"Good movement to the ball, staying side-on.",2054,61,0,,yes,yes,partly,yes,,,,,
+Cam T_Offdrive Good.mp4,3,Downswing and contact,,,,"The bat comes from slightly outside the line, and the head falls away slightly to the off side at contact.",2026,63,0,,,,,,partly,yes,partly,,
+Cam T_Offdrive Good.mp4,4,Finish,,,,The batter holds their balance well at the finish and the hands continue through in a controlled manner.,1991,48,0,,,,,,,,,yes,yes
+Drive_Average 2.MOV,1,Set-up and backlift,yes,partly,yes,"The head is still and hands lift straight back, but the stance width is difficult to judge from this angle.",1492,62,241,,,,,,,,,,
+Drive_Average 2.MOV,2,Movement to the ball,,,,The batter steps well to the line of the ball with good knee bend and stays side-on.,1514,69,215,,yes,yes,yes,yes,,,,,
+Drive_Average 2.MOV,3,Downswing and contact,,,,"The downswing comes slightly across the line, but the rhythm is continuous and the head remains well positioned over the ball at contact.",1486,66,298,,,,,,partly,yes,yes,,
+Drive_Average 2.MOV,4,Finish,,,,"The batter maintains excellent balance at the finish with a high, controlled follow-through.",1451,46,159,,,,,,,,,yes,yes
+AlexT_Ondrive Good.MOV,1,Set-up and backlift,yes,partly,yes,"The head is level and hands lift straight back, but the stance width is hard to judge from this angle.",1174,62,287,,,,,,,,,,
+AlexT_Ondrive Good.MOV,2,Movement to the ball,,,,"The player moves well to the line of the ball, with the front foot landing close to the line and the body staying side-on.",1196,77,284,,yes,yes,yes,yes,,,,,
+AlexT_Ondrive Good.MOV,3,Downswing and contact,,,,"The downswing is continuous and the head remains stable, though the bat path is slightly angled.",1168,59,309,,,,,,partly,yes,yes,,
+AlexT_Ondrive Good.MOV,4,Finish,,,,The player maintains good balance and follows through with control at the finish.,1133,43,135,,,,,,,,,yes,yes
+Drive_Beginner 4.MOV,1,Set-up and backlift,yes,partly,yes,"The head is level and still at set-up, and the hands lift straight back, though the stance width is difficult to fully assess from this angle.",1432,71,226,,,,,,,,,,
+Drive_Beginner 4.MOV,2,Movement to the ball,,,,"The batter moves well to the ball, staying side-on with good knee bend.",1454,66,232,,yes,yes,yes,yes,,,,,
+Drive_Beginner 4.MOV,3,Downswing and contact,,,,The downswing is smooth and the head remains stable over the ball at contact.,1426,56,190,,,,,,partly,yes,yes,,
+Drive_Beginner 4.MOV,4,Finish,,,,The player maintains excellent balance at the finish and follows through with controlled hands.,1391,44,177,,,,,,,,,yes,yes
+Straight Drive_Beginner.mp4,1,Set-up and backlift,yes,partly,yes,"The head is level and still, the stance is slightly open, and the hands lift straight back.",2470,60,0,,,,,,,,,,
+Straight Drive_Beginner.mp4,2,Movement to the ball,,,,"Good movement to the ball, staying side-on.",2492,61,0,,yes,yes,partly,yes,,,,,
+Straight Drive_Beginner.mp4,3,Downswing and contact,,,,"The downswing is slightly away from the body, and the head falls away slightly at contact.",2464,60,0,,,,,,partly,yes,partly,,
+Straight Drive_Beginner.mp4,4,Finish,,,,The player maintains good balance at the finish and the hands continue through the shot in a controlled manner.,2429,49,0,,,,,,,,,yes,yes
+Cam T_Ondrive Elite.mov,1,Set-up and backlift,yes,partly,yes,The batter maintains a still head and lifts the hands straight back from a relaxed stance.,1748,57,448,,,,,,,,,,
+Cam T_Ondrive Elite.mov,2,Movement to the ball,,,,The batter steps well towards the line of the ball but opens their chest too early before making contact.,1770,70,357,,yes,yes,partly,no,,,,,
+Cam T_Ondrive Elite.mov,3,Downswing and contact,,,,"The downswing is straight and fluid, with the head remaining well-positioned over the ball at contact.",1742,60,311,,,,,,yes,yes,yes,,
+Cam T_Ondrive Elite.mov,4,Finish,,,,"The batter maintains excellent balance at the finish with a full, controlled follow-through.",1707,46,203,,,,,,,,,yes,yes
+Female_Average.mp4,1,Set-up and backlift,yes,partly,yes,"The head is level and still, the stance is slightly open, and the hands lift straight back.",5836,60,0,,,,,,,,,,
+Female_Average.mp4,2,Movement to the ball,,,,"Good movement to the line of the ball, staying side-on.",5858,64,0,,yes,yes,partly,yes,,,,,
+Female_Average.mp4,3,Downswing and contact,,,,"The swing has a smooth rhythm, but the bat comes down slightly across the line and the head falls away a bit at contact.",5830,67,302,,,,,,partly,yes,partly,,
+Female_Average.mp4,4,Finish,,,,The player maintains good balance at the finish and the hands follow through in a controlled manner.,5795,48,201,,,,,,,,,yes,yes
+Alex T_Straightdrive Good.MOV,1,Set-up and backlift,yes,partly,yes,"The head is level and still at set-up, the stance width is partly visible along the pitch, and the hands lift straight back.",1174,68,0,,,,,,,,,,
+Alex T_Straightdrive Good.MOV,2,Movement to the ball,,,,"The batter moves well to the line of the ball with head, shoulder, and foot, maintaining a side-on position.",1196,74,299,,yes,yes,yes,yes,,,,,
+Alex T_Straightdrive Good.MOV,3,Downswing and contact,,,,"The downswing is mostly straight and continuous, with the head staying over the ball laterally.",1168,58,271,,,,,,partly,yes,yes,,
+Alex T_Straightdrive Good.MOV,4,Finish,,,,"The batter maintains excellent balance at the finish with a full, controlled follow-through.",1133,46,177,,,,,,,,,yes,yes
+Drive_Beginner 2.MOV,1,Set-up and backlift,yes,yes,yes,The batter has a balanced set-up with a still head and lifts the hands straight back.,1552,58,577,,,,,,,,,,
+Drive_Beginner 2.MOV,2,Movement to the ball,,,,"The batter moves well to the line of the ball and stays side-on, though the knee bend is hard to judge fully from this angle.",1574,79,0,,yes,yes,partly,yes,,,,,
+Drive_Beginner 2.MOV,3,Downswing and contact,,,,"The downswing is mostly straight with a continuous rhythm, and the head remains stable over the ball at contact.",1546,62,264,,,,,,partly,yes,yes,,
+Drive_Beginner 2.MOV,4,Finish,,,,The batter maintains good balance at the finish and completes a controlled follow-through with the hands.,1511,48,155,,,,,,,,,yes,yes
+Ollie P_Offdrive Average.mov,1,Set-up and backlift,yes,partly,yes,"Head is level and still, stance is slightly open along the pitch, and hands lift straight back.",1348,60,122,,,,,,,,,,
+Ollie P_Offdrive Average.mov,2,Movement to the ball,,,,The batter moves well to the line of the ball and maintains a side-on position.,1370,68,239,,yes,yes,partly,yes,,,,,
+Ollie P_Offdrive Average.mov,3,Downswing and contact,,,,"The downswing is continuous and the head remains stable, though the bat path could be slightly straighter.",1342,61,248,,,,,,partly,yes,yes,,
+Ollie P_Offdrive Average.mov,4,Finish,,,,"The player loses balance and falls towards the off side at the finish, resulting in a somewhat uncontrolled follow-through.",1307,53,338,,,,,,,,,no,partly
+Drive_Average.MOV,1,Set-up and backlift,yes,partly,yes,"The head is level and hands lift straight back, but the stance is a bit narrow and aligned along the pitch.",1502,63,153,,,,,,,,,,
+Drive_Average.MOV,2,Movement to the ball,,,,"The batter moves well to the line of the ball, with the front foot landing close to the line, the knee bending to take the weight, and the body staying side-on until contact.",1524,88,0,,yes,yes,yes,yes,,,,,
+Drive_Average.MOV,3,Downswing and contact,,,,"The downswing is mostly straight and continuous, with the head well positioned over the ball at contact.",1496,60,267,,,,,,partly,yes,yes,,
+Drive_Average.MOV,4,Finish,,,,"The player maintains good balance at the finish, but the follow-through is wild with the hands finishing very high.",1461,52,252,,,,,,,,,yes,no
+Cam T_Offdrive Elite.mp4,1,Set-up and backlift,yes,partly,yes,"The head is level and still at set-up, the stance is slightly narrow along the pitch, and the hands lift straight back.",1300,67,316,,,,,,,,,,
+Cam T_Offdrive Elite.mp4,2,Movement to the ball,,,,"The side-on camera angle prevents judging the line of the ball, but shows good knee bend and a solid side-on position.",1322,80,660,,cannot_see,cannot_see,yes,yes,,,,,
+Cam T_Offdrive Elite.mp4,3,Downswing and contact,,,,"The side-on camera angle prevents assessment of the bat's line and lateral head position, but the swing rhythm appears continuous.",1294,69,594,,,,,,cannot_see,yes,cannot_see,,
+Cam T_Offdrive Elite.mp4,4,Finish,,,,"The batter maintains excellent balance at the finish with a controlled, high follow-through.",1259,46,179,,,,,,,,,yes,yes
+Drive_Beginner 3.MOV,1,Set-up and backlift,yes,partly,yes,"Head is level and hands lift straight back, but the stance width is aligned along the pitch.",1267,59,202,,,,,,,,,,
+Drive_Beginner 3.MOV,2,Movement to the ball,,,,"The batter steps towards the ball and bends the front knee well, though the foot does not quite reach the line of the wide delivery.",1289,77,360,,yes,partly,yes,yes,,,,,
+Drive_Beginner 3.MOV,3,Downswing and contact,,,,"The batter executes a smooth, continuous downswing with the head well positioned over the ball at contact.",1261,59,493,,,,,,yes,yes,yes,,
+Drive_Beginner 3.MOV,4,Finish,,,,"The player holds their balance well at the finish, but the follow-through is checked with the bat finishing low rather than continuing towards the target.",1226,58,272,,,,,,,,,yes,no
+Oscar V_Beginner.mp4,1,Set-up and backlift,yes,partly,yes,"The head is level and still at set-up, the stance width lies along the pitch, and the hands lift straight back.",1982,66,0,,,,,,,,,,
+Oscar V_Beginner.mp4,2,Movement to the ball,,,,The batter steps towards the line of the ball and stays side-on.,2004,65,0,,yes,yes,partly,yes,,,,,
+Oscar V_Beginner.mp4,3,Downswing and contact,,,,"The downswing is mostly straight but the bat is slightly away from the body, with a smooth rhythm and the head staying reasonably over the ball.",1976,70,445,,,,,,partly,yes,partly,,
+Oscar V_Beginner.mp4,4,Finish,,,,"The player loses balance and falls to the off side, resulting in an uncontrolled finish.",1941,46,212,,,,,,,,,no,no
+Cam T_LH Offdrive Elite.mov,1,Set-up and backlift,yes,partly,yes,"The batter maintains a still head and lifts the hands straight back, though the stance width is difficult to fully assess from this angle.",1492,66,262,,,,,,,,,,
+Cam T_LH Offdrive Elite.mov,2,Movement to the ball,,,,The batter steps well to the line of the ball and maintains a side-on position.,1514,68,269,,yes,yes,partly,yes,,,,,
+Cam T_LH Offdrive Elite.mov,3,Downswing and contact,,,,"The downswing is mostly straight with a smooth rhythm, and the head remains well positioned over the ball at contact.",1486,63,207,,,,,,partly,yes,yes,,
+Cam T_LH Offdrive Elite.mov,4,Finish,,,,"The batter maintains excellent balance and completes a full, controlled follow-through.",1451,44,152,,,,,,,,,yes,yes

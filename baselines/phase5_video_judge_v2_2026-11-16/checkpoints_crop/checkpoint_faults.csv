@@ -1,0 +1,16 @@
+filename,C01,C02,C03,C04,C05,C06,C07,C08,C09,C10,C11,C12,complete,checkpoint_score,main_fault,main_fault_incl_partly,failed,cam_main_fault,cam_second_fault,alex,cam
+Alex T_Straightdrive Good.MOV,2,1,2,2,2,2,2,1,2,2,2,2,1,91.7,F00,F02,,F00,,79.0,80.0
+AlexT_Ondrive Good.MOV,2,1,2,2,2,2,2,1,2,2,2,2,1,91.7,F00,F02,,F03,F04,80.0,72.0
+Cam T_LH Offdrive Elite.mov,2,1,2,2,2,1,2,1,2,2,2,2,1,87.5,F00,F02,,F00,,89.0,90.0
+Cam T_Offdrive Elite.mp4,2,1,2,X,X,2,2,X,2,X,2,2,1,93.8,F00,F02,,F00,,92.0,96.0
+Cam T_Offdrive Good.mp4,2,1,2,2,2,1,2,1,2,1,2,2,1,83.3,F00,F02,,F11,,74.0,84.0
+Cam T_Ondrive Elite.mov,2,1,2,2,2,1,0,2,2,2,2,2,1,83.3,F07,F07,C07,F00,,86.0,100.0
+Drive_Average 2.MOV,2,1,2,2,2,2,2,1,2,2,2,2,1,91.7,F00,F02,,F03,F11,57.0,10.0
+Drive_Average.MOV,2,1,2,2,2,2,2,1,2,2,2,0,1,83.3,F12,F12,C12,F10,F02,58.0,20.0
+Drive_Beginner 2.MOV,2,2,2,2,2,1,2,1,2,2,2,2,1,91.7,F00,F06,,,,50.0,
+Drive_Beginner 3.MOV,2,1,2,2,1,2,2,2,2,2,2,0,1,83.3,F12,F12,C12,F08,F04,26.0,0.0
+Drive_Beginner 4.MOV,2,1,2,2,2,2,2,1,2,2,2,2,1,91.7,F00,F02,,F04,F05,35.0,10.0
+Female_Average.mp4,2,1,2,2,2,1,2,1,2,1,2,2,1,83.3,F00,F02,,F04,F05,60.0,18.0
+Ollie P_Offdrive Average.mov,2,1,2,2,2,1,2,1,2,2,0,1,1,75.0,F11,F11,C11,F12,F09,72.0,60.0
+Oscar V_Beginner.mp4,2,1,2,2,2,1,2,1,2,1,0,0,1,66.7,F11,F11,C11;C12,F04,F01,30.0,5.0
+Straight Drive_Beginner.mp4,2,1,2,2,2,1,2,1,2,1,2,2,1,83.3,F00,F02,,F10,F04,49.0,41.0
