@@ -12,7 +12,7 @@ Scope: front-foot drive, controlled along the ground, filmed from the bowler's e
 |---|---|---|---|---|---|---|
 | C01 | Set-up | Head level and still at set-up; eyes level | Tracking | yes | consensus | agreed in v0.1 |
 | C02 | Set-up | Balanced base at set-up; weight even, knees relaxed | Stability | partly | consensus | agreed in v0.1 |
-| C17 | Set-up | As the bowler lets go, the head is over off stump or between middle and off; the eyes are not outside off stump | Tracking | yes (sideways) | Radford | **new** |
+| C17 | Set-up | As the bowler lets go, head, hands and feet line up over off stump (set on the line); the eyes are not outside off stump | Tracking | yes (sideways) | Radford | **new** |
 | C13 | Backlift | Hands lift in time to create rhythm (the trigger) | Flow | yes | Cam | proposed |
 | C03 | Backlift | Hands go up and back, close to the body, top hand in charge. A bat that lifts towards the slips is fine | Access | hands yes | research | **changed** |
 | C19 | Movement | Shot choice: the ball is full enough to drive (rate the choice, not the technique) | Tracking | partly | consensus | **new** |
@@ -63,7 +63,7 @@ C14 (Cam: "top half closes") keeps its ID but is rated inside C07, so the same i
 > 5. A short settle of the front foot before the downswing is normal, not a hitch.
 > 6. Contact: add "ball met close to the front pad, head still".
 > 7. Finish: a short, controlled finish is as good as a full one.
-> 8. New: head over off stump (or middle-and-off) as the bowler lets go (Radford).
+> 8. New: head, hands and feet all lined up over off stump as the bowler lets go. It's about line (Radford).
 > 9. New: back foot pushes off and drives the weight forward.
 > 10. New: shot choice – was the ball full enough to drive? So we don't blame technique for driving a short one.
 > 11. Your points in my words: hands lift early for rhythm; move out to the ball, not across; weight goes out over the ball. Right?

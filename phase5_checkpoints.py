@@ -51,7 +51,7 @@ L = {"sh": 11, "el": 13, "wr": 15, "hip": 23, "knee": 25, "ank": 27}
 R = {"sh": 12, "el": 14, "wr": 16, "hip": 24, "knee": 26, "ank": 28}
 ANCHORS = ["setup_frame", "hands_start_up_frame", "front_foot_down_frame", "hands_peak_frame",
            "contact_frame", "follow_through_frame"]
-MEASUREMENT_SET = "v5"  # v5 (15 Nov): M14-M17 added (foot-landing/downswing coupling, head over the base at set-up, weight over the front foot at contact, trigger), M01-M13 unchanged; v4 (15 Nov): hands = the more visible wrist; M09 total slow time; v3 (15 Nov): M06, M08, M09 reworked for robustness, M13 added, geometry handedness from the feet; v1 (14 Nov) used set-up / hands / follow-through anchors; v2 (15 Nov) anchors M01, M03, M06, M08, M09, M11, M12 on contact
+MEASUREMENT_SET = "v6"  # v6 (16 Nov): M18 head, hands and feet in line at set-up (Radford, via Alex); v5 (15 Nov): M14-M17 added (foot-landing/downswing coupling, head over the base at set-up, weight over the front foot at contact, trigger), M01-M13 unchanged; v4 (15 Nov): hands = the more visible wrist; M09 total slow time; v3 (15 Nov): M06, M08, M09 reworked for robustness, M13 added, geometry handedness from the feet; v1 (14 Nov) used set-up / hands / follow-through anchors; v2 (15 Nov) anchors M01, M03, M06, M08, M09, M11, M12 on contact
 MIN_VIS = 0.2  # MediaPipe still places hidden points; below 0.2 they are guesses
 
 
@@ -446,6 +446,23 @@ def m15_head_over_base_setup(c, a, bl):
     return (_pct(abs(v), bl), "") if np.isfinite(v) else (np.nan, "head or feet not seen at set-up (needs 1 s before contact)")
 
 
+def m18_head_hands_feet_in_line(c, a, bl):
+    """Head, hands and feet in line over off stump as the bowler lets go (Radford, as Alex put it on
+    16 Nov 2026: "hands, feet and head level over off stump; it is about line"). From behind the bowler
+    the stumps are not tracked, so this measures how well the three line up with each other: the
+    sideways spread (largest minus smallest x) of the nose, the hands and the midpoint of the two
+    ankles, median over the set-up window (1000 to 700 ms before contact), % BL. Lower is better.
+    Registered 16 Nov 2026, before any clip was run."""
+    fr = _setup_window(c, a)
+    pts = np.stack([c.series(fr, NOSE)[:, 0], c.series(fr, c.hand)[:, 0],
+                    c.series(fr, (L["ank"], R["ank"]))[:, 0]], axis=1)
+    ok = np.isfinite(pts).all(axis=1)
+    if ok.sum() < 3:
+        return np.nan, "head, hands or feet not seen at set-up (needs 1 s before contact)"
+    spread = pts[ok].max(axis=1) - pts[ok].min(axis=1)
+    return _pct(float(np.median(spread)), bl), ""
+
+
 def m16_weight_over_front_foot(c, a, bl):
     """Centre of mass over the front foot at contact: sideways gap between the hip-shoulder midpoint
     (mean of both hips and both shoulders, a trunk proxy for the centre of mass) and the front ankle,
@@ -496,6 +513,7 @@ MEASURES: list[tuple[str, str, str, str, str, str, Callable]] = [
     ("M15", "C01", "F01", "tracking", "% BL (absolute)", "higher_worse", m15_head_over_base_setup),
     ("M16", "C16", "F16", "stability", "% BL", "higher_worse", m16_weight_over_front_foot),
     ("M17", "C13", "F13", "flow", "% BL", "higher_better", m17_trigger_present),
+    ("M18", "C17", "F17", "tracking", "% BL", "higher_worse", m18_head_hands_feet_in_line),
 ]
 
 

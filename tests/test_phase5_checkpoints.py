@@ -61,7 +61,7 @@ def _values(npz: Path, hand="right", drive="off") -> dict[str, float]:
 def test_all_measurements_compute_and_feet_check(tmp_path):
     clip = p5.load_clip(_save(tmp_path, "rh", _figure()), "right")
     rows = p5.measure_clip(clip, ANCH)
-    assert [r["measurement"] for r in rows] == [f"M{i:02d}" for i in range(1, 18)]
+    assert [r["measurement"] for r in rows] == [f"M{i:02d}" for i in range(1, 19)]
     assert all(r["value"] != "" for r in rows), [r for r in rows if r["value"] == ""]
     assert rows[0]["toes_point_off"] == "yes"
     assert 410 < rows[0]["body_length_px"] < 430  # ankles at y=620, nose at y=200
@@ -183,7 +183,7 @@ def test_mirrored_video_labelled_right_handed_is_flipped_by_the_feet(tmp_path):
     geo = {r["filename"]: (r["geometry_handedness"], r["toes_point_off"]) for r in rows}
     assert geo["plain"] == ("right", "yes") and geo["mirrored"] == ("left", "yes")
     val = {(r["filename"], r["measurement"]): r["value"] for r in rows}
-    for m in [f"M{i:02d}" for i in range(1, 18)]:
+    for m in [f"M{i:02d}" for i in range(1, 19)]:
         assert np.isclose(float(val[("plain", m)]), float(val[("mirrored", m)]), atol=1e-6), m
 
 
@@ -266,6 +266,15 @@ def test_new_measurements_blank_with_a_reason_when_the_window_is_missing(tmp_pat
     bl = p5.body_length(clip, ANCH)
     v, why = p5.m14_foot_downswing_coupled(p5.load_clip(_save(tmp_path, "still", _still_feet()), "right"), ANCH, bl)
     assert np.isnan(v) and why
+
+
+def test_m18_head_hands_feet_in_line(tmp_path):
+    aligned = _figure()
+    out_of_line = _figure()
+    out_of_line[:, 0, 0] -= 40 / W  # head 40 px to the off side throughout
+    a = _values(_save(tmp_path, "al", aligned))
+    b = _values(_save(tmp_path, "ol", out_of_line))
+    assert float(b["M18"]) > float(a["M18"])
 
 
 def _still_feet() -> np.ndarray:

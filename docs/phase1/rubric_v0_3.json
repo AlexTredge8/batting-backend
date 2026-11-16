@@ -44,13 +44,13 @@
       "id": "C17",
       "stage": "Set-up",
       "pillar": "tracking",
-      "text": "As the bowler lets go, the head is over off stump or between middle and off; the eyes are not outside off stump",
+      "text": "As the bowler lets go, head, hands and feet line up over off stump (set on the line); the eyes are not outside off stump",
       "visible": "yes (sideways position)",
       "source": "Radford",
       "status": "proposed",
       "rated": true,
-      "change": "new: Radford checks where the head is, not only whether it is still",
-      "measurement": "M15 (head over the base at set-up) fits this checkpoint better than C01"
+      "change": "new: Radford's point is about line. Corrected 16 Nov 2026 by Alex: head, hands AND feet level over off stump, not the head alone",
+      "measurement": "M18 (head, hands and feet in line at set-up); M15 (head over the base) is related"
     },
     {
       "id": "C13",
@@ -253,7 +253,7 @@
   "faults_in_chain_order": [
     {"id": "F01", "checkpoint": "C01", "text": "Head moves early or is not still at set-up"},
     {"id": "F02", "checkpoint": "C02", "text": "Unbalanced stance"},
-    {"id": "F17", "checkpoint": "C17", "text": "Head out of position as the bowler lets go: eyes outside off stump"},
+    {"id": "F17", "checkpoint": "C17", "text": "Head, hands and feet not lined up over off stump as the bowler lets go"},
     {"id": "F13", "checkpoint": "C13", "text": "Hands late or static: no rhythm from the backlift"},
     {"id": "F03", "checkpoint": "C03", "text": "Hands go out away from the body in the backlift"},
     {"id": "F19", "checkpoint": "C19", "text": "Drives a ball that is too short to drive"},
