@@ -394,10 +394,10 @@ def standing_axis_tilt_deg(ankle_mid, shoulder_mid, min_frames: int = 3) -> floa
     the ankles (image x grows to the right, y downwards). None when fewer than min_frames
     frames have both points, or the shoulders are not above the ankles.
 
-    Used by the Phase 5 measurements (v7: landmarks are rotated so this axis is vertical) and
-    by the capture checks (a warning when it is more than CAPTURE_MAX_TILT_DEG off vertical).
     A camera roll and a real sideways lean of the batter both show up here; the two cannot be
-    told apart from the pose alone.
+    told apart from the pose alone. So from 16 Nov 2026 it is reported for information only
+    (Phase 5 v8 and the live capture checks use capture_geometry.camera_roll_deg, from the
+    background); Phase 5 v7 rotated the landmarks so this axis was vertical.
     """
     a = np.asarray(ankle_mid, dtype=float).reshape(-1, 2)
     s = np.asarray(shoulder_mid, dtype=float).reshape(-1, 2)

@@ -109,12 +109,12 @@ def line_segments(frame: np.ndarray, box: tuple[int, int, int, int] | None = Non
 def _refine(edges: np.ndarray, segs: np.ndarray, tol: float = 1.5) -> np.ndarray:
     """Least-squares fit of each segment to the edge pixels within tol px of it. Hough endpoints sit on
     whole pixels, so a long edge a fraction of a degree off vertical snaps to exactly 0; the fit
-    recovers the fraction (on the reference clip it moved the estimate from 0.00 to 0.28 degrees, and
-    the +3/-3 degree copies from +3.46/-2.49 to +3.45/-2.61, i.e. +3.17/-2.89 against the original)."""
+    recovers the fraction (on the reference clip, batter masked, it moved the estimate from 0.00 to
+    +0.24 degrees, and the +3/-3 degree copies from +3.46/-2.49 to +3.45/-2.61: +3.21/-2.85 against
+    the original)."""
     import cv2
 
-    ys, xs = np.nonzero(edges)
-    pts = np.column_stack([xs, ys]).astype(float)
+    eh, ew = edges.shape[:2]
     out = []
     for x1, y1, x2, y2 in segs:
         d = np.array([x2 - x1, y2 - y1])
@@ -122,6 +122,10 @@ def _refine(edges: np.ndarray, segs: np.ndarray, tol: float = 1.5) -> np.ndarray
         if length == 0:
             continue
         u = d / length
+        bx0, by0 = int(max(0, min(x1, x2) - 2)), int(max(0, min(y1, y2) - 2))
+        bx1, by1 = int(min(ew, max(x1, x2) + 3)), int(min(eh, max(y1, y2) + 3))
+        ys, xs = np.nonzero(edges[by0:by1, bx0:bx1])  # only the segment's own neighbourhood
+        pts = np.column_stack([xs + bx0, ys + by0]).astype(float)
         rel = pts - (x1, y1)
         t, s = rel @ u, rel @ np.array([-u[1], u[0]])
         k = (np.abs(s) <= tol) & (t >= 0) & (t <= length)

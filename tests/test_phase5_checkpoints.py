@@ -331,11 +331,14 @@ def test_level_clip_makes_the_standing_axis_vertical(tmp_path):
     assert abs(p5.setup_axis_tilt(levelled, ANCH)[0]) < 0.05
 
 
-def test_three_degree_roll_leaves_sideways_measurements_nearly_unchanged(tmp_path):
+def test_v7_three_degree_roll_leaves_sideways_measurements_nearly_unchanged(tmp_path):
+    """v7 (standing axis), kept reproducible with level="standing_axis"."""
     for kw in ({}, {"head_setup_off": 20, "com_lag": 20, "head_lean": 15}):
         base = _figure(**kw)
-        flat = _values(_save(tmp_path, "flat", base))
-        rows = {d: {r["measurement"]: r for r in p5.measure_clip(p5.load_clip(_save(tmp_path, f"r{d}", _rotate(base, d)), "right"), ANCH)}
+        flat = {r["measurement"]: r["value"] for r in
+                p5.measure_clip(p5.load_clip(_save(tmp_path, "flat", base), "right"), ANCH, level="standing_axis")}
+        rows = {d: {r["measurement"]: r for r in p5.measure_clip(p5.load_clip(_save(tmp_path, f"r{d}", _rotate(base, d)), "right"),
+                                                                 ANCH, level="standing_axis")}
                 for d in (3.0, -3.0)}
         old = {r["measurement"]: r["value"] for r in
                p5.measure_clip(p5.load_clip(_save(tmp_path, "r3old", _rotate(base, 3.0)), "right"), ANCH, level=False)}
@@ -351,6 +354,7 @@ def test_three_degree_roll_leaves_sideways_measurements_nearly_unchanged(tmp_pat
 
 
 def _tilt_of(tmp_path, arr) -> float:
+    """The batter's standing axis tilt (reported for information in every mode)."""
     rows = p5.measure_clip(p5.load_clip(_save(tmp_path, "t", arr), "right"), ANCH)
     return float(rows[0]["setup_axis_tilt_deg"])
 
@@ -358,8 +362,10 @@ def _tilt_of(tmp_path, arr) -> float:
 def test_levelled_left_hander_still_mirrors_the_right_hander(tmp_path):
     kw = dict(peak=60, head_setup_off=20, trigger=15, trigger_at=72, com_lag=20)
     rh = _rotate(_figure(**kw), 3.0)  # rolled phone: the mirror must still match exactly
-    a = _values(_save(tmp_path, "rh", rh), "right")
-    b = _values(_save(tmp_path, "lh", _lefty(rh)), "left")
+    a = {r["measurement"]: (np.nan if r["value"] == "" else r["value"]) for r in
+         p5.measure_clip(p5.load_clip(_save(tmp_path, "rh", rh), "right"), ANCH, level="standing_axis")}
+    b = {r["measurement"]: (np.nan if r["value"] == "" else r["value"]) for r in
+         p5.measure_clip(p5.load_clip(_save(tmp_path, "lh", _lefty(rh)), "left"), ANCH, level="standing_axis")}
     for m in a:
         if a[m] == "" or (isinstance(a[m], float) and np.isnan(a[m])):
             assert b[m] == "" or np.isnan(b[m]), m
@@ -372,3 +378,97 @@ def test_lowres_height_flag_keeps_the_registered_variant_by_default():
     assert dg.lowres_variant(360) == ("lowres", ["-vf", "scale=-2:360", "-crf", "32"])  # the registered test
     name, args = dg.lowres_variant(1280)
     assert name == "lowres1280" and "min(ih,1280)" in args[1] and args[-1] == "32"  # own cache name; never upscales
+
+
+# --- v8: levelled by the camera roll from the background (16 Nov 2026) ------------------------------
+
+def _roll(deg, confidence="ok"):
+    return {"roll_deg": deg if confidence == "ok" else None, "raw_roll_deg": deg, "confidence": confidence,
+            "source": "vertical", "n_lines": 12, "version": "roll_v1"}
+
+
+def _rows(npz, hand="right", roll=None, level=None):
+    return {r["measurement"]: r for r in p5.measure_clip(p5.load_clip(npz, hand, "off", roll), ANCH, level)}
+
+
+def test_v8_is_the_registered_set_and_switches_reproduce_v6_and_v7(tmp_path):
+    assert p5.MEASUREMENT_SET == "v8" and p5.LEVEL_MODE == "camera_roll"
+    rolled = _save(tmp_path, "r", _rotate(_figure(head_setup_off=20, com_lag=20), 3.0))
+    v6 = _rows(rolled, level=False)
+    v6b = _rows(rolled, level="none")
+    v7 = _rows(rolled, level="standing_axis")
+    v8_no_roll = _rows(rolled)  # no roll known: nothing is rotated, so v8 reads as v6
+    for m in v6:
+        assert v6[m]["value"] == v6b[m]["value"] == v8_no_roll[m]["value"], m
+    assert v8_no_roll["M02"]["levelled_by"] == "none" and v8_no_roll["M02"]["roll_source"] == "none"
+    assert v7["M02"]["levelled_by"] == "standing_axis"
+    assert any(v7[m]["value"] != v6[m]["value"] for m in SIDEWAYS)
+
+
+def test_v8_removes_a_camera_roll_found_in_the_background(tmp_path):
+    for kw in ({}, {"head_setup_off": 20, "com_lag": 20, "head_lean": 15}):
+        base = _figure(**kw)
+        flat = _rows(_save(tmp_path, "flat", base), roll=_roll(0.0))
+        for d in (3.0, -3.0):
+            rows = _rows(_save(tmp_path, f"r{d}", _rotate(base, d)), roll=_roll(d))
+            assert rows["M02"]["levelled_by"] == "camera_roll" and rows["M02"]["camera_roll_deg"] == d
+            assert rows["M02"]["roll_confidence"] == "ok" and rows["M02"]["roll_lines"] == 12
+            for m in SIDEWAYS:
+                assert abs(float(rows[m]["value"]) - float(flat[m]["value"])) < 0.05, (kw, m, d)
+
+
+def test_v8_keeps_a_real_lean_of_the_batter(tmp_path):
+    """The batter leans (his whole figure tilted about his feet) and the phone is level: v8 measures the
+    lean as v6 did; v7 rotated it away."""
+    lean = _figure(head_setup_off=20)
+    lean_xy = _rotate(lean, -7.0, centre=(253.0, 620.0))  # about the ankles: a lean, not a rolled phone
+    npz = _save(tmp_path, "lean", lean_xy)
+    v6, v7, v8 = _rows(npz, level=False), _rows(npz, level="standing_axis"), _rows(npz, roll=_roll(0.0))
+    assert float(v8["M02"]["setup_axis_tilt_deg"]) < -5  # still reported, for information
+    for m in SIDEWAYS:
+        assert abs(float(v8[m]["value"]) - float(v6[m]["value"])) < 1e-6, m
+    assert max(abs(float(v7[m]["value"]) - float(v6[m]["value"])) for m in SIDEWAYS) > 2.0
+
+
+def test_v8_does_not_rotate_when_the_roll_is_not_confident(tmp_path):
+    npz = _save(tmp_path, "r", _rotate(_figure(), 3.0))
+    plain, unsure = _rows(npz, level="none"), _rows(npz, roll=_roll(3.0, "unknown"))
+    assert unsure["M02"]["levelled_by"] == "none" and unsure["M02"]["camera_roll_deg"] == ""
+    for m in plain:
+        assert plain[m]["value"] == unsure[m]["value"], m
+
+
+def test_v8_left_hander_mirror_flips_the_roll(tmp_path):
+    kw = dict(peak=60, head_setup_off=20, trigger=15, trigger_at=72, com_lag=20)
+    rh = _rotate(_figure(**kw), 3.0)
+    a = _rows(_save(tmp_path, "rh", rh), "right", _roll(3.0))
+    b = _rows(_save(tmp_path, "lh", _lefty(rh)), "left", _roll(-3.0))  # the mirrored video rolls the other way
+    assert b["M02"]["camera_roll_deg"] == 3.0  # in the measurement picture, after the mirror
+    for m in a:
+        if a[m]["value"] == "":
+            assert b[m]["value"] == "", m
+            continue
+        assert np.isclose(float(a[m]["value"]), float(b[m]["value"]), atol=1e-6), m
+
+
+def test_roll_for_npz_caches_and_says_none_without_a_video(tmp_path, monkeypatch):
+    npz = _save(tmp_path, "Clip A", _figure())
+    r = p5.roll_for_npz(npz, None)
+    assert r["source"] == "none" and r["roll_deg"] is None
+    assert not (tmp_path / "Clip A.roll.json").exists()
+    vids = tmp_path / "vids"
+    vids.mkdir()
+    (vids / "Clip A.mov").write_bytes(b"")
+    seen = {}
+
+    def fake_roll(video, frames, boxes, box_frame_size=None):
+        seen.update(video=Path(video).name, frames=frames, boxes=boxes, size=box_frame_size)
+        return _roll(1.5)
+    monkeypatch.setattr(p5.capture_geometry, "camera_roll_deg", fake_roll)
+    r = p5.roll_for_npz(npz, vids)
+    assert r["roll_deg"] == 1.5 and seen["video"] == "Clip A.mov" and seen["size"] == (W, H)
+    assert seen["frames"] == [0, 12, 24, 35, 47]  # 5 frames over the first 40% of 120
+    assert all(seen["boxes"][f] is not None for f in seen["frames"])  # the batter is masked out
+    assert (tmp_path / "Clip A.roll.json").exists()
+    monkeypatch.setattr(p5.capture_geometry, "camera_roll_deg", lambda *a, **k: 1 / 0)
+    assert p5.roll_for_npz(npz, vids)["roll_deg"] == 1.5  # read from the cache, not recomputed

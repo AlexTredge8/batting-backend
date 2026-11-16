@@ -4,6 +4,8 @@
 #   cd ~/Documents/battingiq-phase0 && git pull && ./phase5_mac_next.sh
 #
 # About 10-15 minutes (three degraded copies of each clip go through the pose model).
+# From v8 the clip folder is also passed to the measurements, so each clip's camera roll is estimated
+# from its background and cached as <clip>.roll.json next to the pose cache.
 # Pushes only tables; degraded videos and landmarks stay in calibration_output/.
 set -euo pipefail
 cd "$(dirname "$0")"

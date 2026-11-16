@@ -50,10 +50,11 @@ DEFAULT_HANDEDNESS = "right"  # used when API caller doesn't specify
 # on the Phase 5 worse-filming test a 360 px copy changed almost every measurement by more than a
 # quarter of the spread between clips. A phone's normal camera at 1080p clears this easily.
 CAPTURE_MIN_SHORT_SIDE_PX = 720
-# The batter's standing axis at set-up (ankle midpoint to shoulder midpoint, 1000 to 700 ms before
-# contact) more than this many degrees from the picture's vertical. A 3 degree roll shifts the head
-# against the feet by about 5% of body length, which broke the sideways measurements on the Phase 5
-# test. A real sideways lean of the batter shows up the same way, so this is a warning only.
+# The camera roll, from the long upright lines in the background with the batter masked out
+# (capture_geometry.camera_roll_deg, confidence "ok" only), more than this many degrees. A 3 degree
+# roll shifts the head against the feet by about 5% of body length, which broke the sideways
+# measurements on the Phase 5 test. (Until 16 Nov 2026 the batter's standing axis was used, which
+# also holds a real lean: a false alarm on the reference clip.)
 CAPTURE_MAX_TILT_DEG = 3.0
 
 # Processing mode
