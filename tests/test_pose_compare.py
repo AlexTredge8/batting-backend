@@ -143,6 +143,10 @@ def test_change_text_formatting():
     assert "your front knee is at 171 degrees" in t and "167 degrees or less" in t
     inside = pc.change_text("F16", _m(3.0, 2.1, 4.0, status="inside"))
     assert inside.endswith("so on this measure you are already in the good range.")
+    past = _m(18.4, -4.4, 13.9, "% BL, drive side +", "higher_better", status="inside")
+    past["position"] = "above"  # better than the whole good range: never "already in the good range"
+    t = pc.change_text("F05", past)
+    assert "in the good range" not in t and t.endswith("past that on the good side, so this is not the thing to fix.")
     assert "compare your back knee and back ankle" in pc.change_text("F18", None)
     assert pc.change_text("F00", None, "Nothing major to fix.") == "Nothing major to fix."
 

@@ -238,6 +238,9 @@ def change_text(fault: str, measurement: dict | None, tip: str = "") -> str:
     good = range_phrase(float(lo), float(hi), unit, direction, spec.get("range_pos", pos), spec.get("range_neg", neg))
     if measurement.get("status") == "outside":
         return f"{said}; good drives are {good}. {action}"
+    if measurement.get("position") in ("below", "above"):
+        # better than the whole good range (the registered direction says this side is better)
+        return f"{said}; good drives are {good}, and you are past that on the good side, so this is not the thing to fix."
     return f"{said}; good drives are {good}, so on this measure you are already in the good range."
 
 
@@ -365,7 +368,8 @@ def compute_measurement(c: p5.Clip, anchors: dict, mid: str, bl: float) -> tuple
 # --- rendering ------------------------------------------------------------------------------
 
 C_PLAYER = (0, 140, 255)      # strong orange (BGR)
-C_GHOST = (255, 255, 255)     # white, drawn translucent
+C_GHOST = (255, 210, 0)       # bright cyan (BGR), drawn translucent over a dark outline so it shows on white nets
+C_GHOST_EDGE = (40, 40, 40)   # dark outline under the ghost
 C_RING = (0, 230, 255)        # yellow
 C_TARGET = (90, 220, 90)      # green
 C_REF_PANEL = (150, 130, 40)  # teal-blue for the reference figure on the plain panel
@@ -495,8 +499,9 @@ def render_overlay(frame, player_img: dict, ghost_img: dict, highlights: list[st
     t = max(2, int(round(crop_h / 160)))
     jr = max(2, t)
     ghost_layer = img.copy()
+    _draw_skeleton(ghost_layer, ghost_img, C_GHOST_EDGE, t + 5, jr + 3)
     _draw_skeleton(ghost_layer, ghost_img, C_GHOST, t + 2, jr + 1)
-    img = cv2.addWeighted(ghost_layer, 0.55, img, 0.45, 0)
+    img = cv2.addWeighted(ghost_layer, 0.7, img, 0.3, 0)
     _draw_skeleton(img, player_img, C_PLAYER, t, jr)
     _draw_highlights(img, player_img, ghost_img, highlights, t, max(8, int(round(crop_h / 28))))
     crop = img[y0:y1, x0:x1]
@@ -504,7 +509,7 @@ def render_overlay(frame, player_img: dict, ghost_img: dict, highlights: list[st
     crop = cv2.resize(crop, (OUT_WIDTH, max(1, int(round(crop.shape[0] * scale)))),
                       interpolation=cv2.INTER_AREA if scale < 1 else cv2.INTER_CUBIC)
     _footer(crop, footnote)
-    out = np.vstack([_header(OUT_WIDTH, [("You", C_PLAYER), ("Best practice", (200, 200, 200))], moment_label), crop])
+    out = np.vstack([_header(OUT_WIDTH, [("You", C_PLAYER), ("Best practice", C_GHOST)], moment_label), crop])
     return out, blurred
 
 
