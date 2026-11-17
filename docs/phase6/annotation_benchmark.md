@@ -4,6 +4,13 @@ Written 17 Nov 2026 for Alex. Status: **draft for Alex to review**. Research, a 
 
 In one line: **stop drawing on the player. Show the principle with two fixed, exaggerated cartoon figures ("not this" and "this"), give one short instruction, show the player's own number on a simple bar, and keep their video as an optional extra with one small marker.**
 
+**Top findings**
+1. **GolfFix leads with one main fault, then cause, effect, fix and a drill** (sources S4, S6). Its pictures teach the principle; the user's own video, with lines, is a separate view. The exact artwork could not be seen from here (sites blocked), so the "fixed cartoon silhouettes" point rests on Alex's own use of the app.
+2. **Our overlay is a coach's tool, not a player's explanation.** Two near-identical skeletons on a busy net photo cannot be read in 2 seconds; the real difference is often a few pixels, and pose-model wobbles look like faults (section 4).
+3. **Draw sideways faults front-on and forward or timing faults side-on.** Ten faults read well from the bowler's end (our camera); six (F06, F16, F18, F12, F09, F13) only make sense side-on; F15 is clearest from above and F19 is a pitch diagram, not a body (section 6).
+4. **Keep the numbers, change how they are shown.** The measurement, the good range and the fault-to-moment table stay; they become a simple "You vs good drives" bar and one marker on the player's own frame (section 5).
+5. **Colour must never carry the meaning alone.** Use vermilion and blue (colour-blind safe) plus a cross and a tick and the words "Not this" / "This"; take all text, "DEMO" and "provisional" stamps out of the pictures (sections 4 and 5).
+
 Contents:
 1. Sources
 2. How GolfFix shows a fault
@@ -183,7 +190,7 @@ The player's **own number** goes on a simple bar against the good range (kept fr
 
 Designed for a 360 dp wide screen, single column, 16 dp side margins.
 
-1. **Fault name** (heading, at most 6 words) and a small **moment chip** under it, for example `Just before contact`. A tiny 6-step shot strip (set-up, backlift, stride, contact, finish) with the moment highlighted is optional.
+1. **Fault name** (heading, at most 6 words) and a small **moment chip** under it, for example `Just before contact`. A tiny 5-step shot strip (set-up, backlift, stride, contact, finish) with the moment highlighted is optional.
 2. **The silhouette pair**, side by side, each panel about 156 x 220 dp:
    - left: label **"Not this"** with a cross badge;
    - right: label **"This"** with a tick badge.
