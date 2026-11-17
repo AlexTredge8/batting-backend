@@ -1,16 +1,17 @@
 # Lovable prompt: "Your drill plan" (a 3-week plan under the priority fix)
 
-Five pastes, plus two short templates. Paste them into Lovable one at a time, in this order, and check each before the next:
+Six pastes, plus two short templates. Paste them into Lovable one at a time, in this order, and check each before the next:
 
 1. **Pass 0a** now (one line on the pricing card).
 2. **Pass 1** and **Pass 2**: the drill data (57 drills, in two parts because it is long).
-3. **Pass 3**: the plan logic, saving and the "Your drill plan" section.
-4. **Pass 0b** only when the plan is live (after Alex's sign-off and the tests).
-5. The two short follow-up templates at the end, whenever Alex signs off drills or a demo video is ready.
+3. **Pass 2b**: the YouTube coaching video links (from `docs/phase6/drill_videos.json`).
+4. **Pass 3**: the plan logic, saving and the "Your drill plan" section.
+5. **Pass 0b** only when the plan is live (after Alex's sign-off and the tests).
+6. The three short follow-up templates at the end, whenever Alex signs off drills or videos, or a demo video is ready.
 
 Each pass is everything between its two lines. The note for Alex at the very end is not for Lovable.
 
-Sources: drills from `docs/phase6/drill_library.json` (this prompt's data is made from it; if the JSON changes, change the data here too). Rules and copy from `docs/phase6/drill_plan_rules.md`. It builds on `docs/lovable/results_tips_and_sharing_prompt.md` Passes 1 and 2 (the priority fix card, `getPriorityFix`, "Film it right", "Your progress" and the share card), and on `docs/lovable/upload_training_consent_prompt.md` (`getProfileAge`, `user_roles`). Legal points: `docs/legal/ALEX_DECISIONS.md` and `docs/legal/consumer_and_safeguarding_review.md` Issue 4.
+Sources: drills from `docs/phase6/drill_library.json`; coaching video links from `docs/phase6/drill_videos.json` (read only here; only entries with `verified: true`, and in `live` only those Alex has watched, `content_reviewed: true`; embedding rules from `docs/phase6/drill_videos.md`) (this prompt's data is made from it; if the JSON changes, change the data here too). Rules and copy from `docs/phase6/drill_plan_rules.md`. It builds on `docs/lovable/results_tips_and_sharing_prompt.md` Passes 1 and 2 (the priority fix card, `getPriorityFix`, "Film it right", "Your progress" and the share card), and on `docs/lovable/upload_training_consent_prompt.md` (`getProfileAge`, `user_roles`). Legal points: `docs/legal/ALEX_DECISIONS.md` and `docs/legal/consumer_and_safeguarding_review.md` Issue 4.
 
 ---
 
@@ -22,7 +23,7 @@ Search the whole project for the text "Personalised drill plan with coaching vid
 
 ## Pass 0b: the pricing line again (paste only after the plan is live)
 
-Search the whole project for the text "Drills to fix your priority fault" on the pricing card (and anywhere else Pass 0a changed it). Change every copy of it to **"Personalised drill plan"**. Do not mention coaching videos anywhere until a demo video exists for every drill. Change nothing else.
+Search the whole project for the text "Drills to fix your priority fault" on the pricing card (and anywhere else Pass 0a changed it). Change every copy of it to **"Personalised drill plan"**. Do not add "with coaching videos" yet. Change nothing else.
 
 ---
 
@@ -215,9 +216,112 @@ if (import.meta.env.DEV) {
 
 ---
 
+## Pass 2b: coaching video links
+
+Passes 1 and 2 are in place. Create one new file, `src/data/coachingVideos.ts`. Copy the data **exactly**. Do not change any page yet. These are public YouTube videos by other coaches; the app only ever shows them in YouTube's own player (Pass 3), never downloads or re-hosts them.
+
+```ts
+import type { DrillFaultId, DrillLevel } from "./drillTypes";
+
+export interface CoachingVideo {
+  fault: DrillFaultId;
+  videoId: string;
+  title: string;
+  channel: string;
+  url: string;
+  level: DrillLevel | "all";
+  whatItShows: string;
+  startSeconds: number | null;
+  verified: boolean;        // link checked: public and embeddable
+  contentReviewed: boolean; // Alex has watched it and says it fits
+}
+
+export const COACHING_VIDEOS: CoachingVideo[] = [
+  { fault: "F01", videoId: "wjEqqElR8ek", title: "This can COMPLETELY DESTROY your BATTING! - Fixing Incorrect head positions when batting", channel: "CoachCricXI - Online Cricket Coaching", url: "https://www.youtube.com/watch?v=wjEqqElR8ek", level: "club", whatItShows: "Common head-position faults (head moving or falling away) and drills to keep it still and over the ball.", startSeconds: null, verified: true, contentReviewed: false },
+  { fault: "F01", videoId: "UxX4IQL03UU", title: "How To Bat In Cricket With The CORRECT Grip, Backlift & Set-Up | Technical Foundations Of Batting", channel: "CRICKET LIFE STORIES", url: "https://www.youtube.com/watch?v=UxX4IQL03UU", level: "club", whatItShows: "Toby Radford (former West Indies batting coach) works through grip, set-up and backlift: still head, hands close to the body.", startSeconds: null, verified: true, contentReviewed: false },
+  { fault: "F01", videoId: "0t08DPxOSqg", title: "DRILLS to help you WATCH THE BALL better in Cricket", channel: "CoachCricXI - Online Cricket Coaching", url: "https://www.youtube.com/watch?v=0t08DPxOSqg", level: "all", whatItShows: "Five hand-eye drill sets with a partner or a wall that train a still head and eyes on the ball.", startSeconds: null, verified: true, contentReviewed: false },
+  { fault: "F02", videoId: "oTiREL-x6Gg", title: "The BEST cricket batting stance | Mark Ramprakash Batting Masterclass", channel: "Wisden Cricket", url: "https://www.youtube.com/watch?v=oTiREL-x6Gg", level: "all", whatItShows: "Former England batter and England batting coach Mark Ramprakash sets up a relaxed, balanced stance with the head still and eyes level.", startSeconds: null, verified: true, contentReviewed: false },
+  { fault: "F02", videoId: "Nuzm6PRO1-0", title: "Toby Radford on the 60/40 Batting Weight Rule", channel: "The Cerebral Cricketer", url: "https://www.youtube.com/watch?v=Nuzm6PRO1-0", level: "all", whatItShows: "Radford's balance cue: keep the head stacked over the feet, as when standing and talking; weight split for moving either way.", startSeconds: null, verified: true, contentReviewed: false },
+  { fault: "F02", videoId: "xebUS0CCg6k", title: "The SECRET to a PERFECT Cricket Batting STANCE | Everything you NEED to know", channel: "CoachCricXI - Online Cricket Coaching", url: "https://www.youtube.com/watch?v=xebUS0CCg6k", level: "beginner", whatItShows: "Stance set-up: feet about shoulder-width apart, weight even, knees soft, head still.", startSeconds: null, verified: true, contentReviewed: false },
+  { fault: "F02", videoId: "7CgCjJRjvgc", title: "Correct Batting Stance Facing Pace & Spin In Cricket - Gary Palmer Open Stance Coaching Masterclass", channel: "CRICKET LIFE STORIES", url: "https://www.youtube.com/watch?v=7CgCjJRjvgc", level: "advanced", whatItShows: "Gary Palmer (coach to Alastair Cook) on a stance that keeps the batter balanced and able to move either way.", startSeconds: null, verified: true, contentReviewed: false },
+  { fault: "F17", videoId: "katRDmaYF1E", title: "How to use a trigger movement when batting | Mark Ramprakash Batting Masterclass", channel: "Wisden Cricket", url: "https://www.youtube.com/watch?v=katRDmaYF1E", level: "club", whatItShows: "Ramprakash on a small trigger movement that gets the head, hands and feet set on the line as the bowler lets go.", startSeconds: null, verified: true, contentReviewed: false },
+  { fault: "F17", videoId: "2KJLpsFVwTg", title: "How To Bat In Cricket With The Correct Trigger Movement - Gary Palmer Coaching Tips", channel: "CRICKET LIFE STORIES", url: "https://www.youtube.com/watch?v=2KJLpsFVwTg", level: "advanced", whatItShows: "Palmer's masterclass on a trigger that sets the head, hands and feet in line over off stump at release.", startSeconds: null, verified: true, contentReviewed: false },
+  { fault: "F17", videoId: "iUa9qXZxjJc", title: "Are You Making This Trigger Movement Mistake? Fix It Now! 🚨🏏 |Batting Tips|Thrive Cricket", channel: "Thrive cricket academy", url: "https://www.youtube.com/watch?v=iUa9qXZxjJc", level: "club", whatItShows: "A trigger that opens the front shoulder and spoils alignment, and the foot and toe position that keeps the batter side-on and on off stump.", startSeconds: null, verified: true, contentReviewed: false },
+  { fault: "F13", videoId: "3svWej4YDCg", title: "How To Perfect Your Backlift: Mark Ramprakash", channel: "Wisden Cricket", url: "https://www.youtube.com/watch?v=3svWej4YDCg", level: "all", whatItShows: "Ramprakash demonstrates the orthodox backlift: hands up and back, close to the body, top hand in control.", startSeconds: null, verified: true, contentReviewed: false },
+  { fault: "F13", videoId: "QCwSaXEJI2w", title: "Improve your BATTING TIMING in 4 minutes", channel: "CoachCricXI - Online Cricket Coaching", url: "https://www.youtube.com/watch?v=QCwSaXEJI2w", level: "all", whatItShows: "A short drill set for timing: let the backlift flow into the downswing in one rhythm.", startSeconds: null, verified: true, contentReviewed: false },
+  { fault: "F13", videoId: "RYGaXnxF4yQ", title: "Batting Pick Up Tips | Toby Radford Coaching", channel: "CRICKET LIFE STORIES", url: "https://www.youtube.com/watch?v=RYGaXnxF4yQ", level: "club", whatItShows: "Short clip from a net session with Toby Radford on the pick-up (backlift) and getting it started in time.", startSeconds: null, verified: true, contentReviewed: false },
+  { fault: "F03", videoId: "3svWej4YDCg", title: "How To Perfect Your Backlift: Mark Ramprakash", channel: "Wisden Cricket", url: "https://www.youtube.com/watch?v=3svWej4YDCg", level: "all", whatItShows: "Ramprakash demonstrates the orthodox backlift: hands up and back, close to the body, top hand in control.", startSeconds: null, verified: true, contentReviewed: false },
+  { fault: "F03", videoId: "UxX4IQL03UU", title: "How To Bat In Cricket With The CORRECT Grip, Backlift & Set-Up | Technical Foundations Of Batting", channel: "CRICKET LIFE STORIES", url: "https://www.youtube.com/watch?v=UxX4IQL03UU", level: "club", whatItShows: "Toby Radford (former West Indies batting coach) works through grip, set-up and backlift: still head, hands close to the body.", startSeconds: null, verified: true, contentReviewed: false },
+  { fault: "F03", videoId: "CaAeVsqGD4s", title: "Gary Palmer - Batting drill to develop high hands good alignment and balance.", channel: "Gary Palmer", url: "https://www.youtube.com/watch?v=CaAeVsqGD4s", level: "club", whatItShows: "A drill for high hands, a straight swing through the hitting zone and a balanced, aligned finish to the drive.", startSeconds: null, verified: true, contentReviewed: false },
+  { fault: "F19", videoId: "deGKL_sOwUY", title: "Batting Drill: Picking Length", channel: "PitchVision Sports", url: "https://www.youtube.com/watch?v=deGKL_sOwUY", level: "club", whatItShows: "Monty Desai (former West Indies batting coach) runs a drill that helps a young batter watch the ball and pick length early.", startSeconds: null, verified: true, contentReviewed: false },
+  { fault: "F19", videoId: "wH6fiC-P9Bo", title: "How to JUDGE LENGTH - Cricket Batting Drills and Tips", channel: "CoachCricXI - Online Cricket Coaching", url: "https://www.youtube.com/watch?v=wH6fiC-P9Bo", level: "all", whatItShows: "Drills for judging length early so the batter drives only the full ball and goes back to the short one.", startSeconds: null, verified: true, contentReviewed: false },
+  { fault: "F19", videoId: "y6fVgUSkKa8", title: "Improve your SHOT SELECTION while judging LINE & LENGTH", channel: "CoachCricXI - Online Cricket Coaching", url: "https://www.youtube.com/watch?v=y6fVgUSkKa8", level: "club", whatItShows: "A partner drill for shot selection: read line and length, then choose drive, back-foot shot or leave.", startSeconds: null, verified: true, contentReviewed: false },
+  { fault: "F15", videoId: "ZGPXm8yAKVg", title: "How to IMPROVE your BATTING footwork | Cricket Batting Drills", channel: "CoachCricXI - Online Cricket Coaching", url: "https://www.youtube.com/watch?v=ZGPXm8yAKVg", level: "all", whatItShows: "Four footwork drills, beginner to advanced, for moving out towards the ball instead of across the crease.", startSeconds: null, verified: true, contentReviewed: false },
+  { fault: "F15", videoId: "UN6Ff31MQEo", title: "FIX these OFF SIDE batting MISTAKES - Cricket Batting Drills", channel: "CoachCricXI - Online Cricket Coaching", url: "https://www.youtube.com/watch?v=UN6Ff31MQEo", level: "club", whatItShows: "Common off-side faults (falling across, opening up, reaching) with drills to fix each.", startSeconds: null, verified: true, contentReviewed: false },
+  { fault: "F15", videoId: "I8YV8hzydqA", title: "Coaching Quick Fix | Accessing The Off-Side", channel: "New Zealand Cricket", url: "https://www.youtube.com/watch?v=I8YV8hzydqA", level: "club", whatItShows: "NZC quick fix for helping a batter get access to the off side: stay closed and on the line instead of falling across or opening up.", startSeconds: null, verified: true, contentReviewed: false },
+  { fault: "F04", videoId: "5TcZlYt4AUQ", title: "How to play the PERFECT defence | Mark Ramprakash Batting Masterclass", channel: "Wisden Cricket", url: "https://www.youtube.com/watch?v=5TcZlYt4AUQ", level: "all", whatItShows: "Front-foot defence: the head and front shoulder lead towards the line and the front foot follows; the same lead as the drive, at low speed.", startSeconds: null, verified: true, contentReviewed: false },
+  { fault: "F04", videoId: "j2cHkeoqNGk", title: "Use THESE 5 BATTING DRILLS to help you score more runs TODAY!", channel: "CoachCricXI - Online Cricket Coaching", url: "https://www.youtube.com/watch?v=j2cHkeoqNGk", level: "club", whatItShows: "Five drills: head position, getting into the line of the ball, and transferring the weight forward into the shot.", startSeconds: null, verified: true, contentReviewed: false },
+  { fault: "F04", videoId: "sgZEt5Ag4Lo", title: "Cricket batting| How to play the off drive.", channel: "Omnia Cricket Coaching", url: "https://www.youtube.com/watch?v=sgZEt5Ag4Lo", level: "club", whatItShows: "Radford on the off drive: head and front shoulder lead the front foot to the line of the ball.", startSeconds: null, verified: true, contentReviewed: false },
+  { fault: "F05", videoId: "GlI27mVGzo4", title: "How to Play the PERFECT Cover Drive | Serious Cricket", channel: "Serious Cricket", url: "https://www.youtube.com/watch?v=GlI27mVGzo4", level: "club", whatItShows: "ECB Level 3 coach and former Hampshire player Richard Hindley walks through the cover drive: front foot to the line, head over the ball, controlled finish.", startSeconds: null, verified: true, contentReviewed: false },
+  { fault: "F05", videoId: "4sflN54fFho", title: "Steve Snell #1 - The Cover Drive", channel: "SomersetCricket", url: "https://www.youtube.com/watch?v=4sflN54fFho", level: "club", whatItShows: "Somerset academy director Steve Snell's coaching tips on the cover drive: get to the line, keep the shoulder closed, play under the eyes.", startSeconds: null, verified: true, contentReviewed: false },
+  { fault: "F05", videoId: "uzk8axtFVgc", title: "Cricket Batting Drills for Beginners- Front-Foot Practice with Drop Feed", channel: "CRICDOJO", url: "https://www.youtube.com/watch?v=uzk8axtFVgc", level: "beginner", whatItShows: "Drop-feed drill for under-7s to under-11s: step to the line and meet the ball close to the front pad, under the eyes.", startSeconds: null, verified: true, contentReviewed: false },
+  { fault: "F05", videoId: "ONFlBAU88y0", title: "Meg Lanning teaches the cover drive | Coaching Masterclass", channel: "Cricket Australia", url: "https://www.youtube.com/watch?v=ONFlBAU88y0", level: "all", whatItShows: "Former Australia captain Meg Lanning's masterclass on the cover drive: front shoulder towards the ball, foot to the line, full face, controlled finish.", startSeconds: null, verified: true, contentReviewed: false },
+  { fault: "F06", videoId: "ye16yb27sS4", title: "Cricket Batting Drills for Juniors - Front-Foot Drive Power Drill", channel: "CRICDOJO", url: "https://www.youtube.com/watch?v=ye16yb27sS4", level: "beginner", whatItShows: "Junior drill for driving the weight forward: front knee bends, back foot pushes and the body moves out over the ball.", startSeconds: null, verified: true, contentReviewed: false },
+  { fault: "F06", videoId: "j2cHkeoqNGk", title: "Use THESE 5 BATTING DRILLS to help you score more runs TODAY!", channel: "CoachCricXI - Online Cricket Coaching", url: "https://www.youtube.com/watch?v=j2cHkeoqNGk", level: "club", whatItShows: "Five drills: head position, getting into the line of the ball, and transferring the weight forward into the shot.", startSeconds: null, verified: true, contentReviewed: false },
+  { fault: "F06", videoId: "yeImrfgNJoM", title: "DRIVE Like a Pro - Full Cricket Drive Technique Breakdown + Drills", channel: "CoachCricXI - Online Cricket Coaching", url: "https://www.youtube.com/watch?v=yeImrfgNJoM", level: "club", whatItShows: "Full breakdown of the cover and straight drive, with drills: straight swing through the line and hands through to the target.", startSeconds: null, verified: true, contentReviewed: false },
+  { fault: "F18", videoId: "ye16yb27sS4", title: "Cricket Batting Drills for Juniors - Front-Foot Drive Power Drill", channel: "CRICDOJO", url: "https://www.youtube.com/watch?v=ye16yb27sS4", level: "beginner", whatItShows: "Junior drill for driving the weight forward: front knee bends, back foot pushes and the body moves out over the ball.", startSeconds: null, verified: true, contentReviewed: false },
+  { fault: "F18", videoId: "j2cHkeoqNGk", title: "Use THESE 5 BATTING DRILLS to help you score more runs TODAY!", channel: "CoachCricXI - Online Cricket Coaching", url: "https://www.youtube.com/watch?v=j2cHkeoqNGk", level: "club", whatItShows: "Five drills: head position, getting into the line of the ball, and transferring the weight forward into the shot.", startSeconds: null, verified: true, contentReviewed: false },
+  { fault: "F16", videoId: "Nuzm6PRO1-0", title: "Toby Radford on the 60/40 Batting Weight Rule", channel: "The Cerebral Cricketer", url: "https://www.youtube.com/watch?v=Nuzm6PRO1-0", level: "all", whatItShows: "Radford's balance cue: keep the head stacked over the feet, as when standing and talking; weight split for moving either way.", startSeconds: null, verified: true, contentReviewed: false },
+  { fault: "F16", videoId: "j2cHkeoqNGk", title: "Use THESE 5 BATTING DRILLS to help you score more runs TODAY!", channel: "CoachCricXI - Online Cricket Coaching", url: "https://www.youtube.com/watch?v=j2cHkeoqNGk", level: "club", whatItShows: "Five drills: head position, getting into the line of the ball, and transferring the weight forward into the shot.", startSeconds: null, verified: true, contentReviewed: false },
+  { fault: "F16", videoId: "ye16yb27sS4", title: "Cricket Batting Drills for Juniors - Front-Foot Drive Power Drill", channel: "CRICDOJO", url: "https://www.youtube.com/watch?v=ye16yb27sS4", level: "beginner", whatItShows: "Junior drill for driving the weight forward: front knee bends, back foot pushes and the body moves out over the ball.", startSeconds: null, verified: true, contentReviewed: false },
+  { fault: "F07", videoId: "ONFlBAU88y0", title: "Meg Lanning teaches the cover drive | Coaching Masterclass", channel: "Cricket Australia", url: "https://www.youtube.com/watch?v=ONFlBAU88y0", level: "all", whatItShows: "Former Australia captain Meg Lanning's masterclass on the cover drive: front shoulder towards the ball, foot to the line, full face, controlled finish.", startSeconds: null, verified: true, contentReviewed: false },
+  { fault: "F07", videoId: "I8YV8hzydqA", title: "Coaching Quick Fix | Accessing The Off-Side", channel: "New Zealand Cricket", url: "https://www.youtube.com/watch?v=I8YV8hzydqA", level: "club", whatItShows: "NZC quick fix for helping a batter get access to the off side: stay closed and on the line instead of falling across or opening up.", startSeconds: null, verified: true, contentReviewed: false },
+  { fault: "F07", videoId: "4sflN54fFho", title: "Steve Snell #1 - The Cover Drive", channel: "SomersetCricket", url: "https://www.youtube.com/watch?v=4sflN54fFho", level: "club", whatItShows: "Somerset academy director Steve Snell's coaching tips on the cover drive: get to the line, keep the shoulder closed, play under the eyes.", startSeconds: null, verified: true, contentReviewed: false },
+  { fault: "F07", videoId: "UN6Ff31MQEo", title: "FIX these OFF SIDE batting MISTAKES - Cricket Batting Drills", channel: "CoachCricXI - Online Cricket Coaching", url: "https://www.youtube.com/watch?v=UN6Ff31MQEo", level: "club", whatItShows: "Common off-side faults (falling across, opening up, reaching) with drills to fix each.", startSeconds: null, verified: true, contentReviewed: false },
+  { fault: "F08", videoId: "yeImrfgNJoM", title: "DRIVE Like a Pro - Full Cricket Drive Technique Breakdown + Drills", channel: "CoachCricXI - Online Cricket Coaching", url: "https://www.youtube.com/watch?v=yeImrfgNJoM", level: "club", whatItShows: "Full breakdown of the cover and straight drive, with drills: straight swing through the line and hands through to the target.", startSeconds: null, verified: true, contentReviewed: false },
+  { fault: "F08", videoId: "PQajjXvzkuQ", title: "The #1 Straight Drive Mistake Batters Make", channel: "CoachCricXI - Online Cricket Coaching", url: "https://www.youtube.com/watch?v=PQajjXvzkuQ", level: "club", whatItShows: "The most common straight-drive mistake and how to swing straight down the line instead of across it.", startSeconds: null, verified: true, contentReviewed: false },
+  { fault: "F08", videoId: "CaAeVsqGD4s", title: "Gary Palmer - Batting drill to develop high hands good alignment and balance.", channel: "Gary Palmer", url: "https://www.youtube.com/watch?v=CaAeVsqGD4s", level: "club", whatItShows: "A drill for high hands, a straight swing through the hitting zone and a balanced, aligned finish to the drive.", startSeconds: null, verified: true, contentReviewed: false },
+  { fault: "F09", videoId: "QCwSaXEJI2w", title: "Improve your BATTING TIMING in 4 minutes", channel: "CoachCricXI - Online Cricket Coaching", url: "https://www.youtube.com/watch?v=QCwSaXEJI2w", level: "all", whatItShows: "A short drill set for timing: let the backlift flow into the downswing in one rhythm.", startSeconds: null, verified: true, contentReviewed: false },
+  { fault: "F09", videoId: "7KvrXWOJJfI", title: "How To Use A Trigger Movement When Batting: Mark Ramprakash", channel: "Wisden Cricket", url: "https://www.youtube.com/watch?v=7KvrXWOJJfI", level: "club", whatItShows: "Ramprakash on timing the trigger so the movement flows into the shot rather than stopping and starting.", startSeconds: null, verified: true, contentReviewed: false },
+  { fault: "F09", videoId: "S_IrRtW0aC8", title: "How to TIME THE BALL while BATTING | Cricket Batting Drills", channel: "CoachCricXI - Online Cricket Coaching", url: "https://www.youtube.com/watch?v=S_IrRtW0aC8", level: "club", whatItShows: "Favourite drills for timing the ball: smooth swing, late contact, no forcing.", startSeconds: null, verified: true, contentReviewed: false },
+  { fault: "F10", videoId: "wjEqqElR8ek", title: "This can COMPLETELY DESTROY your BATTING! - Fixing Incorrect head positions when batting", channel: "CoachCricXI - Online Cricket Coaching", url: "https://www.youtube.com/watch?v=wjEqqElR8ek", level: "club", whatItShows: "Common head-position faults (head moving or falling away) and drills to keep it still and over the ball.", startSeconds: null, verified: true, contentReviewed: false },
+  { fault: "F10", videoId: "0t08DPxOSqg", title: "DRILLS to help you WATCH THE BALL better in Cricket", channel: "CoachCricXI - Online Cricket Coaching", url: "https://www.youtube.com/watch?v=0t08DPxOSqg", level: "all", whatItShows: "Five hand-eye drill sets with a partner or a wall that train a still head and eyes on the ball.", startSeconds: null, verified: true, contentReviewed: false },
+  { fault: "F10", videoId: "GlI27mVGzo4", title: "How to Play the PERFECT Cover Drive | Serious Cricket", channel: "Serious Cricket", url: "https://www.youtube.com/watch?v=GlI27mVGzo4", level: "club", whatItShows: "ECB Level 3 coach and former Hampshire player Richard Hindley walks through the cover drive: front foot to the line, head over the ball, controlled finish.", startSeconds: null, verified: true, contentReviewed: false },
+  { fault: "F10", videoId: "uzk8axtFVgc", title: "Cricket Batting Drills for Beginners- Front-Foot Practice with Drop Feed", channel: "CRICDOJO", url: "https://www.youtube.com/watch?v=uzk8axtFVgc", level: "beginner", whatItShows: "Drop-feed drill for under-7s to under-11s: step to the line and meet the ball close to the front pad, under the eyes.", startSeconds: null, verified: true, contentReviewed: false },
+  { fault: "F11", videoId: "RjDGEpWtfmQ", title: "4 Batting Drills To Improve YOUR Game Against Pace & Spin | Learn How To Bat In Cricket From A Pro", channel: "CRICKET LIFE STORIES", url: "https://www.youtube.com/watch?v=RjDGEpWtfmQ", level: "club", whatItShows: "Former county batter Hassan Azad's top-hand, bottom-hand and batting-balance drills, ending in a held, balanced finish.", startSeconds: null, verified: true, contentReviewed: false },
+  { fault: "F11", videoId: "CaAeVsqGD4s", title: "Gary Palmer - Batting drill to develop high hands good alignment and balance.", channel: "Gary Palmer", url: "https://www.youtube.com/watch?v=CaAeVsqGD4s", level: "club", whatItShows: "A drill for high hands, a straight swing through the hitting zone and a balanced, aligned finish to the drive.", startSeconds: null, verified: true, contentReviewed: false },
+  { fault: "F12", videoId: "yeImrfgNJoM", title: "DRIVE Like a Pro - Full Cricket Drive Technique Breakdown + Drills", channel: "CoachCricXI - Online Cricket Coaching", url: "https://www.youtube.com/watch?v=yeImrfgNJoM", level: "club", whatItShows: "Full breakdown of the cover and straight drive, with drills: straight swing through the line and hands through to the target.", startSeconds: null, verified: true, contentReviewed: false },
+  { fault: "F12", videoId: "GlI27mVGzo4", title: "How to Play the PERFECT Cover Drive | Serious Cricket", channel: "Serious Cricket", url: "https://www.youtube.com/watch?v=GlI27mVGzo4", level: "club", whatItShows: "ECB Level 3 coach and former Hampshire player Richard Hindley walks through the cover drive: front foot to the line, head over the ball, controlled finish.", startSeconds: null, verified: true, contentReviewed: false },
+  { fault: "F12", videoId: "ONFlBAU88y0", title: "Meg Lanning teaches the cover drive | Coaching Masterclass", channel: "Cricket Australia", url: "https://www.youtube.com/watch?v=ONFlBAU88y0", level: "all", whatItShows: "Former Australia captain Meg Lanning's masterclass on the cover drive: front shoulder towards the ball, foot to the line, full face, controlled finish.", startSeconds: null, verified: true, contentReviewed: false },
+  { fault: "F00", videoId: "Fir4vlTsVHw", title: "In the nets with Pez: Drills to improve batting", channel: "Cricket Australia", url: "https://www.youtube.com/watch?v=Fir4vlTsVHw", level: "all", whatItShows: "Ellyse Perry shares her favourite batting drills: purposeful, repeatable net and throw-down work.", startSeconds: null, verified: true, contentReviewed: false },
+  { fault: "F00", videoId: "KhKhlJpjW10", title: "How to Practice Cricket Batting at Home | Serious Cricket", channel: "Serious Cricket", url: "https://www.youtube.com/watch?v=KhKhlJpjW10", level: "all", whatItShows: "Richard Hindley's home-practice routine: simple solo and partner drills to keep repeating a sound drive.", startSeconds: null, verified: true, contentReviewed: false },
+  { fault: "F00", videoId: "yRPo1Mw2lJ0", title: "Cricket Batting Drill Instantly Makes Nets Better", channel: "PitchVision Sports", url: "https://www.youtube.com/watch?v=yRPo1Mw2lJ0", level: "club", whatItShows: "PitchVision's point that 'just batting' in the nets does little; a drill that gives each ball a target so good technique is repeated with purpose.", startSeconds: null, verified: true, contentReviewed: false },
+  { fault: "F00", videoId: "vp6ZBJFAI3I", title: "Cricket Batting Techniques For Beginners - Front-Foot Drive with Bobble Feed", channel: "CRICDOJO", url: "https://www.youtube.com/watch?v=vp6ZBJFAI3I", level: "beginner", whatItShows: "Bobble-feed (rolled or bounced tennis ball) drive drill a parent or partner can feed; good for lots of repetitions.", startSeconds: null, verified: true, contentReviewed: false },
+];
+
+// mode: "preview" shows verified videos; "live" shows only verified videos that Alex has watched.
+export function getCoachingVideos(fault: DrillFaultId, level: DrillLevel, mode: "preview" | "live"): CoachingVideo[] {
+  const usable = COACHING_VIDEOS.filter(
+    (v) => v.fault === fault && v.verified === true && (mode === "live" ? v.contentReviewed === true : true),
+  );
+  const matching = usable.filter((v) => v.level === level || v.level === "all");
+  const others = usable.filter((v) => !(v.level === level || v.level === "all"));
+  return [...matching, ...others].slice(0, 2);
+}
+
+export function youtubeEmbedUrl(v: { videoId: string; startSeconds: number | null }): string {
+  const start = v.startSeconds && v.startSeconds > 0 ? `&start=${Math.floor(v.startSeconds)}` : "";
+  return `https://www.youtube-nocookie.com/embed/${v.videoId}?rel=0${start}`;
+}
+```
+
+**Check:** the project builds; `COACHING_VIDEOS.length` is 60 (37 videos; some are listed under more than one fault); `getCoachingVideos("F09", "club", "preview").map(v => v.title)` is `["Improve your BATTING TIMING in 4 minutes", "How To Use A Trigger Movement When Batting: Mark Ramprakash"]`; `getCoachingVideos("F09", "club", "live")` is empty (no video has been watched by Alex yet). Nothing on screen changes.
+
+---
+
 ## Pass 3: the plan logic, saving and the "Your drill plan" section
 
-Passes 1 and 2 are in place (`src/data/drillLibrary.ts`). So are the earlier results-page passes: `src/lib/coaching.ts` (`FAULTS`, `RULE_TO_FAULT`), `getPriorityFix` in `src/lib/priorityFix.ts`, the priority fix card, the "Film it right" sheet, the "Your progress" strip and the share card. If any of these is missing, stop and tell me; do not build a copy.
+Passes 1, 2 and 2b are in place (`src/data/drillLibrary.ts`, `src/data/coachingVideos.ts`). So are the earlier results-page passes: `src/lib/coaching.ts` (`FAULTS`, `RULE_TO_FAULT`), `getPriorityFix` in `src/lib/priorityFix.ts`, the priority fix card, the "Film it right" sheet, the "Your progress" strip and the share card. If any of these is missing, stop and tell me; do not build a copy.
 
 This pass changes the results page (`src/pages/AnalysisResults.tsx`) and adds new files. Do not change the upload flow, the login, the API call or any other page. Do not add any call to the backend (the Railway API). Use UK spelling. Keep the current fonts, colours and layout everywhere else.
 
@@ -391,6 +495,12 @@ export const PLAN_COPY = {
   printTitle: "My 3-week drill plan",
   printWorkingOn: "Working on: {fault}",
   printWorkingOnClean: "Working on: keeping my drive the same",
+  videosTitle: "Coaching videos for this fix",
+  videosIntro: "Videos from other coaches on YouTube that show the same fix. Batting IQ did not make them.",
+  videoPlayButton: "Play video (YouTube)",
+  videoCookieNote: "YouTube may set cookies when the video plays.",
+  videoCredit: "Video: {channel} on YouTube",
+  videoNotReviewedBadge: "Not yet watched by our coach",
   footer: "Drills are suggestions based on a computer analysis of one clip. They can be wrong, and they don't know about your body or any injury. If something doesn't feel right, stop and check with a coach.",
 } as const;
 ```
@@ -486,7 +596,7 @@ When open, in this order:
 2. **Video area.** A 16:9 rounded box, full card width.
    - `videoUrl` is null: a muted panel with a "Video" lucide icon and `videoComingSoon`.
    - `videoUrl` ends in `.mp4`, `.webm` or `.mov` (ignore any `?` query): a `<video controls playsInline preload="metadata">` with that source. No autoplay, no loop.
-   - `videoUrl` is a YouTube link (`youtube.com/watch?v=`, `youtu.be/` or `youtube.com/shorts/`): an `<iframe>` to `https://www.youtube-nocookie.com/embed/{id}`, with `title` set to the drill name, `loading="lazy"` and `allowfullscreen`.
+   - `videoUrl` is a YouTube link (`youtube.com/watch?v=`, `youtu.be/` or `youtube.com/shorts/`): the `YouTubeTapToPlay` player from section 8b, with that video id.
    - Any other URL: a link button "Watch the demo" that opens it in a new tab (`rel="noopener noreferrer"`).
 3. `youNeed` with the equipment joined by ", ".
 4. `setupLabel` (small bold), then `setup`.
@@ -495,6 +605,16 @@ When open, in this order:
 7. `checkLabel`: `successCheck`.
 8. `nextStepLabel`: `progression` (leave this out when `makeItHarder` is shown at the top).
 9. Safety, small muted text, three lines in this order: the drill's own `safety`; `DRILL_SAFETY`; `DRILL_SAFETY_JUNIOR` only for `under_18` and `unknown`.
+
+### 8b. Coaching videos for this fix
+
+In each week panel, after the drill cards (and before the nets note), add a **"Coaching videos for this fix"** block:
+- Videos: `getCoachingVideos(P, level, mode)` in every week; in weeks 2 and 3 also `getCoachingVideos(S, level, mode)` when there is a second fault, under a small sub-heading with the second fault's name. `mode` is `"live"` or `"preview"` from the release switch. If both lists are empty, leave the whole block out.
+- Block title `videosTitle`, then `videosIntro` in small muted text.
+- Each video is a card: the title (bold, 2 lines at most), `whatItShows` (muted), the credit line `videoCredit` with the channel name, which links to `url` (new tab, `rel="noopener noreferrer"`), and, when `contentReviewed` is false, the badge `videoNotReviewedBadge` (muted outline; only ever seen in `preview`).
+- **`YouTubeTapToPlay`** (one component, also used by the drill card's video area): a 16:9 rounded panel in the muted colour with a "Play" lucide icon and the button `videoPlayButton`, and `videoCookieNote` under it in small muted text. Do not load anything from YouTube (no iframe, no thumbnail image) until the button is tapped. On tap, replace the panel with an `<iframe>` whose `src` is `youtubeEmbedUrl(video)`, with `title` set to the video title, `allow="encrypted-media; picture-in-picture; fullscreen"`, `allowfullscreen`, `referrerpolicy="strict-origin-when-cross-origin"` and no autoplay. Never autoplay, loop or mute-play, never cover the player's controls, and never put our branding over it.
+- Show at most two videos for each fault (the helper already limits this).
+- Videos are not in the print view or the shared text.
 
 ### 9. Re-analyse and newer analyses
 
@@ -573,11 +693,12 @@ And these variants:
 7. With `localStorage` blocked (private window): the plan works and ticks save to the server copy; with no server copy, the ticks last until the page is closed, with no error.
 8. Not an admin, no `?drills=preview`: no plan section, and the priority card's drill box is "Drill to try: One-two rhythm", as before. Add `?drills=preview`: the section shows.
 9. `FEATURES.drillPlan = "live"` while every drill is `pending`: "Drills for this fix are being checked by our coach. Check back soon.", and the priority card keeps its own drill box. Set F09-C to `signoff: "ok"`: week 1 shows Metronome drives with "Checked by a qualified coach". Weeks 2 and 3 fall back to F09-C as well (F09-A is not signed off), and week 2 then has no second drill.
-10. Set `videoUrl` on F09-C to an `.mp4` address: a video player replaces "Demo video coming soon". Set it to a YouTube link: a youtube-nocookie player.
+10. Set `videoUrl` on F09-C to an `.mp4` address: a video player replaces "Demo video coming soon". Set it to a YouTube link: the tap-to-play panel, and the youtube-nocookie player only after the tap.
+10b. In the base test (`preview`, club): week 1 has "Coaching videos for this fix" with two cards, "Improve your BATTING TIMING in 4 minutes" and "How To Use A Trigger Movement When Batting: Mark Ramprakash", each with "Video: {channel} on YouTube" and the "Not yet watched by our coach" badge. The browser's network tab shows no request to youtube-nocookie.com until "Play video (YouTube)" is tapped. In variant 2 (F13 second), weeks 2 and 3 also show up to two F13 videos under "Hands late: no rhythm from the backlift". With `FEATURES.drillPlan = "live"`, no video block shows until Alex has marked videos `contentReviewed: true`.
 11. "Print or save as PDF": the print preview shows only the plan, with empty tick boxes, no name and no score. On a phone, "Share plan" opens the share sheet with the plain text; on a desktop without sharing, "Copy plan" copies it and shows "Plan copied".
 12. When a newer analysis exists: the banner "You've analysed a newer clip since this plan. Your latest plan is on that result." with "See my latest result", and no re-analyse card.
 
-**Out of scope for this pass:** new backend calls, a new table, push or email reminders, editing drills in the app, uploading videos in the app, coach access to plans, and comparing plans between analyses. Keep the current fonts, colours and layout everywhere else.
+**Out of scope for this pass:** new backend calls, a new table, push or email reminders, editing drills or videos in the app, uploading videos in the app, searching YouTube from the app, coach access to plans, and comparing plans between analyses. Keep the current fonts, colours and layout everywhere else.
 
 ---
 
@@ -586,6 +707,12 @@ And these variants:
 > In `src/data/drillLibraryPart1.ts` and `src/data/drillLibraryPart2.ts`, change only the `signoff` field of these drills, and nothing else: {for example: F01-B, F01-C, F01-A: "ok"; F07-A: "removed"}. Do not change any text.
 
 If Alex asked for a wording change, edit `docs/phase6/drill_library.json` first, then give Lovable the drill's new text the same way ("replace the `steps` of F05-C with exactly: ...") and set `signoff: "ok"` only once the change is in.
+
+## Follow-up template: coaching videos Alex has watched
+
+> In `src/data/coachingVideos.ts`, set `contentReviewed: true` on every entry with these `videoId`s: {ids}. Remove the entries with these `videoId`s: {ids marked "Not suitable"}. Set `startSeconds` to {n} on the entries with `videoId` {id}. Change nothing else.
+
+Make the same change in `docs/phase6/drill_videos.json` first (`content_reviewed`, and `start_seconds` where given), so the two always agree.
 
 ## Follow-up template: a demo video (paste when a video is uploaded)
 
@@ -600,4 +727,5 @@ Also set `video_slot.status` to `"live"` and `video_slot.url` in `docs/phase6/dr
 - **Order:** Pass 0a today. Passes 1 to 3 when you are ready to test. The plan stays hidden from users (`preview`) until you switch it to `live`.
 - **Before `live`:** Alex signs off the drills (`docs/phase6/drill_signoff.md`), then set `signoff` with the follow-up template, run the Pass 3 tests, and then paste Pass 0b. This keeps to the rule "nothing goes live untested".
 - **The priority card's "Drill to try"** (results prompt Pass 1) is each fault's beginner drill from the library, so Alex's sign-off covers it too.
-- **Claims:** keep "coaching videos" off the pricing card until every drill has a demo. Never say the drills prevent injury or are "as good as a coach".
+- **Coaching videos:** in `preview` the plan shows the checked YouTube links with a "Not yet watched by our coach" badge. In `live` it shows only videos you have watched (`content_reviewed: true`). Watch them with the sign-off sheet (`docs/phase6/drill_signoff.md`, part 2). Add a line to the privacy notice that YouTube may set cookies when a player taps "Play video (YouTube)".
+- **Claims:** keep "coaching videos" off the pricing card until every fault shows at least one watched video in `live` (an entry in `drill_videos.json` with `verified` and `content_reviewed` both true). Then a one-line prompt can change "Personalised drill plan" to "Personalised drill plan with coaching videos". Never say the drills prevent injury or are "as good as a coach".

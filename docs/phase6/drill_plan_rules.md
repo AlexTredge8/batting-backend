@@ -1,6 +1,6 @@
 # Drill plan rules v0.1 (draft)
 
-DRAFT, 17 Nov 2026. This is the full logic and copy for the "Your drill plan" section of the results page. The app prompt that builds it is `docs/lovable/drill_plan_prompt.md`; if you change a rule or a line of copy here, change it there too. The drills are in `drill_library.json`. Alex (a qualified coach) must sign off every drill before the plan goes live (`drill_signoff.md`).
+DRAFT, 17 Nov 2026. This is the full logic and copy for the "Your drill plan" section of the results page. The app prompt that builds it is `docs/lovable/drill_plan_prompt.md`; if you change a rule or a line of copy here, change it there too. The drills are in `drill_library.json`. Coaching video links are in `drill_videos.json` (read only here). Alex (a qualified coach) must sign off every drill before the plan goes live (`drill_signoff.md`).
 
 The plan is three weeks long, three sessions a week, 15 to 20 minutes a session. It is built from one analysis and is saved with that analysis.
 
@@ -177,6 +177,20 @@ The current week is the first week that has an unticked session; if all 9 are ti
 
 ---
 
+## 9b. Coaching videos for this fix
+
+Source: `drill_videos.json` (2 to 4 public YouTube videos per fault, by other coaches). The app keeps a copy as `COACHING_VIDEOS`.
+
+- **Which entries:** only `verified: true`. In `live` mode, also only `content_reviewed: true` (Alex has watched the video and says it fits). In `preview`, unreviewed videos show with the badge `videoNotReviewedBadge`.
+- **Which faults:** P in every week; S as well in weeks 2 and 3, under a sub-heading with S's name.
+- **How many:** at most 2 per fault. First the videos whose `level` is the player's level or `all`, then the others, each group in the file's order.
+- **How they play:** YouTube's own player only, from `youtube-nocookie.com`, with `rel=0` and `start` when `start_seconds` is set. Nothing loads from YouTube until the player taps `videoPlayButton` (UK cookie rules; most players are juniors). Show `videoCookieNote` under the button. Never autoplay, loop or cover the controls.
+- **Credit:** `videoCredit` with the channel name, linking to the original video. Never suggest the channel endorses Batting IQ.
+- **Not in** the print view or the shared text.
+- If no video is usable, leave the block out.
+
+These videos are different from each drill's own demo (`video_slot`), which shows "Demo video coming soon" until a demo is filmed.
+
 ## 10. Link from the priority fix card
 
 When the plan section shows, the drill box on the priority fix card changes to:
@@ -258,6 +272,12 @@ When the plan section is hidden (`off`, or `preview` for other users), the card 
 | copyButton | Copy plan |
 | copiedToast | Plan copied |
 | printTitle | My 3-week drill plan |
+| videosTitle | Coaching videos for this fix |
+| videosIntro | Videos from other coaches on YouTube that show the same fix. Batting IQ did not make them. |
+| videoPlayButton | Play video (YouTube) |
+| videoCookieNote | YouTube may set cookies when the video plays. |
+| videoCredit | Video: {channel} on YouTube |
+| videoNotReviewedBadge | Not yet watched by our coach |
 | footer | Drills are suggestions based on a computer analysis of one clip. They can be wrong, and they don't know about your body or any injury. If something doesn't feel right, stop and check with a coach. |
 
 **Share text template** (`shareText`), plain text, one item a line:
@@ -283,5 +303,6 @@ For F00, the second line is "Working on: keeping my drive the same".
 
 1. Alex signs off the drills (`drill_signoff.md`). Set each drill's `signoff` in `drill_library.json` and in the app's data to `ok`, or make Alex's change, or set `removed`.
 2. Run the tests in the prompt with `FEATURES.drillPlan = "preview"`.
-3. Tell Alex. Then set `FEATURES.drillPlan = "live"`, and run prompt Pass 0b (the pricing line).
-4. Add demo videos as they are filmed (an adult batter only; who films them is not decided yet, and Alex does not film): set `videoUrl` on the drill (the prompt has a one-line template).
+3. Alex watches the coaching videos (sign-off sheet part 2) and `content_reviewed` is set in `drill_videos.json` and in the app's copy.
+4. Tell Alex. Then set `FEATURES.drillPlan = "live"`, and run prompt Pass 0b (the pricing line reads "Personalised drill plan"; add "with coaching videos" only when every fault has at least one watched video).
+5. Add demo videos as they are filmed (an adult batter only; who films them is not decided yet, and Alex does not film): set `videoUrl` on the drill (the prompt has a one-line template).
