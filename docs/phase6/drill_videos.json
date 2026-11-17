@@ -1,8 +1,8 @@
 {
   "F01": [
     {
-      "title": "This can COMPLETELY DESTROY your BATTING! - Fixing incorrect head positions when batting",
-      "channel": "CoachCricXI - Online Cricket Coaching (Byron Fraser, Zendon Verster)",
+      "title": "This can COMPLETELY DESTROY your BATTING! - Fixing Incorrect head positions when batting",
+      "channel": "CoachCricXI - Online Cricket Coaching",
       "url": "https://www.youtube.com/watch?v=wjEqqElR8ek",
       "embed_url": "https://www.youtube-nocookie.com/embed/wjEqqElR8ek",
       "video_id": "wjEqqElR8ek",
@@ -10,12 +10,15 @@
       "what_it_shows": "Common head-position faults (head moving or falling away) and drills to keep it still and over the ball.",
       "level": "club",
       "source_type": "coach",
-      "verified": false,
-      "notes": "Title and ID from a web search result; YouTube could not be opened from this session. Channel from the search summary."
+      "verified": true,
+      "notes": "Title and ID from a web search result; YouTube could not be opened from this session. Channel from the search summary. Link checked 17 Nov 2026; content not yet watched (Alex to review).",
+      "channel_url": "https://www.youtube.com/@CoachCricXI",
+      "link_check": "2026-11-17: YouTube oEmbed returned the video (public, embedding allowed); title and channel above are YouTube's own.",
+      "content_reviewed": false
     },
     {
-      "title": "How To Bat In Cricket With The CORRECT Grip, Backlift & Set-Up",
-      "channel": "Cricket Life Stories (Neel Khagram), with Toby Radford",
+      "title": "How To Bat In Cricket With The CORRECT Grip, Backlift & Set-Up | Technical Foundations Of Batting",
+      "channel": "CRICKET LIFE STORIES",
       "url": "https://www.youtube.com/watch?v=UxX4IQL03UU",
       "embed_url": "https://www.youtube-nocookie.com/embed/UxX4IQL03UU",
       "video_id": "UxX4IQL03UU",
@@ -23,12 +26,15 @@
       "what_it_shows": "Toby Radford (former West Indies batting coach) works through grip, set-up and backlift: still head, hands close to the body.",
       "level": "club",
       "source_type": "coach",
-      "verified": false,
-      "notes": "Title and ID from a web search result; YouTube could not be opened from this session. Channel and coach from the video description as summarised by the search. Probably over 6 minutes; find the backlift section before setting start_seconds."
+      "verified": true,
+      "notes": "Title and ID from a web search result; YouTube could not be opened from this session. Channel and coach from the video description as summarised by the search. Probably over 6 minutes; find the backlift section before setting start_seconds. Link checked 17 Nov 2026; content not yet watched (Alex to review).",
+      "channel_url": "https://www.youtube.com/@CricketLifeStories",
+      "link_check": "2026-11-17: YouTube oEmbed returned the video (public, embedding allowed); title and channel above are YouTube's own.",
+      "content_reviewed": false
     },
     {
       "title": "DRILLS to help you WATCH THE BALL better in Cricket",
-      "channel": "CoachCricXI - Online Cricket Coaching (Byron Fraser, Zendon Verster)",
+      "channel": "CoachCricXI - Online Cricket Coaching",
       "url": "https://www.youtube.com/watch?v=0t08DPxOSqg",
       "embed_url": "https://www.youtube-nocookie.com/embed/0t08DPxOSqg",
       "video_id": "0t08DPxOSqg",
@@ -36,14 +42,17 @@
       "what_it_shows": "Five hand-eye drill sets with a partner or a wall that train a still head and eyes on the ball.",
       "level": "all",
       "source_type": "coach",
-      "verified": false,
-      "notes": "Title and ID from a web search result; YouTube could not be opened from this session. Channel from the search summary (B3 Cricket sponsor links)."
+      "verified": true,
+      "notes": "Title and ID from a web search result; YouTube could not be opened from this session. Channel from the search summary (B3 Cricket sponsor links). Link checked 17 Nov 2026; content not yet watched (Alex to review).",
+      "channel_url": "https://www.youtube.com/@CoachCricXI",
+      "link_check": "2026-11-17: YouTube oEmbed returned the video (public, embedding allowed); title and channel above are YouTube's own.",
+      "content_reviewed": false
     }
   ],
   "F02": [
     {
-      "title": "The BEST cricket batting stance",
-      "channel": "Wisden (Essentials of Batting, Mark Ramprakash)",
+      "title": "The BEST cricket batting stance | Mark Ramprakash Batting Masterclass",
+      "channel": "Wisden Cricket",
       "url": "https://www.youtube.com/watch?v=oTiREL-x6Gg",
       "embed_url": "https://www.youtube-nocookie.com/embed/oTiREL-x6Gg",
       "video_id": "oTiREL-x6Gg",
@@ -51,12 +60,15 @@
       "what_it_shows": "Former England batter and England batting coach Mark Ramprakash sets up a relaxed, balanced stance with the head still and eyes level.",
       "level": "all",
       "source_type": "professional",
-      "verified": false,
-      "notes": "Title and ID from a web search result; YouTube could not be opened from this session. Episode 2 of Wisden's Essentials of Batting series, per the search summary."
+      "verified": true,
+      "notes": "Title and ID from a web search result; YouTube could not be opened from this session. Episode 2 of Wisden's Essentials of Batting series, per the search summary. Link checked 17 Nov 2026; content not yet watched (Alex to review).",
+      "channel_url": "https://www.youtube.com/@WisdenCricket",
+      "link_check": "2026-11-17: YouTube oEmbed returned the video (public, embedding allowed); title and channel above are YouTube's own.",
+      "content_reviewed": false
     },
     {
       "title": "Toby Radford on the 60/40 Batting Weight Rule",
-      "channel": "Not confirmed (a Short featuring Toby Radford)",
+      "channel": "The Cerebral Cricketer",
       "url": "https://www.youtube.com/watch?v=Nuzm6PRO1-0",
       "embed_url": "https://www.youtube-nocookie.com/embed/Nuzm6PRO1-0",
       "video_id": "Nuzm6PRO1-0",
@@ -64,12 +76,15 @@
       "what_it_shows": "Radford's balance cue: keep the head stacked over the feet, as when standing and talking; weight split for moving either way.",
       "level": "all",
       "source_type": "coach",
-      "verified": false,
-      "notes": "Title and ID from a web search result; YouTube could not be opened from this session. YouTube Short. The channel did not appear in the search result; confirm it before use."
+      "verified": true,
+      "notes": "Title and ID from a web search result; YouTube could not be opened from this session. YouTube Short. The channel did not appear in the search result; confirm it before use. Link checked 17 Nov 2026; content not yet watched (Alex to review).",
+      "channel_url": "https://www.youtube.com/@TheCerebralCricketer",
+      "link_check": "2026-11-17: YouTube oEmbed returned the video (public, embedding allowed); title and channel above are YouTube's own.",
+      "content_reviewed": false
     },
     {
-      "title": "The SECRET to a PERFECT Cricket Batting STANCE",
-      "channel": "CoachCricXI - Online Cricket Coaching (Byron Fraser, Zendon Verster)",
+      "title": "The SECRET to a PERFECT Cricket Batting STANCE | Everything you NEED to know",
+      "channel": "CoachCricXI - Online Cricket Coaching",
       "url": "https://www.youtube.com/watch?v=xebUS0CCg6k",
       "embed_url": "https://www.youtube-nocookie.com/embed/xebUS0CCg6k",
       "video_id": "xebUS0CCg6k",
@@ -77,12 +92,15 @@
       "what_it_shows": "Stance set-up: feet about shoulder-width apart, weight even, knees soft, head still.",
       "level": "beginner",
       "source_type": "coach",
-      "verified": false,
-      "notes": "Title and ID from a web search result; YouTube could not be opened from this session. Channel from the search summary."
+      "verified": true,
+      "notes": "Title and ID from a web search result; YouTube could not be opened from this session. Channel from the search summary. Link checked 17 Nov 2026; content not yet watched (Alex to review).",
+      "channel_url": "https://www.youtube.com/@CoachCricXI",
+      "link_check": "2026-11-17: YouTube oEmbed returned the video (public, embedding allowed); title and channel above are YouTube's own.",
+      "content_reviewed": false
     },
     {
       "title": "Correct Batting Stance Facing Pace & Spin In Cricket - Gary Palmer Open Stance Coaching Masterclass",
-      "channel": "Probably Cricket Life Stories, with Gary Palmer",
+      "channel": "CRICKET LIFE STORIES",
       "url": "https://www.youtube.com/watch?v=7CgCjJRjvgc",
       "embed_url": "https://www.youtube-nocookie.com/embed/7CgCjJRjvgc",
       "video_id": "7CgCjJRjvgc",
@@ -90,14 +108,17 @@
       "what_it_shows": "Gary Palmer (coach to Alastair Cook) on a stance that keeps the batter balanced and able to move either way.",
       "level": "advanced",
       "source_type": "coach",
-      "verified": false,
-      "notes": "Title and ID from a web search result; YouTube could not be opened from this session. Channel inferred from the title format and other Palmer videos on Cricket Life Stories; confirm. Open stance is one option, not a rule."
+      "verified": true,
+      "notes": "Title and ID from a web search result; YouTube could not be opened from this session. Channel inferred from the title format and other Palmer videos on Cricket Life Stories; confirm. Open stance is one option, not a rule. Link checked 17 Nov 2026; content not yet watched (Alex to review).",
+      "channel_url": "https://www.youtube.com/@CricketLifeStories",
+      "link_check": "2026-11-17: YouTube oEmbed returned the video (public, embedding allowed); title and channel above are YouTube's own.",
+      "content_reviewed": false
     }
   ],
   "F17": [
     {
-      "title": "How to use a trigger movement when batting",
-      "channel": "Wisden (Essentials of Batting, Mark Ramprakash)",
+      "title": "How to use a trigger movement when batting | Mark Ramprakash Batting Masterclass",
+      "channel": "Wisden Cricket",
       "url": "https://www.youtube.com/watch?v=katRDmaYF1E",
       "embed_url": "https://www.youtube-nocookie.com/embed/katRDmaYF1E",
       "video_id": "katRDmaYF1E",
@@ -105,12 +126,15 @@
       "what_it_shows": "Ramprakash on a small trigger movement that gets the head, hands and feet set on the line as the bowler lets go.",
       "level": "club",
       "source_type": "professional",
-      "verified": false,
-      "notes": "Title and ID from a web search result; YouTube could not be opened from this session. Episode 4 of the series, per the search summary."
+      "verified": true,
+      "notes": "Title and ID from a web search result; YouTube could not be opened from this session. Episode 4 of the series, per the search summary. Link checked 17 Nov 2026; content not yet watched (Alex to review).",
+      "channel_url": "https://www.youtube.com/@WisdenCricket",
+      "link_check": "2026-11-17: YouTube oEmbed returned the video (public, embedding allowed); title and channel above are YouTube's own.",
+      "content_reviewed": false
     },
     {
       "title": "How To Bat In Cricket With The Correct Trigger Movement - Gary Palmer Coaching Tips",
-      "channel": "Cricket Life Stories (Neel Khagram), with Gary Palmer",
+      "channel": "CRICKET LIFE STORIES",
       "url": "https://www.youtube.com/watch?v=2KJLpsFVwTg",
       "embed_url": "https://www.youtube-nocookie.com/embed/2KJLpsFVwTg",
       "video_id": "2KJLpsFVwTg",
@@ -118,12 +142,15 @@
       "what_it_shows": "Palmer's masterclass on a trigger that sets the head, hands and feet in line over off stump at release.",
       "level": "advanced",
       "source_type": "coach",
-      "verified": false,
-      "notes": "Title and ID from a web search result; YouTube could not be opened from this session. Channel from the search summary. Probably over 6 minutes."
+      "verified": true,
+      "notes": "Title and ID from a web search result; YouTube could not be opened from this session. Channel from the search summary. Probably over 6 minutes. Link checked 17 Nov 2026; content not yet watched (Alex to review).",
+      "channel_url": "https://www.youtube.com/@CricketLifeStories",
+      "link_check": "2026-11-17: YouTube oEmbed returned the video (public, embedding allowed); title and channel above are YouTube's own.",
+      "content_reviewed": false
     },
     {
-      "title": "Are You Making This Trigger Movement Mistake? Fix It Now! | Batting Tips | Thrive Cricket",
-      "channel": "Thrive Cricket",
+      "title": "Are You Making This Trigger Movement Mistake? Fix It Now! 🚨🏏 |Batting Tips|Thrive Cricket",
+      "channel": "Thrive cricket academy",
       "url": "https://www.youtube.com/watch?v=iUa9qXZxjJc",
       "embed_url": "https://www.youtube-nocookie.com/embed/iUa9qXZxjJc",
       "video_id": "iUa9qXZxjJc",
@@ -131,14 +158,17 @@
       "what_it_shows": "A trigger that opens the front shoulder and spoils alignment, and the foot and toe position that keeps the batter side-on and on off stump.",
       "level": "club",
       "source_type": "coach",
-      "verified": false,
-      "notes": "Title and ID from a web search result; YouTube could not be opened from this session. Channel from the title. Coaching credentials not checked; review before use."
+      "verified": true,
+      "notes": "Title and ID from a web search result; YouTube could not be opened from this session. Channel from the title. Coaching credentials not checked; review before use. Link checked 17 Nov 2026; content not yet watched (Alex to review).",
+      "channel_url": "https://www.youtube.com/@Thrivecricket",
+      "link_check": "2026-11-17: YouTube oEmbed returned the video (public, embedding allowed); title and channel above are YouTube's own.",
+      "content_reviewed": false
     }
   ],
   "F13": [
     {
       "title": "How To Perfect Your Backlift: Mark Ramprakash",
-      "channel": "All Out Cricket (now Wisden)",
+      "channel": "Wisden Cricket",
       "url": "https://www.youtube.com/watch?v=3svWej4YDCg",
       "embed_url": "https://www.youtube-nocookie.com/embed/3svWej4YDCg",
       "video_id": "3svWej4YDCg",
@@ -146,12 +176,15 @@
       "what_it_shows": "Ramprakash demonstrates the orthodox backlift: hands up and back, close to the body, top hand in control.",
       "level": "all",
       "source_type": "professional",
-      "verified": false,
-      "notes": "Title and ID from a web search result; YouTube could not be opened from this session. Search summary: 'England and Middlesex batting coach Mark Ramprakash demonstrates the orthodox backlift'."
+      "verified": true,
+      "notes": "Title and ID from a web search result; YouTube could not be opened from this session. Search summary: 'England and Middlesex batting coach Mark Ramprakash demonstrates the orthodox backlift'. Link checked 17 Nov 2026; content not yet watched (Alex to review).",
+      "channel_url": "https://www.youtube.com/@WisdenCricket",
+      "link_check": "2026-11-17: YouTube oEmbed returned the video (public, embedding allowed); title and channel above are YouTube's own.",
+      "content_reviewed": false
     },
     {
       "title": "Improve your BATTING TIMING in 4 minutes",
-      "channel": "CoachCricXI - Online Cricket Coaching (Byron Fraser, Zendon Verster)",
+      "channel": "CoachCricXI - Online Cricket Coaching",
       "url": "https://www.youtube.com/watch?v=QCwSaXEJI2w",
       "embed_url": "https://www.youtube-nocookie.com/embed/QCwSaXEJI2w",
       "video_id": "QCwSaXEJI2w",
@@ -159,12 +192,15 @@
       "what_it_shows": "A short drill set for timing: let the backlift flow into the downswing in one rhythm.",
       "level": "all",
       "source_type": "coach",
-      "verified": false,
-      "notes": "Title and ID from a web search result; YouTube could not be opened from this session. Channel from the search summary. The title suggests about 4 minutes; not confirmed."
+      "verified": true,
+      "notes": "Title and ID from a web search result; YouTube could not be opened from this session. Channel from the search summary. The title suggests about 4 minutes; not confirmed. Link checked 17 Nov 2026; content not yet watched (Alex to review).",
+      "channel_url": "https://www.youtube.com/@CoachCricXI",
+      "link_check": "2026-11-17: YouTube oEmbed returned the video (public, embedding allowed); title and channel above are YouTube's own.",
+      "content_reviewed": false
     },
     {
-      "title": "Batting Pick Up Tips",
-      "channel": "Not confirmed (net session with Toby Radford; probably Cricket Life Stories)",
+      "title": "Batting Pick Up Tips | Toby Radford Coaching",
+      "channel": "CRICKET LIFE STORIES",
       "url": "https://www.youtube.com/watch?v=RYGaXnxF4yQ",
       "embed_url": "https://www.youtube-nocookie.com/embed/RYGaXnxF4yQ",
       "video_id": "RYGaXnxF4yQ",
@@ -172,14 +208,17 @@
       "what_it_shows": "Short clip from a net session with Toby Radford on the pick-up (backlift) and getting it started in time.",
       "level": "club",
       "source_type": "coach",
-      "verified": false,
-      "notes": "Title and ID from a web search result; YouTube could not be opened from this session. YouTube Short. Description seen: 'I had a net session with Toby Radford (former West Indies batting coach)...'. Confirm channel."
+      "verified": true,
+      "notes": "Title and ID from a web search result; YouTube could not be opened from this session. YouTube Short. Description seen: 'I had a net session with Toby Radford (former West Indies batting coach)...'. Confirm channel. Link checked 17 Nov 2026; content not yet watched (Alex to review).",
+      "channel_url": "https://www.youtube.com/@CricketLifeStories",
+      "link_check": "2026-11-17: YouTube oEmbed returned the video (public, embedding allowed); title and channel above are YouTube's own.",
+      "content_reviewed": false
     }
   ],
   "F03": [
     {
       "title": "How To Perfect Your Backlift: Mark Ramprakash",
-      "channel": "All Out Cricket (now Wisden)",
+      "channel": "Wisden Cricket",
       "url": "https://www.youtube.com/watch?v=3svWej4YDCg",
       "embed_url": "https://www.youtube-nocookie.com/embed/3svWej4YDCg",
       "video_id": "3svWej4YDCg",
@@ -187,12 +226,15 @@
       "what_it_shows": "Ramprakash demonstrates the orthodox backlift: hands up and back, close to the body, top hand in control.",
       "level": "all",
       "source_type": "professional",
-      "verified": false,
-      "notes": "Title and ID from a web search result; YouTube could not be opened from this session. Search summary: 'England and Middlesex batting coach Mark Ramprakash demonstrates the orthodox backlift'."
+      "verified": true,
+      "notes": "Title and ID from a web search result; YouTube could not be opened from this session. Search summary: 'England and Middlesex batting coach Mark Ramprakash demonstrates the orthodox backlift'. Link checked 17 Nov 2026; content not yet watched (Alex to review).",
+      "channel_url": "https://www.youtube.com/@WisdenCricket",
+      "link_check": "2026-11-17: YouTube oEmbed returned the video (public, embedding allowed); title and channel above are YouTube's own.",
+      "content_reviewed": false
     },
     {
-      "title": "How To Bat In Cricket With The CORRECT Grip, Backlift & Set-Up",
-      "channel": "Cricket Life Stories (Neel Khagram), with Toby Radford",
+      "title": "How To Bat In Cricket With The CORRECT Grip, Backlift & Set-Up | Technical Foundations Of Batting",
+      "channel": "CRICKET LIFE STORIES",
       "url": "https://www.youtube.com/watch?v=UxX4IQL03UU",
       "embed_url": "https://www.youtube-nocookie.com/embed/UxX4IQL03UU",
       "video_id": "UxX4IQL03UU",
@@ -200,12 +242,15 @@
       "what_it_shows": "Toby Radford (former West Indies batting coach) works through grip, set-up and backlift: still head, hands close to the body.",
       "level": "club",
       "source_type": "coach",
-      "verified": false,
-      "notes": "Title and ID from a web search result; YouTube could not be opened from this session. Channel and coach from the video description as summarised by the search. Probably over 6 minutes; find the backlift section before setting start_seconds."
+      "verified": true,
+      "notes": "Title and ID from a web search result; YouTube could not be opened from this session. Channel and coach from the video description as summarised by the search. Probably over 6 minutes; find the backlift section before setting start_seconds. Link checked 17 Nov 2026; content not yet watched (Alex to review).",
+      "channel_url": "https://www.youtube.com/@CricketLifeStories",
+      "link_check": "2026-11-17: YouTube oEmbed returned the video (public, embedding allowed); title and channel above are YouTube's own.",
+      "content_reviewed": false
     },
     {
       "title": "Gary Palmer - Batting drill to develop high hands good alignment and balance.",
-      "channel": "Probably Gary Palmer (@garypalmer8976)",
+      "channel": "Gary Palmer",
       "url": "https://www.youtube.com/watch?v=CaAeVsqGD4s",
       "embed_url": "https://www.youtube-nocookie.com/embed/CaAeVsqGD4s",
       "video_id": "CaAeVsqGD4s",
@@ -213,14 +258,17 @@
       "what_it_shows": "A drill for high hands, a straight swing through the hitting zone and a balanced, aligned finish to the drive.",
       "level": "club",
       "source_type": "coach",
-      "verified": false,
-      "notes": "Title and ID from a web search result; YouTube could not be opened from this session. Channel not shown in the result; Palmer has his own channel. Confirm."
+      "verified": true,
+      "notes": "Title and ID from a web search result; YouTube could not be opened from this session. Channel not shown in the result; Palmer has his own channel. Confirm. Link checked 17 Nov 2026; content not yet watched (Alex to review).",
+      "channel_url": "https://www.youtube.com/@garypalmer8976",
+      "link_check": "2026-11-17: YouTube oEmbed returned the video (public, embedding allowed); title and channel above are YouTube's own.",
+      "content_reviewed": false
     }
   ],
   "F19": [
     {
       "title": "Batting Drill: Picking Length",
-      "channel": "Probably PitchVision (with Monty Desai)",
+      "channel": "PitchVision Sports",
       "url": "https://www.youtube.com/watch?v=deGKL_sOwUY",
       "embed_url": "https://www.youtube-nocookie.com/embed/deGKL_sOwUY",
       "video_id": "deGKL_sOwUY",
@@ -228,12 +276,15 @@
       "what_it_shows": "Monty Desai (former West Indies batting coach) runs a drill that helps a young batter watch the ball and pick length early.",
       "level": "club",
       "source_type": "academy",
-      "verified": false,
-      "notes": "Title and ID from a web search result; YouTube could not be opened from this session. Search summary calls it a PitchVision-linked video; confirm the channel."
+      "verified": true,
+      "notes": "Title and ID from a web search result; YouTube could not be opened from this session. Search summary calls it a PitchVision-linked video; confirm the channel. Link checked 17 Nov 2026; content not yet watched (Alex to review).",
+      "channel_url": "https://www.youtube.com/@PitchVisionSports",
+      "link_check": "2026-11-17: YouTube oEmbed returned the video (public, embedding allowed); title and channel above are YouTube's own.",
+      "content_reviewed": false
     },
     {
       "title": "How to JUDGE LENGTH - Cricket Batting Drills and Tips",
-      "channel": "CoachCricXI - Online Cricket Coaching (Byron Fraser, Zendon Verster)",
+      "channel": "CoachCricXI - Online Cricket Coaching",
       "url": "https://www.youtube.com/watch?v=wH6fiC-P9Bo",
       "embed_url": "https://www.youtube-nocookie.com/embed/wH6fiC-P9Bo",
       "video_id": "wH6fiC-P9Bo",
@@ -241,12 +292,15 @@
       "what_it_shows": "Drills for judging length early so the batter drives only the full ball and goes back to the short one.",
       "level": "all",
       "source_type": "coach",
-      "verified": false,
-      "notes": "Title and ID from a web search result; YouTube could not be opened from this session. Channel from the search summary."
+      "verified": true,
+      "notes": "Title and ID from a web search result; YouTube could not be opened from this session. Channel from the search summary. Link checked 17 Nov 2026; content not yet watched (Alex to review).",
+      "channel_url": "https://www.youtube.com/@CoachCricXI",
+      "link_check": "2026-11-17: YouTube oEmbed returned the video (public, embedding allowed); title and channel above are YouTube's own.",
+      "content_reviewed": false
     },
     {
       "title": "Improve your SHOT SELECTION while judging LINE & LENGTH",
-      "channel": "CoachCricXI - Online Cricket Coaching (Byron Fraser, Zendon Verster)",
+      "channel": "CoachCricXI - Online Cricket Coaching",
       "url": "https://www.youtube.com/watch?v=y6fVgUSkKa8",
       "embed_url": "https://www.youtube-nocookie.com/embed/y6fVgUSkKa8",
       "video_id": "y6fVgUSkKa8",
@@ -254,14 +308,17 @@
       "what_it_shows": "A partner drill for shot selection: read line and length, then choose drive, back-foot shot or leave.",
       "level": "club",
       "source_type": "coach",
-      "verified": false,
-      "notes": "Title and ID from a web search result; YouTube could not be opened from this session. Channel from the search summary."
+      "verified": true,
+      "notes": "Title and ID from a web search result; YouTube could not be opened from this session. Channel from the search summary. Link checked 17 Nov 2026; content not yet watched (Alex to review).",
+      "channel_url": "https://www.youtube.com/@CoachCricXI",
+      "link_check": "2026-11-17: YouTube oEmbed returned the video (public, embedding allowed); title and channel above are YouTube's own.",
+      "content_reviewed": false
     }
   ],
   "F15": [
     {
-      "title": "How to IMPROVE your BATTING footwork",
-      "channel": "CoachCricXI - Online Cricket Coaching (Byron Fraser, Zendon Verster)",
+      "title": "How to IMPROVE your BATTING footwork | Cricket Batting Drills",
+      "channel": "CoachCricXI - Online Cricket Coaching",
       "url": "https://www.youtube.com/watch?v=ZGPXm8yAKVg",
       "embed_url": "https://www.youtube-nocookie.com/embed/ZGPXm8yAKVg",
       "video_id": "ZGPXm8yAKVg",
@@ -269,12 +326,15 @@
       "what_it_shows": "Four footwork drills, beginner to advanced, for moving out towards the ball instead of across the crease.",
       "level": "all",
       "source_type": "coach",
-      "verified": false,
-      "notes": "Title and ID from a web search result; YouTube could not be opened from this session. Channel from the search summary."
+      "verified": true,
+      "notes": "Title and ID from a web search result; YouTube could not be opened from this session. Channel from the search summary. Link checked 17 Nov 2026; content not yet watched (Alex to review).",
+      "channel_url": "https://www.youtube.com/@CoachCricXI",
+      "link_check": "2026-11-17: YouTube oEmbed returned the video (public, embedding allowed); title and channel above are YouTube's own.",
+      "content_reviewed": false
     },
     {
       "title": "FIX these OFF SIDE batting MISTAKES - Cricket Batting Drills",
-      "channel": "CoachCricXI - Online Cricket Coaching (Byron Fraser, Zendon Verster)",
+      "channel": "CoachCricXI - Online Cricket Coaching",
       "url": "https://www.youtube.com/watch?v=UN6Ff31MQEo",
       "embed_url": "https://www.youtube-nocookie.com/embed/UN6Ff31MQEo",
       "video_id": "UN6Ff31MQEo",
@@ -282,12 +342,15 @@
       "what_it_shows": "Common off-side faults (falling across, opening up, reaching) with drills to fix each.",
       "level": "club",
       "source_type": "coach",
-      "verified": false,
-      "notes": "Title and ID from a web search result; YouTube could not be opened from this session. Channel from the search summary."
+      "verified": true,
+      "notes": "Title and ID from a web search result; YouTube could not be opened from this session. Channel from the search summary. Link checked 17 Nov 2026; content not yet watched (Alex to review).",
+      "channel_url": "https://www.youtube.com/@CoachCricXI",
+      "link_check": "2026-11-17: YouTube oEmbed returned the video (public, embedding allowed); title and channel above are YouTube's own.",
+      "content_reviewed": false
     },
     {
-      "title": "Coaching Quick Fix",
-      "channel": "Probably New Zealand Cricket (NZC Coaching)",
+      "title": "Coaching Quick Fix | Accessing The Off-Side",
+      "channel": "New Zealand Cricket",
       "url": "https://www.youtube.com/watch?v=I8YV8hzydqA",
       "embed_url": "https://www.youtube-nocookie.com/embed/I8YV8hzydqA",
       "video_id": "I8YV8hzydqA",
@@ -295,14 +358,17 @@
       "what_it_shows": "NZC quick fix for helping a batter get access to the off side: stay closed and on the line instead of falling across or opening up.",
       "level": "club",
       "source_type": "governing body",
-      "verified": false,
-      "notes": "Title and ID from a web search result; YouTube could not be opened from this session. Search summary: shows how to help a batter access the off-side and points to coach.nzc.nz. Exact content not seen."
+      "verified": true,
+      "notes": "Title and ID from a web search result; YouTube could not be opened from this session. Search summary: shows how to help a batter access the off-side and points to coach.nzc.nz. Exact content not seen. Link checked 17 Nov 2026; content not yet watched (Alex to review).",
+      "channel_url": "https://www.youtube.com/@nzctv",
+      "link_check": "2026-11-17: YouTube oEmbed returned the video (public, embedding allowed); title and channel above are YouTube's own.",
+      "content_reviewed": false
     }
   ],
   "F04": [
     {
-      "title": "How to play the PERFECT defence",
-      "channel": "Wisden (Essentials of Batting, Mark Ramprakash)",
+      "title": "How to play the PERFECT defence | Mark Ramprakash Batting Masterclass",
+      "channel": "Wisden Cricket",
       "url": "https://www.youtube.com/watch?v=5TcZlYt4AUQ",
       "embed_url": "https://www.youtube-nocookie.com/embed/5TcZlYt4AUQ",
       "video_id": "5TcZlYt4AUQ",
@@ -310,12 +376,15 @@
       "what_it_shows": "Front-foot defence: the head and front shoulder lead towards the line and the front foot follows; the same lead as the drive, at low speed.",
       "level": "all",
       "source_type": "professional",
-      "verified": false,
-      "notes": "Title and ID from a web search result; YouTube could not be opened from this session. Episode 3 of the series. A defence video, used here because the head-and-shoulder lead is the same as in the drive."
+      "verified": true,
+      "notes": "Title and ID from a web search result; YouTube could not be opened from this session. Episode 3 of the series. A defence video, used here because the head-and-shoulder lead is the same as in the drive. Link checked 17 Nov 2026; content not yet watched (Alex to review).",
+      "channel_url": "https://www.youtube.com/@WisdenCricket",
+      "link_check": "2026-11-17: YouTube oEmbed returned the video (public, embedding allowed); title and channel above are YouTube's own.",
+      "content_reviewed": false
     },
     {
-      "title": "Use THESE 5 BATTING DRILLS to help you score more runs",
-      "channel": "CoachCricXI - Online Cricket Coaching (Byron Fraser, Zendon Verster)",
+      "title": "Use THESE 5 BATTING DRILLS to help you score more runs TODAY!",
+      "channel": "CoachCricXI - Online Cricket Coaching",
       "url": "https://www.youtube.com/watch?v=j2cHkeoqNGk",
       "embed_url": "https://www.youtube-nocookie.com/embed/j2cHkeoqNGk",
       "video_id": "j2cHkeoqNGk",
@@ -323,12 +392,15 @@
       "what_it_shows": "Five drills: head position, getting into the line of the ball, and transferring the weight forward into the shot.",
       "level": "club",
       "source_type": "coach",
-      "verified": false,
-      "notes": "Title and ID from a web search result; YouTube could not be opened from this session. Channel from the search summary."
+      "verified": true,
+      "notes": "Title and ID from a web search result; YouTube could not be opened from this session. Channel from the search summary. Link checked 17 Nov 2026; content not yet watched (Alex to review).",
+      "channel_url": "https://www.youtube.com/@CoachCricXI",
+      "link_check": "2026-11-17: YouTube oEmbed returned the video (public, embedding allowed); title and channel above are YouTube's own.",
+      "content_reviewed": false
     },
     {
       "title": "Cricket batting| How to play the off drive.",
-      "channel": "Not confirmed (features Toby Radford)",
+      "channel": "Omnia Cricket Coaching",
       "url": "https://www.youtube.com/watch?v=sgZEt5Ag4Lo",
       "embed_url": "https://www.youtube-nocookie.com/embed/sgZEt5Ag4Lo",
       "video_id": "sgZEt5Ag4Lo",
@@ -336,14 +408,17 @@
       "what_it_shows": "Radford on the off drive: head and front shoulder lead the front foot to the line of the ball.",
       "level": "club",
       "source_type": "coach",
-      "verified": false,
-      "notes": "Title and ID from a web search result; YouTube could not be opened from this session. Search summary: 'how to play the off-drive with the renowned coach Toby Radford'. Channel not shown; confirm before use."
+      "verified": true,
+      "notes": "Title and ID from a web search result; YouTube could not be opened from this session. Search summary: 'how to play the off-drive with the renowned coach Toby Radford'. Channel not shown; confirm before use. Link checked 17 Nov 2026; content not yet watched (Alex to review).",
+      "channel_url": "https://www.youtube.com/@omniacricketcoaching",
+      "link_check": "2026-11-17: YouTube oEmbed returned the video (public, embedding allowed); title and channel above are YouTube's own.",
+      "content_reviewed": false
     }
   ],
   "F05": [
     {
-      "title": "How to Play the PERFECT Cover Drive",
-      "channel": "Probably Serious Cricket (Richard Hindley)",
+      "title": "How to Play the PERFECT Cover Drive | Serious Cricket",
+      "channel": "Serious Cricket",
       "url": "https://www.youtube.com/watch?v=GlI27mVGzo4",
       "embed_url": "https://www.youtube-nocookie.com/embed/GlI27mVGzo4",
       "video_id": "GlI27mVGzo4",
@@ -351,12 +426,15 @@
       "what_it_shows": "ECB Level 3 coach and former Hampshire player Richard Hindley walks through the cover drive: front foot to the line, head over the ball, controlled finish.",
       "level": "club",
       "source_type": "coach",
-      "verified": false,
-      "notes": "Title and ID from a web search result; YouTube could not be opened from this session. Presenter from the search summary; Hindley is Serious Cricket's head coach and 'the face of' its social content. Confirm the channel."
+      "verified": true,
+      "notes": "Title and ID from a web search result; YouTube could not be opened from this session. Presenter from the search summary; Hindley is Serious Cricket's head coach and 'the face of' its social content. Confirm the channel. Link checked 17 Nov 2026; content not yet watched (Alex to review).",
+      "channel_url": "https://www.youtube.com/@SeriousCricketTV",
+      "link_check": "2026-11-17: YouTube oEmbed returned the video (public, embedding allowed); title and channel above are YouTube's own.",
+      "content_reviewed": false
     },
     {
       "title": "Steve Snell #1 - The Cover Drive",
-      "channel": "Somerset County Cricket Club",
+      "channel": "SomersetCricket",
       "url": "https://www.youtube.com/watch?v=4sflN54fFho",
       "embed_url": "https://www.youtube-nocookie.com/embed/4sflN54fFho",
       "video_id": "4sflN54fFho",
@@ -364,12 +442,15 @@
       "what_it_shows": "Somerset academy director Steve Snell's coaching tips on the cover drive: get to the line, keep the shoulder closed, play under the eyes.",
       "level": "club",
       "source_type": "academy",
-      "verified": false,
-      "notes": "Title and ID from a web search result; YouTube could not be opened from this session. Channel from the search summary. About 11 years old; check it is still up."
+      "verified": true,
+      "notes": "Title and ID from a web search result; YouTube could not be opened from this session. Channel from the search summary. About 11 years old; check it is still up. Link checked 17 Nov 2026; content not yet watched (Alex to review).",
+      "channel_url": "https://www.youtube.com/@SomersetCricket",
+      "link_check": "2026-11-17: YouTube oEmbed returned the video (public, embedding allowed); title and channel above are YouTube's own.",
+      "content_reviewed": false
     },
     {
-      "title": "Cricket Batting Drills for Beginners - Front-Foot Practice with Drop Feed",
-      "channel": "cricdojo",
+      "title": "Cricket Batting Drills for Beginners- Front-Foot Practice with Drop Feed",
+      "channel": "CRICDOJO",
       "url": "https://www.youtube.com/watch?v=uzk8axtFVgc",
       "embed_url": "https://www.youtube-nocookie.com/embed/uzk8axtFVgc",
       "video_id": "uzk8axtFVgc",
@@ -377,12 +458,15 @@
       "what_it_shows": "Drop-feed drill for under-7s to under-11s: step to the line and meet the ball close to the front pad, under the eyes.",
       "level": "beginner",
       "source_type": "academy",
-      "verified": false,
-      "notes": "Title and ID from a web search result; YouTube could not be opened from this session. Channel from the search summary."
+      "verified": true,
+      "notes": "Title and ID from a web search result; YouTube could not be opened from this session. Channel from the search summary. Link checked 17 Nov 2026; content not yet watched (Alex to review).",
+      "channel_url": "https://www.youtube.com/@cricdojo",
+      "link_check": "2026-11-17: YouTube oEmbed returned the video (public, embedding allowed); title and channel above are YouTube's own.",
+      "content_reviewed": false
     },
     {
-      "title": "Meg Lanning teaches the cover drive",
-      "channel": "Probably cricket.com.au (Cricket Australia)",
+      "title": "Meg Lanning teaches the cover drive | Coaching Masterclass",
+      "channel": "Cricket Australia",
       "url": "https://www.youtube.com/watch?v=ONFlBAU88y0",
       "embed_url": "https://www.youtube-nocookie.com/embed/ONFlBAU88y0",
       "video_id": "ONFlBAU88y0",
@@ -390,14 +474,17 @@
       "what_it_shows": "Former Australia captain Meg Lanning's masterclass on the cover drive: front shoulder towards the ball, foot to the line, full face, controlled finish.",
       "level": "all",
       "source_type": "professional",
-      "verified": false,
-      "notes": "Title and ID from a web search result; YouTube could not be opened from this session. Same piece as 'Meg's Masterclasses: The Cover Drive' on cricket.com.au (20 Nov 2018, about 2 minutes). Confirm the YouTube channel."
+      "verified": true,
+      "notes": "Title and ID from a web search result; YouTube could not be opened from this session. Same piece as 'Meg's Masterclasses: The Cover Drive' on cricket.com.au (20 Nov 2018, about 2 minutes). Confirm the YouTube channel. Link checked 17 Nov 2026; content not yet watched (Alex to review).",
+      "channel_url": "https://www.youtube.com/@CricketAus",
+      "link_check": "2026-11-17: YouTube oEmbed returned the video (public, embedding allowed); title and channel above are YouTube's own.",
+      "content_reviewed": false
     }
   ],
   "F06": [
     {
       "title": "Cricket Batting Drills for Juniors - Front-Foot Drive Power Drill",
-      "channel": "cricdojo",
+      "channel": "CRICDOJO",
       "url": "https://www.youtube.com/watch?v=ye16yb27sS4",
       "embed_url": "https://www.youtube-nocookie.com/embed/ye16yb27sS4",
       "video_id": "ye16yb27sS4",
@@ -405,12 +492,15 @@
       "what_it_shows": "Junior drill for driving the weight forward: front knee bends, back foot pushes and the body moves out over the ball.",
       "level": "beginner",
       "source_type": "academy",
-      "verified": false,
-      "notes": "Title and ID from a web search result; YouTube could not be opened from this session. Channel from the search summary. About 6 years old."
+      "verified": true,
+      "notes": "Title and ID from a web search result; YouTube could not be opened from this session. Channel from the search summary. About 6 years old. Link checked 17 Nov 2026; content not yet watched (Alex to review).",
+      "channel_url": "https://www.youtube.com/@cricdojo",
+      "link_check": "2026-11-17: YouTube oEmbed returned the video (public, embedding allowed); title and channel above are YouTube's own.",
+      "content_reviewed": false
     },
     {
-      "title": "Use THESE 5 BATTING DRILLS to help you score more runs",
-      "channel": "CoachCricXI - Online Cricket Coaching (Byron Fraser, Zendon Verster)",
+      "title": "Use THESE 5 BATTING DRILLS to help you score more runs TODAY!",
+      "channel": "CoachCricXI - Online Cricket Coaching",
       "url": "https://www.youtube.com/watch?v=j2cHkeoqNGk",
       "embed_url": "https://www.youtube-nocookie.com/embed/j2cHkeoqNGk",
       "video_id": "j2cHkeoqNGk",
@@ -418,12 +508,15 @@
       "what_it_shows": "Five drills: head position, getting into the line of the ball, and transferring the weight forward into the shot.",
       "level": "club",
       "source_type": "coach",
-      "verified": false,
-      "notes": "Title and ID from a web search result; YouTube could not be opened from this session. Channel from the search summary."
+      "verified": true,
+      "notes": "Title and ID from a web search result; YouTube could not be opened from this session. Channel from the search summary. Link checked 17 Nov 2026; content not yet watched (Alex to review).",
+      "channel_url": "https://www.youtube.com/@CoachCricXI",
+      "link_check": "2026-11-17: YouTube oEmbed returned the video (public, embedding allowed); title and channel above are YouTube's own.",
+      "content_reviewed": false
     },
     {
       "title": "DRIVE Like a Pro - Full Cricket Drive Technique Breakdown + Drills",
-      "channel": "CoachCricXI - Online Cricket Coaching (Byron Fraser, Zendon Verster)",
+      "channel": "CoachCricXI - Online Cricket Coaching",
       "url": "https://www.youtube.com/watch?v=yeImrfgNJoM",
       "embed_url": "https://www.youtube-nocookie.com/embed/yeImrfgNJoM",
       "video_id": "yeImrfgNJoM",
@@ -431,14 +524,17 @@
       "what_it_shows": "Full breakdown of the cover and straight drive, with drills: straight swing through the line and hands through to the target.",
       "level": "club",
       "source_type": "coach",
-      "verified": false,
-      "notes": "Title and ID from a web search result; YouTube could not be opened from this session. Channel from the search summary (B3 Cricket sponsor links). Probably over 6 minutes; set start_seconds to the drill section after checking."
+      "verified": true,
+      "notes": "Title and ID from a web search result; YouTube could not be opened from this session. Channel from the search summary (B3 Cricket sponsor links). Probably over 6 minutes; set start_seconds to the drill section after checking. Link checked 17 Nov 2026; content not yet watched (Alex to review).",
+      "channel_url": "https://www.youtube.com/@CoachCricXI",
+      "link_check": "2026-11-17: YouTube oEmbed returned the video (public, embedding allowed); title and channel above are YouTube's own.",
+      "content_reviewed": false
     }
   ],
   "F18": [
     {
       "title": "Cricket Batting Drills for Juniors - Front-Foot Drive Power Drill",
-      "channel": "cricdojo",
+      "channel": "CRICDOJO",
       "url": "https://www.youtube.com/watch?v=ye16yb27sS4",
       "embed_url": "https://www.youtube-nocookie.com/embed/ye16yb27sS4",
       "video_id": "ye16yb27sS4",
@@ -446,12 +542,15 @@
       "what_it_shows": "Junior drill for driving the weight forward: front knee bends, back foot pushes and the body moves out over the ball.",
       "level": "beginner",
       "source_type": "academy",
-      "verified": false,
-      "notes": "Title and ID from a web search result; YouTube could not be opened from this session. Channel from the search summary. About 6 years old."
+      "verified": true,
+      "notes": "Title and ID from a web search result; YouTube could not be opened from this session. Channel from the search summary. About 6 years old. Link checked 17 Nov 2026; content not yet watched (Alex to review).",
+      "channel_url": "https://www.youtube.com/@cricdojo",
+      "link_check": "2026-11-17: YouTube oEmbed returned the video (public, embedding allowed); title and channel above are YouTube's own.",
+      "content_reviewed": false
     },
     {
-      "title": "Use THESE 5 BATTING DRILLS to help you score more runs",
-      "channel": "CoachCricXI - Online Cricket Coaching (Byron Fraser, Zendon Verster)",
+      "title": "Use THESE 5 BATTING DRILLS to help you score more runs TODAY!",
+      "channel": "CoachCricXI - Online Cricket Coaching",
       "url": "https://www.youtube.com/watch?v=j2cHkeoqNGk",
       "embed_url": "https://www.youtube-nocookie.com/embed/j2cHkeoqNGk",
       "video_id": "j2cHkeoqNGk",
@@ -459,14 +558,17 @@
       "what_it_shows": "Five drills: head position, getting into the line of the ball, and transferring the weight forward into the shot.",
       "level": "club",
       "source_type": "coach",
-      "verified": false,
-      "notes": "Title and ID from a web search result; YouTube could not be opened from this session. Channel from the search summary."
+      "verified": true,
+      "notes": "Title and ID from a web search result; YouTube could not be opened from this session. Channel from the search summary. Link checked 17 Nov 2026; content not yet watched (Alex to review).",
+      "channel_url": "https://www.youtube.com/@CoachCricXI",
+      "link_check": "2026-11-17: YouTube oEmbed returned the video (public, embedding allowed); title and channel above are YouTube's own.",
+      "content_reviewed": false
     }
   ],
   "F16": [
     {
       "title": "Toby Radford on the 60/40 Batting Weight Rule",
-      "channel": "Not confirmed (a Short featuring Toby Radford)",
+      "channel": "The Cerebral Cricketer",
       "url": "https://www.youtube.com/watch?v=Nuzm6PRO1-0",
       "embed_url": "https://www.youtube-nocookie.com/embed/Nuzm6PRO1-0",
       "video_id": "Nuzm6PRO1-0",
@@ -474,12 +576,15 @@
       "what_it_shows": "Radford's balance cue: keep the head stacked over the feet, as when standing and talking; weight split for moving either way.",
       "level": "all",
       "source_type": "coach",
-      "verified": false,
-      "notes": "Title and ID from a web search result; YouTube could not be opened from this session. YouTube Short. The channel did not appear in the search result; confirm it before use."
+      "verified": true,
+      "notes": "Title and ID from a web search result; YouTube could not be opened from this session. YouTube Short. The channel did not appear in the search result; confirm it before use. Link checked 17 Nov 2026; content not yet watched (Alex to review).",
+      "channel_url": "https://www.youtube.com/@TheCerebralCricketer",
+      "link_check": "2026-11-17: YouTube oEmbed returned the video (public, embedding allowed); title and channel above are YouTube's own.",
+      "content_reviewed": false
     },
     {
-      "title": "Use THESE 5 BATTING DRILLS to help you score more runs",
-      "channel": "CoachCricXI - Online Cricket Coaching (Byron Fraser, Zendon Verster)",
+      "title": "Use THESE 5 BATTING DRILLS to help you score more runs TODAY!",
+      "channel": "CoachCricXI - Online Cricket Coaching",
       "url": "https://www.youtube.com/watch?v=j2cHkeoqNGk",
       "embed_url": "https://www.youtube-nocookie.com/embed/j2cHkeoqNGk",
       "video_id": "j2cHkeoqNGk",
@@ -487,12 +592,15 @@
       "what_it_shows": "Five drills: head position, getting into the line of the ball, and transferring the weight forward into the shot.",
       "level": "club",
       "source_type": "coach",
-      "verified": false,
-      "notes": "Title and ID from a web search result; YouTube could not be opened from this session. Channel from the search summary."
+      "verified": true,
+      "notes": "Title and ID from a web search result; YouTube could not be opened from this session. Channel from the search summary. Link checked 17 Nov 2026; content not yet watched (Alex to review).",
+      "channel_url": "https://www.youtube.com/@CoachCricXI",
+      "link_check": "2026-11-17: YouTube oEmbed returned the video (public, embedding allowed); title and channel above are YouTube's own.",
+      "content_reviewed": false
     },
     {
       "title": "Cricket Batting Drills for Juniors - Front-Foot Drive Power Drill",
-      "channel": "cricdojo",
+      "channel": "CRICDOJO",
       "url": "https://www.youtube.com/watch?v=ye16yb27sS4",
       "embed_url": "https://www.youtube-nocookie.com/embed/ye16yb27sS4",
       "video_id": "ye16yb27sS4",
@@ -500,14 +608,17 @@
       "what_it_shows": "Junior drill for driving the weight forward: front knee bends, back foot pushes and the body moves out over the ball.",
       "level": "beginner",
       "source_type": "academy",
-      "verified": false,
-      "notes": "Title and ID from a web search result; YouTube could not be opened from this session. Channel from the search summary. About 6 years old."
+      "verified": true,
+      "notes": "Title and ID from a web search result; YouTube could not be opened from this session. Channel from the search summary. About 6 years old. Link checked 17 Nov 2026; content not yet watched (Alex to review).",
+      "channel_url": "https://www.youtube.com/@cricdojo",
+      "link_check": "2026-11-17: YouTube oEmbed returned the video (public, embedding allowed); title and channel above are YouTube's own.",
+      "content_reviewed": false
     }
   ],
   "F07": [
     {
-      "title": "Meg Lanning teaches the cover drive",
-      "channel": "Probably cricket.com.au (Cricket Australia)",
+      "title": "Meg Lanning teaches the cover drive | Coaching Masterclass",
+      "channel": "Cricket Australia",
       "url": "https://www.youtube.com/watch?v=ONFlBAU88y0",
       "embed_url": "https://www.youtube-nocookie.com/embed/ONFlBAU88y0",
       "video_id": "ONFlBAU88y0",
@@ -515,12 +626,15 @@
       "what_it_shows": "Former Australia captain Meg Lanning's masterclass on the cover drive: front shoulder towards the ball, foot to the line, full face, controlled finish.",
       "level": "all",
       "source_type": "professional",
-      "verified": false,
-      "notes": "Title and ID from a web search result; YouTube could not be opened from this session. Same piece as 'Meg's Masterclasses: The Cover Drive' on cricket.com.au (20 Nov 2018, about 2 minutes). Confirm the YouTube channel."
+      "verified": true,
+      "notes": "Title and ID from a web search result; YouTube could not be opened from this session. Same piece as 'Meg's Masterclasses: The Cover Drive' on cricket.com.au (20 Nov 2018, about 2 minutes). Confirm the YouTube channel. Link checked 17 Nov 2026; content not yet watched (Alex to review).",
+      "channel_url": "https://www.youtube.com/@CricketAus",
+      "link_check": "2026-11-17: YouTube oEmbed returned the video (public, embedding allowed); title and channel above are YouTube's own.",
+      "content_reviewed": false
     },
     {
-      "title": "Coaching Quick Fix",
-      "channel": "Probably New Zealand Cricket (NZC Coaching)",
+      "title": "Coaching Quick Fix | Accessing The Off-Side",
+      "channel": "New Zealand Cricket",
       "url": "https://www.youtube.com/watch?v=I8YV8hzydqA",
       "embed_url": "https://www.youtube-nocookie.com/embed/I8YV8hzydqA",
       "video_id": "I8YV8hzydqA",
@@ -528,12 +642,15 @@
       "what_it_shows": "NZC quick fix for helping a batter get access to the off side: stay closed and on the line instead of falling across or opening up.",
       "level": "club",
       "source_type": "governing body",
-      "verified": false,
-      "notes": "Title and ID from a web search result; YouTube could not be opened from this session. Search summary: shows how to help a batter access the off-side and points to coach.nzc.nz. Exact content not seen."
+      "verified": true,
+      "notes": "Title and ID from a web search result; YouTube could not be opened from this session. Search summary: shows how to help a batter access the off-side and points to coach.nzc.nz. Exact content not seen. Link checked 17 Nov 2026; content not yet watched (Alex to review).",
+      "channel_url": "https://www.youtube.com/@nzctv",
+      "link_check": "2026-11-17: YouTube oEmbed returned the video (public, embedding allowed); title and channel above are YouTube's own.",
+      "content_reviewed": false
     },
     {
       "title": "Steve Snell #1 - The Cover Drive",
-      "channel": "Somerset County Cricket Club",
+      "channel": "SomersetCricket",
       "url": "https://www.youtube.com/watch?v=4sflN54fFho",
       "embed_url": "https://www.youtube-nocookie.com/embed/4sflN54fFho",
       "video_id": "4sflN54fFho",
@@ -541,12 +658,15 @@
       "what_it_shows": "Somerset academy director Steve Snell's coaching tips on the cover drive: get to the line, keep the shoulder closed, play under the eyes.",
       "level": "club",
       "source_type": "academy",
-      "verified": false,
-      "notes": "Title and ID from a web search result; YouTube could not be opened from this session. Channel from the search summary. About 11 years old; check it is still up."
+      "verified": true,
+      "notes": "Title and ID from a web search result; YouTube could not be opened from this session. Channel from the search summary. About 11 years old; check it is still up. Link checked 17 Nov 2026; content not yet watched (Alex to review).",
+      "channel_url": "https://www.youtube.com/@SomersetCricket",
+      "link_check": "2026-11-17: YouTube oEmbed returned the video (public, embedding allowed); title and channel above are YouTube's own.",
+      "content_reviewed": false
     },
     {
       "title": "FIX these OFF SIDE batting MISTAKES - Cricket Batting Drills",
-      "channel": "CoachCricXI - Online Cricket Coaching (Byron Fraser, Zendon Verster)",
+      "channel": "CoachCricXI - Online Cricket Coaching",
       "url": "https://www.youtube.com/watch?v=UN6Ff31MQEo",
       "embed_url": "https://www.youtube-nocookie.com/embed/UN6Ff31MQEo",
       "video_id": "UN6Ff31MQEo",
@@ -554,14 +674,17 @@
       "what_it_shows": "Common off-side faults (falling across, opening up, reaching) with drills to fix each.",
       "level": "club",
       "source_type": "coach",
-      "verified": false,
-      "notes": "Title and ID from a web search result; YouTube could not be opened from this session. Channel from the search summary."
+      "verified": true,
+      "notes": "Title and ID from a web search result; YouTube could not be opened from this session. Channel from the search summary. Link checked 17 Nov 2026; content not yet watched (Alex to review).",
+      "channel_url": "https://www.youtube.com/@CoachCricXI",
+      "link_check": "2026-11-17: YouTube oEmbed returned the video (public, embedding allowed); title and channel above are YouTube's own.",
+      "content_reviewed": false
     }
   ],
   "F08": [
     {
       "title": "DRIVE Like a Pro - Full Cricket Drive Technique Breakdown + Drills",
-      "channel": "CoachCricXI - Online Cricket Coaching (Byron Fraser, Zendon Verster)",
+      "channel": "CoachCricXI - Online Cricket Coaching",
       "url": "https://www.youtube.com/watch?v=yeImrfgNJoM",
       "embed_url": "https://www.youtube-nocookie.com/embed/yeImrfgNJoM",
       "video_id": "yeImrfgNJoM",
@@ -569,12 +692,15 @@
       "what_it_shows": "Full breakdown of the cover and straight drive, with drills: straight swing through the line and hands through to the target.",
       "level": "club",
       "source_type": "coach",
-      "verified": false,
-      "notes": "Title and ID from a web search result; YouTube could not be opened from this session. Channel from the search summary (B3 Cricket sponsor links). Probably over 6 minutes; set start_seconds to the drill section after checking."
+      "verified": true,
+      "notes": "Title and ID from a web search result; YouTube could not be opened from this session. Channel from the search summary (B3 Cricket sponsor links). Probably over 6 minutes; set start_seconds to the drill section after checking. Link checked 17 Nov 2026; content not yet watched (Alex to review).",
+      "channel_url": "https://www.youtube.com/@CoachCricXI",
+      "link_check": "2026-11-17: YouTube oEmbed returned the video (public, embedding allowed); title and channel above are YouTube's own.",
+      "content_reviewed": false
     },
     {
       "title": "The #1 Straight Drive Mistake Batters Make",
-      "channel": "CoachCricXI - Online Cricket Coaching (Byron Fraser, Zendon Verster)",
+      "channel": "CoachCricXI - Online Cricket Coaching",
       "url": "https://www.youtube.com/watch?v=PQajjXvzkuQ",
       "embed_url": "https://www.youtube-nocookie.com/embed/PQajjXvzkuQ",
       "video_id": "PQajjXvzkuQ",
@@ -582,12 +708,15 @@
       "what_it_shows": "The most common straight-drive mistake and how to swing straight down the line instead of across it.",
       "level": "club",
       "source_type": "coach",
-      "verified": false,
-      "notes": "Title and ID from a web search result; YouTube could not be opened from this session. Channel from the search summary."
+      "verified": true,
+      "notes": "Title and ID from a web search result; YouTube could not be opened from this session. Channel from the search summary. Link checked 17 Nov 2026; content not yet watched (Alex to review).",
+      "channel_url": "https://www.youtube.com/@CoachCricXI",
+      "link_check": "2026-11-17: YouTube oEmbed returned the video (public, embedding allowed); title and channel above are YouTube's own.",
+      "content_reviewed": false
     },
     {
       "title": "Gary Palmer - Batting drill to develop high hands good alignment and balance.",
-      "channel": "Probably Gary Palmer (@garypalmer8976)",
+      "channel": "Gary Palmer",
       "url": "https://www.youtube.com/watch?v=CaAeVsqGD4s",
       "embed_url": "https://www.youtube-nocookie.com/embed/CaAeVsqGD4s",
       "video_id": "CaAeVsqGD4s",
@@ -595,14 +724,17 @@
       "what_it_shows": "A drill for high hands, a straight swing through the hitting zone and a balanced, aligned finish to the drive.",
       "level": "club",
       "source_type": "coach",
-      "verified": false,
-      "notes": "Title and ID from a web search result; YouTube could not be opened from this session. Channel not shown in the result; Palmer has his own channel. Confirm."
+      "verified": true,
+      "notes": "Title and ID from a web search result; YouTube could not be opened from this session. Channel not shown in the result; Palmer has his own channel. Confirm. Link checked 17 Nov 2026; content not yet watched (Alex to review).",
+      "channel_url": "https://www.youtube.com/@garypalmer8976",
+      "link_check": "2026-11-17: YouTube oEmbed returned the video (public, embedding allowed); title and channel above are YouTube's own.",
+      "content_reviewed": false
     }
   ],
   "F09": [
     {
       "title": "Improve your BATTING TIMING in 4 minutes",
-      "channel": "CoachCricXI - Online Cricket Coaching (Byron Fraser, Zendon Verster)",
+      "channel": "CoachCricXI - Online Cricket Coaching",
       "url": "https://www.youtube.com/watch?v=QCwSaXEJI2w",
       "embed_url": "https://www.youtube-nocookie.com/embed/QCwSaXEJI2w",
       "video_id": "QCwSaXEJI2w",
@@ -610,12 +742,15 @@
       "what_it_shows": "A short drill set for timing: let the backlift flow into the downswing in one rhythm.",
       "level": "all",
       "source_type": "coach",
-      "verified": false,
-      "notes": "Title and ID from a web search result; YouTube could not be opened from this session. Channel from the search summary. The title suggests about 4 minutes; not confirmed."
+      "verified": true,
+      "notes": "Title and ID from a web search result; YouTube could not be opened from this session. Channel from the search summary. The title suggests about 4 minutes; not confirmed. Link checked 17 Nov 2026; content not yet watched (Alex to review).",
+      "channel_url": "https://www.youtube.com/@CoachCricXI",
+      "link_check": "2026-11-17: YouTube oEmbed returned the video (public, embedding allowed); title and channel above are YouTube's own.",
+      "content_reviewed": false
     },
     {
       "title": "How To Use A Trigger Movement When Batting: Mark Ramprakash",
-      "channel": "All Out Cricket (now Wisden)",
+      "channel": "Wisden Cricket",
       "url": "https://www.youtube.com/watch?v=7KvrXWOJJfI",
       "embed_url": "https://www.youtube-nocookie.com/embed/7KvrXWOJJfI",
       "video_id": "7KvrXWOJJfI",
@@ -623,12 +758,15 @@
       "what_it_shows": "Ramprakash on timing the trigger so the movement flows into the shot rather than stopping and starting.",
       "level": "club",
       "source_type": "professional",
-      "verified": false,
-      "notes": "Title and ID from a web search result; YouTube could not be opened from this session. Channel from the search summary (made for All Out Cricket)."
+      "verified": true,
+      "notes": "Title and ID from a web search result; YouTube could not be opened from this session. Channel from the search summary (made for All Out Cricket). Link checked 17 Nov 2026; content not yet watched (Alex to review).",
+      "channel_url": "https://www.youtube.com/@WisdenCricket",
+      "link_check": "2026-11-17: YouTube oEmbed returned the video (public, embedding allowed); title and channel above are YouTube's own.",
+      "content_reviewed": false
     },
     {
-      "title": "How to TIME THE BALL while BATTING",
-      "channel": "CoachCricXI - Online Cricket Coaching (Byron Fraser, Zendon Verster)",
+      "title": "How to TIME THE BALL while BATTING | Cricket Batting Drills",
+      "channel": "CoachCricXI - Online Cricket Coaching",
       "url": "https://www.youtube.com/watch?v=S_IrRtW0aC8",
       "embed_url": "https://www.youtube-nocookie.com/embed/S_IrRtW0aC8",
       "video_id": "S_IrRtW0aC8",
@@ -636,14 +774,17 @@
       "what_it_shows": "Favourite drills for timing the ball: smooth swing, late contact, no forcing.",
       "level": "club",
       "source_type": "coach",
-      "verified": false,
-      "notes": "Title and ID from a web search result; YouTube could not be opened from this session. Channel from the search summary."
+      "verified": true,
+      "notes": "Title and ID from a web search result; YouTube could not be opened from this session. Channel from the search summary. Link checked 17 Nov 2026; content not yet watched (Alex to review).",
+      "channel_url": "https://www.youtube.com/@CoachCricXI",
+      "link_check": "2026-11-17: YouTube oEmbed returned the video (public, embedding allowed); title and channel above are YouTube's own.",
+      "content_reviewed": false
     }
   ],
   "F10": [
     {
-      "title": "This can COMPLETELY DESTROY your BATTING! - Fixing incorrect head positions when batting",
-      "channel": "CoachCricXI - Online Cricket Coaching (Byron Fraser, Zendon Verster)",
+      "title": "This can COMPLETELY DESTROY your BATTING! - Fixing Incorrect head positions when batting",
+      "channel": "CoachCricXI - Online Cricket Coaching",
       "url": "https://www.youtube.com/watch?v=wjEqqElR8ek",
       "embed_url": "https://www.youtube-nocookie.com/embed/wjEqqElR8ek",
       "video_id": "wjEqqElR8ek",
@@ -651,12 +792,15 @@
       "what_it_shows": "Common head-position faults (head moving or falling away) and drills to keep it still and over the ball.",
       "level": "club",
       "source_type": "coach",
-      "verified": false,
-      "notes": "Title and ID from a web search result; YouTube could not be opened from this session. Channel from the search summary."
+      "verified": true,
+      "notes": "Title and ID from a web search result; YouTube could not be opened from this session. Channel from the search summary. Link checked 17 Nov 2026; content not yet watched (Alex to review).",
+      "channel_url": "https://www.youtube.com/@CoachCricXI",
+      "link_check": "2026-11-17: YouTube oEmbed returned the video (public, embedding allowed); title and channel above are YouTube's own.",
+      "content_reviewed": false
     },
     {
       "title": "DRILLS to help you WATCH THE BALL better in Cricket",
-      "channel": "CoachCricXI - Online Cricket Coaching (Byron Fraser, Zendon Verster)",
+      "channel": "CoachCricXI - Online Cricket Coaching",
       "url": "https://www.youtube.com/watch?v=0t08DPxOSqg",
       "embed_url": "https://www.youtube-nocookie.com/embed/0t08DPxOSqg",
       "video_id": "0t08DPxOSqg",
@@ -664,12 +808,15 @@
       "what_it_shows": "Five hand-eye drill sets with a partner or a wall that train a still head and eyes on the ball.",
       "level": "all",
       "source_type": "coach",
-      "verified": false,
-      "notes": "Title and ID from a web search result; YouTube could not be opened from this session. Channel from the search summary (B3 Cricket sponsor links)."
+      "verified": true,
+      "notes": "Title and ID from a web search result; YouTube could not be opened from this session. Channel from the search summary (B3 Cricket sponsor links). Link checked 17 Nov 2026; content not yet watched (Alex to review).",
+      "channel_url": "https://www.youtube.com/@CoachCricXI",
+      "link_check": "2026-11-17: YouTube oEmbed returned the video (public, embedding allowed); title and channel above are YouTube's own.",
+      "content_reviewed": false
     },
     {
-      "title": "How to Play the PERFECT Cover Drive",
-      "channel": "Probably Serious Cricket (Richard Hindley)",
+      "title": "How to Play the PERFECT Cover Drive | Serious Cricket",
+      "channel": "Serious Cricket",
       "url": "https://www.youtube.com/watch?v=GlI27mVGzo4",
       "embed_url": "https://www.youtube-nocookie.com/embed/GlI27mVGzo4",
       "video_id": "GlI27mVGzo4",
@@ -677,12 +824,15 @@
       "what_it_shows": "ECB Level 3 coach and former Hampshire player Richard Hindley walks through the cover drive: front foot to the line, head over the ball, controlled finish.",
       "level": "club",
       "source_type": "coach",
-      "verified": false,
-      "notes": "Title and ID from a web search result; YouTube could not be opened from this session. Presenter from the search summary; Hindley is Serious Cricket's head coach and 'the face of' its social content. Confirm the channel."
+      "verified": true,
+      "notes": "Title and ID from a web search result; YouTube could not be opened from this session. Presenter from the search summary; Hindley is Serious Cricket's head coach and 'the face of' its social content. Confirm the channel. Link checked 17 Nov 2026; content not yet watched (Alex to review).",
+      "channel_url": "https://www.youtube.com/@SeriousCricketTV",
+      "link_check": "2026-11-17: YouTube oEmbed returned the video (public, embedding allowed); title and channel above are YouTube's own.",
+      "content_reviewed": false
     },
     {
-      "title": "Cricket Batting Drills for Beginners - Front-Foot Practice with Drop Feed",
-      "channel": "cricdojo",
+      "title": "Cricket Batting Drills for Beginners- Front-Foot Practice with Drop Feed",
+      "channel": "CRICDOJO",
       "url": "https://www.youtube.com/watch?v=uzk8axtFVgc",
       "embed_url": "https://www.youtube-nocookie.com/embed/uzk8axtFVgc",
       "video_id": "uzk8axtFVgc",
@@ -690,14 +840,17 @@
       "what_it_shows": "Drop-feed drill for under-7s to under-11s: step to the line and meet the ball close to the front pad, under the eyes.",
       "level": "beginner",
       "source_type": "academy",
-      "verified": false,
-      "notes": "Title and ID from a web search result; YouTube could not be opened from this session. Channel from the search summary."
+      "verified": true,
+      "notes": "Title and ID from a web search result; YouTube could not be opened from this session. Channel from the search summary. Link checked 17 Nov 2026; content not yet watched (Alex to review).",
+      "channel_url": "https://www.youtube.com/@cricdojo",
+      "link_check": "2026-11-17: YouTube oEmbed returned the video (public, embedding allowed); title and channel above are YouTube's own.",
+      "content_reviewed": false
     }
   ],
   "F11": [
     {
-      "title": "4 Batting Drills To Improve YOUR Game Against Pace & Spin",
-      "channel": "Probably Cricket Life Stories, with Hassan Azad",
+      "title": "4 Batting Drills To Improve YOUR Game Against Pace & Spin | Learn How To Bat In Cricket From A Pro",
+      "channel": "CRICKET LIFE STORIES",
       "url": "https://www.youtube.com/watch?v=RjDGEpWtfmQ",
       "embed_url": "https://www.youtube-nocookie.com/embed/RjDGEpWtfmQ",
       "video_id": "RjDGEpWtfmQ",
@@ -705,12 +858,15 @@
       "what_it_shows": "Former county batter Hassan Azad's top-hand, bottom-hand and batting-balance drills, ending in a held, balanced finish.",
       "level": "club",
       "source_type": "professional",
-      "verified": false,
-      "notes": "Title and ID from a web search result; YouTube could not be opened from this session. Search summary: 'a video by former professional Hassan Azad' with a batting balance drill. Find the balance drill and set start_seconds."
+      "verified": true,
+      "notes": "Title and ID from a web search result; YouTube could not be opened from this session. Search summary: 'a video by former professional Hassan Azad' with a batting balance drill. Find the balance drill and set start_seconds. Link checked 17 Nov 2026; content not yet watched (Alex to review).",
+      "channel_url": "https://www.youtube.com/@CricketLifeStories",
+      "link_check": "2026-11-17: YouTube oEmbed returned the video (public, embedding allowed); title and channel above are YouTube's own.",
+      "content_reviewed": false
     },
     {
       "title": "Gary Palmer - Batting drill to develop high hands good alignment and balance.",
-      "channel": "Probably Gary Palmer (@garypalmer8976)",
+      "channel": "Gary Palmer",
       "url": "https://www.youtube.com/watch?v=CaAeVsqGD4s",
       "embed_url": "https://www.youtube-nocookie.com/embed/CaAeVsqGD4s",
       "video_id": "CaAeVsqGD4s",
@@ -718,14 +874,17 @@
       "what_it_shows": "A drill for high hands, a straight swing through the hitting zone and a balanced, aligned finish to the drive.",
       "level": "club",
       "source_type": "coach",
-      "verified": false,
-      "notes": "Title and ID from a web search result; YouTube could not be opened from this session. Channel not shown in the result; Palmer has his own channel. Confirm."
+      "verified": true,
+      "notes": "Title and ID from a web search result; YouTube could not be opened from this session. Channel not shown in the result; Palmer has his own channel. Confirm. Link checked 17 Nov 2026; content not yet watched (Alex to review).",
+      "channel_url": "https://www.youtube.com/@garypalmer8976",
+      "link_check": "2026-11-17: YouTube oEmbed returned the video (public, embedding allowed); title and channel above are YouTube's own.",
+      "content_reviewed": false
     }
   ],
   "F12": [
     {
       "title": "DRIVE Like a Pro - Full Cricket Drive Technique Breakdown + Drills",
-      "channel": "CoachCricXI - Online Cricket Coaching (Byron Fraser, Zendon Verster)",
+      "channel": "CoachCricXI - Online Cricket Coaching",
       "url": "https://www.youtube.com/watch?v=yeImrfgNJoM",
       "embed_url": "https://www.youtube-nocookie.com/embed/yeImrfgNJoM",
       "video_id": "yeImrfgNJoM",
@@ -733,12 +892,15 @@
       "what_it_shows": "Full breakdown of the cover and straight drive, with drills: straight swing through the line and hands through to the target.",
       "level": "club",
       "source_type": "coach",
-      "verified": false,
-      "notes": "Title and ID from a web search result; YouTube could not be opened from this session. Channel from the search summary (B3 Cricket sponsor links). Probably over 6 minutes; set start_seconds to the drill section after checking."
+      "verified": true,
+      "notes": "Title and ID from a web search result; YouTube could not be opened from this session. Channel from the search summary (B3 Cricket sponsor links). Probably over 6 minutes; set start_seconds to the drill section after checking. Link checked 17 Nov 2026; content not yet watched (Alex to review).",
+      "channel_url": "https://www.youtube.com/@CoachCricXI",
+      "link_check": "2026-11-17: YouTube oEmbed returned the video (public, embedding allowed); title and channel above are YouTube's own.",
+      "content_reviewed": false
     },
     {
-      "title": "How to Play the PERFECT Cover Drive",
-      "channel": "Probably Serious Cricket (Richard Hindley)",
+      "title": "How to Play the PERFECT Cover Drive | Serious Cricket",
+      "channel": "Serious Cricket",
       "url": "https://www.youtube.com/watch?v=GlI27mVGzo4",
       "embed_url": "https://www.youtube-nocookie.com/embed/GlI27mVGzo4",
       "video_id": "GlI27mVGzo4",
@@ -746,12 +908,15 @@
       "what_it_shows": "ECB Level 3 coach and former Hampshire player Richard Hindley walks through the cover drive: front foot to the line, head over the ball, controlled finish.",
       "level": "club",
       "source_type": "coach",
-      "verified": false,
-      "notes": "Title and ID from a web search result; YouTube could not be opened from this session. Presenter from the search summary; Hindley is Serious Cricket's head coach and 'the face of' its social content. Confirm the channel."
+      "verified": true,
+      "notes": "Title and ID from a web search result; YouTube could not be opened from this session. Presenter from the search summary; Hindley is Serious Cricket's head coach and 'the face of' its social content. Confirm the channel. Link checked 17 Nov 2026; content not yet watched (Alex to review).",
+      "channel_url": "https://www.youtube.com/@SeriousCricketTV",
+      "link_check": "2026-11-17: YouTube oEmbed returned the video (public, embedding allowed); title and channel above are YouTube's own.",
+      "content_reviewed": false
     },
     {
-      "title": "Meg Lanning teaches the cover drive",
-      "channel": "Probably cricket.com.au (Cricket Australia)",
+      "title": "Meg Lanning teaches the cover drive | Coaching Masterclass",
+      "channel": "Cricket Australia",
       "url": "https://www.youtube.com/watch?v=ONFlBAU88y0",
       "embed_url": "https://www.youtube-nocookie.com/embed/ONFlBAU88y0",
       "video_id": "ONFlBAU88y0",
@@ -759,14 +924,17 @@
       "what_it_shows": "Former Australia captain Meg Lanning's masterclass on the cover drive: front shoulder towards the ball, foot to the line, full face, controlled finish.",
       "level": "all",
       "source_type": "professional",
-      "verified": false,
-      "notes": "Title and ID from a web search result; YouTube could not be opened from this session. Same piece as 'Meg's Masterclasses: The Cover Drive' on cricket.com.au (20 Nov 2018, about 2 minutes). Confirm the YouTube channel."
+      "verified": true,
+      "notes": "Title and ID from a web search result; YouTube could not be opened from this session. Same piece as 'Meg's Masterclasses: The Cover Drive' on cricket.com.au (20 Nov 2018, about 2 minutes). Confirm the YouTube channel. Link checked 17 Nov 2026; content not yet watched (Alex to review).",
+      "channel_url": "https://www.youtube.com/@CricketAus",
+      "link_check": "2026-11-17: YouTube oEmbed returned the video (public, embedding allowed); title and channel above are YouTube's own.",
+      "content_reviewed": false
     }
   ],
   "F00": [
     {
       "title": "In the nets with Pez: Drills to improve batting",
-      "channel": "Probably cricket.com.au (Cricket Australia)",
+      "channel": "Cricket Australia",
       "url": "https://www.youtube.com/watch?v=Fir4vlTsVHw",
       "embed_url": "https://www.youtube-nocookie.com/embed/Fir4vlTsVHw",
       "video_id": "Fir4vlTsVHw",
@@ -774,12 +942,15 @@
       "what_it_shows": "Ellyse Perry shares her favourite batting drills: purposeful, repeatable net and throw-down work.",
       "level": "all",
       "source_type": "professional",
-      "verified": false,
-      "notes": "Title and ID from a web search result; YouTube could not be opened from this session. Same piece as cricket.com.au video 4438117. Confirm the YouTube channel."
+      "verified": true,
+      "notes": "Title and ID from a web search result; YouTube could not be opened from this session. Same piece as cricket.com.au video 4438117. Confirm the YouTube channel. Link checked 17 Nov 2026; content not yet watched (Alex to review).",
+      "channel_url": "https://www.youtube.com/@CricketAus",
+      "link_check": "2026-11-17: YouTube oEmbed returned the video (public, embedding allowed); title and channel above are YouTube's own.",
+      "content_reviewed": false
     },
     {
-      "title": "How to Practice Cricket Batting at Home",
-      "channel": "Probably Serious Cricket (Richard Hindley)",
+      "title": "How to Practice Cricket Batting at Home | Serious Cricket",
+      "channel": "Serious Cricket",
       "url": "https://www.youtube.com/watch?v=KhKhlJpjW10",
       "embed_url": "https://www.youtube-nocookie.com/embed/KhKhlJpjW10",
       "video_id": "KhKhlJpjW10",
@@ -787,12 +958,15 @@
       "what_it_shows": "Richard Hindley's home-practice routine: simple solo and partner drills to keep repeating a sound drive.",
       "level": "all",
       "source_type": "coach",
-      "verified": false,
-      "notes": "Title and ID from a web search result; YouTube could not be opened from this session. Presenter from the search summary; confirm the channel."
+      "verified": true,
+      "notes": "Title and ID from a web search result; YouTube could not be opened from this session. Presenter from the search summary; confirm the channel. Link checked 17 Nov 2026; content not yet watched (Alex to review).",
+      "channel_url": "https://www.youtube.com/@SeriousCricketTV",
+      "link_check": "2026-11-17: YouTube oEmbed returned the video (public, embedding allowed); title and channel above are YouTube's own.",
+      "content_reviewed": false
     },
     {
       "title": "Cricket Batting Drill Instantly Makes Nets Better",
-      "channel": "Probably PitchVision",
+      "channel": "PitchVision Sports",
       "url": "https://www.youtube.com/watch?v=yRPo1Mw2lJ0",
       "embed_url": "https://www.youtube-nocookie.com/embed/yRPo1Mw2lJ0",
       "video_id": "yRPo1Mw2lJ0",
@@ -800,12 +974,15 @@
       "what_it_shows": "PitchVision's point that 'just batting' in the nets does little; a drill that gives each ball a target so good technique is repeated with purpose.",
       "level": "club",
       "source_type": "academy",
-      "verified": false,
-      "notes": "Title and ID from a web search result; YouTube could not be opened from this session. The description links to pitchvision.com's 'magic drill' page; confirm the channel."
+      "verified": true,
+      "notes": "Title and ID from a web search result; YouTube could not be opened from this session. The description links to pitchvision.com's 'magic drill' page; confirm the channel. Link checked 17 Nov 2026; content not yet watched (Alex to review).",
+      "channel_url": "https://www.youtube.com/@PitchVisionSports",
+      "link_check": "2026-11-17: YouTube oEmbed returned the video (public, embedding allowed); title and channel above are YouTube's own.",
+      "content_reviewed": false
     },
     {
       "title": "Cricket Batting Techniques For Beginners - Front-Foot Drive with Bobble Feed",
-      "channel": "cricdojo",
+      "channel": "CRICDOJO",
       "url": "https://www.youtube.com/watch?v=vp6ZBJFAI3I",
       "embed_url": "https://www.youtube-nocookie.com/embed/vp6ZBJFAI3I",
       "video_id": "vp6ZBJFAI3I",
@@ -813,8 +990,11 @@
       "what_it_shows": "Bobble-feed (rolled or bounced tennis ball) drive drill a parent or partner can feed; good for lots of repetitions.",
       "level": "beginner",
       "source_type": "academy",
-      "verified": false,
-      "notes": "Title and ID from a web search result; YouTube could not be opened from this session. Channel from the search summary."
+      "verified": true,
+      "notes": "Title and ID from a web search result; YouTube could not be opened from this session. Channel from the search summary. Link checked 17 Nov 2026; content not yet watched (Alex to review).",
+      "channel_url": "https://www.youtube.com/@cricdojo",
+      "link_check": "2026-11-17: YouTube oEmbed returned the video (public, embedding allowed); title and channel above are YouTube's own.",
+      "content_reviewed": false
     }
   ]
 }
