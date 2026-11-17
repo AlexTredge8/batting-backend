@@ -109,6 +109,17 @@ def test_live_rules_map_to_faults():
     assert pc.fault_for_priority_fix({"rule_id": "T2"})[0] == "F01"
     assert pc.fault_for_priority_fix(None)[0] == "F00"
     assert pc.fault_for_priority_fix({"rule_id": "Z9"})[0] is None
+    # the same steps as the results page: no priority fix but a fault elsewhere is NOT "nothing to fix"
+    report = {"priority_fix": None, "pillars": {
+        "stability": {"assessed": False, "faults": []},
+        "flow": {"assessed": True, "faults": [{"rule_id": "F4", "deduction": 6}]},
+        "access": {"assessed": True, "faults": [{"rule_id": "A5", "deduction": 3}]}}}
+    assert pc.fault_for_report(report)[0] == "F09"
+    assert pc.fault_for_report({"priority_fault": {"id": "f05"}, "priority_fix": {"rule_id": "T2"}})[0] == "F05"
+    none_measured = {"priority_fix": None, "pillars": {"flow": {"assessed": False, "faults": []}}}
+    assert pc.fault_for_report(none_measured)[0] is None
+    clean = {"priority_fix": None, "pillars": {"flow": {"assessed": True, "faults": []}}}
+    assert pc.fault_for_report(clean)[0] == "F00"
 
 
 # --- change_text -----------------------------------------------------------------------------

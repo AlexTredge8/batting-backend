@@ -45,13 +45,14 @@ RUBRIC_PATH = SCRIPT_DIR / "docs" / "phase1" / "rubric_v0_3.json"
 DIFF_THRESHOLD_BL = 0.05
 MAX_HIGHLIGHTS = 3
 
-# Live rules (scorer.py priority fix) -> rubric v0.3 fault. STOPGAP until the live app names
-# rubric faults itself: each live rule is mapped to the nearest fault by what it measures.
-#   T2 early head change        -> F01 head not still at set-up
-#   A5 shoulder-hip gap          -> F07 front shoulder opens early
-#   S4 post-contact rotation     -> F12 hands stop / follow-through (as agreed for the stopgap)
-#   F4 pause frames              -> F09 pause or hitch in the swing
+# Live rules (scorer.py priority fix) -> rubric v0.3 fault. STOPGAP until the live app names rubric
+# faults itself: each live rule is mapped to the nearest fault by what it measures. The four active
+# rules (T2, A5, S4, F4) are the ones agreed for the stopgap; the dormant ones follow the frontend's
+# table (docs/lovable/results_tips_and_sharing_prompt.md) in case they are switched back on.
 RULE_TO_FAULT = {"T2": "F01", "A5": "F07", "S4": "F12", "F4": "F09"}
+DORMANT_RULE_TO_FAULT = {"T1": "F10", "A1": "F08", "A2": "F10", "A3": "F08", "A4": "F10", "S1": "F16", "S2": "F11",
+                         "S3": "F11", "F1": "F13", "F2": "F09", "F3": "F13", "F5": "F09", "F6": "F12"}
+PILLAR_ORDER = ["stability", "tracking", "access", "flow"]  # the backend's own tie-break order
 
 MOMENT_LEADS = {
     "setup": "At set-up", "top_of_backlift": "At the top of the backlift", "front_foot_down": "At front foot down",
@@ -368,6 +369,7 @@ C_GHOST = (255, 255, 255)     # white, drawn translucent
 C_RING = (0, 230, 255)        # yellow
 C_TARGET = (90, 220, 90)      # green
 C_REF_PANEL = (150, 130, 40)  # teal-blue for the reference figure on the plain panel
+C_PANEL_RING = (40, 40, 210)  # red rings on the plain panel (yellow does not show on a light background)
 OUT_WIDTH = 480
 JPEG_QUALITY = 80
 
@@ -517,27 +519,29 @@ def render_side_by_side(player_n: dict, ghost_n: dict, highlights: list[str], mi
         return {k: np.array([-v[0] if mirrored else v[0], v[1]], float) for k, v in pose.items()}
     a, b = oriented(player_n), oriented(ghost_n)
     pts = np.array(list(a.values()) + list(b.values()))
-    lo, hi = pts.min(axis=0), pts.max(axis=0)
+    head = 0.06  # stick-figure head radius, body lengths
+    lo, hi = pts.min(axis=0) - head, pts.max(axis=0) + head
     span = np.maximum(hi - lo, 1e-3)
-    s = min((pw - 40) / span[0], (ph - 70) / span[1])
+    top, bottom, side = 40, 26, 20  # room for the labels above and the footnote below
+    s = min((pw - 2 * side) / span[0], (ph - top - bottom) / span[1])
     centre = (lo + hi) / 2
 
     def to_px(pose, ox):
-        return {k: np.array([ox + pw / 2 + (v[0] - centre[0]) * s, 30 + (ph - 40) / 2 + (v[1] - centre[1]) * s])
+        return {k: np.array([ox + pw / 2 + (v[0] - centre[0]) * s, top + (ph - top - bottom) / 2 + (v[1] - centre[1]) * s])
                 for k, v in pose.items()}
     pa, pb = to_px(a, 0), to_px(b, pw)
     canvas = np.full((ph, OUT_WIDTH, 3), 244, np.uint8)
     cv2.line(canvas, (pw, 10), (pw, ph - 10), (210, 210, 210), 1)
-    head_r = max(6, int(round(0.055 * s)))
+    head_r = max(6, int(round(head * s)))
     _draw_skeleton(canvas, pa, C_PLAYER, 3, 3, head_r)
     _draw_skeleton(canvas, pb, C_REF_PANEL, 3, 3, head_r)
     for n in highlights:
         for pose in (pa, pb):
             if n in pose:
                 p = tuple(int(round(v)) for v in pose[n])
-                cv2.circle(canvas, p, 11, (0, 170, 230), 2, cv2.LINE_AA)
+                cv2.circle(canvas, p, 12, C_PANEL_RING, 2, cv2.LINE_AA)
     for text, x in (("You", 10), ("Best practice", pw + 10)):
-        cv2.putText(canvas, text, (x, 22), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (40, 40, 40), 1, cv2.LINE_AA)
+        cv2.putText(canvas, text, (x, 24), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (40, 40, 40), 1, cv2.LINE_AA)
     if footnote:
         cv2.putText(canvas, footnote, (8, ph - 8), cv2.FONT_HERSHEY_SIMPLEX, 0.38, (90, 90, 90), 1, cv2.LINE_AA)
     return np.vstack([_header(OUT_WIDTH, [("You", C_PLAYER), ("Best practice", C_REF_PANEL)], moment_label), canvas])
@@ -595,6 +599,8 @@ def compute_pose_comparison(landmarks: np.ndarray, frame_idx: np.ndarray, anchor
     ref_pose = (ref.get("moments", {}).get(moment) or {}).get("joints") or {}
     if not ref_pose:
         return {**unavailable(fault, f"the reference has no figure for {moment}"), **base, "available": False}
+    if not width or not height or not fps:
+        return {**unavailable(fault, "the video size or frame rate is unknown"), **base, "available": False}
     need = {"contact_frame", "setup_frame", "front_foot_down_frame"}
     if not anchors or any(anchors.get(k) is None for k in need):
         return {**unavailable(fault, "key frames missing"), **base, "available": False}
@@ -706,22 +712,59 @@ def compute_pose_comparison(landmarks: np.ndarray, frame_idx: np.ndarray, anchor
     return out
 
 
+def _map_rule(rule: str) -> str | None:
+    return RULE_TO_FAULT.get(rule) or DORMANT_RULE_TO_FAULT.get(rule)
+
+
+def fault_for_report(report: dict) -> tuple[str | None, str | None, str]:
+    """(fault, live rule, how it was chosen), the same steps the results page uses to pick its one
+    priority fix (docs/lovable/results_tips_and_sharing_prompt.md, section 3), so the comparison and
+    the priority card always name the same fault:
+      A. a rubric fault the backend names itself (report["priority_fault"]["id"], when it exists);
+      B. the live priority fix's rule, mapped (RULE_TO_FAULT);
+      C. no priority fix: the pillar that lost the most points, its largest fault, mapped;
+      D. no fault anywhere: F00 "nothing major to fix" (None if no pillar was measured)."""
+    pf = report.get("priority_fault") or {}
+    fid = str(pf.get("id") or "").upper()
+    if fid in FAULT_TABLE:
+        return fid, None, "rubric fault named by the backend"
+    fix = report.get("priority_fix") or {}
+    rule = str(fix.get("rule_id") or "")
+    if rule:
+        fault = _map_rule(rule)
+        if fault is None:
+            return None, rule, f"live rule {rule} has no rubric fault mapped"
+        return fault, rule, f"stopgap: live rule {rule} mapped to rubric fault {fault}"
+    pillars = report.get("pillars") or {}
+    best = None
+    for name in PILLAR_ORDER:
+        p = pillars.get(name) or {}
+        faults = p.get("faults") or []
+        if p.get("assessed") is False or not faults:
+            continue
+        lost = sum(float(f.get("deduction") or 0) for f in faults)
+        if best is None or lost > best[0]:
+            best = (lost, max(faults, key=lambda f: float(f.get("deduction") or 0)))
+    if best is not None:
+        rule = str(best[1].get("rule_id") or "")
+        fault = _map_rule(rule)
+        if fault is None:
+            return None, rule, f"live rule {rule} has no rubric fault mapped"
+        return fault, rule, f"stopgap: no priority fix in the report; largest fault (live rule {rule}) mapped to {fault}"
+    measured = [n for n in PILLAR_ORDER if n in pillars and (pillars[n] or {}).get("assessed") is not False]
+    if pillars and not measured:
+        return None, None, "no part of the shot could be measured"
+    return "F00", None, "no fault found: nothing major to fix"
+
+
 def fault_for_priority_fix(priority_fix: dict | None) -> tuple[str | None, str | None, str]:
-    """(fault, live rule, how it was chosen) for the live report's priority fix."""
-    if not priority_fix:
-        return "F00", None, "no priority fix in the live report: nothing major to fix"
-    rule = str(priority_fix.get("rule_id") or "")
-    if rule.upper().startswith("F") and rule.upper() in FAULT_TABLE and rule.upper() not in RULE_TO_FAULT:
-        return rule.upper(), rule, "rubric fault given directly"
-    fault = RULE_TO_FAULT.get(rule)
-    if fault is None:
-        return None, rule, f"live rule {rule} has no rubric fault mapped"
-    return fault, rule, f"stopgap: live rule {rule} mapped to rubric fault {fault}"
+    """(fault, live rule, how) from the priority fix alone (see fault_for_report for the full steps)."""
+    return fault_for_report({"priority_fix": priority_fix})
 
 
 def pose_comparison_for_report(report: dict, frame_poses, video_meta: dict, video_path) -> dict:
     """The comparison for the live report's priority fix (run_analysis.analyse, POSE_COMPARE on)."""
-    fault, rule, how = fault_for_priority_fix(report.get("priority_fix"))
+    fault, rule, how = fault_for_report(report)
     if fault is None:
         return unavailable(None, how, source_rule=rule)
     md = report.get("metadata") or {}
