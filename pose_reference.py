@@ -138,7 +138,9 @@ def prepare_clip(c: p5.Clip, anchors: dict) -> tuple[p5.Clip, float | None, np.n
     Returns (levelled clip, roll removed or None, origin or None, body length or NaN)."""
     a = {k: int(v) for k, v in anchors.items()}
     c, roll = p5.level_by_camera_roll(c)
-    bl = p5.body_length(c, a)
+    with warnings.catch_warnings():
+        warnings.simplefilter("ignore", RuntimeWarning)
+        bl = p5.body_length(c, a)
     fr = p5._setup_window(c, a)
     ank = c.series(fr, (p5.L["ank"], p5.R["ank"]))
     ok = ank[np.isfinite(ank).all(axis=1)]

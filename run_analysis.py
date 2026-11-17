@@ -446,6 +446,22 @@ def build_storyboard_keyframes(
     return keyframes
 
 
+def _add_pose_comparison(report: dict, frame_poses, video_meta: dict, video_path) -> None:
+    """When config.POSE_COMPARE is "on", add report["pose_comparison"] for the priority fix
+    (pose_compare.py). When "off" (the default) add nothing. Never changes a score or an existing
+    field, and never stops the analysis: an error is recorded in the block instead."""
+    import config as _config
+    if str(getattr(_config, "POSE_COMPARE", "off")).strip().lower() != "on":
+        return
+    try:
+        from pose_compare import pose_comparison_for_report
+        report["pose_comparison"] = pose_comparison_for_report(report, frame_poses, video_meta, video_path)
+    except Exception as exc:  # a comparison must never break an analysis
+        report["pose_comparison"] = {"version": "pose_compare_v1", "available": False,
+                                     "reason": "the comparison could not be made for this clip",
+                                     "error": f"{type(exc).__name__}: {exc}"[:300]}
+
+
 def analyse(video_path: str, output_dir: str = None, verbose: bool = True,
             handedness: str = None, handedness_source: str = "default",
             contact_frame: int | None = None,
@@ -708,6 +724,7 @@ def analyse(video_path: str, output_dir: str = None, verbose: bool = True,
     report["_storyboard_keyframes"] = storyboard_keyframes
     report["storyboard_frames"] = {k: {kk: vv for kk, vv in v.items() if kk != "_path"}
                                    for k, v in storyboard_keyframes.items()}
+    _add_pose_comparison(report, frame_poses, video_meta, video_path)  # POSE_COMPARE (default off)
 
     return report
 

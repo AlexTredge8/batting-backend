@@ -1,6 +1,6 @@
 # Drill plan rules v0.1 (draft)
 
-DRAFT, 17 Nov 2026. This is the full logic and copy for the "Your drill plan" section of the results page. The app prompt that builds it is `docs/lovable/drill_plan_prompt.md`; if you change a rule or a line of copy here, change it there too. The drills are in `drill_library.json`. Cam must sign off every drill before the plan goes live (`cam_drill_signoff.md`).
+DRAFT, 17 Nov 2026. This is the full logic and copy for the "Your drill plan" section of the results page. The app prompt that builds it is `docs/lovable/drill_plan_prompt.md`; if you change a rule or a line of copy here, change it there too. The drills are in `drill_library.json`. Alex (a qualified coach) must sign off every drill before the plan goes live (`drill_signoff.md`).
 
 The plan is three weeks long, three sessions a week, 15 to 20 minutes a session. It is built from one analysis and is saved with that analysis.
 
@@ -35,15 +35,15 @@ The plan is three weeks long, three sessions a week, 15 to 20 minutes a session.
 Release mode:
 - `off`: never show the section. The priority card keeps its own "Drill to try" box.
 - `preview`: show the section only to admins (a row in `user_roles` with `role = 'admin'` for the signed-in user) or when the page address has `?drills=preview`. Everyone else sees the page as in `off`. Drills that are not signed off show a "Draft" badge.
-- `live`: show the section to everyone. Use only drills with `camSignoff = "ok"`.
+- `live`: show the section to everyone. Use only drills with `signoff = "ok"`.
 
-If P has no usable drill at any level (for example, in `live` mode before Cam has signed off that fault), show copy `noPlanChecking` instead of the plan.
+If P has no usable drill at any level (for example, in `live` mode before Alex has signed off that fault), show copy `noPlanChecking` instead of the plan.
 
 ---
 
 ## 3. Picking a drill: `pickDrill(fault, level)`
 
-1. Usable drills: in `live` mode, drills of that fault with `camSignoff = "ok"`; in `preview` mode, drills of that fault with any `camSignoff` except `"removed"`.
+1. Usable drills: in `live` mode, drills of that fault with `signoff = "ok"`; in `preview` mode, drills of that fault with any `signoff` except `"removed"`.
 2. Try the levels in this order and return the first usable drill:
    - `beginner`: beginner, club, advanced
    - `club`: club, beginner, advanced
@@ -140,7 +140,7 @@ Other rules:
 - **Nets note**, once at the end of week 2 and week 3: `netsAdult` for adults; `netsJunior` for `under_18` and `unknown`.
 - **Solo badge.** If `soloOk` is true, show the badge `soloBadge` for adults, or `soloBadgeJunior` for `under_18` and `unknown`. If false, show `partnerBadge`.
 - **No personal details** anywhere in the plan, the print view or the shared text: no name, no score, no photo, no link to the analysis, no referral code. This is the same for every age, so there is nothing to switch off for juniors.
-- **Claims.** Never say the drills prevent injury, fix a fault for certain, or match a coach. The footer copy `footer` says what they are. Show `checkedBadge` only on drills whose `camSignoff` is `"ok"`.
+- **Claims.** Never say the drills prevent injury, fix a fault for certain, or match a coach. The footer copy `footer` says what they are. Show `checkedBadge` only on drills whose `signoff` is `"ok"`.
 
 ---
 
@@ -281,7 +281,7 @@ For F00, the second line is "Working on: keeping my drive the same".
 
 ## 13. Going live
 
-1. Cam signs off the drills (`cam_drill_signoff.md`). Set each drill's `cam_signoff` in `drill_library.json` and `camSignoff` in the app's data to `ok`, or make Cam's change, or set `removed`.
+1. Alex signs off the drills (`drill_signoff.md`). Set each drill's `signoff` in `drill_library.json` and in the app's data to `ok`, or make Alex's change, or set `removed`.
 2. Run the tests in the prompt with `FEATURES.drillPlan = "preview"`.
 3. Tell Alex. Then set `FEATURES.drillPlan = "live"`, and run prompt Pass 0b (the pricing line).
-4. Add demo videos as Cam films them: set `videoUrl` on the drill (the prompt has a one-line template).
+4. Add demo videos as they are filmed (an adult batter only; who films them is not decided yet, and Alex does not film): set `videoUrl` on the drill (the prompt has a one-line template).

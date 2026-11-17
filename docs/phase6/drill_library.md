@@ -1,6 +1,6 @@
 # Batting IQ drill library v0.1 (draft)
 
-DRAFT, 17 Nov 2026. Source of truth: `drill_library.json` (this page is made from it). **Cam must sign off every drill** before it goes live: use `cam_drill_signoff.md`. The plan logic is in `drill_plan_rules.md`; the app prompt is `docs/lovable/drill_plan_prompt.md`.
+DRAFT, 17 Nov 2026. Source of truth: `drill_library.json` (this page is made from it). **Alex must sign off every drill** before it goes live: use `drill_signoff.md`. The plan logic is in `drill_plan_rules.md`; the app prompt is `docs/lovable/drill_plan_prompt.md`.
 
 57 drills: three for each fault in rubric v0.3 chain order (F14 is part of F07), plus three for F00 ("Keep it grooved"). Each fault's **beginner** drill is the "Drill to try" on the priority fix card.
 
@@ -22,7 +22,7 @@ DRAFT, 17 Nov 2026. Source of truth: `drill_library.json` (this page is made fro
 - Feeders and throwers stand to one side of the line of the shot, out of reach of the bat.
 - No drill claims to prevent injury, and no wording says the app is as good as a coach.
 - Each fault's beginner drill is the 'Drill to try' on the priority fix card (results_tips_and_sharing_prompt.md Pass 1).
-- Demo videos: an adult only (Cam), a tennis ball, no club badges, nobody else recognisable in shot, filmed from behind the bowler and side-on, about 20 seconds.
+- Demo videos: an adult batter only, a tennis ball, no club badges, nobody else recognisable in shot, filmed from behind the bowler and side-on, about 20 seconds. Who films them is not decided yet (Alex does not film).
 
 ## Words used in the drills
 
@@ -82,9 +82,9 @@ Tip: Keep your head still and your eyes level as the bowler runs in, so you get 
 
 **Safety:** Use a tennis ball. Play soft defence shots only, so the ball stays near your feet.
 
-**Demo video to film (status: needed):** Behind the bowler: Cam in the stance as a partner drops a tennis ball from shoulder height; the head stays still until the bounce, then a soft defence. Side-on: the same rep, with the head height level against the background.
+**Demo video to film (status: needed):** Behind the bowler: The batter in the stance as a partner drops a tennis ball from shoulder height; the head stays still until the bounce, then a soft defence. Side-on: the same rep, with the head height level against the background.
 
-**Cam sign-off:** pending
+**Alex sign-off:** pending
 
 ### F01-C · Run-up watch (club)
 
@@ -108,9 +108,9 @@ Tip: Keep your head still and your eyes level as the bowler runs in, so you get 
 
 **Safety:** Use a tennis ball. The thrower stands 6 to 8 metres away, to one side of the line of the shot, and watches every ball. Put the phone where the ball and the bat cannot reach it.
 
-**Demo video to film (status: needed):** Behind the bowler: the partner walks five steps and throws underarm while Cam's head stays level against the background. Side-on: one rep with the head still during the walk-in, then the drive.
+**Demo video to film (status: needed):** Behind the bowler: the partner walks five steps and throws underarm while the batter's head stays level against the background. Side-on: one rep with the head still during the walk-in, then the drive.
 
-**Cam sign-off:** pending
+**Alex sign-off:** pending
 
 ### F01-A · Trigger, then still (advanced)
 
@@ -134,9 +134,9 @@ Tip: Keep your head still and your eyes level as the bowler runs in, so you get 
 
 **Safety:** Use a tennis ball. The thrower stands at least 10 metres away, to one side of the line of the shot, or behind a net screen. Put the phone where the ball and the bat cannot reach it.
 
-**Demo video to film (status: needed):** Behind the bowler: Cam's small trigger movement, finished and still as the thrower lets go. Side-on: one slow and one normal-pace rep showing the trigger, the still head, then the drive.
+**Demo video to film (status: needed):** Behind the bowler: The batter's small trigger movement, finished and still as the thrower lets go. Side-on: one slow and one normal-pace rep showing the trigger, the still head, then the drive.
 
-**Cam sign-off:** pending
+**Alex sign-off:** pending
 
 ## F02: Unbalanced stance
 
@@ -164,9 +164,9 @@ Tip: Stand with your weight even and your knees soft, so you can move forward or
 
 **Safety:** Clear a space. Make sure nobody is within two bat lengths of your swing.
 
-**Demo video to film (status: needed):** Behind the bowler: Cam hops twice, lands in a balanced stance and holds. Side-on: the same, showing soft knees and the weight over the middle of the feet.
+**Demo video to film (status: needed):** Behind the bowler: The batter hops twice, lands in a balanced stance and holds. Side-on: the same, showing soft knees and the weight over the middle of the feet.
 
-**Cam sign-off:** pending
+**Alex sign-off:** pending
 
 ### F02-C · Forward or back call (club)
 
@@ -190,9 +190,9 @@ Tip: Stand with your weight even and your knees soft, so you can move forward or
 
 **Safety:** Clear a space. Make sure nobody is within two bat lengths of your swing.
 
-**Demo video to film (status: needed):** Behind the bowler: Cam reacts to "forward" and "back" calls with shadow shots and returns to the same stance. Side-on: the held stance and one call each way.
+**Demo video to film (status: needed):** Behind the bowler: The batter reacts to "forward" and "back" calls with shadow shots and returns to the same stance. Side-on: the held stance and one call each way.
 
-**Cam sign-off:** pending
+**Alex sign-off:** pending
 
 ### F02-A · Freeze on release (advanced)
 
@@ -216,9 +216,9 @@ Tip: Stand with your weight even and your knees soft, so you can move forward or
 
 **Safety:** Use a tennis ball. The thrower stands at least 10 metres away, to one side of the line of the shot, or behind a net screen.
 
-**Demo video to film (status: needed):** Behind the bowler: one throw played, then one fake where Cam freezes and lifts a foot without a wobble. Side-on: the freeze, showing even weight and soft knees.
+**Demo video to film (status: needed):** Behind the bowler: one throw played, then one fake where the batter freezes and lifts a foot without a wobble. Side-on: the freeze, showing even weight and soft knees.
 
-**Cam sign-off:** pending
+**Alex sign-off:** pending
 
 ## F17: Head, hands and feet not lined up as the bowler lets go
 
@@ -246,9 +246,9 @@ Tip: As the bowler lets go, line up your head, hands and feet over off stump, so
 
 **Safety:** No ball is needed. If you add a ball, use a tennis ball thrown underarm from the side of the pitch.
 
-**Demo video to film (status: needed):** Behind the bowler: film over the partner's shoulder as Cam lines up head, hands and feet over off stump at a pretend release. Side-on: Cam sets the feet, then the hands, then the head.
+**Demo video to film (status: needed):** Behind the bowler: film over the partner's shoulder as the batter lines up head, hands and feet over off stump at a pretend release. Side-on: The batter sets the feet, then the hands, then the head.
 
-**Cam sign-off:** pending
+**Alex sign-off:** pending
 
 ### F17-C · Phone line-up check (club)
 
@@ -273,9 +273,9 @@ Tip: As the bowler lets go, line up your head, hands and feet over off stump, so
 
 **Safety:** Clear a space. Make sure nobody is within two bat lengths of your swing.
 
-**Demo video to film (status: needed):** Behind the bowler (from the phone's position): Cam holds the line-up at "now", with the off-stump cone in view. Side-on: Cam says "now" and holds still.
+**Demo video to film (status: needed):** Behind the bowler (from the phone's position): The batter holds the line-up at "now", with the off-stump cone in view. Side-on: The batter says "now" and holds still.
 
-**Cam sign-off:** pending
+**Alex sign-off:** pending
 
 ### F17-A · Line up and leave (advanced)
 
@@ -299,9 +299,9 @@ Tip: As the bowler lets go, line up your head, hands and feet over off stump, so
 
 **Safety:** Use a tennis ball. The thrower stands at least 10 metres away, to one side of the line of the shot, or behind a net screen.
 
-**Demo video to film (status: needed):** Behind the bowler: Cam lined up over off stump, driving one full ball and leaving one wide ball. Side-on: the line-up held still on the leave.
+**Demo video to film (status: needed):** Behind the bowler: The batter lined up over off stump, driving one full ball and leaving one wide ball. Side-on: the line-up held still on the leave.
 
-**Cam sign-off:** pending
+**Alex sign-off:** pending
 
 ## F13: Hands late: no rhythm from the backlift
 
@@ -329,9 +329,9 @@ Tip: Start lifting the bat a little earlier, as the bowler gets ready to let go,
 
 **Safety:** Use a tennis ball. The thrower stands 6 to 8 metres away, to one side of the line of the shot, and watches every ball.
 
-**Demo video to film (status: needed):** Behind the bowler: the partner says "now" as the arm swings, and Cam starts the backlift on the word. Side-on: the bat up and ready before the bounce, then the drive.
+**Demo video to film (status: needed):** Behind the bowler: the partner says "now" as the arm swings, and the batter starts the backlift on the word. Side-on: the bat up and ready before the bounce, then the drive.
 
-**Cam sign-off:** pending
+**Alex sign-off:** pending
 
 ### F13-C · Lift with the gather (club)
 
@@ -355,9 +355,9 @@ Tip: Start lifting the bat a little earlier, as the bowler gets ready to let go,
 
 **Safety:** Use a tennis ball. The bowler bowls gently from at least 10 metres and moves out of the line of the shot after letting go.
 
-**Demo video to film (status: needed):** Behind the bowler: Cam's hands start to lift as the bowler's front arm goes up. Side-on: the backlift starting with the gather and the bat up as the bowling arm comes over.
+**Demo video to film (status: needed):** Behind the bowler: The batter's hands start to lift as the bowler's front arm goes up. Side-on: the backlift starting with the gather and the bat up as the bowling arm comes over.
 
-**Cam sign-off:** pending
+**Alex sign-off:** pending
 
 ### F13-A · Early lift, quicker ball (advanced)
 
@@ -381,9 +381,9 @@ Tip: Start lifting the bat a little earlier, as the bowler gets ready to let go,
 
 **Safety:** Use a tennis ball. The thrower stands at least 10 metres away, to one side of the line of the shot, or behind a net screen. Put the phone where the ball and the bat cannot reach it.
 
-**Demo video to film (status: needed):** Side-on: Cam's early lift against a quicker overarm tennis ball, with the bat up before the bounce. Behind the bowler: the thrower's arm and Cam's lift starting together.
+**Demo video to film (status: needed):** Side-on: The batter's early lift against a quicker overarm tennis ball, with the bat up before the bounce. Behind the bowler: the thrower's arm and the batter's lift starting together.
 
-**Cam sign-off:** pending
+**Alex sign-off:** pending
 
 ## F03: Hands go out away from the body
 
@@ -411,9 +411,9 @@ Tip: Lift your hands up and back, close to your body, with your top hand in char
 
 **Safety:** Swing slowly. Keep the bat at least one bat length away from the mirror or window.
 
-**Demo video to film (status: needed):** Side-on: Cam's slow backlift, with the hands going up and back close to the body. Behind the bowler: the same lift, with the hands staying close to the back hip.
+**Demo video to film (status: needed):** Side-on: The batter's slow backlift, with the hands going up and back close to the body. Behind the bowler: the same lift, with the hands staying close to the back hip.
 
-**Cam sign-off:** pending
+**Alex sign-off:** pending
 
 ### F03-C · Top-hand tee drives (club)
 
@@ -437,9 +437,9 @@ Tip: Lift your hands up and back, close to your body, with your top hand in char
 
 **Safety:** Hit into a net or towards open space, away from people, windows and cars. Use a light bat. Stop if your wrist or forearm hurts.
 
-**Demo video to film (status: needed):** Side-on: Cam drives a tennis ball off a tee with the top hand only, then with both hands. Behind the bowler: the backlift staying close to the body.
+**Demo video to film (status: needed):** Side-on: The batter drives a tennis ball off a tee with the top hand only, then with both hands. Behind the bowler: the backlift staying close to the body.
 
-**Cam sign-off:** pending
+**Alex sign-off:** pending
 
 ### F03-A · Net-side lift (advanced)
 
@@ -463,9 +463,9 @@ Tip: Lift your hands up and back, close to your body, with your top hand in char
 
 **Safety:** Use a tennis ball. The thrower stands on the leg side of the lane, at least 8 metres away.
 
-**Demo video to film (status: needed):** Behind the bowler: Cam takes guard close to the off-side netting, lifts without touching it, then drives a throw straight. Side-on: the lift staying close to the body.
+**Demo video to film (status: needed):** Behind the bowler: The batter takes guard close to the off-side netting, lifts without touching it, then drives a throw straight. Side-on: the lift staying close to the body.
 
-**Cam sign-off:** pending
+**Alex sign-off:** pending
 
 ## F19: Drove a ball that was too short
 
@@ -492,9 +492,9 @@ Tip: Drive only when the ball is pitched up; if it is short, go back or leave it
 
 **Safety:** Use a tennis ball. The thrower stands 6 to 8 metres away, to one side of the line of the shot, and watches every ball.
 
-**Demo video to film (status: needed):** Behind the bowler: Cam drives a full ball, then goes back to a short ball. Side-on: the call "full" or "short" and the matching foot movement.
+**Demo video to film (status: needed):** Behind the bowler: The batter drives a full ball, then goes back to a short ball. Side-on: the call "full" or "short" and the matching foot movement.
 
-**Cam sign-off:** pending
+**Alex sign-off:** pending
 
 ### F19-C · Cone on a length (club)
 
@@ -517,9 +517,9 @@ Tip: Drive only when the ball is pitched up; if it is short, go back or leave it
 
 **Safety:** Use a tennis ball. The thrower stands at least 10 metres away, to one side of the line of the shot, or behind a net screen.
 
-**Demo video to film (status: needed):** Behind the bowler: the cone at the side of the pitch; one ball that bounces past it is driven, one short of it is defended. Side-on: Cam's front foot goes forward only for the full ball.
+**Demo video to film (status: needed):** Behind the bowler: the cone at the side of the pitch; one ball that bounces past it is driven, one short of it is defended. Side-on: The batter's front foot goes forward only for the full ball.
 
-**Cam sign-off:** pending
+**Alex sign-off:** pending
 
 ### F19-A · Drive, defend or leave (advanced)
 
@@ -545,7 +545,7 @@ Tip: Drive only when the ball is pitched up; if it is short, go back or leave it
 
 **Demo video to film (status: needed):** Behind the bowler: three balls in a row: one driven, one defended, one left. Side-on: the different foot movement for each.
 
-**Cam sign-off:** pending
+**Alex sign-off:** pending
 
 ## F15: Moving across, not out to the ball
 
@@ -573,9 +573,9 @@ Tip: Move forward towards the ball rather than across the crease, so your head s
 
 **Safety:** Clear a space. Make sure nobody is within two bat lengths of your swing. For drop feeds, use a tennis ball. The feeder kneels on your leg side, out of the path of the bat.
 
-**Demo video to film (status: needed):** Behind the bowler: the spare bat on the ground pointing down the pitch, and Cam striding alongside it. Side-on: the stride, then one drop-fed drive.
+**Demo video to film (status: needed):** Behind the bowler: the spare bat on the ground pointing down the pitch, and the batter striding alongside it. Side-on: the stride, then one drop-fed drive.
 
-**Cam sign-off:** pending
+**Alex sign-off:** pending
 
 ### F15-C · Back-foot cone (club)
 
@@ -599,9 +599,9 @@ Tip: Move forward towards the ball rather than across the crease, so your head s
 
 **Safety:** Use a tennis ball. The thrower stands 6 to 8 metres away, to one side of the line of the shot, and watches every ball.
 
-**Demo video to film (status: needed):** Behind the bowler: the cone beside Cam's back foot, which stays put as Cam steps forward to drive. Side-on: the forward movement, with no step across first.
+**Demo video to film (status: needed):** Behind the bowler: the cone beside the batter's back foot, which stays put as the batter steps forward to drive. Side-on: the forward movement, with no step across first.
 
-**Cam sign-off:** pending
+**Alex sign-off:** pending
 
 ### F15-A · Straight-ball throws (advanced)
 
@@ -625,9 +625,9 @@ Tip: Move forward towards the ball rather than across the crease, so your head s
 
 **Safety:** Use a tennis ball. The thrower stands at least 10 metres away, to one side of the line of the shot, or behind a net screen. Nobody stands near the target cones.
 
-**Demo video to film (status: needed):** Behind the bowler: Cam moves straight forward to a middle-stump ball and drives it between the cones. Side-on: the head staying over the line.
+**Demo video to film (status: needed):** Behind the bowler: The batter moves straight forward to a middle-stump ball and drives it between the cones. Side-on: the head staying over the line.
 
-**Cam sign-off:** pending
+**Alex sign-off:** pending
 
 ## F04: Head and shoulder not leading
 
@@ -655,9 +655,9 @@ Tip: Let your head and front shoulder lead you towards the ball, and your front 
 
 **Safety:** Clear a space. Make sure nobody is within two bat lengths of your swing.
 
-**Demo video to film (status: needed):** Side-on: Cam's head and front shoulder move first towards the ball on the cone, then the front foot follows. Behind the bowler: the head arriving over the ball.
+**Demo video to film (status: needed):** Side-on: The batter's head and front shoulder move first towards the ball on the cone, then the front foot follows. Behind the bowler: the head arriving over the ball.
 
-**Cam sign-off:** pending
+**Alex sign-off:** pending
 
 ### F04-C · Lead to the drop (club)
 
@@ -681,9 +681,9 @@ Tip: Let your head and front shoulder lead you towards the ball, and your front 
 
 **Safety:** Use a tennis ball. The feeder kneels on your leg side, out of the path of the bat, and leans back after each drop.
 
-**Demo video to film (status: needed):** Side-on: Cam's head and shoulder lead to a drop-fed ball, with the feeder kneeling on the leg side. Behind the bowler: the drive along the ground.
+**Demo video to film (status: needed):** Side-on: The batter's head and shoulder lead to a drop-fed ball, with the feeder kneeling on the leg side. Behind the bowler: the drive along the ground.
 
-**Cam sign-off:** pending
+**Alex sign-off:** pending
 
 ### F04-A · Shoulder to the pitch (advanced)
 
@@ -707,9 +707,9 @@ Tip: Let your head and front shoulder lead you towards the ball, and your front 
 
 **Safety:** Use a tennis ball. The thrower stands at least 10 metres away, to one side of the line of the shot, or behind a net screen. Put the phone where the ball and the bat cannot reach it.
 
-**Demo video to film (status: needed):** Side-on: Cam's front shoulder points at the ball, the head follows and the front foot lands last. Behind the bowler: the drive along the ground.
+**Demo video to film (status: needed):** Side-on: The batter's front shoulder points at the ball, the head follows and the front foot lands last. Behind the bowler: the drive along the ground.
 
-**Cam sign-off:** pending
+**Alex sign-off:** pending
 
 ## F05: Front foot away from the line of the ball
 
@@ -737,9 +737,9 @@ Tip: Step towards the ball and land your front foot on its line, or just inside 
 
 **Safety:** Clear a space. Make sure nobody is within two bat lengths of your swing. For drop feeds, use a tennis ball. The feeder kneels on your leg side, out of the path of the bat.
 
-**Demo video to film (status: needed):** Behind the bowler: the cone just outside off stump and Cam's front foot landing next to it. Side-on: the stride and the hold.
+**Demo video to film (status: needed):** Behind the bowler: the cone just outside off stump and the batter's front foot landing next to it. Side-on: the stride and the hold.
 
-**Cam sign-off:** pending
+**Alex sign-off:** pending
 
 ### F05-C · Moving marker (club)
 
@@ -763,9 +763,9 @@ Tip: Step towards the ball and land your front foot on its line, or just inside 
 
 **Safety:** Use a tennis ball. The thrower stands 6 to 8 metres away, to one side of the line of the shot, and watches every ball. Your partner moves the cone only when you stand still.
 
-**Demo video to film (status: needed):** Behind the bowler: three balls with the cone in three places, and Cam's front foot following the line each time. Side-on: one stride and drive.
+**Demo video to film (status: needed):** Behind the bowler: three balls with the cone in three places, and the batter's front foot following the line each time. Side-on: one stride and drive.
 
-**Cam sign-off:** pending
+**Alex sign-off:** pending
 
 ### F05-A · Read the line (advanced)
 
@@ -789,9 +789,9 @@ Tip: Step towards the ball and land your front foot on its line, or just inside 
 
 **Safety:** Use a tennis ball. The thrower stands at least 10 metres away, to one side of the line of the shot, or behind a net screen. Put the phone where the ball and the bat cannot reach it.
 
-**Demo video to film (status: needed):** Behind the bowler: Cam's front foot lands on the line of an off-stump ball, then of a middle-stump ball. Side-on: the stride and the bat coming through.
+**Demo video to film (status: needed):** Behind the bowler: The batter's front foot lands on the line of an off-stump ball, then of a middle-stump ball. Side-on: the stride and the bat coming through.
 
-**Cam sign-off:** pending
+**Alex sign-off:** pending
 
 ## F06: Front leg stiff, weight stays back
 
@@ -819,9 +819,9 @@ Tip: Bend your front knee as you land so that it takes your weight, instead of l
 
 **Safety:** Clear a space. Make sure nobody is within two bat lengths of your swing.
 
-**Demo video to film (status: needed):** Side-on: Cam's front knee bends over the toes as Cam lands, back heel up, held for 3 seconds. Behind the bowler: the same hold.
+**Demo video to film (status: needed):** Side-on: The batter's front knee bends over the toes as the batter lands, back heel up, held for 3 seconds. Behind the bowler: the same hold.
 
-**Cam sign-off:** pending
+**Alex sign-off:** pending
 
 ### F06-C · Long-stride tee drive (club)
 
@@ -845,9 +845,9 @@ Tip: Bend your front knee as you land so that it takes your weight, instead of l
 
 **Safety:** Hit into a net or towards open space, away from people, windows and cars.
 
-**Demo video to film (status: needed):** Side-on: Cam's long stride and bent front knee as Cam drives a tennis ball off a tee. Behind the bowler: the ball going straight along the ground.
+**Demo video to film (status: needed):** Side-on: The batter's long stride and bent front knee as the batter drives a tennis ball off a tee. Behind the bowler: the ball going straight along the ground.
 
-**Cam sign-off:** pending
+**Alex sign-off:** pending
 
 ### F06-A · Low-ball throws (advanced)
 
@@ -871,9 +871,9 @@ Tip: Bend your front knee as you land so that it takes your weight, instead of l
 
 **Safety:** Use a tennis ball. The thrower stands at least 10 metres away, to one side of the line of the shot, or behind a net screen.
 
-**Demo video to film (status: needed):** Side-on: Cam's front knee bends to a low, full ball, head down, and the drive stays along the ground. Behind the bowler: the stride and the low ball.
+**Demo video to film (status: needed):** Side-on: The batter's front knee bends to a low, full ball, head down, and the drive stays along the ground. Behind the bowler: the stride and the low ball.
 
-**Cam sign-off:** pending
+**Alex sign-off:** pending
 
 ## F18: No push from the back foot
 
@@ -901,9 +901,9 @@ Tip: Push off your back foot as you step forward, so your weight drives into the
 
 **Safety:** Clear a space. Make sure nobody is within two bat lengths of your swing.
 
-**Demo video to film (status: needed):** Side-on: Cam's back foot pushes off and the heel lifts as the weight moves forward. Behind the bowler: the stride and the finish.
+**Demo video to film (status: needed):** Side-on: The batter's back foot pushes off and the heel lifts as the weight moves forward. Behind the bowler: the stride and the finish.
 
-**Cam sign-off:** pending
+**Alex sign-off:** pending
 
 ### F18-C · Toe-drag finish (club)
 
@@ -927,9 +927,9 @@ Tip: Push off your back foot as you step forward, so your weight drives into the
 
 **Safety:** Use a tennis ball. The feeder kneels on your leg side, out of the path of the bat, and leans back after each drop.
 
-**Demo video to film (status: needed):** Side-on: the tape line at Cam's back toe, and the toe dragging past it after a drop-fed drive. Behind the bowler: the drive.
+**Demo video to film (status: needed):** Side-on: the tape line at the batter's back toe, and the toe dragging past it after a drop-fed drive. Behind the bowler: the drive.
 
-**Cam sign-off:** pending
+**Alex sign-off:** pending
 
 ### F18-A · Drive and walk through (advanced)
 
@@ -953,9 +953,9 @@ Tip: Push off your back foot as you step forward, so your weight drives into the
 
 **Safety:** Use a tennis ball. The thrower stands at least 10 metres away, to one side of the line of the shot, or behind a net screen. Check that the space in front of you is clear before you step through.
 
-**Demo video to film (status: needed):** Side-on: Cam drives a full throw, then the back foot comes through into one step. Behind the bowler: the drive and the step.
+**Demo video to film (status: needed):** Side-on: The batter drives a full throw, then the back foot comes through into one step. Behind the bowler: the drive and the step.
 
-**Cam sign-off:** pending
+**Alex sign-off:** pending
 
 ## F16: Weight stays back
 
@@ -983,9 +983,9 @@ Tip: Get your weight moving towards the ball, so your head and chest are over yo
 
 **Safety:** Clear a space. Make sure nobody is within two bat lengths of your swing.
 
-**Demo video to film (status: needed):** Side-on: Cam freezes at the contact point with the nose over the front toes. Behind the bowler: the same freeze.
+**Demo video to film (status: needed):** Side-on: The batter freezes at the contact point with the nose over the front toes. Behind the bowler: the same freeze.
 
-**Cam sign-off:** pending
+**Alex sign-off:** pending
 
 ### F16-C · Chest over the cone (club)
 
@@ -1009,9 +1009,9 @@ Tip: Get your weight moving towards the ball, so your head and chest are over yo
 
 **Safety:** Use a tennis ball. The feeder kneels on your leg side, out of the path of the bat, and leans back after each drop.
 
-**Demo video to film (status: needed):** Side-on: Cam's head and chest over the cone at contact with a drop-fed ball. Behind the bowler: the drive and the hold.
+**Demo video to film (status: needed):** Side-on: The batter's head and chest over the cone at contact with a drop-fed ball. Behind the bowler: the drive and the hold.
 
-**Cam sign-off:** pending
+**Alex sign-off:** pending
 
 ### F16-A · Freeze after contact (advanced)
 
@@ -1035,9 +1035,9 @@ Tip: Get your weight moving towards the ball, so your head and chest are over yo
 
 **Safety:** Use a tennis ball. The thrower stands at least 10 metres away, to one side of the line of the shot, or behind a net screen. Put the phone where the ball and the bat cannot reach it.
 
-**Demo video to film (status: needed):** Side-on: Cam's freeze after contact, head and chest over the front foot. Behind the bowler: the drive and the freeze.
+**Demo video to film (status: needed):** Side-on: The batter's freeze after contact, head and chest over the front foot. Behind the bowler: the drive and the freeze.
 
-**Cam sign-off:** pending
+**Alex sign-off:** pending
 
 ## F07: Front shoulder opens too early
 
@@ -1065,9 +1065,9 @@ Tip: Keep your front shoulder pointing down the line of the shot until you have 
 
 **Safety:** Hit into a net or towards open space, away from people, windows and cars. Your partner stands well out of reach of the bat.
 
-**Demo video to film (status: needed):** Behind the bowler: Cam's front shoulder points down the pitch until the ball leaves the tee. Side-on: the same drive, with the chest staying closed until contact.
+**Demo video to film (status: needed):** Behind the bowler: The batter's front shoulder points down the pitch until the ball leaves the tee. Side-on: the same drive, with the chest staying closed until contact.
 
-**Cam sign-off:** pending
+**Alex sign-off:** pending
 
 ### F07-C · Chin to shoulder (club)
 
@@ -1091,9 +1091,9 @@ Tip: Keep your front shoulder pointing down the line of the shot until you have 
 
 **Safety:** Use a tennis ball. The feeder kneels on your leg side, out of the path of the bat, and leans back after each drop.
 
-**Demo video to film (status: needed):** Side-on: Cam's chin stays close to the front shoulder through a drop-fed drive. Behind the bowler: the shoulder turns only after the ball has gone.
+**Demo video to film (status: needed):** Side-on: The batter's chin stays close to the front shoulder through a drop-fed drive. Behind the bowler: the shoulder turns only after the ball has gone.
 
-**Cam sign-off:** pending
+**Alex sign-off:** pending
 
 ### F07-A · Off-side gate (advanced)
 
@@ -1117,9 +1117,9 @@ Tip: Keep your front shoulder pointing down the line of the shot until you have 
 
 **Safety:** Use a tennis ball. The thrower stands at least 10 metres away, to one side of the line of the shot, or behind a net screen. Nobody stands near the gate.
 
-**Demo video to film (status: needed):** Behind the bowler: the gate at mid-off and Cam driving through it with the shoulder closed. Side-on: the front shoulder still pointing at the gate at contact.
+**Demo video to film (status: needed):** Behind the bowler: the gate at mid-off and the batter driving through it with the shoulder closed. Side-on: the front shoulder still pointing at the gate at contact.
 
-**Cam sign-off:** pending
+**Alex sign-off:** pending
 
 ## F08: Bat comes across the line
 
@@ -1147,9 +1147,9 @@ Tip: Bring the bat down straight along the line of the ball, and if it keeps com
 
 **Safety:** Hit into a net or towards open space, away from people, windows and cars.
 
-**Demo video to film (status: needed):** Behind the bowler: the two-cone gate and Cam driving the tee ball straight through it. Side-on: the bat coming down straight along the line.
+**Demo video to film (status: needed):** Behind the bowler: the two-cone gate and the batter driving the tee ball straight through it. Side-on: the bat coming down straight along the line.
 
-**Cam sign-off:** pending
+**Alex sign-off:** pending
 
 ### F08-C · Straight back past the stumps (club)
 
@@ -1173,9 +1173,9 @@ Tip: Bring the bat down straight along the line of the ball, and if it keeps com
 
 **Safety:** Use a tennis ball. The thrower stands 6 to 8 metres away, to one side of the line of the shot, and watches every ball. Nobody stands near the cones.
 
-**Demo video to film (status: needed):** Behind the bowler: Cam drives an underarm tennis ball back between the cones. Side-on: the straight bat path.
+**Demo video to film (status: needed):** Behind the bowler: The batter drives an underarm tennis ball back between the cones. Side-on: the straight bat path.
 
-**Cam sign-off:** pending
+**Alex sign-off:** pending
 
 ### F08-A · Narrow channel (advanced)
 
@@ -1201,7 +1201,7 @@ Tip: Bring the bat down straight along the line of the ball, and if it keeps com
 
 **Demo video to film (status: needed):** Behind the bowler: the channel of cones and two drives into it. Side-on: the bat swinging straight through the line.
 
-**Cam sign-off:** pending
+**Alex sign-off:** pending
 
 ## F09: Pause or hitch in the swing
 
@@ -1229,9 +1229,9 @@ Tip: Make it one smooth movement from backlift to contact; a short settle of the
 
 **Safety:** Clear a space. Make sure nobody is within two bat lengths of your swing. For drop feeds, use a tennis ball. The feeder kneels on your leg side, out of the path of the bat.
 
-**Demo video to film (status: needed):** Side-on: Cam says "one" on the lift and "two" on the swing, with no stop at the top. Behind the bowler: a shadow rep, then a drop-fed drive.
+**Demo video to film (status: needed):** Side-on: The batter says "one" on the lift and "two" on the swing, with no stop at the top. Behind the bowler: a shadow rep, then a drop-fed drive.
 
-**Cam sign-off:** pending
+**Alex sign-off:** pending
 
 ### F09-C · Metronome drives (club)
 
@@ -1254,9 +1254,9 @@ Tip: Make it one smooth movement from backlift to contact; a short settle of the
 
 **Safety:** Hit into a net or towards open space, away from people, windows and cars.
 
-**Demo video to film (status: needed):** Side-on: Cam lifts on one beat and hits a tee ball on the next, with the metronome audible. Behind the bowler: the smooth swing.
+**Demo video to film (status: needed):** Side-on: The batter lifts on one beat and hits a tee ball on the next, with the metronome audible. Behind the bowler: the smooth swing.
 
-**Cam sign-off:** pending
+**Alex sign-off:** pending
 
 ### F09-A · Smooth at speed (advanced)
 
@@ -1280,9 +1280,9 @@ Tip: Make it one smooth movement from backlift to contact; a short settle of the
 
 **Safety:** Use a tennis ball. The thrower stands at least 10 metres away, to one side of the line of the shot, or behind a net screen. Put the phone where the ball and the bat cannot reach it.
 
-**Demo video to film (status: needed):** Side-on: Cam's smooth swing against a slower, then a quicker throw, with no stop at the top. Behind the bowler: both drives.
+**Demo video to film (status: needed):** Side-on: The batter's smooth swing against a slower, then a quicker throw, with no stop at the top. Behind the bowler: both drives.
 
-**Cam sign-off:** pending
+**Alex sign-off:** pending
 
 ## F10: Head falls away at contact
 
@@ -1310,9 +1310,9 @@ Tip: Keep your head over the ball and meet it close to your front pad, so you st
 
 **Safety:** Hit into a net or towards open space, away from people, windows and cars.
 
-**Demo video to film (status: needed):** Side-on: Cam keeps looking at the tee for a second after driving the ball off it. Behind the bowler: the head still over the tee after contact.
+**Demo video to film (status: needed):** Side-on: The batter keeps looking at the tee for a second after driving the ball off it. Behind the bowler: the head still over the tee after contact.
 
-**Cam sign-off:** pending
+**Alex sign-off:** pending
 
 ### F10-C · Ball under the eyes (club)
 
@@ -1336,9 +1336,9 @@ Tip: Keep your head over the ball and meet it close to your front pad, so you st
 
 **Safety:** Use a tennis ball. The feeder kneels on your leg side, out of the path of the bat, and leans back after each drop.
 
-**Demo video to film (status: needed):** Side-on: Cam meets a drop-fed ball under the eyes next to the front pad, head still afterwards. Behind the bowler: the drive along the ground.
+**Demo video to film (status: needed):** Side-on: The batter meets a drop-fed ball under the eyes next to the front pad, head still afterwards. Behind the bowler: the drive along the ground.
 
-**Cam sign-off:** pending
+**Alex sign-off:** pending
 
 ### F10-A · Read the number (advanced)
 
@@ -1362,9 +1362,9 @@ Tip: Keep your head over the ball and meet it close to your front pad, so you st
 
 **Safety:** Use a tennis ball. The thrower stands at least 10 metres away, to one side of the line of the shot, or behind a net screen.
 
-**Demo video to film (status: needed):** Behind the bowler: a numbered tennis ball, and Cam calling the number before driving. Side-on: the head still over the ball at contact.
+**Demo video to film (status: needed):** Behind the bowler: a numbered tennis ball, and the batter calling the number before driving. Side-on: the head still over the ball at contact.
 
-**Cam sign-off:** pending
+**Alex sign-off:** pending
 
 ## F11: Off balance at the finish
 
@@ -1392,9 +1392,9 @@ Tip: Hold your finish for a count of two, and if you cannot, keep your head over
 
 **Safety:** Hit into a net or towards open space, away from people, windows and cars. For drop feeds, use a tennis ball. The feeder kneels on your leg side, out of the path of the bat.
 
-**Demo video to film (status: needed):** Side-on: Cam drives off a tee and holds the finish for a count of two, head over the front knee. Behind the bowler: the balanced finish.
+**Demo video to film (status: needed):** Side-on: The batter drives off a tee and holds the finish for a count of two, head over the front knee. Behind the bowler: the balanced finish.
 
-**Cam sign-off:** pending
+**Alex sign-off:** pending
 
 ### F11-C · One-leg finish (club)
 
@@ -1418,9 +1418,9 @@ Tip: Hold your finish for a count of two, and if you cannot, keep your head over
 
 **Safety:** Hit into a net or towards open space, away from people, windows and cars.
 
-**Demo video to film (status: needed):** Side-on: Cam drives off a tee, then lifts the back foot and balances on the front leg for 2 seconds. Behind the bowler: the same finish.
+**Demo video to film (status: needed):** Side-on: The batter drives off a tee, then lifts the back foot and balances on the front leg for 2 seconds. Behind the bowler: the same finish.
 
-**Cam sign-off:** pending
+**Alex sign-off:** pending
 
 ### F11-A · Finish score (advanced)
 
@@ -1444,9 +1444,9 @@ Tip: Hold your finish for a count of two, and if you cannot, keep your head over
 
 **Safety:** Use a tennis ball. The thrower stands at least 10 metres away, to one side of the line of the shot, or behind a net screen.
 
-**Demo video to film (status: needed):** Behind the bowler: Cam drives a throw and holds the finish for a count of three. Side-on: the still finish.
+**Demo video to film (status: needed):** Behind the bowler: The batter drives a throw and holds the finish for a count of three. Side-on: the still finish.
 
-**Cam sign-off:** pending
+**Alex sign-off:** pending
 
 ## F12: Hands stop, or a wild follow-through
 
@@ -1474,9 +1474,9 @@ Tip: Let your hands keep going towards your target after you hit the ball, and f
 
 **Safety:** Clear a space. Make sure nobody is within two bat lengths of your swing.
 
-**Demo video to film (status: needed):** Side-on: Cam's hands go on towards the target, then stop with control, held for 2 seconds. Behind the bowler: the controlled finish.
+**Demo video to film (status: needed):** Side-on: The batter's hands go on towards the target, then stop with control, held for 2 seconds. Behind the bowler: the controlled finish.
 
-**Cam sign-off:** pending
+**Alex sign-off:** pending
 
 ### F12-C · Hands to the target (club)
 
@@ -1500,9 +1500,9 @@ Tip: Let your hands keep going towards your target after you hit the ball, and f
 
 **Safety:** Hit into a net or towards open space, away from people, windows and cars. Nobody stands near the target.
 
-**Demo video to film (status: needed):** Behind the bowler: the target cone and Cam's hands following the ball towards it. Side-on: the controlled, held finish.
+**Demo video to film (status: needed):** Behind the bowler: the target cone and the batter's hands following the ball towards it. Side-on: the controlled, held finish.
 
-**Cam sign-off:** pending
+**Alex sign-off:** pending
 
 ### F12-A · Same finish, any effort (advanced)
 
@@ -1526,9 +1526,9 @@ Tip: Let your hands keep going towards your target after you hit the ball, and f
 
 **Safety:** Use a tennis ball. The thrower stands at least 10 metres away, to one side of the line of the shot, or behind a net screen.
 
-**Demo video to film (status: needed):** Side-on: Cam's finishes at half, three-quarter and full effort, all looking the same. Behind the bowler: the controlled finish.
+**Demo video to film (status: needed):** Side-on: The batter's finishes at half, three-quarter and full effort, all looking the same. Behind the bowler: the controlled finish.
 
-**Cam sign-off:** pending
+**Alex sign-off:** pending
 
 ## F00: Nothing major to fix
 
@@ -1555,9 +1555,9 @@ Tip: Nothing major to fix: this is a good, balanced drive, so keep repeating it.
 
 **Safety:** Hit into a net or towards open space, away from people, windows and cars. For drop feeds, use a tennis ball. The feeder kneels on your leg side, out of the path of the bat.
 
-**Demo video to film (status: needed):** Side-on: Cam drives drop-fed balls at three-quarter pace and holds each finish for a count of two. Behind the bowler: three drives that look the same.
+**Demo video to film (status: needed):** Side-on: The batter drives drop-fed balls at three-quarter pace and holds each finish for a count of two. Behind the bowler: three drives that look the same.
 
-**Cam sign-off:** pending
+**Alex sign-off:** pending
 
 ### F00-C · Groove and vary (club)
 
@@ -1583,7 +1583,7 @@ Tip: Nothing major to fix: this is a good, balanced drive, so keep repeating it.
 
 **Demo video to film (status: needed):** Behind the bowler: three throws on three lines, driven to mid-off, straight and to mid-on. Side-on: the same balanced finish each time.
 
-**Cam sign-off:** pending
+**Alex sign-off:** pending
 
 ### F00-A · Pressure grooving (advanced)
 
@@ -1607,6 +1607,6 @@ Tip: Nothing major to fix: this is a good, balanced drive, so keep repeating it.
 
 **Safety:** Use a tennis ball. The thrower stands at least 10 metres away, to one side of the line of the shot, or behind a net screen. Nobody stands near the gates.
 
-**Demo video to film (status: needed):** Behind the bowler: the two gates, and Cam driving to a called "off", then a called "on". Side-on: the held finish.
+**Demo video to film (status: needed):** Behind the bowler: the two gates, and the batter driving to a called "off", then a called "on". Side-on: the held finish.
 
-**Cam sign-off:** pending
+**Alex sign-off:** pending

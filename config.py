@@ -111,6 +111,14 @@ POSE_FALLBACK_MAX_JUMPS = int(os.getenv("POSE_FALLBACK_MAX_JUMPS", "1"))
 # rtmlib solution mode: lightweight | balanced (what the comparison measured) | performance
 POSE_FALLBACK_RTM_MODE = os.getenv("POSE_FALLBACK_RTM_MODE", "balanced").strip().lower()
 
+# "You vs best practice" pose comparison (17 Nov 2026, default OFF). When "on", run_analysis adds
+# report["pose_comparison"] for the priority fix: the player's frame (face blurred) with the averaged
+# best-practice stick figure as a ghost, a side-by-side panel, the fault's measurement against the range
+# of good drives, and one sentence on what to change (pose_compare.py, docs/phase6/pose_compare.md).
+# It never changes a score or an existing field. "off" adds nothing. Switch on only when Alex says go.
+POSE_COMPARE = os.getenv("POSE_COMPARE", "off").strip().lower()
+POSE_COMPARE_MODES = ("off", "on")
+
 # ---------------------------------------------------------------------------
 # Setup detector version
 # ---------------------------------------------------------------------------
