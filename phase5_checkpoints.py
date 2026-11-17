@@ -111,8 +111,17 @@ def _moving_median(a: np.ndarray, k: int = 5) -> np.ndarray:
 
 def load_clip(npz: Path, handedness: str, drive: str = "off", roll: dict | None = None) -> Clip:
     d = np.load(npz)
-    arr, frame_idx = d["landmarks"].astype(float), d["frame_idx"]
-    w, h, fps = float(d["width"]), float(d["height"]), float(d["fps"])
+    return clip_from_arrays(d["landmarks"], d["frame_idx"], float(d["width"]), float(d["height"]), float(d["fps"]),
+                            handedness, drive, roll)
+
+
+def clip_from_arrays(landmarks: np.ndarray, frame_idx: np.ndarray, w: float, h: float, fps: float,
+                     handedness: str, drive: str = "off", roll: dict | None = None) -> Clip:
+    """The same as load_clip, from arrays in the pose-cache layout (landmarks [n, 33, 4] normalised
+    x, y, z, visibility; frame_idx [n] original video frames). Used by the live pose comparison
+    (pose_compare.py), which has the analysis's own landmarks rather than a cache file."""
+    arr, frame_idx = np.asarray(landmarks, dtype=float), np.asarray(frame_idx)
+    w, h, fps = float(w), float(h), float(fps)
     xy = np.stack([arr[..., 0] * w, arr[..., 1] * h], axis=-1)
     xy[arr[..., 3] < MIN_VIS] = np.nan
     left_handed = handedness.strip().lower() == "left"

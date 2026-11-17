@@ -1,0 +1,2158 @@
+{
+  "status": "DRAFT v0.1, 17 Nov 2026. Written by AI in our own words from rubric v0.3, the v0.3 tips and well-known drill types. Cam must sign off every drill (docs/phase6/cam_drill_signoff.md) before it goes live. Not yet checked by a coach.",
+  "version": "0.1-draft",
+  "rubric_version": "0.3-draft",
+  "sources": [
+    "docs/phase1/rubric_v0_3.json (faults_in_chain_order; F14 is part of F07)",
+    "docs/phase6/fault_tips_v0_3.json",
+    "docs/lovable/results_tips_and_sharing_prompt.md (the original 'Drill to try' per fault, now the beginner drill of each fault)",
+    "docs/legal/consumer_and_safeguarding_review.md Issue 4 (safety lines, Cam sign-off, no injury claims)"
+  ],
+  "order": "faults_in_chain_order of rubric v0.3, then F00; three levels per fault: beginner (B), club (C), advanced (A)",
+  "levels": {
+    "beginner": "New to cricket, or new to batting with a proper ball. Shadow, tee and drop-feed drills.",
+    "club": "Plays for a school or club team. Drop feeds and underarm throws, with a marker or a partner check.",
+    "advanced": "Plays first-team adult cricket, or county or academy age-group cricket. Overarm tennis-ball throws, scoring games and phone review."
+  },
+  "common_safety": {
+    "all_players": "Warm up first. Make sure there is space around you and nobody stands within reach of your swing. Use a tennis ball or soft ball for partner drills, with the feeder standing to the side, not in line with the shot. With a hard ball, always wear a helmet with a faceguard and proper protective kit. Stop if anything hurts.",
+    "under_18_or_unknown_age": "Players under 18: do these drills with an adult supervising, and always wear a helmet with a faceguard when batting against a hard ball, in nets and in matches."
+  },
+  "glossary": {
+    "drop feed": "Your partner kneels on your leg side, out of the path of the bat, and drops a tennis ball so it bounces in front of your front pad.",
+    "underarm throw": "Your partner throws a tennis ball underarm from 6 to 8 metres, standing to one side of the line of the shot.",
+    "overarm throw": "Your partner throws a tennis ball overarm, with one bounce, from 10 to 12 metres, standing to one side of the line of the shot.",
+    "tee": "A batting tee, or a tall cone with a tennis ball on top.",
+    "shadow": "The movement with a bat but no ball."
+  },
+  "design_rules": [
+    "No drill needs a hard ball. Every partner drill uses a tennis ball. Solo drills use a tennis ball or no ball.",
+    "Feeders and throwers stand to one side of the line of the shot, out of reach of the bat.",
+    "No drill claims to prevent injury, and no wording says the app is as good as a coach.",
+    "Each fault's beginner drill is the 'Drill to try' on the priority fix card (results_tips_and_sharing_prompt.md Pass 1).",
+    "Demo videos: an adult only (Cam), a tennis ball, no club badges, nobody else recognisable in shot, filmed from behind the bowler and side-on, about 20 seconds."
+  ],
+  "fields": {
+    "cam_signoff": "pending | ok | changed | removed. Only 'ok' drills are shown once the plan is live.",
+    "video_slot.status": "needed | filmed | live. Set video_slot.url (and videoUrl in the app) when a demo is uploaded."
+  },
+  "drills": [
+    {
+      "id": "F01-B",
+      "fault": "F01",
+      "fault_name": "Head moves too early",
+      "level": "beginner",
+      "name": "Still head, ball drop",
+      "purpose": "Keeps your head still and your eyes level before the ball comes, because a moving head gives you a blurred view of the ball.",
+      "equipment": [
+        "Bat",
+        "Tennis ball",
+        "Partner"
+      ],
+      "setup": "Take your stance. Your partner stands 3 metres away, a little to your off side, and holds a tennis ball at shoulder height.",
+      "steps": [
+        "Look at the ball in your partner's hand.",
+        "Keep your head still and your eyes level.",
+        "Your partner drops the ball when they choose.",
+        "Keep your head still until the ball bounces.",
+        "Play a soft forward defence, so the ball stops near your feet."
+      ],
+      "sets": 2,
+      "reps": 10,
+      "unit": "balls",
+      "reps_text": "2 sets of 10 balls",
+      "time_minutes": 8,
+      "success_check": "You know it's working when your partner sees no head movement before the bounce on 8 of 10 balls.",
+      "progression": "Your partner waits a different time before each drop, so you cannot guess when the ball comes.",
+      "safety": "Use a tennis ball. Play soft defence shots only, so the ball stays near your feet.",
+      "solo_ok": false,
+      "ball": "tennis",
+      "video_slot": {
+        "status": "needed",
+        "url": null,
+        "brief": "Behind the bowler: Cam in the stance as a partner drops a tennis ball from shoulder height; the head stays still until the bounce, then a soft defence. Side-on: the same rep, with the head height level against the background."
+      },
+      "cam_signoff": "pending"
+    },
+    {
+      "id": "F01-C",
+      "fault": "F01",
+      "fault_name": "Head moves too early",
+      "level": "club",
+      "name": "Run-up watch",
+      "purpose": "Trains a still head while the bowler runs in, because that is when most heads start to move.",
+      "equipment": [
+        "Bat",
+        "Tennis balls",
+        "Partner",
+        "Phone, propped up"
+      ],
+      "setup": "Your partner stands 8 metres away, to one side of the line of the shot. Prop a phone 2 metres behind your partner at chest height, pointing at you.",
+      "steps": [
+        "Start the phone recording.",
+        "Your partner takes five walking steps in and throws a tennis ball underarm.",
+        "Keep your head still and your eyes level during the steps.",
+        "Play a straight drive or a forward defence.",
+        "After 6 balls, watch the clip. Check your head against something fixed behind you, such as a fence post."
+      ],
+      "sets": 2,
+      "reps": 6,
+      "unit": "throws",
+      "reps_text": "2 sets of 6 throws",
+      "time_minutes": 10,
+      "success_check": "You know it's working when your head stays level with the same fixed point behind you until the ball leaves your partner's hand.",
+      "progression": "Your partner jogs in and throws a little faster, so the ball arrives sooner.",
+      "safety": "Use a tennis ball. The thrower stands 6 to 8 metres away, to one side of the line of the shot, and watches every ball. Put the phone where the ball and the bat cannot reach it.",
+      "solo_ok": false,
+      "ball": "tennis",
+      "video_slot": {
+        "status": "needed",
+        "url": null,
+        "brief": "Behind the bowler: the partner walks five steps and throws underarm while Cam's head stays level against the background. Side-on: one rep with the head still during the walk-in, then the drive."
+      },
+      "cam_signoff": "pending"
+    },
+    {
+      "id": "F01-A",
+      "fault": "F01",
+      "fault_name": "Head moves too early",
+      "level": "advanced",
+      "name": "Trigger, then still",
+      "purpose": "Lets you keep your trigger movement but finish it before the ball is released, so your head is still at the moment that matters.",
+      "equipment": [
+        "Bat",
+        "Tennis balls",
+        "Partner",
+        "Phone, propped up"
+      ],
+      "setup": "Your partner throws tennis balls overarm, with one bounce, from 10 to 12 metres, standing to one side of the line of the shot. Prop the phone behind your partner, out of the line of the ball.",
+      "steps": [
+        "Make your normal trigger movement as your partner's arm comes up.",
+        "Finish the trigger before the ball leaves the hand.",
+        "Keep your head still and your eyes level as the ball is released.",
+        "Play the shot that suits the ball, or leave it.",
+        "After 8 balls, watch 3 clips. Check that your head stops before the release."
+      ],
+      "sets": 2,
+      "reps": 8,
+      "unit": "throws",
+      "reps_text": "2 sets of 8 throws",
+      "time_minutes": 10,
+      "success_check": "You know it's working when the clips show your trigger finished and your head still at release, and the ball seems to arrive later.",
+      "progression": "Your partner varies the pace and the length, so you must still finish the trigger early against quicker balls.",
+      "safety": "Use a tennis ball. The thrower stands at least 10 metres away, to one side of the line of the shot, or behind a net screen. Put the phone where the ball and the bat cannot reach it.",
+      "solo_ok": false,
+      "ball": "tennis",
+      "video_slot": {
+        "status": "needed",
+        "url": null,
+        "brief": "Behind the bowler: Cam's small trigger movement, finished and still as the thrower lets go. Side-on: one slow and one normal-pace rep showing the trigger, the still head, then the drive."
+      },
+      "cam_signoff": "pending"
+    },
+    {
+      "id": "F02-B",
+      "fault": "F02",
+      "fault_name": "Unbalanced stance",
+      "level": "beginner",
+      "name": "Ready-position hops",
+      "purpose": "Sets an even, relaxed stance, so you can move forward or back with equal ease.",
+      "equipment": [
+        "Bat"
+      ],
+      "setup": "Stand in an open space in your normal stance, with your feet about shoulder-width apart.",
+      "steps": [
+        "Take your stance.",
+        "Do two small hops on the spot.",
+        "Land with your weight even on both feet and your knees soft.",
+        "Hold still for 3 seconds.",
+        "Check that you could step forward or back without a wobble."
+      ],
+      "sets": 2,
+      "reps": 10,
+      "unit": "reps",
+      "reps_text": "2 sets of 10 reps",
+      "time_minutes": 6,
+      "success_check": "You know it's working when you land in the same balanced stance every time, with no shuffle of the feet.",
+      "progression": "After the hold, step straight into a shadow forward defence, then a shadow back-foot defence.",
+      "safety": "Clear a space. Make sure nobody is within two bat lengths of your swing.",
+      "solo_ok": true,
+      "ball": "none",
+      "video_slot": {
+        "status": "needed",
+        "url": null,
+        "brief": "Behind the bowler: Cam hops twice, lands in a balanced stance and holds. Side-on: the same, showing soft knees and the weight over the middle of the feet."
+      },
+      "cam_signoff": "pending"
+    },
+    {
+      "id": "F02-C",
+      "fault": "F02",
+      "fault_name": "Unbalanced stance",
+      "level": "club",
+      "name": "Forward or back call",
+      "purpose": "Tests your stance under a call, because a balanced stance lets you go either way quickly.",
+      "equipment": [
+        "Bat",
+        "Partner, or a phone playing calls you recorded"
+      ],
+      "setup": "Take your stance. Your partner stands 3 metres away, out of reach of your bat. Or record yourself saying \"forward\" and \"back\" in a random order, with gaps, and play it back.",
+      "steps": [
+        "Hold your stance with your weight even.",
+        "On \"forward\", play a shadow front-foot drive.",
+        "On \"back\", play a shadow back-foot defence.",
+        "Return to your stance and hold it for 2 seconds.",
+        "Wait for the next call."
+      ],
+      "sets": 2,
+      "reps": 10,
+      "unit": "calls",
+      "reps_text": "2 sets of 10 calls",
+      "time_minutes": 8,
+      "success_check": "You know it's working when you move as quickly forward as back, and you never need a small step before you go.",
+      "progression": "Your partner calls later, just as they pretend to let go of the ball.",
+      "safety": "Clear a space. Make sure nobody is within two bat lengths of your swing.",
+      "solo_ok": true,
+      "ball": "none",
+      "video_slot": {
+        "status": "needed",
+        "url": null,
+        "brief": "Behind the bowler: Cam reacts to \"forward\" and \"back\" calls with shadow shots and returns to the same stance. Side-on: the held stance and one call each way."
+      },
+      "cam_signoff": "pending"
+    },
+    {
+      "id": "F02-A",
+      "fault": "F02",
+      "fault_name": "Unbalanced stance",
+      "level": "advanced",
+      "name": "Freeze on release",
+      "purpose": "Checks your balance at the moment the ball is released, when balance matters most.",
+      "equipment": [
+        "Bat",
+        "Tennis balls",
+        "Partner"
+      ],
+      "setup": "Your partner throws tennis balls overarm, with one bounce, from 10 to 12 metres, standing to one side of the line of the shot.",
+      "steps": [
+        "Your partner runs in and either throws, or fakes the throw and calls \"freeze\".",
+        "On a throw, play the right shot.",
+        "On \"freeze\", stop still at once.",
+        "On a freeze, lift one foot a little and check that you stay balanced.",
+        "Mix 8 throws and 4 freezes in a random order."
+      ],
+      "sets": 1,
+      "reps": 12,
+      "unit": "balls",
+      "reps_text": "12 balls",
+      "time_minutes": 10,
+      "success_check": "You know it's working when you can lift either foot on every freeze without falling to one side.",
+      "progression": "Your partner throws a little faster and fakes later, so your balance must hold under more pace.",
+      "safety": "Use a tennis ball. The thrower stands at least 10 metres away, to one side of the line of the shot, or behind a net screen.",
+      "solo_ok": false,
+      "ball": "tennis",
+      "video_slot": {
+        "status": "needed",
+        "url": null,
+        "brief": "Behind the bowler: one throw played, then one fake where Cam freezes and lifts a foot without a wobble. Side-on: the freeze, showing even weight and soft knees."
+      },
+      "cam_signoff": "pending"
+    },
+    {
+      "id": "F17-B",
+      "fault": "F17",
+      "fault_name": "Head, hands and feet not lined up as the bowler lets go",
+      "level": "beginner",
+      "name": "Line up on off stump",
+      "purpose": "Lines up your head, hands and feet over off stump as the ball is released, so you start on the line of the ball.",
+      "equipment": [
+        "Bat",
+        "Stump or cone",
+        "Partner"
+      ],
+      "setup": "Put a stump or a cone on your off-stump line at the crease. Your partner stands 10 metres away, where a bowler lets go of the ball.",
+      "steps": [
+        "Take your stance.",
+        "Set your feet first, then your hands, then your head.",
+        "Your partner pretends to bowl.",
+        "As their arm comes over, line up your head, hands and feet over off stump.",
+        "Your partner calls \"yes\" or \"no\" after each rep."
+      ],
+      "sets": 1,
+      "reps": 10,
+      "unit": "reps",
+      "reps_text": "10 reps",
+      "time_minutes": 6,
+      "success_check": "You know it's working when your partner calls \"yes\" on 8 of 10 reps.",
+      "progression": "Your partner throws a soft underarm tennis ball after the check, and you play a forward defence.",
+      "safety": "No ball is needed. If you add a ball, use a tennis ball thrown underarm from the side of the pitch.",
+      "solo_ok": false,
+      "ball": "none",
+      "video_slot": {
+        "status": "needed",
+        "url": null,
+        "brief": "Behind the bowler: film over the partner's shoulder as Cam lines up head, hands and feet over off stump at a pretend release. Side-on: Cam sets the feet, then the hands, then the head."
+      },
+      "cam_signoff": "pending"
+    },
+    {
+      "id": "F17-C",
+      "fault": "F17",
+      "fault_name": "Head, hands and feet not lined up as the bowler lets go",
+      "level": "club",
+      "name": "Phone line-up check",
+      "purpose": "Lets you check your line-up on your own, with the phone as the bowler's eye.",
+      "equipment": [
+        "Bat",
+        "Phone, propped up",
+        "Cone or stump"
+      ],
+      "setup": "Prop the phone at chest height 10 metres away, straight down the pitch. Put a cone on your off-stump line at the crease.",
+      "steps": [
+        "Start the phone recording.",
+        "Take your stance.",
+        "Say \"now\" when an imaginary bowler lets go.",
+        "Hold your position for 2 seconds after \"now\".",
+        "Do 10 reps, then watch the clip.",
+        "Pause on each \"now\" and check your head, hands and feet against the cone."
+      ],
+      "sets": 1,
+      "reps": 10,
+      "unit": "reps",
+      "reps_text": "10 reps",
+      "time_minutes": 8,
+      "success_check": "You know it's working when your head, hands and feet stack over the cone in the paused clip on most reps.",
+      "progression": "Add a shadow drive after each hold, and check that your head stays on the line.",
+      "safety": "Clear a space. Make sure nobody is within two bat lengths of your swing.",
+      "solo_ok": true,
+      "ball": "none",
+      "video_slot": {
+        "status": "needed",
+        "url": null,
+        "brief": "Behind the bowler (from the phone's position): Cam holds the line-up at \"now\", with the off-stump cone in view. Side-on: Cam says \"now\" and holds still."
+      },
+      "cam_signoff": "pending"
+    },
+    {
+      "id": "F17-A",
+      "fault": "F17",
+      "fault_name": "Head, hands and feet not lined up as the bowler lets go",
+      "level": "advanced",
+      "name": "Line up and leave",
+      "purpose": "Joins the line-up to judging the ball, so you know where off stump is and leave well.",
+      "equipment": [
+        "Bat",
+        "Tennis balls",
+        "Partner",
+        "Cone"
+      ],
+      "setup": "Put a cone on your off-stump line at the crease. Your partner throws tennis balls overarm, with one bounce, from 10 to 12 metres, standing to one side of the line of the shot. They mix balls on the stumps with balls wide of off stump.",
+      "steps": [
+        "Line up your head, hands and feet over off stump as your partner's arm comes over.",
+        "Drive the balls that are full and on the stumps.",
+        "Leave the balls that are wide of off stump.",
+        "Hold your line-up for one second on every leave.",
+        "Your partner calls \"yes\" if you were lined up at release."
+      ],
+      "sets": 2,
+      "reps": 8,
+      "unit": "throws",
+      "reps_text": "2 sets of 8 throws",
+      "time_minutes": 10,
+      "success_check": "You know it's working when you get 8 \"yes\" calls in 10 balls and leave the wide ones with confidence.",
+      "progression": "Your partner adds balls just outside off stump, so the leave is a closer decision.",
+      "safety": "Use a tennis ball. The thrower stands at least 10 metres away, to one side of the line of the shot, or behind a net screen.",
+      "solo_ok": false,
+      "ball": "tennis",
+      "video_slot": {
+        "status": "needed",
+        "url": null,
+        "brief": "Behind the bowler: Cam lined up over off stump, driving one full ball and leaving one wide ball. Side-on: the line-up held still on the leave."
+      },
+      "cam_signoff": "pending"
+    },
+    {
+      "id": "F13-B",
+      "fault": "F13",
+      "fault_name": "Hands late: no rhythm from the backlift",
+      "level": "beginner",
+      "name": "Lift on \"now\"",
+      "purpose": "Starts your backlift earlier, so the swing has time to flow and is not rushed.",
+      "equipment": [
+        "Bat",
+        "Tennis balls",
+        "Partner"
+      ],
+      "setup": "Your partner throws tennis balls underarm from 6 to 8 metres, standing to one side of the line of the shot.",
+      "steps": [
+        "Take your stance.",
+        "Your partner says \"now\" as their throwing arm starts to swing.",
+        "Start to lift your hands on \"now\".",
+        "Play a straight drive or a forward defence.",
+        "Check that your bat was up before the ball bounced."
+      ],
+      "sets": 1,
+      "reps": 10,
+      "unit": "throws",
+      "reps_text": "10 throws",
+      "time_minutes": 8,
+      "success_check": "You know it's working when your bat is up and ready before the ball bounces, with no rush.",
+      "progression": "Your partner stops saying \"now\", and you start the lift on the swing of their arm alone.",
+      "safety": "Use a tennis ball. The thrower stands 6 to 8 metres away, to one side of the line of the shot, and watches every ball.",
+      "solo_ok": false,
+      "ball": "tennis",
+      "video_slot": {
+        "status": "needed",
+        "url": null,
+        "brief": "Behind the bowler: the partner says \"now\" as the arm swings, and Cam starts the backlift on the word. Side-on: the bat up and ready before the bounce, then the drive."
+      },
+      "cam_signoff": "pending"
+    },
+    {
+      "id": "F13-C",
+      "fault": "F13",
+      "fault_name": "Hands late: no rhythm from the backlift",
+      "level": "club",
+      "name": "Lift with the gather",
+      "purpose": "Times your backlift to the bowler's action, not to the ball, so it starts at the same moment every time.",
+      "equipment": [
+        "Bat",
+        "Tennis balls",
+        "Partner"
+      ],
+      "setup": "Your partner stands 10 metres away, to one side of the line of the shot, and bowls a tennis ball with a short, gentle action.",
+      "steps": [
+        "Do 3 shadow reps with no ball first.",
+        "Watch your partner's bowling action.",
+        "Start to lift your hands as their front arm goes up.",
+        "Have the bat up by the time their bowling arm comes over.",
+        "Play the shot that suits the ball."
+      ],
+      "sets": 1,
+      "reps": 10,
+      "unit": "balls",
+      "reps_text": "10 balls",
+      "time_minutes": 10,
+      "success_check": "You know it's working when your backlift starts at the same point in the action every ball, and the shot feels unhurried.",
+      "progression": "Your partner bowls a little quicker, and you keep the same early start.",
+      "safety": "Use a tennis ball. The bowler bowls gently from at least 10 metres and moves out of the line of the shot after letting go.",
+      "solo_ok": false,
+      "ball": "tennis",
+      "video_slot": {
+        "status": "needed",
+        "url": null,
+        "brief": "Behind the bowler: Cam's hands start to lift as the bowler's front arm goes up. Side-on: the backlift starting with the gather and the bat up as the bowling arm comes over."
+      },
+      "cam_signoff": "pending"
+    },
+    {
+      "id": "F13-A",
+      "fault": "F13",
+      "fault_name": "Hands late: no rhythm from the backlift",
+      "level": "advanced",
+      "name": "Early lift, quicker ball",
+      "purpose": "Keeps an early, unhurried backlift against quicker balls, where late hands cost the most.",
+      "equipment": [
+        "Bat",
+        "Tennis balls",
+        "Partner",
+        "Phone, propped up"
+      ],
+      "setup": "Your partner throws tennis balls overarm, with one bounce, from 10 to 12 metres, standing to one side of the line of the shot. Prop the phone side-on to you, out of the line of the ball.",
+      "steps": [
+        "Start the lift as your partner's arm comes up.",
+        "Have the bat up by the time the ball bounces.",
+        "Swing in one movement into the shot.",
+        "Drive the full balls and defend the rest.",
+        "After every 6 balls, watch one clip. Check that the bat was up before the bounce."
+      ],
+      "sets": 2,
+      "reps": 6,
+      "unit": "throws",
+      "reps_text": "2 sets of 6 throws",
+      "time_minutes": 10,
+      "success_check": "You know it's working when the clips show the bat up before the bounce, even on the quicker balls.",
+      "progression": "Your partner adds a quicker ball every third throw, with no warning.",
+      "safety": "Use a tennis ball. The thrower stands at least 10 metres away, to one side of the line of the shot, or behind a net screen. Put the phone where the ball and the bat cannot reach it.",
+      "solo_ok": false,
+      "ball": "tennis",
+      "video_slot": {
+        "status": "needed",
+        "url": null,
+        "brief": "Side-on: Cam's early lift against a quicker overarm tennis ball, with the bat up before the bounce. Behind the bowler: the thrower's arm and Cam's lift starting together."
+      },
+      "cam_signoff": "pending"
+    },
+    {
+      "id": "F03-B",
+      "fault": "F03",
+      "fault_name": "Hands go out away from the body",
+      "level": "beginner",
+      "name": "Mirror backlift",
+      "purpose": "Teaches a backlift that goes up and back, close to your body, with the top hand in charge.",
+      "equipment": [
+        "Bat",
+        "Mirror or a dark window"
+      ],
+      "setup": "Stand side-on to a mirror, about 2 metres away, so you can see yourself in your stance.",
+      "steps": [
+        "Take your stance.",
+        "Lift your hands slowly up and back, close to your body.",
+        "Keep your top hand in charge.",
+        "Check in the mirror that your hands stay near your back hip.",
+        "Lower the bat and repeat."
+      ],
+      "sets": 2,
+      "reps": 10,
+      "unit": "reps",
+      "reps_text": "2 sets of 10 reps",
+      "time_minutes": 6,
+      "success_check": "You know it's working when your hands stay close to your body on every lift. The bat pointing towards the slips is fine.",
+      "progression": "After each lift, swing through a slow shadow drive, and check that your hands come down close to your body too.",
+      "safety": "Swing slowly. Keep the bat at least one bat length away from the mirror or window.",
+      "solo_ok": true,
+      "ball": "none",
+      "video_slot": {
+        "status": "needed",
+        "url": null,
+        "brief": "Side-on: Cam's slow backlift, with the hands going up and back close to the body. Behind the bowler: the same lift, with the hands staying close to the back hip."
+      },
+      "cam_signoff": "pending"
+    },
+    {
+      "id": "F03-C",
+      "fault": "F03",
+      "fault_name": "Hands go out away from the body",
+      "level": "club",
+      "name": "Top-hand tee drives",
+      "purpose": "Builds a strong top hand, which keeps the backlift close to your body and the bat straight.",
+      "equipment": [
+        "Bat (a light or short one is best)",
+        "Tennis balls",
+        "Tee or tall cone"
+      ],
+      "setup": "Put a tennis ball on a tee or a tall cone next to where your front foot lands. Face a net or open space.",
+      "steps": [
+        "Hold the bat in your top hand only. Put your bottom hand behind your back.",
+        "Lift the bat up and back, close to your body.",
+        "Step in and drive the ball gently off the tee.",
+        "Do 8 balls with the top hand only.",
+        "Then do 8 balls with both hands, with the top hand still in charge."
+      ],
+      "sets": 2,
+      "reps": 8,
+      "unit": "balls",
+      "reps_text": "2 sets of 8 balls",
+      "time_minutes": 10,
+      "success_check": "You know it's working when the two-handed drives feel led by the top hand and the ball goes straight.",
+      "progression": "Do the same with soft drop feeds instead of the tee.",
+      "safety": "Hit into a net or towards open space, away from people, windows and cars. Use a light bat. Stop if your wrist or forearm hurts.",
+      "solo_ok": true,
+      "ball": "tennis",
+      "video_slot": {
+        "status": "needed",
+        "url": null,
+        "brief": "Side-on: Cam drives a tennis ball off a tee with the top hand only, then with both hands. Behind the bowler: the backlift staying close to the body."
+      },
+      "cam_signoff": "pending"
+    },
+    {
+      "id": "F03-A",
+      "fault": "F03",
+      "fault_name": "Hands go out away from the body",
+      "level": "advanced",
+      "name": "Net-side lift",
+      "purpose": "Shows you at once if your hands push out, because the bat touches the netting.",
+      "equipment": [
+        "Bat",
+        "Net lane",
+        "Tennis balls",
+        "Partner"
+      ],
+      "setup": "In a net lane, take guard so the off-side netting is about one metre in front of your toes. Your partner throws underarm from 8 metres, from the leg side of the lane.",
+      "steps": [
+        "Do 5 slow shadow backlifts. The bat must not touch the netting.",
+        "Your partner throws tennis balls on middle stump.",
+        "Lift up and back, close to your body.",
+        "Drive straight back down the lane.",
+        "If the bat touches the netting, do 2 slow shadow lifts before the next ball."
+      ],
+      "sets": 2,
+      "reps": 8,
+      "unit": "throws",
+      "reps_text": "2 sets of 8 throws",
+      "time_minutes": 10,
+      "success_check": "You know it's working when the bat never touches the netting and your drives go straight back down the lane.",
+      "progression": "Your partner throws overarm with one bounce, a little quicker.",
+      "safety": "Use a tennis ball. The thrower stands on the leg side of the lane, at least 8 metres away.",
+      "solo_ok": false,
+      "ball": "tennis",
+      "video_slot": {
+        "status": "needed",
+        "url": null,
+        "brief": "Behind the bowler: Cam takes guard close to the off-side netting, lifts without touching it, then drives a throw straight. Side-on: the lift staying close to the body."
+      },
+      "cam_signoff": "pending"
+    },
+    {
+      "id": "F19-B",
+      "fault": "F19",
+      "fault_name": "Drove a ball that was too short",
+      "level": "beginner",
+      "name": "Full or short?",
+      "purpose": "Trains you to pick the length early, so you drive only balls that are pitched up.",
+      "equipment": [
+        "Bat",
+        "Tennis balls",
+        "Partner"
+      ],
+      "setup": "Your partner throws tennis balls underarm from 6 to 8 metres, standing to one side of the line of the shot. They throw some full and some short, in a random order.",
+      "steps": [
+        "Watch where the ball bounces.",
+        "Say \"full\" or \"short\" out loud as it bounces.",
+        "Drive the full balls.",
+        "Go back to the short balls, or leave them."
+      ],
+      "sets": 1,
+      "reps": 12,
+      "unit": "throws",
+      "reps_text": "12 throws",
+      "time_minutes": 8,
+      "success_check": "You know it's working when you choose the right shot on 10 of 12 balls.",
+      "progression": "Your partner adds balls of a middle length, so the choice is harder.",
+      "safety": "Use a tennis ball. The thrower stands 6 to 8 metres away, to one side of the line of the shot, and watches every ball.",
+      "solo_ok": false,
+      "ball": "tennis",
+      "video_slot": {
+        "status": "needed",
+        "url": null,
+        "brief": "Behind the bowler: Cam drives a full ball, then goes back to a short ball. Side-on: the call \"full\" or \"short\" and the matching foot movement."
+      },
+      "cam_signoff": "pending"
+    },
+    {
+      "id": "F19-C",
+      "fault": "F19",
+      "fault_name": "Drove a ball that was too short",
+      "level": "club",
+      "name": "Cone on a length",
+      "purpose": "Gives you a clear marker for a ball you can drive, so you learn which lengths to drive.",
+      "equipment": [
+        "Bat",
+        "Tennis balls",
+        "Partner",
+        "Cone or shoe"
+      ],
+      "setup": "Put a cone about 2 metres in front of the batting crease, at the side of the pitch so the ball cannot hit it. Your partner throws tennis balls overarm, with one bounce, from 10 to 12 metres, standing to one side of the line of the shot.",
+      "steps": [
+        "Watch where the ball bounces, compared with the cone.",
+        "If it bounces between the cone and you, drive it.",
+        "If it bounces before the cone, go back and defend, or leave it.",
+        "Your partner calls \"right\" or \"wrong\" after each ball."
+      ],
+      "sets": 1,
+      "reps": 12,
+      "unit": "throws",
+      "reps_text": "12 throws",
+      "time_minutes": 10,
+      "success_check": "You know it's working when your partner calls \"right\" on 10 of 12 balls.",
+      "progression": "Move the cone 30 centimetres closer to you, so only the fuller balls count as balls to drive.",
+      "safety": "Use a tennis ball. The thrower stands at least 10 metres away, to one side of the line of the shot, or behind a net screen.",
+      "solo_ok": false,
+      "ball": "tennis",
+      "video_slot": {
+        "status": "needed",
+        "url": null,
+        "brief": "Behind the bowler: the cone at the side of the pitch; one ball that bounces past it is driven, one short of it is defended. Side-on: Cam's front foot goes forward only for the full ball."
+      },
+      "cam_signoff": "pending"
+    },
+    {
+      "id": "F19-A",
+      "fault": "F19",
+      "fault_name": "Drove a ball that was too short",
+      "level": "advanced",
+      "name": "Drive, defend or leave",
+      "purpose": "Joins length and line choices, so you drive the right ball and a short one does not catch you out.",
+      "equipment": [
+        "Bat",
+        "Tennis balls",
+        "Partner"
+      ],
+      "setup": "Your partner throws tennis balls overarm, with one bounce, from 10 to 12 metres, standing to one side of the line of the shot. They mix full, short and wide balls.",
+      "steps": [
+        "Drive the full balls on the stumps.",
+        "Go back and defend the short balls.",
+        "Leave the wide balls outside off stump.",
+        "Score 1 point for each right choice.",
+        "Play 12 balls and keep your score."
+      ],
+      "sets": 1,
+      "reps": 12,
+      "unit": "throws",
+      "reps_text": "12 throws",
+      "time_minutes": 10,
+      "success_check": "You know it's working when you score 10 or more out of 12, two sessions in a row.",
+      "progression": "Your partner throws a little quicker, so you have less time to choose.",
+      "safety": "Use a tennis ball. The thrower stands at least 10 metres away, to one side of the line of the shot, or behind a net screen.",
+      "solo_ok": false,
+      "ball": "tennis",
+      "video_slot": {
+        "status": "needed",
+        "url": null,
+        "brief": "Behind the bowler: three balls in a row: one driven, one defended, one left. Side-on: the different foot movement for each."
+      },
+      "cam_signoff": "pending"
+    },
+    {
+      "id": "F15-B",
+      "fault": "F15",
+      "fault_name": "Moving across, not out to the ball",
+      "level": "beginner",
+      "name": "Stride along the line",
+      "purpose": "Teaches you to move forward towards the ball, not across the crease, so your head stays in line.",
+      "equipment": [
+        "Bat",
+        "Spare bat or a stump",
+        "Tennis balls and a partner (optional)"
+      ],
+      "setup": "Lay a spare bat or a stump on the ground from your front toe, pointing straight down the pitch.",
+      "steps": [
+        "Take your stance.",
+        "Stride forward alongside the bat on the ground, not across it.",
+        "Hold the stride for 2 seconds.",
+        "Do 10 strides.",
+        "If you have a partner, add 10 soft drop feeds and drive each one."
+      ],
+      "sets": 2,
+      "reps": 10,
+      "unit": "strides",
+      "reps_text": "2 sets of 10 strides",
+      "time_minutes": 8,
+      "success_check": "You know it's working when your front foot lands next to the line every time and your head stays above it.",
+      "progression": "Do the same with underarm throws from 8 metres.",
+      "safety": "Clear a space. Make sure nobody is within two bat lengths of your swing. For drop feeds, use a tennis ball. The feeder kneels on your leg side, out of the path of the bat.",
+      "solo_ok": true,
+      "ball": "tennis",
+      "video_slot": {
+        "status": "needed",
+        "url": null,
+        "brief": "Behind the bowler: the spare bat on the ground pointing down the pitch, and Cam striding alongside it. Side-on: the stride, then one drop-fed drive."
+      },
+      "cam_signoff": "pending"
+    },
+    {
+      "id": "F15-C",
+      "fault": "F15",
+      "fault_name": "Moving across, not out to the ball",
+      "level": "club",
+      "name": "Back-foot cone",
+      "purpose": "Stops your first movement going across the crease, which pulls your head out of line.",
+      "equipment": [
+        "Bat",
+        "Cone or shoe",
+        "Tennis balls",
+        "Partner"
+      ],
+      "setup": "Put a cone just outside your back foot, on the off side. Your partner throws tennis balls underarm from 6 to 8 metres, standing to one side of the line of the shot.",
+      "steps": [
+        "Take your stance.",
+        "Keep your back foot away from the cone.",
+        "Step forward towards each ball.",
+        "Drive the ball straight back.",
+        "If you touch the cone, do 2 slow shadow strides before the next ball."
+      ],
+      "sets": 2,
+      "reps": 8,
+      "unit": "throws",
+      "reps_text": "2 sets of 8 throws",
+      "time_minutes": 10,
+      "success_check": "You know it's working when you do not touch the cone and the ball goes back past your partner, not to the leg side.",
+      "progression": "Your partner aims at middle and leg stump, where a move across hurts most.",
+      "safety": "Use a tennis ball. The thrower stands 6 to 8 metres away, to one side of the line of the shot, and watches every ball.",
+      "solo_ok": false,
+      "ball": "tennis",
+      "video_slot": {
+        "status": "needed",
+        "url": null,
+        "brief": "Behind the bowler: the cone beside Cam's back foot, which stays put as Cam steps forward to drive. Side-on: the forward movement, with no step across first."
+      },
+      "cam_signoff": "pending"
+    },
+    {
+      "id": "F15-A",
+      "fault": "F15",
+      "fault_name": "Moving across, not out to the ball",
+      "level": "advanced",
+      "name": "Straight-ball throws",
+      "purpose": "Tests your movement against straight balls, which are the ones that punish a step across.",
+      "equipment": [
+        "Bat",
+        "Tennis balls",
+        "Partner",
+        "Two cones"
+      ],
+      "setup": "Your partner throws tennis balls overarm, with one bounce, from 10 to 12 metres, standing to one side of the line of the shot. They aim at middle and leg stump. Put two cones 3 metres apart, straight down the pitch and 15 metres from you, as a target.",
+      "steps": [
+        "Move forward towards the ball, not across.",
+        "Keep your head over the line of the ball.",
+        "Drive the ball back between the cones.",
+        "Score 1 point for each drive between the cones.",
+        "Play 12 balls."
+      ],
+      "sets": 1,
+      "reps": 12,
+      "unit": "throws",
+      "reps_text": "12 throws",
+      "time_minutes": 10,
+      "success_check": "You know it's working when you score 8 or more out of 12 and nothing goes off the inside edge to the leg side.",
+      "progression": "Your partner adds the odd ball outside off stump, and you keep the same movement.",
+      "safety": "Use a tennis ball. The thrower stands at least 10 metres away, to one side of the line of the shot, or behind a net screen. Nobody stands near the target cones.",
+      "solo_ok": false,
+      "ball": "tennis",
+      "video_slot": {
+        "status": "needed",
+        "url": null,
+        "brief": "Behind the bowler: Cam moves straight forward to a middle-stump ball and drives it between the cones. Side-on: the head staying over the line."
+      },
+      "cam_signoff": "pending"
+    },
+    {
+      "id": "F04-B",
+      "fault": "F04",
+      "fault_name": "Head and shoulder not leading",
+      "level": "beginner",
+      "name": "Head first",
+      "purpose": "Teaches your head and front shoulder to lead you towards the ball, so your front foot follows.",
+      "equipment": [
+        "Bat",
+        "Tennis ball",
+        "Cone or tee"
+      ],
+      "setup": "Put a tennis ball on a cone or a tee, one long stride in front of your front foot.",
+      "steps": [
+        "Take your stance and look at the ball on the cone.",
+        "Move your head and front shoulder towards the ball first.",
+        "Let your front foot follow.",
+        "Stop in a shadow drive with your head over the ball. Do not hit the ball.",
+        "Return to your stance."
+      ],
+      "sets": 1,
+      "reps": 10,
+      "unit": "slow reps",
+      "reps_text": "10 slow reps",
+      "time_minutes": 6,
+      "success_check": "You know it's working when your head arrives over the ball before your front foot lands.",
+      "progression": "Drive the ball gently off the cone, still leading with your head.",
+      "safety": "Clear a space. Make sure nobody is within two bat lengths of your swing.",
+      "solo_ok": true,
+      "ball": "tennis",
+      "video_slot": {
+        "status": "needed",
+        "url": null,
+        "brief": "Side-on: Cam's head and front shoulder move first towards the ball on the cone, then the front foot follows. Behind the bowler: the head arriving over the ball."
+      },
+      "cam_signoff": "pending"
+    },
+    {
+      "id": "F04-C",
+      "fault": "F04",
+      "fault_name": "Head and shoulder not leading",
+      "level": "club",
+      "name": "Lead to the drop",
+      "purpose": "Joins the head-first movement to a real ball, so it holds up when the ball moves.",
+      "equipment": [
+        "Bat",
+        "Tennis balls",
+        "Partner"
+      ],
+      "setup": "Drop feed: your partner kneels on your leg side, out of the path of the bat, and drops a tennis ball so it bounces in front of your front pad.",
+      "steps": [
+        "Watch the ball in your partner's hand.",
+        "As it drops, move your head and front shoulder towards it.",
+        "Let your front foot follow.",
+        "Drive the ball along the ground.",
+        "Your partner says \"head\" if your foot moved first."
+      ],
+      "sets": 2,
+      "reps": 8,
+      "unit": "balls",
+      "reps_text": "2 sets of 8 balls",
+      "time_minutes": 8,
+      "success_check": "You know it's working when your partner does not need to say \"head\" on most balls.",
+      "progression": "Your partner drops the ball a little further away, so your head must travel further.",
+      "safety": "Use a tennis ball. The feeder kneels on your leg side, out of the path of the bat, and leans back after each drop.",
+      "solo_ok": false,
+      "ball": "tennis",
+      "video_slot": {
+        "status": "needed",
+        "url": null,
+        "brief": "Side-on: Cam's head and shoulder lead to a drop-fed ball, with the feeder kneeling on the leg side. Behind the bowler: the drive along the ground."
+      },
+      "cam_signoff": "pending"
+    },
+    {
+      "id": "F04-A",
+      "fault": "F04",
+      "fault_name": "Head and shoulder not leading",
+      "level": "advanced",
+      "name": "Shoulder to the pitch",
+      "purpose": "Keeps your head and shoulder leading against throws that make you reach forward.",
+      "equipment": [
+        "Bat",
+        "Tennis balls",
+        "Partner",
+        "Phone, propped up"
+      ],
+      "setup": "Your partner throws tennis balls overarm, with one bounce, from 10 to 12 metres, standing to one side of the line of the shot. They pitch the ball full, on and just outside off stump. Prop the phone side-on, out of the line of the ball.",
+      "steps": [
+        "Point your front shoulder at the ball as it bounces.",
+        "Let your head follow the shoulder towards the ball.",
+        "Land your front foot after your head has started to move.",
+        "Drive along the ground.",
+        "After 6 balls, watch one clip. Your head should be over your front knee at contact."
+      ],
+      "sets": 2,
+      "reps": 6,
+      "unit": "throws",
+      "reps_text": "2 sets of 6 throws",
+      "time_minutes": 10,
+      "success_check": "You know it's working when the clip shows your head over your front knee at contact on most drives.",
+      "progression": "Your partner adds the odd fuller, wider ball that makes you reach further.",
+      "safety": "Use a tennis ball. The thrower stands at least 10 metres away, to one side of the line of the shot, or behind a net screen. Put the phone where the ball and the bat cannot reach it.",
+      "solo_ok": false,
+      "ball": "tennis",
+      "video_slot": {
+        "status": "needed",
+        "url": null,
+        "brief": "Side-on: Cam's front shoulder points at the ball, the head follows and the front foot lands last. Behind the bowler: the drive along the ground."
+      },
+      "cam_signoff": "pending"
+    },
+    {
+      "id": "F05-B",
+      "fault": "F05",
+      "fault_name": "Front foot away from the line of the ball",
+      "level": "beginner",
+      "name": "Step to the marker",
+      "purpose": "Lands your front foot on the line of the ball, or just inside it, so the bat has room to come through.",
+      "equipment": [
+        "Bat",
+        "Cone or shoe",
+        "Tennis balls and a partner (optional)"
+      ],
+      "setup": "Put a cone or a shoe where a full ball would bounce, just outside off stump.",
+      "steps": [
+        "Take your stance.",
+        "Stride so your front foot lands next to the cone, on its line or just inside it.",
+        "Hold for 2 seconds and check the gap between your foot and the cone.",
+        "Do 10 strides.",
+        "If you have a partner, add 10 soft drop feeds that bounce near the cone."
+      ],
+      "sets": 2,
+      "reps": 10,
+      "unit": "strides",
+      "reps_text": "2 sets of 10 strides",
+      "time_minutes": 8,
+      "success_check": "You know it's working when your front foot lands next to the cone, not past it or well inside it, on 8 of 10 strides.",
+      "progression": "Move the cone to a different line for each set: off stump, then middle stump.",
+      "safety": "Clear a space. Make sure nobody is within two bat lengths of your swing. For drop feeds, use a tennis ball. The feeder kneels on your leg side, out of the path of the bat.",
+      "solo_ok": true,
+      "ball": "tennis",
+      "video_slot": {
+        "status": "needed",
+        "url": null,
+        "brief": "Behind the bowler: the cone just outside off stump and Cam's front foot landing next to it. Side-on: the stride and the hold."
+      },
+      "cam_signoff": "pending"
+    },
+    {
+      "id": "F05-C",
+      "fault": "F05",
+      "fault_name": "Front foot away from the line of the ball",
+      "level": "club",
+      "name": "Moving marker",
+      "purpose": "Teaches your front foot to go to the line of the ball wherever it is, not to the same place every time.",
+      "equipment": [
+        "Bat",
+        "Cone",
+        "Tennis balls",
+        "Partner"
+      ],
+      "setup": "Your partner puts the cone on a different line each time: off stump, outside off stump or middle stump. Your partner throws tennis balls underarm from 6 to 8 metres, standing to one side of the line of the shot. They aim to bounce the ball near the cone.",
+      "steps": [
+        "Look at where the cone is.",
+        "Take your stance.",
+        "Stride so your front foot lands next to the line of the cone.",
+        "Drive the ball.",
+        "Your partner moves the cone for the next ball."
+      ],
+      "sets": 2,
+      "reps": 6,
+      "unit": "throws",
+      "reps_text": "2 sets of 6 throws",
+      "time_minutes": 10,
+      "success_check": "You know it's working when your front foot matches the line of the cone on most balls and the ball comes off the middle of the bat.",
+      "progression": "Your partner throws without the cone, and you read the line from the ball alone.",
+      "safety": "Use a tennis ball. The thrower stands 6 to 8 metres away, to one side of the line of the shot, and watches every ball. Your partner moves the cone only when you stand still.",
+      "solo_ok": false,
+      "ball": "tennis",
+      "video_slot": {
+        "status": "needed",
+        "url": null,
+        "brief": "Behind the bowler: three balls with the cone in three places, and Cam's front foot following the line each time. Side-on: one stride and drive."
+      },
+      "cam_signoff": "pending"
+    },
+    {
+      "id": "F05-A",
+      "fault": "F05",
+      "fault_name": "Front foot away from the line of the ball",
+      "level": "advanced",
+      "name": "Read the line",
+      "purpose": "Moves your front foot to the line of real throws, so the bat swings through on the line.",
+      "equipment": [
+        "Bat",
+        "Tennis balls",
+        "Partner",
+        "Phone, propped up"
+      ],
+      "setup": "Your partner throws tennis balls overarm, with one bounce, from 10 to 12 metres, standing to one side of the line of the shot. They throw on different lines. Prop the phone behind your partner at chest height, out of the line of the ball.",
+      "steps": [
+        "Watch the ball from the hand.",
+        "Step your front foot to the line of the ball, or just inside it.",
+        "Drive along the ground.",
+        "After 6 balls, watch the clip.",
+        "Check your front foot against the line of the ball at contact."
+      ],
+      "sets": 2,
+      "reps": 6,
+      "unit": "throws",
+      "reps_text": "2 sets of 6 throws",
+      "time_minutes": 10,
+      "success_check": "You know it's working when the clip shows your front foot on or just inside the line of the ball on 8 of 12 balls.",
+      "progression": "Your partner throws a little quicker, so you must read the line earlier.",
+      "safety": "Use a tennis ball. The thrower stands at least 10 metres away, to one side of the line of the shot, or behind a net screen. Put the phone where the ball and the bat cannot reach it.",
+      "solo_ok": false,
+      "ball": "tennis",
+      "video_slot": {
+        "status": "needed",
+        "url": null,
+        "brief": "Behind the bowler: Cam's front foot lands on the line of an off-stump ball, then of a middle-stump ball. Side-on: the stride and the bat coming through."
+      },
+      "cam_signoff": "pending"
+    },
+    {
+      "id": "F06-B",
+      "fault": "F06",
+      "fault_name": "Front leg stiff, weight stays back",
+      "level": "beginner",
+      "name": "Bent-knee hold",
+      "purpose": "Teaches your front knee to bend and take your weight, so the weight does not stay on your back foot.",
+      "equipment": [
+        "Bat"
+      ],
+      "setup": "Stand in an open space in your stance.",
+      "steps": [
+        "Shadow a front-foot drive.",
+        "Bend your front knee as you land, so it is over your toes.",
+        "Let your back heel come off the ground.",
+        "Hold the finish for 3 seconds.",
+        "Return to your stance."
+      ],
+      "sets": 1,
+      "reps": 10,
+      "unit": "reps",
+      "reps_text": "10 reps",
+      "time_minutes": 6,
+      "success_check": "You know it's working when you can hold each finish for 3 seconds with your front knee bent and no wobble.",
+      "progression": "Do the same off a tennis ball on a tee.",
+      "safety": "Clear a space. Make sure nobody is within two bat lengths of your swing.",
+      "solo_ok": true,
+      "ball": "none",
+      "video_slot": {
+        "status": "needed",
+        "url": null,
+        "brief": "Side-on: Cam's front knee bends over the toes as Cam lands, back heel up, held for 3 seconds. Behind the bowler: the same hold."
+      },
+      "cam_signoff": "pending"
+    },
+    {
+      "id": "F06-C",
+      "fault": "F06",
+      "fault_name": "Front leg stiff, weight stays back",
+      "level": "club",
+      "name": "Long-stride tee drive",
+      "purpose": "Makes you bend your front knee to reach the ball, so your weight goes into the shot.",
+      "equipment": [
+        "Bat",
+        "Tennis balls",
+        "Tee or tall cone"
+      ],
+      "setup": "Put a tennis ball on a tee one long stride in front of your stance, next to where your front foot will land. Face a net or open space.",
+      "steps": [
+        "Take your stance.",
+        "Take a long stride towards the tee.",
+        "Bend your front knee so it is over your toes.",
+        "Drive the ball along the ground.",
+        "Hold the finish for 2 seconds."
+      ],
+      "sets": 2,
+      "reps": 8,
+      "unit": "balls",
+      "reps_text": "2 sets of 8 balls",
+      "time_minutes": 8,
+      "success_check": "You know it's working when the ball stays low and your front knee is bent over your toes in the hold.",
+      "progression": "Lower the tee, or use a smaller cone, so you must bend more.",
+      "safety": "Hit into a net or towards open space, away from people, windows and cars.",
+      "solo_ok": true,
+      "ball": "tennis",
+      "video_slot": {
+        "status": "needed",
+        "url": null,
+        "brief": "Side-on: Cam's long stride and bent front knee as Cam drives a tennis ball off a tee. Behind the bowler: the ball going straight along the ground."
+      },
+      "cam_signoff": "pending"
+    },
+    {
+      "id": "F06-A",
+      "fault": "F06",
+      "fault_name": "Front leg stiff, weight stays back",
+      "level": "advanced",
+      "name": "Low-ball throws",
+      "purpose": "Trains a bent front knee against full balls that stay low, where a stiff leg makes you hit the ball in the air.",
+      "equipment": [
+        "Bat",
+        "Tennis balls",
+        "Partner"
+      ],
+      "setup": "Your partner throws tennis balls overarm, with one bounce, from 10 to 12 metres, standing to one side of the line of the shot. They pitch the ball full, so it stays below knee height.",
+      "steps": [
+        "Stride towards the ball.",
+        "Bend your front knee to get your head down to the ball.",
+        "Drive along the ground.",
+        "Hold the finish for 2 seconds.",
+        "Your partner calls \"air\" if the ball goes up."
+      ],
+      "sets": 2,
+      "reps": 6,
+      "unit": "throws",
+      "reps_text": "2 sets of 6 throws",
+      "time_minutes": 10,
+      "success_check": "You know it's working when your partner calls \"air\" on no more than 2 balls in 12.",
+      "progression": "Your partner throws a little faster and fuller.",
+      "safety": "Use a tennis ball. The thrower stands at least 10 metres away, to one side of the line of the shot, or behind a net screen.",
+      "solo_ok": false,
+      "ball": "tennis",
+      "video_slot": {
+        "status": "needed",
+        "url": null,
+        "brief": "Side-on: Cam's front knee bends to a low, full ball, head down, and the drive stays along the ground. Behind the bowler: the stride and the low ball."
+      },
+      "cam_signoff": "pending"
+    },
+    {
+      "id": "F18-B",
+      "fault": "F18",
+      "fault_name": "No push from the back foot",
+      "level": "beginner",
+      "name": "Back-foot push",
+      "purpose": "Teaches your back foot to push you forward, so your weight drives into the shot.",
+      "equipment": [
+        "Bat"
+      ],
+      "setup": "Stand in an open space in your stance.",
+      "steps": [
+        "Shadow a front-foot drive.",
+        "Push your back foot against the ground as you stride.",
+        "Let your weight move forward.",
+        "Finish with your back heel up and only the toe on the ground.",
+        "Hold for 2 seconds."
+      ],
+      "sets": 1,
+      "reps": 10,
+      "unit": "reps",
+      "reps_text": "10 reps",
+      "time_minutes": 6,
+      "success_check": "You know it's working when every finish has your back heel up, without you lifting it on purpose.",
+      "progression": "Do the same off a tennis ball on a tee.",
+      "safety": "Clear a space. Make sure nobody is within two bat lengths of your swing.",
+      "solo_ok": true,
+      "ball": "none",
+      "video_slot": {
+        "status": "needed",
+        "url": null,
+        "brief": "Side-on: Cam's back foot pushes off and the heel lifts as the weight moves forward. Behind the bowler: the stride and the finish."
+      },
+      "cam_signoff": "pending"
+    },
+    {
+      "id": "F18-C",
+      "fault": "F18",
+      "fault_name": "No push from the back foot",
+      "level": "club",
+      "name": "Toe-drag finish",
+      "purpose": "Gives you a clear sign that your back foot pushed: the back toe drags forward a little.",
+      "equipment": [
+        "Bat",
+        "Tennis balls",
+        "Partner",
+        "Chalk or tape"
+      ],
+      "setup": "Mark a line on the ground at the tip of your back toe with chalk or tape. Drop feed: your partner kneels on your leg side, out of the path of the bat, and drops a tennis ball so it bounces in front of your front pad.",
+      "steps": [
+        "Take your stance with your back toe on the line.",
+        "Push with your back foot as you stride.",
+        "Drive the drop-fed ball.",
+        "Let your back toe drag forward past the line.",
+        "Check the gap after each ball."
+      ],
+      "sets": 2,
+      "reps": 8,
+      "unit": "balls",
+      "reps_text": "2 sets of 8 balls",
+      "time_minutes": 8,
+      "success_check": "You know it's working when your back toe finishes in front of the line on most balls.",
+      "progression": "Use underarm throws from 8 metres instead of drop feeds.",
+      "safety": "Use a tennis ball. The feeder kneels on your leg side, out of the path of the bat, and leans back after each drop.",
+      "solo_ok": false,
+      "ball": "tennis",
+      "video_slot": {
+        "status": "needed",
+        "url": null,
+        "brief": "Side-on: the tape line at Cam's back toe, and the toe dragging past it after a drop-fed drive. Behind the bowler: the drive."
+      },
+      "cam_signoff": "pending"
+    },
+    {
+      "id": "F18-A",
+      "fault": "F18",
+      "fault_name": "No push from the back foot",
+      "level": "advanced",
+      "name": "Drive and walk through",
+      "purpose": "Keeps your back foot driving through the shot against throws, so you carry your weight into the ball.",
+      "equipment": [
+        "Bat",
+        "Tennis balls",
+        "Partner"
+      ],
+      "setup": "Your partner throws tennis balls overarm, with one bounce, from 10 to 12 metres, standing to one side of the line of the shot. They pitch the ball full.",
+      "steps": [
+        "Push off your back foot as you stride.",
+        "Drive the ball along the ground.",
+        "Let your back foot come through into one step forward after the shot.",
+        "Stop and stand tall after the step.",
+        "Walk back to your crease."
+      ],
+      "sets": 2,
+      "reps": 6,
+      "unit": "throws",
+      "reps_text": "2 sets of 6 throws",
+      "time_minutes": 10,
+      "success_check": "You know it's working when the step through happens on its own, without you thinking about it.",
+      "progression": "Your partner throws a little faster, so the push must come sooner.",
+      "safety": "Use a tennis ball. The thrower stands at least 10 metres away, to one side of the line of the shot, or behind a net screen. Check that the space in front of you is clear before you step through.",
+      "solo_ok": false,
+      "ball": "tennis",
+      "video_slot": {
+        "status": "needed",
+        "url": null,
+        "brief": "Side-on: Cam drives a full throw, then the back foot comes through into one step. Behind the bowler: the drive and the step."
+      },
+      "cam_signoff": "pending"
+    },
+    {
+      "id": "F16-B",
+      "fault": "F16",
+      "fault_name": "Weight stays back",
+      "level": "beginner",
+      "name": "Nose over toes",
+      "purpose": "Moves your weight towards the ball, so your head and chest are over your front foot when you hit it.",
+      "equipment": [
+        "Bat",
+        "Partner, or a phone propped up"
+      ],
+      "setup": "Stand in an open space in your stance. Your partner stands side-on to you, 3 metres away, out of reach of your bat. Or prop a phone side-on and film.",
+      "steps": [
+        "Shadow a front-foot drive.",
+        "Freeze at the moment you would hit the ball.",
+        "Your partner checks that your nose is over your front toes.",
+        "Hold for 2 seconds.",
+        "Return to your stance."
+      ],
+      "sets": 1,
+      "reps": 10,
+      "unit": "reps",
+      "reps_text": "10 reps",
+      "time_minutes": 6,
+      "success_check": "You know it's working when your nose is over your front toes on 8 of 10 freezes.",
+      "progression": "Do the same off a tennis ball on a tee, and freeze after contact.",
+      "safety": "Clear a space. Make sure nobody is within two bat lengths of your swing.",
+      "solo_ok": true,
+      "ball": "none",
+      "video_slot": {
+        "status": "needed",
+        "url": null,
+        "brief": "Side-on: Cam freezes at the contact point with the nose over the front toes. Behind the bowler: the same freeze."
+      },
+      "cam_signoff": "pending"
+    },
+    {
+      "id": "F16-C",
+      "fault": "F16",
+      "fault_name": "Weight stays back",
+      "level": "club",
+      "name": "Chest over the cone",
+      "purpose": "Puts your head and chest over the ball at contact, with a marker for where that is.",
+      "equipment": [
+        "Bat",
+        "Tennis balls",
+        "Partner",
+        "Cone"
+      ],
+      "setup": "Put a cone just in front of where your front foot lands. Drop feed: your partner kneels on your leg side, out of the path of the bat, and drops a tennis ball so it bounces in front of your front pad. The ball bounces next to the cone.",
+      "steps": [
+        "Stride towards the cone.",
+        "Get your head and chest over the cone as you hit the ball.",
+        "Drive along the ground.",
+        "Hold the finish for 2 seconds.",
+        "Your partner says \"back\" if your head stayed behind the cone."
+      ],
+      "sets": 2,
+      "reps": 8,
+      "unit": "balls",
+      "reps_text": "2 sets of 8 balls",
+      "time_minutes": 8,
+      "success_check": "You know it's working when your partner does not need to say \"back\" on most balls.",
+      "progression": "Use underarm throws from 8 metres that bounce near the cone.",
+      "safety": "Use a tennis ball. The feeder kneels on your leg side, out of the path of the bat, and leans back after each drop.",
+      "solo_ok": false,
+      "ball": "tennis",
+      "video_slot": {
+        "status": "needed",
+        "url": null,
+        "brief": "Side-on: Cam's head and chest over the cone at contact with a drop-fed ball. Behind the bowler: the drive and the hold."
+      },
+      "cam_signoff": "pending"
+    },
+    {
+      "id": "F16-A",
+      "fault": "F16",
+      "fault_name": "Weight stays back",
+      "level": "advanced",
+      "name": "Freeze after contact",
+      "purpose": "Checks where your weight is at contact against throws, when it is hardest to keep it moving forward.",
+      "equipment": [
+        "Bat",
+        "Tennis balls",
+        "Partner",
+        "Phone, propped up"
+      ],
+      "setup": "Your partner throws tennis balls overarm, with one bounce, from 10 to 12 metres, standing to one side of the line of the shot. Prop the phone side-on to you, out of the line of the ball.",
+      "steps": [
+        "Drive the ball along the ground.",
+        "Freeze straight after contact.",
+        "Hold the freeze for 2 seconds.",
+        "After 6 balls, watch the clip.",
+        "Check that your head and chest are over your front foot."
+      ],
+      "sets": 2,
+      "reps": 6,
+      "unit": "throws",
+      "reps_text": "2 sets of 6 throws",
+      "time_minutes": 10,
+      "success_check": "You know it's working when the clip shows your head over your front foot at contact on most balls.",
+      "progression": "Your partner mixes the lengths, so you must still get forward to the full ones.",
+      "safety": "Use a tennis ball. The thrower stands at least 10 metres away, to one side of the line of the shot, or behind a net screen. Put the phone where the ball and the bat cannot reach it.",
+      "solo_ok": false,
+      "ball": "tennis",
+      "video_slot": {
+        "status": "needed",
+        "url": null,
+        "brief": "Side-on: Cam's freeze after contact, head and chest over the front foot. Behind the bowler: the drive and the freeze."
+      },
+      "cam_signoff": "pending"
+    },
+    {
+      "id": "F07-B",
+      "fault": "F07",
+      "fault_name": "Front shoulder opens too early",
+      "level": "beginner",
+      "name": "Side-on to contact",
+      "purpose": "Keeps your front shoulder pointing down the line of the shot until contact, so it does not pull the bat across.",
+      "equipment": [
+        "Bat",
+        "Tennis balls",
+        "Tee or tall cone",
+        "Partner, or a phone propped up"
+      ],
+      "setup": "Put a tennis ball on a tee next to where your front foot lands. Face a net or open space. Your partner stands 4 metres behind you, like a wicketkeeper standing back. Or prop a phone there and film.",
+      "steps": [
+        "Pick a target straight down the pitch.",
+        "As you stride, point your front shoulder at the target.",
+        "Drive the ball off the tee.",
+        "Keep the shoulder pointing at the target until the ball has gone.",
+        "Your partner calls \"open\" if your chest turned to the target before contact."
+      ],
+      "sets": 1,
+      "reps": 10,
+      "unit": "balls",
+      "reps_text": "10 balls",
+      "time_minutes": 8,
+      "success_check": "You know it's working when your partner calls \"open\" on no more than 2 balls in 10.",
+      "progression": "Use soft drop feeds instead of the tee.",
+      "safety": "Hit into a net or towards open space, away from people, windows and cars. Your partner stands well out of reach of the bat.",
+      "solo_ok": true,
+      "ball": "tennis",
+      "video_slot": {
+        "status": "needed",
+        "url": null,
+        "brief": "Behind the bowler: Cam's front shoulder points down the pitch until the ball leaves the tee. Side-on: the same drive, with the chest staying closed until contact."
+      },
+      "cam_signoff": "pending"
+    },
+    {
+      "id": "F07-C",
+      "fault": "F07",
+      "fault_name": "Front shoulder opens too early",
+      "level": "club",
+      "name": "Chin to shoulder",
+      "purpose": "Uses your chin and front shoulder as a check: if they stay close, the shoulder has not opened early.",
+      "equipment": [
+        "Bat",
+        "Tennis balls",
+        "Partner"
+      ],
+      "setup": "Drop feed: your partner kneels on your leg side, out of the path of the bat, and drops a tennis ball so it bounces in front of your front pad.",
+      "steps": [
+        "As you stride, bring your chin close to your front shoulder.",
+        "Keep it there as you swing.",
+        "Drive the drop-fed ball.",
+        "Let the shoulder turn only after the ball has gone.",
+        "Hold the finish for 2 seconds."
+      ],
+      "sets": 2,
+      "reps": 8,
+      "unit": "balls",
+      "reps_text": "2 sets of 8 balls",
+      "time_minutes": 8,
+      "success_check": "You know it's working when your drives go straight and you feel the shoulder turn after contact, not before.",
+      "progression": "Use underarm throws from 8 metres.",
+      "safety": "Use a tennis ball. The feeder kneels on your leg side, out of the path of the bat, and leans back after each drop.",
+      "solo_ok": false,
+      "ball": "tennis",
+      "video_slot": {
+        "status": "needed",
+        "url": null,
+        "brief": "Side-on: Cam's chin stays close to the front shoulder through a drop-fed drive. Behind the bowler: the shoulder turns only after the ball has gone."
+      },
+      "cam_signoff": "pending"
+    },
+    {
+      "id": "F07-A",
+      "fault": "F07",
+      "fault_name": "Front shoulder opens too early",
+      "level": "advanced",
+      "name": "Off-side gate",
+      "purpose": "Shows you what an early-opening shoulder does: the ball goes squarer than you meant.",
+      "equipment": [
+        "Bat",
+        "Tennis balls",
+        "Partner",
+        "Two cones"
+      ],
+      "setup": "Put two cones 3 metres apart at mid-off, about 15 metres away. Your partner throws overarm, with one bounce, from 10 to 12 metres, standing on the leg side. They throw on and just outside off stump.",
+      "steps": [
+        "Point your front shoulder at the gate as you stride.",
+        "Drive the ball through the gate.",
+        "Keep the shoulder closed until contact.",
+        "Score 1 point for each drive through the gate.",
+        "Play 12 balls."
+      ],
+      "sets": 1,
+      "reps": 12,
+      "unit": "throws",
+      "reps_text": "12 throws",
+      "time_minutes": 10,
+      "success_check": "You know it's working when you score 8 or more out of 12, and the misses go straighter, not squarer.",
+      "progression": "Move the gate to extra cover for balls wider of off stump, and keep the shoulder closed.",
+      "safety": "Use a tennis ball. The thrower stands at least 10 metres away, to one side of the line of the shot, or behind a net screen. Nobody stands near the gate.",
+      "solo_ok": false,
+      "ball": "tennis",
+      "video_slot": {
+        "status": "needed",
+        "url": null,
+        "brief": "Behind the bowler: the gate at mid-off and Cam driving through it with the shoulder closed. Side-on: the front shoulder still pointing at the gate at contact."
+      },
+      "cam_signoff": "pending"
+    },
+    {
+      "id": "F08-B",
+      "fault": "F08",
+      "fault_name": "Bat comes across the line",
+      "level": "beginner",
+      "name": "Through the gate",
+      "purpose": "Teaches the bat to come down straight along the line of the ball, so the ball goes where you aim.",
+      "equipment": [
+        "Bat",
+        "Tennis balls",
+        "Tee or tall cone",
+        "Two small cones"
+      ],
+      "setup": "Put two cones a little wider than a ball apart, one bat length in front of your front foot. Put a tennis ball on a tee between you and the gate.",
+      "steps": [
+        "Check your stance: head over your toes, eyes in line with off stump.",
+        "Take your stance.",
+        "Drive the ball off the tee straight through the gate.",
+        "Hold the finish for 2 seconds.",
+        "Reset the ball and repeat."
+      ],
+      "sets": 1,
+      "reps": 10,
+      "unit": "balls",
+      "reps_text": "10 balls",
+      "time_minutes": 8,
+      "success_check": "You know it's working when the ball goes through the gate on 7 of 10 drives without touching a cone.",
+      "progression": "Make the gate narrower, or move it further away.",
+      "safety": "Hit into a net or towards open space, away from people, windows and cars.",
+      "solo_ok": true,
+      "ball": "tennis",
+      "video_slot": {
+        "status": "needed",
+        "url": null,
+        "brief": "Behind the bowler: the two-cone gate and Cam driving the tee ball straight through it. Side-on: the bat coming down straight along the line."
+      },
+      "cam_signoff": "pending"
+    },
+    {
+      "id": "F08-C",
+      "fault": "F08",
+      "fault_name": "Bat comes across the line",
+      "level": "club",
+      "name": "Straight back past the stumps",
+      "purpose": "Joins the straight bat to a moving ball, aiming back past the stumps at the other end.",
+      "equipment": [
+        "Bat",
+        "Tennis balls",
+        "Partner",
+        "Stumps or two cones"
+      ],
+      "setup": "Put stumps or two cones 1 metre apart at the far end. Your partner throws tennis balls underarm from 6 to 8 metres, standing to one side of the line of the shot.",
+      "steps": [
+        "Check your stance: head over your toes, eyes in line with off stump.",
+        "Watch the ball from the hand.",
+        "Bring the bat down straight along the line of the ball.",
+        "Drive back between the cones.",
+        "Score 1 point for each drive between them."
+      ],
+      "sets": 2,
+      "reps": 8,
+      "unit": "throws",
+      "reps_text": "2 sets of 8 throws",
+      "time_minutes": 10,
+      "success_check": "You know it's working when you score 6 or more out of 8, and the misses are close to the cones, not wide to the leg side.",
+      "progression": "Your partner throws on off stump, and you still drive straight.",
+      "safety": "Use a tennis ball. The thrower stands 6 to 8 metres away, to one side of the line of the shot, and watches every ball. Nobody stands near the cones.",
+      "solo_ok": false,
+      "ball": "tennis",
+      "video_slot": {
+        "status": "needed",
+        "url": null,
+        "brief": "Behind the bowler: Cam drives an underarm tennis ball back between the cones. Side-on: the straight bat path."
+      },
+      "cam_signoff": "pending"
+    },
+    {
+      "id": "F08-A",
+      "fault": "F08",
+      "fault_name": "Bat comes across the line",
+      "level": "advanced",
+      "name": "Narrow channel",
+      "purpose": "Tests a straight bat path against throws on different lines, aimed into a narrow channel.",
+      "equipment": [
+        "Bat",
+        "Tennis balls",
+        "Partner",
+        "Four cones"
+      ],
+      "setup": "Make a channel 3 metres wide with cones, from 10 metres in front of you to 20 metres, straight down the ground. Your partner throws tennis balls overarm, with one bounce, from 10 to 12 metres, standing to one side of the line of the shot.",
+      "steps": [
+        "Check your stance before each ball.",
+        "Bring the bat down along the line of the ball.",
+        "Drive into the channel.",
+        "Score 2 points along the ground and 1 point in the air.",
+        "Play 12 balls."
+      ],
+      "sets": 1,
+      "reps": 12,
+      "unit": "throws",
+      "reps_text": "12 throws",
+      "time_minutes": 10,
+      "success_check": "You know it's working when you score 16 or more out of 24.",
+      "progression": "Make the channel 2 metres wide.",
+      "safety": "Use a tennis ball. The thrower stands at least 10 metres away, to one side of the line of the shot, or behind a net screen. Nobody stands in or near the channel.",
+      "solo_ok": false,
+      "ball": "tennis",
+      "video_slot": {
+        "status": "needed",
+        "url": null,
+        "brief": "Behind the bowler: the channel of cones and two drives into it. Side-on: the bat swinging straight through the line."
+      },
+      "cam_signoff": "pending"
+    },
+    {
+      "id": "F09-B",
+      "fault": "F09",
+      "fault_name": "Pause or hitch in the swing",
+      "level": "beginner",
+      "name": "One-two rhythm",
+      "purpose": "Makes the backlift and the swing one smooth movement, with no stop at the top.",
+      "equipment": [
+        "Bat",
+        "Tennis balls and a partner (optional)"
+      ],
+      "setup": "Stand in an open space in your stance.",
+      "steps": [
+        "Say \"one\" as your hands lift.",
+        "Say \"two\" as you swing through.",
+        "Leave no gap between \"one\" and \"two\".",
+        "Do 10 shadow drives.",
+        "If you have a partner, do 10 more with soft drop feeds."
+      ],
+      "sets": 2,
+      "reps": 10,
+      "unit": "reps",
+      "reps_text": "2 sets of 10 reps",
+      "time_minutes": 8,
+      "success_check": "You know it's working when \"one-two\" sounds like one word and the swing feels smooth.",
+      "progression": "Do the same off a tennis ball on a tee, with the count out loud.",
+      "safety": "Clear a space. Make sure nobody is within two bat lengths of your swing. For drop feeds, use a tennis ball. The feeder kneels on your leg side, out of the path of the bat.",
+      "solo_ok": true,
+      "ball": "tennis",
+      "video_slot": {
+        "status": "needed",
+        "url": null,
+        "brief": "Side-on: Cam says \"one\" on the lift and \"two\" on the swing, with no stop at the top. Behind the bowler: a shadow rep, then a drop-fed drive."
+      },
+      "cam_signoff": "pending"
+    },
+    {
+      "id": "F09-C",
+      "fault": "F09",
+      "fault_name": "Pause or hitch in the swing",
+      "level": "club",
+      "name": "Metronome drives",
+      "purpose": "Uses a steady beat to remove the stop between the backlift and the swing.",
+      "equipment": [
+        "Bat",
+        "Tennis balls",
+        "Tee or tall cone",
+        "Phone with a free metronome app"
+      ],
+      "setup": "Set a metronome to 60 beats a minute. Put a tennis ball on a tee next to where your front foot lands. Face a net or open space.",
+      "steps": [
+        "Lift your hands on one beat.",
+        "Swing and hit the ball on the next beat.",
+        "Do not wait at the top.",
+        "Reset the ball and wait for the next beat."
+      ],
+      "sets": 2,
+      "reps": 8,
+      "unit": "balls",
+      "reps_text": "2 sets of 8 balls",
+      "time_minutes": 8,
+      "success_check": "You know it's working when you hit on the beat every time, with no extra wait at the top.",
+      "progression": "Set the metronome to 70 beats a minute.",
+      "safety": "Hit into a net or towards open space, away from people, windows and cars.",
+      "solo_ok": true,
+      "ball": "tennis",
+      "video_slot": {
+        "status": "needed",
+        "url": null,
+        "brief": "Side-on: Cam lifts on one beat and hits a tee ball on the next, with the metronome audible. Behind the bowler: the smooth swing."
+      },
+      "cam_signoff": "pending"
+    },
+    {
+      "id": "F09-A",
+      "fault": "F09",
+      "fault_name": "Pause or hitch in the swing",
+      "level": "advanced",
+      "name": "Smooth at speed",
+      "purpose": "Keeps your swing smooth when the ball is quicker, which is when a hitch often shows up.",
+      "equipment": [
+        "Bat",
+        "Tennis balls",
+        "Partner",
+        "Phone, propped up"
+      ],
+      "setup": "Your partner throws tennis balls overarm, with one bounce, from 10 to 12 metres, standing to one side of the line of the shot. They vary the pace. Prop the phone side-on, out of the line of the ball.",
+      "steps": [
+        "Start the lift early, as your partner's arm comes up.",
+        "Swing into the shot in one smooth movement.",
+        "A short settle of the front foot is fine. Do not stop and start the swing.",
+        "After 6 balls, watch one clip.",
+        "Check for a stop at the top."
+      ],
+      "sets": 2,
+      "reps": 6,
+      "unit": "throws",
+      "reps_text": "2 sets of 6 throws",
+      "time_minutes": 10,
+      "success_check": "You know it's working when the clip shows no stop at the top, on slow and quick balls alike.",
+      "progression": "Your partner adds a slower ball every few throws, and you keep the same smooth swing without a wait.",
+      "safety": "Use a tennis ball. The thrower stands at least 10 metres away, to one side of the line of the shot, or behind a net screen. Put the phone where the ball and the bat cannot reach it.",
+      "solo_ok": false,
+      "ball": "tennis",
+      "video_slot": {
+        "status": "needed",
+        "url": null,
+        "brief": "Side-on: Cam's smooth swing against a slower, then a quicker throw, with no stop at the top. Behind the bowler: both drives."
+      },
+      "cam_signoff": "pending"
+    },
+    {
+      "id": "F10-B",
+      "fault": "F10",
+      "fault_name": "Head falls away at contact",
+      "level": "beginner",
+      "name": "Eyes on the tee",
+      "purpose": "Keeps your head over the ball at contact, so you meet it close to your front pad and keep it on the ground.",
+      "equipment": [
+        "Bat",
+        "Tennis balls",
+        "Tee or tall cone"
+      ],
+      "setup": "Put a tennis ball on a tee next to your front pad. Face a net or open space.",
+      "steps": [
+        "Take your stance.",
+        "Drive the ball off the tee.",
+        "Keep looking at the tee for one second after you hit it.",
+        "Then look up to see where the ball went.",
+        "Reset and repeat."
+      ],
+      "sets": 1,
+      "reps": 10,
+      "unit": "balls",
+      "reps_text": "10 balls",
+      "time_minutes": 6,
+      "success_check": "You know it's working when you still see the tee after contact and the ball stays low.",
+      "progression": "Move the tee half a stride further forward, and still keep your head over it.",
+      "safety": "Hit into a net or towards open space, away from people, windows and cars.",
+      "solo_ok": true,
+      "ball": "tennis",
+      "video_slot": {
+        "status": "needed",
+        "url": null,
+        "brief": "Side-on: Cam keeps looking at the tee for a second after driving the ball off it. Behind the bowler: the head still over the tee after contact."
+      },
+      "cam_signoff": "pending"
+    },
+    {
+      "id": "F10-C",
+      "fault": "F10",
+      "fault_name": "Head falls away at contact",
+      "level": "club",
+      "name": "Ball under the eyes",
+      "purpose": "Joins a still head to a moving ball, met under your eyes next to the front pad.",
+      "equipment": [
+        "Bat",
+        "Tennis balls",
+        "Partner"
+      ],
+      "setup": "Drop feed: your partner kneels on your leg side, out of the path of the bat, and drops a tennis ball so it bounces in front of your front pad. The ball bounces next to your front pad.",
+      "steps": [
+        "Watch the ball from your partner's hand.",
+        "Stride and meet the ball under your eyes, next to your front pad.",
+        "Keep your head still at contact.",
+        "Look at the contact spot for one second after the shot.",
+        "Drive along the ground."
+      ],
+      "sets": 2,
+      "reps": 8,
+      "unit": "balls",
+      "reps_text": "2 sets of 8 balls",
+      "time_minutes": 8,
+      "success_check": "You know it's working when you can point to the spot where you hit the ball, and the ball stays low.",
+      "progression": "Use underarm throws from 8 metres.",
+      "safety": "Use a tennis ball. The feeder kneels on your leg side, out of the path of the bat, and leans back after each drop.",
+      "solo_ok": false,
+      "ball": "tennis",
+      "video_slot": {
+        "status": "needed",
+        "url": null,
+        "brief": "Side-on: Cam meets a drop-fed ball under the eyes next to the front pad, head still afterwards. Behind the bowler: the drive along the ground."
+      },
+      "cam_signoff": "pending"
+    },
+    {
+      "id": "F10-A",
+      "fault": "F10",
+      "fault_name": "Head falls away at contact",
+      "level": "advanced",
+      "name": "Read the number",
+      "purpose": "Trains you to watch the ball right onto the bat, which keeps your head over it.",
+      "equipment": [
+        "Bat",
+        "Tennis balls with a large number (1 to 4) on each",
+        "Partner"
+      ],
+      "setup": "Write a large number from 1 to 4 on each tennis ball with a marker pen. Your partner throws tennis balls overarm, with one bounce, from 10 to 12 metres, standing to one side of the line of the shot.",
+      "steps": [
+        "Watch the ball from the hand.",
+        "Call the number out loud as the ball comes.",
+        "Drive the ball.",
+        "Keep your head over the ball at contact.",
+        "Your partner tells you if the number was right."
+      ],
+      "sets": 2,
+      "reps": 6,
+      "unit": "throws",
+      "reps_text": "2 sets of 6 throws",
+      "time_minutes": 10,
+      "success_check": "You know it's working when you call most numbers right and your head is still over the ball at contact.",
+      "progression": "Use smaller numbers, or your partner throws a little faster.",
+      "safety": "Use a tennis ball. The thrower stands at least 10 metres away, to one side of the line of the shot, or behind a net screen.",
+      "solo_ok": false,
+      "ball": "tennis",
+      "video_slot": {
+        "status": "needed",
+        "url": null,
+        "brief": "Behind the bowler: a numbered tennis ball, and Cam calling the number before driving. Side-on: the head still over the ball at contact."
+      },
+      "cam_signoff": "pending"
+    },
+    {
+      "id": "F11-B",
+      "fault": "F11",
+      "fault_name": "Off balance at the finish",
+      "level": "beginner",
+      "name": "Hold the pose",
+      "purpose": "Teaches you to finish every shot balanced, which shows your body stayed in control through the shot.",
+      "equipment": [
+        "Bat",
+        "Tennis balls",
+        "Tee, or a partner to drop feed"
+      ],
+      "setup": "Put a tennis ball on a tee next to where your front foot lands, or ask a partner to drop feed. Face a net or open space.",
+      "steps": [
+        "Drive the ball.",
+        "Hold your finish for a count of two.",
+        "Keep your head over your front knee.",
+        "If you wobble, play the next ball at half pace.",
+        "Reset and repeat."
+      ],
+      "sets": 1,
+      "reps": 10,
+      "unit": "balls",
+      "reps_text": "10 balls",
+      "time_minutes": 6,
+      "success_check": "You know it's working when you hold 8 of 10 finishes for a count of two without a step.",
+      "progression": "Hold each finish for a count of three.",
+      "safety": "Hit into a net or towards open space, away from people, windows and cars. For drop feeds, use a tennis ball. The feeder kneels on your leg side, out of the path of the bat.",
+      "solo_ok": true,
+      "ball": "tennis",
+      "video_slot": {
+        "status": "needed",
+        "url": null,
+        "brief": "Side-on: Cam drives off a tee and holds the finish for a count of two, head over the front knee. Behind the bowler: the balanced finish."
+      },
+      "cam_signoff": "pending"
+    },
+    {
+      "id": "F11-C",
+      "fault": "F11",
+      "fault_name": "Off balance at the finish",
+      "level": "club",
+      "name": "One-leg finish",
+      "purpose": "Makes balance at the finish harder, so you hold it on your front leg alone.",
+      "equipment": [
+        "Bat",
+        "Tennis balls",
+        "Tee or tall cone"
+      ],
+      "setup": "Put a tennis ball on a tee next to where your front foot lands. Face a net or open space. Use a flat surface that is not slippery.",
+      "steps": [
+        "Drive the ball off the tee.",
+        "Hold the finish.",
+        "Lift your back foot a little off the ground.",
+        "Balance on your front leg for 2 seconds.",
+        "Put the back foot down and reset."
+      ],
+      "sets": 2,
+      "reps": 8,
+      "unit": "balls",
+      "reps_text": "2 sets of 8 balls",
+      "time_minutes": 8,
+      "success_check": "You know it's working when you can balance on your front leg for 2 seconds after most drives.",
+      "progression": "Do the same with soft drop feeds from a partner.",
+      "safety": "Hit into a net or towards open space, away from people, windows and cars.",
+      "solo_ok": true,
+      "ball": "tennis",
+      "video_slot": {
+        "status": "needed",
+        "url": null,
+        "brief": "Side-on: Cam drives off a tee, then lifts the back foot and balances on the front leg for 2 seconds. Behind the bowler: the same finish."
+      },
+      "cam_signoff": "pending"
+    },
+    {
+      "id": "F11-A",
+      "fault": "F11",
+      "fault_name": "Off balance at the finish",
+      "level": "advanced",
+      "name": "Finish score",
+      "purpose": "Keeps your finish balanced as the ball gets quicker, with a simple score.",
+      "equipment": [
+        "Bat",
+        "Tennis balls",
+        "Partner"
+      ],
+      "setup": "Your partner throws tennis balls overarm, with one bounce, from 10 to 12 metres, standing to one side of the line of the shot.",
+      "steps": [
+        "Drive the ball.",
+        "Hold your finish for a count of three.",
+        "Your partner gives 1 point for a still finish.",
+        "Your partner gives 0 points for a step or a wobble.",
+        "Play 12 balls, then 12 more a little quicker."
+      ],
+      "sets": 2,
+      "reps": 12,
+      "unit": "throws",
+      "reps_text": "2 sets of 12 throws",
+      "time_minutes": 10,
+      "success_check": "You know it's working when you score 10 or more out of 12 in each set.",
+      "progression": "Your partner varies the length, so you must stay balanced on every ball.",
+      "safety": "Use a tennis ball. The thrower stands at least 10 metres away, to one side of the line of the shot, or behind a net screen.",
+      "solo_ok": false,
+      "ball": "tennis",
+      "video_slot": {
+        "status": "needed",
+        "url": null,
+        "brief": "Behind the bowler: Cam drives a throw and holds the finish for a count of three. Side-on: the still finish."
+      },
+      "cam_signoff": "pending"
+    },
+    {
+      "id": "F12-B",
+      "fault": "F12",
+      "fault_name": "Hands stop, or a wild follow-through",
+      "level": "beginner",
+      "name": "Through and hold",
+      "purpose": "Lets your hands keep going towards the target, with the bat under control at the end.",
+      "equipment": [
+        "Bat"
+      ],
+      "setup": "Stand in an open space in your stance. Pick a target straight down the pitch.",
+      "steps": [
+        "Shadow a drive.",
+        "Let your hands keep going towards the target after the contact point.",
+        "Finish with the bat under control. A short or a full finish are both fine.",
+        "Hold the finish for 2 seconds.",
+        "Return to your stance."
+      ],
+      "sets": 1,
+      "reps": 10,
+      "unit": "reps",
+      "reps_text": "10 reps",
+      "time_minutes": 6,
+      "success_check": "You know it's working when every finish looks the same and the bat is still at the end.",
+      "progression": "Do the same off a tennis ball on a tee.",
+      "safety": "Clear a space. Make sure nobody is within two bat lengths of your swing.",
+      "solo_ok": true,
+      "ball": "none",
+      "video_slot": {
+        "status": "needed",
+        "url": null,
+        "brief": "Side-on: Cam's hands go on towards the target, then stop with control, held for 2 seconds. Behind the bowler: the controlled finish."
+      },
+      "cam_signoff": "pending"
+    },
+    {
+      "id": "F12-C",
+      "fault": "F12",
+      "fault_name": "Hands stop, or a wild follow-through",
+      "level": "club",
+      "name": "Hands to the target",
+      "purpose": "Joins a full, controlled follow-through to a real hit, aimed at a target.",
+      "equipment": [
+        "Bat",
+        "Tennis balls",
+        "Tee or tall cone",
+        "Cone for a target"
+      ],
+      "setup": "Put a target cone 15 metres away, straight down the pitch. Put a tennis ball on a tee next to where your front foot lands.",
+      "steps": [
+        "Drive the ball towards the target cone.",
+        "Let your hands follow the ball towards the cone.",
+        "Finish with the bat under control.",
+        "Hold for 2 seconds.",
+        "Reset and repeat."
+      ],
+      "sets": 2,
+      "reps": 8,
+      "unit": "balls",
+      "reps_text": "2 sets of 8 balls",
+      "time_minutes": 8,
+      "success_check": "You know it's working when your hands point at the target in every finish and the ball goes towards it.",
+      "progression": "Move the target to mid-off, then to mid-on, and follow the ball each time.",
+      "safety": "Hit into a net or towards open space, away from people, windows and cars. Nobody stands near the target.",
+      "solo_ok": true,
+      "ball": "tennis",
+      "video_slot": {
+        "status": "needed",
+        "url": null,
+        "brief": "Behind the bowler: the target cone and Cam's hands following the ball towards it. Side-on: the controlled, held finish."
+      },
+      "cam_signoff": "pending"
+    },
+    {
+      "id": "F12-A",
+      "fault": "F12",
+      "fault_name": "Hands stop, or a wild follow-through",
+      "level": "advanced",
+      "name": "Same finish, any effort",
+      "purpose": "Keeps your follow-through controlled whether you hit softly or hard.",
+      "equipment": [
+        "Bat",
+        "Tennis balls",
+        "Partner"
+      ],
+      "setup": "Your partner throws tennis balls overarm, with one bounce, from 10 to 12 metres, standing to one side of the line of the shot.",
+      "steps": [
+        "Drive the first 4 balls at half effort.",
+        "Drive the next 4 at three-quarter effort.",
+        "Drive the last 4 at full effort.",
+        "Make every finish look the same.",
+        "Hold each finish for 2 seconds."
+      ],
+      "sets": 1,
+      "reps": 12,
+      "unit": "throws",
+      "reps_text": "12 throws",
+      "time_minutes": 10,
+      "success_check": "You know it's working when the full-effort finishes look the same as the half-effort ones.",
+      "progression": "Your partner calls the effort level just as the ball is released.",
+      "safety": "Use a tennis ball. The thrower stands at least 10 metres away, to one side of the line of the shot, or behind a net screen.",
+      "solo_ok": false,
+      "ball": "tennis",
+      "video_slot": {
+        "status": "needed",
+        "url": null,
+        "brief": "Side-on: Cam's finishes at half, three-quarter and full effort, all looking the same. Behind the bowler: the controlled finish."
+      },
+      "cam_signoff": "pending"
+    },
+    {
+      "id": "F00-B",
+      "fault": "F00",
+      "fault_name": "Nothing major to fix",
+      "level": "beginner",
+      "name": "Keep it grooved",
+      "purpose": "Keeps a good drive the same, ball after ball, so it holds up when it matters.",
+      "equipment": [
+        "Bat",
+        "Tennis balls",
+        "Tee, or a partner to drop feed"
+      ],
+      "setup": "Put a tennis ball on a tee next to where your front foot lands, or ask a partner to drop feed. Face a net or open space.",
+      "steps": [
+        "Drive 20 balls at three-quarter pace.",
+        "Hold every finish for a count of two.",
+        "Use the same set-up for every ball.",
+        "At the end of the week, film one clip and analyse it."
+      ],
+      "sets": 1,
+      "reps": 20,
+      "unit": "balls",
+      "reps_text": "20 balls",
+      "time_minutes": 8,
+      "success_check": "You know it's working when every drive looks and feels the same.",
+      "progression": "Use underarm throws from 8 metres.",
+      "safety": "Hit into a net or towards open space, away from people, windows and cars. For drop feeds, use a tennis ball. The feeder kneels on your leg side, out of the path of the bat.",
+      "solo_ok": true,
+      "ball": "tennis",
+      "video_slot": {
+        "status": "needed",
+        "url": null,
+        "brief": "Side-on: Cam drives drop-fed balls at three-quarter pace and holds each finish for a count of two. Behind the bowler: three drives that look the same."
+      },
+      "cam_signoff": "pending"
+    },
+    {
+      "id": "F00-C",
+      "fault": "F00",
+      "fault_name": "Nothing major to fix",
+      "level": "club",
+      "name": "Groove and vary",
+      "purpose": "Keeps the same good drive when the line changes: off side, straight and on side.",
+      "equipment": [
+        "Bat",
+        "Tennis balls",
+        "Partner"
+      ],
+      "setup": "Your partner throws tennis balls underarm from 6 to 8 metres, standing to one side of the line of the shot. They throw on off stump, middle stump and leg stump.",
+      "steps": [
+        "Drive the off-stump balls towards mid-off.",
+        "Drive the middle-stump balls straight.",
+        "Drive the leg-stump balls towards mid-on.",
+        "Hold every finish for a count of two.",
+        "Keep your head in the same position each time."
+      ],
+      "sets": 2,
+      "reps": 9,
+      "unit": "throws",
+      "reps_text": "2 sets of 9 throws",
+      "time_minutes": 10,
+      "success_check": "You know it's working when each drive goes where you aim and all the finishes look the same.",
+      "progression": "Your partner throws overarm, with one bounce, from 10 to 12 metres.",
+      "safety": "Use a tennis ball. The thrower stands 6 to 8 metres away, to one side of the line of the shot, and watches every ball.",
+      "solo_ok": false,
+      "ball": "tennis",
+      "video_slot": {
+        "status": "needed",
+        "url": null,
+        "brief": "Behind the bowler: three throws on three lines, driven to mid-off, straight and to mid-on. Side-on: the same balanced finish each time."
+      },
+      "cam_signoff": "pending"
+    },
+    {
+      "id": "F00-A",
+      "fault": "F00",
+      "fault_name": "Nothing major to fix",
+      "level": "advanced",
+      "name": "Pressure grooving",
+      "purpose": "Tests your drive under a little pressure, with a score, so it stays the same when it counts.",
+      "equipment": [
+        "Bat",
+        "Tennis balls",
+        "Partner",
+        "Four cones"
+      ],
+      "setup": "Make two gates with cones, one at mid-off and one at mid-on, about 15 metres away. Your partner throws tennis balls overarm, with one bounce, from 10 to 12 metres, standing to one side of the line of the shot.",
+      "steps": [
+        "Your partner calls \"off\" or \"on\" as the ball is released.",
+        "Drive through the gate they called.",
+        "Score 2 points along the ground with a held finish.",
+        "Score 1 point through the gate in the air.",
+        "Play 12 balls and try to beat your last score."
+      ],
+      "sets": 1,
+      "reps": 12,
+      "unit": "throws",
+      "reps_text": "12 throws",
+      "time_minutes": 10,
+      "success_check": "You know it's working when you score 16 or more out of 24 and hold every finish.",
+      "progression": "Your partner calls later, or throws a little faster.",
+      "safety": "Use a tennis ball. The thrower stands at least 10 metres away, to one side of the line of the shot, or behind a net screen. Nobody stands near the gates.",
+      "solo_ok": false,
+      "ball": "tennis",
+      "video_slot": {
+        "status": "needed",
+        "url": null,
+        "brief": "Behind the bowler: the two gates, and Cam driving to a called \"off\", then a called \"on\". Side-on: the held finish."
+      },
+      "cam_signoff": "pending"
+    }
+  ]
+}

@@ -1,0 +1,766 @@
+{
+ "version": "pose_reference_v1",
+ "built": "2026-11-17",
+ "provisional": true,
+ "anonymised": false,
+ "status": "PROVISIONAL: built from 1 clip only, so the figure is not an anonymous average (it needs at least 3). Rebuild on all Elite clips with pose_reference_build_mac.sh before this is used with players.",
+ "privacy": "Only averaged, normalised joint positions (body lengths from the set-up ankle midpoint) and measurement ranges. No names, clip names, frames, images or per-clip values.",
+ "coordinates": "x, y in body lengths (nose-to-ankle height at set-up) from the middle of the two ankles at set-up; x camera-right, y down; a right-hander filmed from the bowler's end (left-handers mirrored, front/back swapped); camera roll removed",
+ "sources": {
+  "pose_tiers": [
+   "Elite"
+  ],
+  "pose_n_clips": 1,
+  "anchor_set": "validated",
+  "range_tiers": [
+   "Elite",
+   "Good Club"
+  ],
+  "range_n_clips": 8,
+  "range_measurement_set": "v8",
+  "pose_measurement_rules": "Phase 5 v8 (mirror, camera-roll levelling, body length)"
+ },
+ "joints": [
+  "nose",
+  "front_shoulder",
+  "back_shoulder",
+  "front_elbow",
+  "back_elbow",
+  "front_wrist",
+  "back_wrist",
+  "front_hip",
+  "back_hip",
+  "front_knee",
+  "back_knee",
+  "front_ankle",
+  "back_ankle",
+  "front_heel",
+  "back_heel",
+  "front_toe",
+  "back_toe",
+  "hands"
+ ],
+ "joint_labels": {
+  "nose": "head",
+  "hands": "hands",
+  "front_shoulder": "front shoulder",
+  "back_shoulder": "back shoulder",
+  "front_elbow": "front elbow",
+  "back_elbow": "back elbow",
+  "front_wrist": "front wrist",
+  "back_wrist": "back wrist",
+  "front_hip": "front hip",
+  "back_hip": "back hip",
+  "front_knee": "front knee",
+  "back_knee": "back knee",
+  "front_ankle": "front ankle",
+  "back_ankle": "back ankle",
+  "front_heel": "front heel",
+  "back_heel": "back heel",
+  "front_toe": "front toe",
+  "back_toe": "back toe"
+ },
+ "bones": [
+  [
+   "front_shoulder",
+   "back_shoulder"
+  ],
+  [
+   "front_hip",
+   "back_hip"
+  ],
+  [
+   "front_shoulder",
+   "front_hip"
+  ],
+  [
+   "back_shoulder",
+   "back_hip"
+  ],
+  [
+   "front_shoulder",
+   "front_elbow"
+  ],
+  [
+   "front_elbow",
+   "front_wrist"
+  ],
+  [
+   "back_shoulder",
+   "back_elbow"
+  ],
+  [
+   "back_elbow",
+   "back_wrist"
+  ],
+  [
+   "front_hip",
+   "front_knee"
+  ],
+  [
+   "front_knee",
+   "front_ankle"
+  ],
+  [
+   "back_hip",
+   "back_knee"
+  ],
+  [
+   "back_knee",
+   "back_ankle"
+  ],
+  [
+   "front_ankle",
+   "front_heel"
+  ],
+  [
+   "front_heel",
+   "front_toe"
+  ],
+  [
+   "front_ankle",
+   "front_toe"
+  ],
+  [
+   "back_ankle",
+   "back_heel"
+  ],
+  [
+   "back_heel",
+   "back_toe"
+  ],
+  [
+   "back_ankle",
+   "back_toe"
+  ],
+  [
+   "nose",
+   "neck"
+  ]
+ ],
+ "moments": {
+  "setup": {
+   "label": "Set-up",
+   "definition": "median over 1000 to 700 ms before contact (the Phase 5 set-up window); the frame shown is 850 ms before contact",
+   "n_clips": 1,
+   "joints": {
+    "nose": [
+     -0.1744,
+     -1.0006
+    ],
+    "front_shoulder": [
+     -0.0337,
+     -0.902
+    ],
+    "back_shoulder": [
+     -0.1855,
+     -0.8307
+    ],
+    "front_elbow": [
+     0.04,
+     -0.6992
+    ],
+    "front_wrist": [
+     -0.0134,
+     -0.506
+    ],
+    "front_hip": [
+     0.1159,
+     -0.5782
+    ],
+    "back_hip": [
+     0.013,
+     -0.5571
+    ],
+    "front_knee": [
+     -0.0113,
+     -0.3198
+    ],
+    "back_knee": [
+     -0.0927,
+     -0.3255
+    ],
+    "front_ankle": [
+     0.0321,
+     0.006
+    ],
+    "back_ankle": [
+     -0.0327,
+     -0.006
+    ],
+    "front_heel": [
+     0.0767,
+     0.0624
+    ],
+    "back_heel": [
+     -0.0009,
+     0.0434
+    ],
+    "front_toe": [
+     -0.0748,
+     0.0757
+    ],
+    "back_toe": [
+     -0.1359,
+     0.0542
+    ],
+    "hands": [
+     -0.0134,
+     -0.506
+    ]
+   }
+  },
+  "top_of_backlift": {
+   "label": "Top of the backlift",
+   "definition": "the top hand's highest point 450 to 100 ms before contact (as Phase 5 M03); the hands-peak key frame if the hand is not seen",
+   "n_clips": 1,
+   "joints": {
+    "nose": [
+     -0.2737,
+     -0.941
+    ],
+    "front_shoulder": [
+     -0.1455,
+     -0.8667
+    ],
+    "back_shoulder": [
+     -0.2031,
+     -0.8969
+    ],
+    "front_elbow": [
+     -0.1744,
+     -0.6805
+    ],
+    "front_wrist": [
+     -0.2759,
+     -0.7302
+    ],
+    "back_wrist": [
+     -0.268,
+     -0.7575
+    ],
+    "front_hip": [
+     0.0498,
+     -0.5975
+    ],
+    "back_hip": [
+     -0.0213,
+     -0.6079
+    ],
+    "front_knee": [
+     -0.0475,
+     -0.3284
+    ],
+    "back_knee": [
+     -0.0815,
+     -0.3395
+    ],
+    "front_ankle": [
+     -0.0518,
+     -0.0239
+    ],
+    "back_ankle": [
+     -0.067,
+     -0.0422
+    ],
+    "front_heel": [
+     -0.0135,
+     0.0301
+    ],
+    "back_heel": [
+     -0.0339,
+     0.0108
+    ],
+    "front_toe": [
+     -0.1586,
+     0.041
+    ],
+    "back_toe": [
+     -0.1684,
+     0.0242
+    ],
+    "hands": [
+     -0.2759,
+     -0.7302
+    ]
+   }
+  },
+  "front_foot_down": {
+   "label": "Front foot down",
+   "definition": "the front-foot-down key frame",
+   "n_clips": 1,
+   "joints": {
+    "nose": [
+     -0.3141,
+     -0.914
+    ],
+    "front_shoulder": [
+     -0.2079,
+     -0.8399
+    ],
+    "back_shoulder": [
+     -0.216,
+     -0.8972
+    ],
+    "front_elbow": [
+     -0.2818,
+     -0.6575
+    ],
+    "back_elbow": [
+     -0.3523,
+     -0.6038
+    ],
+    "front_wrist": [
+     -0.3399,
+     -0.6941
+    ],
+    "back_wrist": [
+     -0.3165,
+     -0.7573
+    ],
+    "front_hip": [
+     0.0004,
+     -0.5562
+    ],
+    "back_hip": [
+     -0.0298,
+     -0.5755
+    ],
+    "front_knee": [
+     -0.0866,
+     -0.2877
+    ],
+    "back_knee": [
+     -0.0814,
+     -0.3243
+    ],
+    "front_ankle": [
+     -0.1346,
+     0.001
+    ],
+    "back_ankle": [
+     -0.0473,
+     -0.0487
+    ],
+    "front_heel": [
+     -0.1139,
+     0.0523
+    ],
+    "back_heel": [
+     -0.0141,
+     0.0054
+    ],
+    "front_toe": [
+     -0.2532,
+     0.0445
+    ],
+    "back_toe": [
+     -0.1624,
+     -0.0034
+    ],
+    "hands": [
+     -0.3399,
+     -0.6941
+    ]
+   }
+  },
+  "before_contact": {
+   "label": "Just before contact",
+   "definition": "100 ms before contact (as Phase 5 M07)",
+   "n_clips": 1,
+   "joints": {
+    "nose": [
+     -0.341,
+     -0.912
+    ],
+    "front_shoulder": [
+     -0.2119,
+     -0.9017
+    ],
+    "back_shoulder": [
+     -0.2979,
+     -0.8175
+    ],
+    "front_elbow": [
+     -0.2628,
+     -0.7599
+    ],
+    "back_elbow": [
+     -0.359,
+     -0.5877
+    ],
+    "front_wrist": [
+     -0.3399,
+     -0.6748
+    ],
+    "back_wrist": [
+     -0.3302,
+     -0.6712
+    ],
+    "front_hip": [
+     -0.0034,
+     -0.5602
+    ],
+    "back_hip": [
+     -0.0841,
+     -0.5596
+    ],
+    "front_knee": [
+     -0.1233,
+     -0.2862
+    ],
+    "back_knee": [
+     -0.083,
+     -0.2962
+    ],
+    "front_ankle": [
+     -0.1654,
+     0.0085
+    ],
+    "back_ankle": [
+     -0.0449,
+     -0.0349
+    ],
+    "front_heel": [
+     -0.1373,
+     0.0537
+    ],
+    "back_heel": [
+     -0.0116,
+     0.0085
+    ],
+    "front_toe": [
+     -0.2728,
+     0.0763
+    ],
+    "back_toe": [
+     -0.1449,
+     0.0481
+    ],
+    "hands": [
+     -0.3399,
+     -0.6748
+    ]
+   }
+  },
+  "contact": {
+   "label": "Contact",
+   "definition": "the contact key frame",
+   "n_clips": 1,
+   "joints": {
+    "nose": [
+     -0.3851,
+     -0.8609
+    ],
+    "front_shoulder": [
+     -0.2165,
+     -0.9226
+    ],
+    "back_shoulder": [
+     -0.3191,
+     -0.7785
+    ],
+    "front_elbow": [
+     -0.256,
+     -0.9696
+    ],
+    "back_elbow": [
+     -0.3648,
+     -0.5744
+    ],
+    "front_wrist": [
+     -0.3182,
+     -0.8038
+    ],
+    "back_wrist": [
+     -0.4232,
+     -0.3943
+    ],
+    "front_hip": [
+     -0.028,
+     -0.5523
+    ],
+    "back_hip": [
+     -0.108,
+     -0.5224
+    ],
+    "front_knee": [
+     -0.1509,
+     -0.2849
+    ],
+    "back_knee": [
+     -0.0841,
+     -0.2809
+    ],
+    "front_ankle": [
+     -0.1821,
+     0.0281
+    ],
+    "back_ankle": [
+     -0.0414,
+     -0.02
+    ],
+    "front_heel": [
+     -0.148,
+     0.0739
+    ],
+    "back_heel": [
+     -0.009,
+     0.0208
+    ],
+    "front_toe": [
+     -0.296,
+     0.0912
+    ],
+    "back_toe": [
+     -0.1438,
+     0.0501
+    ],
+    "hands": [
+     -0.3182,
+     -0.8038
+    ]
+   }
+  },
+  "follow_through": {
+   "label": "Finish",
+   "definition": "550 ms after contact (inside the Phase 5 M11 window, 400 to 700 ms); the last frame with a pose if the clip ends sooner",
+   "n_clips": 1,
+   "joints": {
+    "nose": [
+     -0.4195,
+     -0.9085
+    ],
+    "front_shoulder": [
+     -0.2795,
+     -1.0049
+    ],
+    "back_shoulder": [
+     -0.3974,
+     -0.859
+    ],
+    "front_elbow": [
+     -0.2251,
+     -1.1681
+    ],
+    "back_elbow": [
+     -0.4265,
+     -0.7399
+    ],
+    "front_wrist": [
+     -0.3454,
+     -1.0789
+    ],
+    "back_wrist": [
+     -0.393,
+     -0.8612
+    ],
+    "front_hip": [
+     -0.1329,
+     -0.5551
+    ],
+    "back_hip": [
+     -0.2301,
+     -0.526
+    ],
+    "front_knee": [
+     -0.2456,
+     -0.2874
+    ],
+    "front_ankle": [
+     -0.2236,
+     0.0258
+    ],
+    "back_ankle": [
+     -0.153,
+     -0.0882
+    ],
+    "front_heel": [
+     -0.1999,
+     0.0702
+    ],
+    "back_heel": [
+     -0.1126,
+     -0.0614
+    ],
+    "front_toe": [
+     -0.3235,
+     0.1005
+    ],
+    "back_toe": [
+     -0.2338,
+     0.0206
+    ],
+    "hands": [
+     -0.3454,
+     -1.0789
+    ]
+   }
+  }
+ },
+ "measurement_ranges": {
+  "M01": {
+   "name": "Head movement at set-up",
+   "unit": "% BL",
+   "direction": "higher_worse",
+   "low": 0.781,
+   "high": 1.833,
+   "median": 0.917,
+   "n": 7
+  },
+  "M02": {
+   "name": "Hips over the middle of the feet at set-up",
+   "unit": "% BL",
+   "direction": "higher_worse",
+   "low": 3.149,
+   "high": 11.317,
+   "median": 5.308,
+   "n": 8
+  },
+  "M03": {
+   "name": "Hands out towards gully in the backlift",
+   "unit": "% BL, off side +",
+   "direction": "higher_worse",
+   "low": 1.307,
+   "high": 26.56,
+   "median": 8.456,
+   "n": 8
+  },
+  "M04": {
+   "name": "Head ahead of the front foot at foot-down",
+   "unit": "% BL, off side +",
+   "direction": "higher_better",
+   "low": 7.254,
+   "high": 19.988,
+   "median": 17.017,
+   "n": 8
+  },
+  "M05": {
+   "name": "Front foot step towards the line",
+   "unit": "% BL, drive side +",
+   "direction": "higher_better",
+   "low": -4.392,
+   "high": 13.88,
+   "median": 2.711,
+   "n": 8
+  },
+  "M06": {
+   "name": "Front-knee angle around contact",
+   "unit": "degrees",
+   "direction": "higher_worse",
+   "low": 153.048,
+   "high": 166.985,
+   "median": 162.709,
+   "n": 8
+  },
+  "M07": {
+   "name": "Shoulder line opening before contact",
+   "unit": "ratio",
+   "direction": "higher_worse",
+   "low": 0.509,
+   "high": 1.852,
+   "median": 1.271,
+   "n": 8
+  },
+  "M08": {
+   "name": "Hands across the line through contact",
+   "unit": "% BL, away from drive side +",
+   "direction": "higher_worse",
+   "low": -15.004,
+   "high": 13.434,
+   "median": 4.149,
+   "n": 8
+  },
+  "M09": {
+   "name": "Hands pause before contact",
+   "unit": "ms",
+   "direction": "higher_worse",
+   "low": 25.802,
+   "high": 118.563,
+   "median": 78.149,
+   "n": 8
+  },
+  "M10": {
+   "name": "Head over the ball at contact",
+   "unit": "% BL, off side +",
+   "direction": "higher_better",
+   "low": 16.247,
+   "high": 30.958,
+   "median": 28.715,
+   "n": 8
+  },
+  "M11": {
+   "name": "Hips over the front foot at the finish",
+   "unit": "% BL",
+   "direction": "higher_worse",
+   "low": 2.838,
+   "high": 9.664,
+   "median": 3.616,
+   "n": 8
+  },
+  "M12": {
+   "name": "Hands above the shoulders after contact",
+   "unit": "% BL",
+   "direction": "higher_better",
+   "low": 2.302,
+   "high": 22.463,
+   "median": 14.662,
+   "n": 8
+  },
+  "M13": {
+   "name": "Swing carries through contact",
+   "unit": "ratio",
+   "direction": "higher_better",
+   "low": 1.714,
+   "high": 36.281,
+   "median": 4.88,
+   "n": 7
+  },
+  "M14": {
+   "name": "Front foot landing against the downswing",
+   "unit": "ms (absolute)",
+   "direction": "higher_worse",
+   "low": 132.038,
+   "high": 211.416,
+   "median": 201.758,
+   "n": 3
+  },
+  "M15": {
+   "name": "Head over the base at set-up",
+   "unit": "% BL (absolute)",
+   "direction": "higher_worse",
+   "low": 8.65,
+   "high": 29.814,
+   "median": 14.334,
+   "n": 8
+  },
+  "M16": {
+   "name": "Weight over the front foot at contact",
+   "unit": "% BL",
+   "direction": "higher_worse",
+   "low": 2.109,
+   "high": 5.581,
+   "median": 3.056,
+   "n": 8
+  },
+  "M17": {
+   "name": "Trigger movement before the stride",
+   "unit": "% BL",
+   "direction": "higher_better",
+   "low": 0.822,
+   "high": 40.756,
+   "median": 2.582,
+   "n": 8
+  },
+  "M18": {
+   "name": "Head, hands and feet in line at set-up",
+   "unit": "% BL",
+   "direction": "higher_worse",
+   "low": 9.857,
+   "high": 24.052,
+   "median": 13.181,
+   "n": 7
+  }
+ },
+ "range_rule": "10th to 90th percentile of the clips' values, with the median"
+}
