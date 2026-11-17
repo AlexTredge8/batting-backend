@@ -189,6 +189,12 @@ def test_comparison_on_a_matching_player_marks_nothing():
     assert out["reference"]["anonymised"] and not out["reference"]["provisional"]
 
 
+def _decode(url):
+    import cv2
+    assert url.startswith("data:image/jpeg;base64,")
+    return cv2.imdecode(np.frombuffer(base64.b64decode(url.split(",", 1)[1]), np.uint8), cv2.IMREAD_COLOR)
+
+
 def test_overlay_renders_with_the_differing_joint_marked():
     ref = _reference()
     frame = _noise_frame()
@@ -199,14 +205,69 @@ def test_overlay_renders_with_the_differing_joint_marked():
     assert nose["highlighted"] and nose["difference_pct_height"] > 5
     assert nose["player_xy"][0] > nose["reference_xy"][0]  # the head is camera-right of where it should be
     assert out["change_text"].startswith("At contact your head is")
-    import cv2
-    for key in ("overlay_data_url", "side_by_side_data_url"):
-        url = out["images"][key]
-        assert url.startswith("data:image/jpeg;base64,")
-        img = cv2.imdecode(np.frombuffer(base64.b64decode(url.split(",", 1)[1]), np.uint8), cv2.IMREAD_COLOR)
-        assert img is not None and img.shape[1] == pc.OUT_WIDTH
+    img = _decode(out["images"]["overlay_data_url"])
+    assert img is not None and img.shape[1] == pc.OUT_WIDTH
+    assert out["images"]["overlay_label"] == "On your video"
+    assert "side_by_side_data_url" not in out["images"]  # the stick-figure panel is gone
     assert out["privacy"]["face_blurred"] is True
     assert frame.sum() == _noise_frame().sum()  # the caller's frame is not drawn on
+
+
+def test_simplified_overlay_draws_only_the_one_key_cue():
+    """On your video: one ring on the main joint and the cartoon's one reference line; no ghost
+    skeleton, no arrows. On a flat grey frame, every non-grey pixel outside the blurred face is cue."""
+    import cv2
+    frame = np.full((int(H), int(W), 3), 128, np.uint8)
+    pts = _figure()[ANCH["contact_frame"], :, :2] * [W, H]
+    player = {"nose": pts[0], "front_shoulder": pts[11], "back_shoulder": pts[12], "front_hip": pts[23],
+              "back_hip": pts[24], "front_knee": pts[25], "back_knee": pts[26], "front_ankle": pts[27],
+              "back_ankle": pts[28], "hands": (pts[15] + pts[16]) / 2}
+    img, blurred, drawn = pc.render_video_cue(frame, player, "F10", pts, pts)
+    assert img.shape[1] == pc.OUT_WIDTH and blurred
+    assert drawn == {"ring": "nose", "line": {"type": "plumb", "joints": ["nose"]}}
+    blue = (np.abs(img.astype(int) - np.array(pc.C_CUE_RING)).sum(axis=2) < 60)
+    ink = (np.abs(img.astype(int) - np.array(pc.C_CUE_LINE)).sum(axis=2) < 60)
+    assert blue.sum() > 100 and ink.sum() > 100
+    # the cue is small: the marks cover only a little of the picture (a ghost skeleton would cover far more)
+    changed = (np.abs(img.astype(int) - 128).sum(axis=2) > 30)
+    assert changed.mean() < 0.12
+    # no ring and no line for "nothing to fix"
+    img0, _, drawn0 = pc.render_video_cue(frame, player, "F00", pts, pts)
+    assert drawn0 == {"ring": None, "line": None}
+    # a lower-body fault zooms on the legs: the picture is landscape or square, not a tall full body
+    img5, _, drawn5 = pc.render_video_cue(frame, player, "F05", pts, pts)
+    assert drawn5["ring"] == "front_ankle" and img5.shape[0] <= img5.shape[1]
+    assert cv2 is not None
+
+
+def test_every_fault_has_a_cue_on_the_video():
+    for fid in pc.FAULT_TABLE:
+        assert fid in pc.VIDEO_CUE, fid
+        cue = pc.VIDEO_CUE[fid]
+        assert set(cue) == {"ring", "line", "crop"} and cue["crop"] in ("upper", "lower", "body")
+
+
+def test_comparison_carries_the_silhouette_pair():
+    ref = _reference()
+    out = pc.compute_pose_comparison(_figure(), FRAMES, ANCH, "left", FPS, W, H, "F10", reference=ref, render=False)
+    sil = out["silhouette"]
+    assert sil["fault"] == "F10" and sil["view"] == "front_on" and sil["moment"] == "contact"
+    assert sil["caption_fault"] and sil["caption_correct"] and sil["cue"]["type"]
+    assert sil["pair_svg_file"] == "F10_pair.svg" and sil["mirror"] is True
+    for key in ("fault_svg_data_url", "correct_svg_data_url"):
+        raw = base64.b64decode(sil[key].split(",", 1)[1])
+        assert raw.startswith(b"<svg") and b"<text" not in raw  # text-free, so the app can mirror it
+    assert out["what_to_change"] == pc.FAULT_TABLE["F10"]["action"]
+    # a fault the player-specific comparison cannot cover still teaches the principle
+    f19 = pc.compute_pose_comparison(_figure(), FRAMES, ANCH, "right", FPS, W, H, "F19", reference=ref)
+    assert not f19["available"] and f19["silhouette"]["view"] == "pitch_side" and f19["what_to_change"]
+    none = pc.compute_pose_comparison(_figure(), FRAMES, ANCH, "right", FPS, W, H, "F10", reference={})
+    assert not none["available"] and none["silhouette"]["fault"] == "F10"
+    # F14 is shown as F07; F00 has two "This" panels
+    f14 = pc.silhouette_for("F14")
+    assert f14["fault"] == "F07" and f14["shown_for"] == "F14"
+    f00 = pc.silhouette_for("F00")
+    assert f00["fault_svg_data_url"] is None and f00["correct_finish_svg_data_url"]
 
 
 def test_ghost_lands_on_a_left_handers_picture():
@@ -250,7 +311,7 @@ def test_nothing_to_fix_and_not_available():
                                      frame_image=_noise_frame())
     assert f00["available"] and f00["nothing_to_fix"] and f00["joints"] == [] and f00["measurement"] is None
     assert f00["change_text"].startswith("Nothing major to fix")
-    assert f00["images"]["overlay_data_url"]
+    assert f00["images"]["overlay_data_url"] and f00["images"]["overlay_cue"] == {"ring": None, "line": None}
     f19 = pc.compute_pose_comparison(_figure(), FRAMES, ANCH, "right", FPS, W, H, "F19", reference=ref)
     assert not f19["available"] and "choosing which ball" in f19["reason"]
     none = pc.compute_pose_comparison(_figure(), FRAMES, ANCH, "right", FPS, W, H, "F10", reference={})

@@ -13,10 +13,12 @@ For a fault (rubric v0.3, F01-F19, or F00 "nothing major to fix") this:
      player's real frame;
   4. computes the fault's Phase 5 measurement (phase5_checkpoints.py) and compares it with the
      range of Elite and Good Club drives stored in the reference;
-  5. renders (a) the player's own frame, face blurred, with their skeleton in a strong colour, the
-     reference as a translucent ghost, and a ring and an arrow on each joint that differs, and
-     (b) a side-by-side panel of the two figures on a plain background;
-  6. returns structured data for the frontend (schema in docs/phase6/pose_compare.md).
+  5. attaches the fault's fixed cartoon picture pair ("Not this" / "This", silhouettes.py, static
+     files in assets/silhouettes), which is what the card leads with;
+  6. renders a secondary "On your video" picture: the player's own frame, face blurred, cropped to
+     the fault area, with only the one key cue (a ring on the main joint and, where the cartoon uses
+     one, the same reference line). No ghost skeleton, no arrows;
+  7. returns structured data for the frontend (schema in docs/phase6/pose_compare.md).
 
 The live app calls pose_comparison_for_report only when config.POSE_COMPARE is "on" (default off).
 It never changes a score or an existing report field.
@@ -36,10 +38,11 @@ import capture_geometry
 import phase5_checkpoints as p5
 import pose_reference as pr
 
-COMPARE_VERSION = "pose_compare_v1"
+COMPARE_VERSION = "pose_compare_v2"
 SCRIPT_DIR = Path(__file__).resolve().parent
 TIPS_PATH = SCRIPT_DIR / "docs" / "phase6" / "fault_tips_v0_3.json"
 RUBRIC_PATH = SCRIPT_DIR / "docs" / "phase1" / "rubric_v0_3.json"
+SILHOUETTE_DIR = SCRIPT_DIR / "assets" / "silhouettes"
 
 # A joint is marked as different when it is further than this from the ghost (body lengths).
 DIFF_THRESHOLD_BL = 0.05
@@ -128,6 +131,33 @@ FAULT_TABLE: dict[str, dict[str, Any]] = {
 }
 # F14 was retired in rubric v0.3 and is now part of F07: compared the same way.
 FAULT_TABLE["F14"] = dict(FAULT_TABLE["F07"], retired_into="F07")
+
+# "On your video": the one key cue drawn on the player's own frame, matching the cartoon's cue.
+# ring: the main joint (a ring). line: ("plumb", joint) = a vertical line down from that joint to the
+# ground; ("vertical", joint) = a vertical line through that joint over the whole figure;
+# ("segment", a, b) = a line between two joints. crop: which part of the body to zoom on.
+VIDEO_CUE: dict[str, dict[str, Any]] = {
+    "F01": {"ring": "nose", "line": None, "crop": "upper"},
+    "F02": {"ring": "nose", "line": ("plumb", "nose"), "crop": "body"},
+    "F17": {"ring": "nose", "line": ("vertical", "ankles"), "crop": "body"},
+    "F13": {"ring": "hands", "line": None, "crop": "body"},
+    "F03": {"ring": "hands", "line": ("segment", "hands", "back_hip"), "crop": "body"},
+    "F19": {"ring": None, "line": None, "crop": "body"},
+    "F15": {"ring": "front_ankle", "line": None, "crop": "lower"},
+    "F04": {"ring": "nose", "line": ("vertical", "front_ankle"), "crop": "body"},
+    "F05": {"ring": "front_ankle", "line": None, "crop": "lower"},
+    "F06": {"ring": "front_knee", "line": None, "crop": "lower"},
+    "F18": {"ring": "back_ankle", "line": None, "crop": "lower"},
+    "F16": {"ring": "nose", "line": ("plumb", "nose"), "crop": "body"},
+    "F07": {"ring": "front_shoulder", "line": ("segment", "back_shoulder", "front_shoulder"), "crop": "upper"},
+    "F08": {"ring": "hands", "line": None, "crop": "body"},
+    "F09": {"ring": "hands", "line": None, "crop": "body"},
+    "F10": {"ring": "nose", "line": ("plumb", "nose"), "crop": "body"},
+    "F11": {"ring": "nose", "line": ("plumb", "nose"), "crop": "body"},
+    "F12": {"ring": "hands", "line": None, "crop": "body"},
+    "F00": {"ring": None, "line": None, "crop": "body"},
+}
+VIDEO_CUE["F14"] = VIDEO_CUE["F07"]
 
 
 # --- small helpers --------------------------------------------------------------------------
@@ -242,6 +272,71 @@ def change_text(fault: str, measurement: dict | None, tip: str = "") -> str:
         # better than the whole good range (the registered direction says this side is better)
         return f"{said}; good drives are {good}, and you are past that on the good side, so this is not the thing to fix."
     return f"{said}; good drives are {good}, so on this measure you are already in the good range."
+
+
+# --- the cartoon picture pair (silhouettes.py) ----------------------------------------------
+
+def _svg_data_url(name: str | None) -> str | None:
+    if not name:
+        return None
+    try:
+        raw = (SILHOUETTE_DIR / name).read_bytes()
+    except OSError:
+        return None
+    return "data:image/svg+xml;base64," + base64.b64encode(raw).decode("ascii")
+
+
+def what_to_change(fault: str, tip: str = "") -> str:
+    """The one-line change for the card: the fault's short action, else the tip's first clause."""
+    spec = FAULT_TABLE.get(fault) or {}
+    if spec.get("nothing_to_fix"):
+        return "Nothing major to fix: keep repeating this."
+    if spec.get("action"):
+        return spec["action"]
+    first = (tip or "").split(";")[0].split(", so ")[0].strip().rstrip(".")
+    return f"{first}." if first else ""
+
+
+def silhouette_for(fault: str | None, handedness: str = "right", index: dict | None = None) -> dict | None:
+    """The fixed cartoon pair for a fault (assets/silhouettes/index.json), or None. Static content:
+    the same for every player, no per-player data. The two single panels are text-free and inlined
+    as SVG data URLs so the card can label them in app text and mirror them for a left-hander; the
+    pair file (with labels and captions baked in) is named for simple embedding."""
+    fid = (fault or "").upper()
+    idx = index if index is not None else _load_json(SILHOUETTE_DIR / "index.json")
+    entry = idx.get(fid)
+    if entry and entry.get("same_as"):
+        fid, entry = entry["same_as"], idx.get(entry["same_as"])
+    if not entry:
+        return None
+    files = entry.get("files") or {}
+    pair = files.get("pair")
+    out = {
+        "version": (idx.get("_meta") or {}).get("version"),
+        "fault": fid,
+        "view": entry.get("view"),
+        "moment": entry.get("moment"),
+        "drawn_moment": entry.get("drawn_moment"),
+        "label_fault": entry.get("label_fault"),
+        "label_correct": entry.get("label_correct"),
+        "caption_fault": entry.get("caption_fault"),
+        "caption_correct": entry.get("caption_correct"),
+        "cue": entry.get("cue"),
+        "alt": entry.get("alt"),
+        "mirror": (handedness or "right").strip().lower().startswith("l"),
+        "pair_svg_file": pair,
+        "fault_svg_file": files.get("fault"),
+        "correct_svg_file": files.get("correct"),
+        "fault_svg_data_url": _svg_data_url(files.get("fault")),
+        "correct_svg_data_url": _svg_data_url(files.get("correct")),
+    }
+    if files.get("correct_finish"):
+        out["correct_finish_svg_file"] = files["correct_finish"]
+        out["correct_finish_svg_data_url"] = _svg_data_url(files["correct_finish"])
+        out["caption_correct_finish"] = entry.get("caption_correct_finish")
+    if fault and fault.upper() != fid:
+        out["shown_for"] = fault.upper()
+    return out
 
 
 # --- geometry -------------------------------------------------------------------------------
@@ -367,57 +462,8 @@ def compute_measurement(c: p5.Clip, anchors: dict, mid: str, bl: float) -> tuple
 
 # --- rendering ------------------------------------------------------------------------------
 
-C_PLAYER = (0, 140, 255)      # strong orange (BGR)
-C_GHOST = (255, 210, 0)       # bright cyan (BGR), drawn translucent over a dark outline so it shows on white nets
-C_GHOST_EDGE = (40, 40, 40)   # dark outline under the ghost
-C_RING = (0, 230, 255)        # yellow
-C_TARGET = (90, 220, 90)      # green
-C_REF_PANEL = (150, 130, 40)  # teal-blue for the reference figure on the plain panel
-C_PANEL_RING = (40, 40, 210)  # red rings on the plain panel (yellow does not show on a light background)
 OUT_WIDTH = 480
 JPEG_QUALITY = 80
-
-
-def _bones_px(pose: dict) -> list[tuple[np.ndarray, np.ndarray]]:
-    pts = dict(pose)
-    neck = _mid(pts, "front_shoulder", "back_shoulder")
-    if neck is not None:
-        pts["neck"] = neck
-    out = []
-    for a, b in pr.BONES:
-        if a in pts and b in pts:
-            pa, pb = np.asarray(pts[a], float), np.asarray(pts[b], float)
-            if np.isfinite(pa).all() and np.isfinite(pb).all():
-                out.append((pa, pb))
-    return out
-
-
-def _draw_skeleton(img, pose: dict, colour, thickness: int, joint_r: int, head_r: int = 0) -> None:
-    import cv2
-    for pa, pb in _bones_px(pose):
-        cv2.line(img, tuple(int(round(v)) for v in pa), tuple(int(round(v)) for v in pb), colour, thickness, cv2.LINE_AA)
-    for k, p in pose.items():
-        if k == "hands" or not np.isfinite(np.asarray(p, float)).all():
-            continue
-        cv2.circle(img, tuple(int(round(v)) for v in p), joint_r, colour, -1, cv2.LINE_AA)
-    if "nose" in pose and head_r > 0:  # the head as a circle round the nose (a stick-figure head, not a marker)
-        cv2.circle(img, tuple(int(round(v)) for v in pose["nose"]), head_r, colour, thickness, cv2.LINE_AA)
-
-
-def _draw_highlights(img, player: dict, ghost: dict, names: list[str], thickness: int, ring_r: int,
-                     arrows: bool = True) -> None:
-    import cv2
-    for n in names:
-        if n not in player:
-            continue
-        p = tuple(int(round(v)) for v in player[n])
-        cv2.circle(img, p, ring_r, (0, 0, 0), thickness + 2, cv2.LINE_AA)
-        cv2.circle(img, p, ring_r, C_RING, thickness, cv2.LINE_AA)
-        if arrows and n in ghost:
-            g = tuple(int(round(v)) for v in ghost[n])
-            cv2.circle(img, g, max(3, ring_r // 2), C_TARGET, -1, cv2.LINE_AA)
-            cv2.arrowedLine(img, p, g, (0, 0, 0), thickness + 2, cv2.LINE_AA, tipLength=0.25)
-            cv2.arrowedLine(img, p, g, C_RING, thickness, cv2.LINE_AA, tipLength=0.25)
 
 
 def blur_face(img, raw_px: np.ndarray | None, all_px: np.ndarray | None = None) -> bool:
@@ -453,103 +499,118 @@ def blur_face(img, raw_px: np.ndarray | None, all_px: np.ndarray | None = None) 
     return True
 
 
-def _header(width: int, left: list[tuple[str, tuple]], right: str):
+C_CUE_RING = (178, 114, 0)    # the "This" blue (#0072B2) in BGR, with a white halo
+C_CUE_LINE = (26, 26, 26)     # ink, dashed, with a white halo (as the cartoon's cue line)
+OVERLAY_LABEL = "On your video"
+
+
+def _dashed_line(img, a, b, colour, thickness: int, dash: int, gap: int) -> None:
     import cv2
-    bar = np.full((34, width, 3), 22, np.uint8)
-    x = 10
-    for text, colour in left:
-        cv2.rectangle(bar, (x, 12), (x + 14, 24), colour, -1)
-        x += 20
-        cv2.putText(bar, text, (x, 23), cv2.FONT_HERSHEY_SIMPLEX, 0.45, (235, 235, 235), 1, cv2.LINE_AA)
-        x += int(cv2.getTextSize(text, cv2.FONT_HERSHEY_SIMPLEX, 0.45, 1)[0][0]) + 16
-    tw = cv2.getTextSize(right, cv2.FONT_HERSHEY_SIMPLEX, 0.45, 1)[0][0]
-    cv2.putText(bar, right, (max(x, width - tw - 10), 23), cv2.FONT_HERSHEY_SIMPLEX, 0.45, (200, 200, 200), 1, cv2.LINE_AA)
-    return bar
+    a, b = np.asarray(a, float), np.asarray(b, float)
+    L = float(np.hypot(*(b - a)))
+    if L < 1:
+        return
+    u = (b - a) / L
+    t = 0.0
+    while t < L:
+        p0, p1 = a + u * t, a + u * min(L, t + dash)
+        cv2.line(img, tuple(int(round(v)) for v in p0), tuple(int(round(v)) for v in p1), colour, thickness, cv2.LINE_AA)
+        t += dash + gap
 
 
-def _footer(img, text: str) -> None:
+def _cue_point(pose: dict, name: str) -> np.ndarray | None:
+    if name == "ankles":
+        return _mid(pose, "front_ankle", "back_ankle")
+    if name in pose and np.isfinite(np.asarray(pose[name], float)).all():
+        return np.asarray(pose[name], float)
+    return None
+
+
+CROP_JOINTS = {
+    "upper": ["nose", "front_shoulder", "back_shoulder", "front_elbow", "back_elbow", "hands", "front_hip", "back_hip"],
+    "lower": ["front_hip", "back_hip", "front_knee", "back_knee", "front_ankle", "back_ankle"],
+}
+
+
+def render_video_cue(frame, player_img: dict, fault: str, raw_px, all_px) -> tuple[np.ndarray, bool, dict]:
+    """The secondary "On your video" picture: the player's frame (face blurred first), cropped to the
+    fault area, with only the fault's one key cue (VIDEO_CUE): a ring on the main joint and, where
+    the cartoon uses one, the same reference line. No skeleton, no ghost, no arrows, no text.
+    Returns (image OUT_WIDTH wide, face_blurred, the cue drawn)."""
     import cv2
-    if text:
-        cv2.putText(img, text, (8, img.shape[0] - 8), cv2.FONT_HERSHEY_SIMPLEX, 0.38, (0, 0, 0), 3, cv2.LINE_AA)
-        cv2.putText(img, text, (8, img.shape[0] - 8), cv2.FONT_HERSHEY_SIMPLEX, 0.38, (235, 235, 235), 1, cv2.LINE_AA)
-
-
-def render_overlay(frame, player_img: dict, ghost_img: dict, highlights: list[str], raw_px, all_px,
-                   moment_label: str, footnote: str = "") -> tuple[np.ndarray, bool]:
-    """The player's frame (face blurred) with the ghost, the player's skeleton and the highlights,
-    cropped around the two figures and scaled to OUT_WIDTH. Returns (image, face_blurred)."""
-    import cv2
+    cue = VIDEO_CUE.get(fault) or {"ring": None, "line": None, "crop": "body"}
     img = frame.copy()
     blurred = blur_face(img, raw_px, all_px)
-    pts = np.array([p for p in list(player_img.values()) + list(ghost_img.values()) if np.isfinite(p).all()])
     h, w = img.shape[:2]
+    pts_all = np.array([p for p in player_img.values() if np.isfinite(np.asarray(p, float)).all()], float)
+    names = CROP_JOINTS.get(cue.get("crop"), list(player_img))
+    pts = np.array([player_img[n] for n in names if n in player_img and np.isfinite(np.asarray(player_img[n], float)).all()],
+                   float)
+    if len(pts) < 2:
+        pts = pts_all
+    body_h = max(float(np.ptp(pts_all[:, 1])), 1.0) if len(pts_all) else float(h)
     x0, y0 = pts.min(axis=0)
     x1, y1 = pts.max(axis=0)
-    bh = max(y1 - y0, 1.0)
-    pad = 0.18 * bh
-    x0, x1 = x0 - pad, x1 + pad
-    y0, y1 = y0 - 1.6 * pad, y1 + pad
-    want_w = (y1 - y0) * 0.75  # portrait crop, 3:4
-    if x1 - x0 < want_w:
-        cx = (x0 + x1) / 2
-        x0, x1 = cx - want_w / 2, cx + want_w / 2
+    pad = 0.16 * body_h
+    x0, x1, y0, y1 = x0 - pad, x1 + pad, y0 - pad * (1.6 if cue.get("crop") != "lower" else 0.6), y1 + pad * 0.7
+    if cue.get("crop") == "body":
+        want_w = (y1 - y0) * 0.75  # portrait, 3:4
+        if x1 - x0 < want_w:
+            cx = (x0 + x1) / 2
+            x0, x1 = cx - want_w / 2, cx + want_w / 2
+    else:  # a zoomed part of the body: between square and 4:3 landscape
+        if x1 - x0 < y1 - y0:
+            cx, half = (x0 + x1) / 2, (y1 - y0) / 2
+            x0, x1 = cx - half, cx + half
+        want_h = (x1 - x0) * 0.75
+        if y1 - y0 < want_h:
+            cy = (y0 + y1) / 2
+            y0, y1 = cy - want_h / 2, cy + want_h / 2
     x0, y0 = int(max(0, x0)), int(max(0, y0))
     x1, y1 = int(min(w, x1)), int(min(h, y1))
-    crop_h = max(1, y1 - y0)
-    t = max(2, int(round(crop_h / 160)))
-    jr = max(2, t)
-    ghost_layer = img.copy()
-    _draw_skeleton(ghost_layer, ghost_img, C_GHOST_EDGE, t + 5, jr + 3)
-    _draw_skeleton(ghost_layer, ghost_img, C_GHOST, t + 2, jr + 1)
-    img = cv2.addWeighted(ghost_layer, 0.7, img, 0.3, 0)
-    _draw_skeleton(img, player_img, C_PLAYER, t, jr)
-    _draw_highlights(img, player_img, ghost_img, highlights, t, max(8, int(round(crop_h / 28))))
     crop = img[y0:y1, x0:x1]
     scale = OUT_WIDTH / float(max(1, crop.shape[1]))
-    crop = cv2.resize(crop, (OUT_WIDTH, max(1, int(round(crop.shape[0] * scale)))),
-                      interpolation=cv2.INTER_AREA if scale < 1 else cv2.INTER_CUBIC)
-    _footer(crop, footnote)
-    out = np.vstack([_header(OUT_WIDTH, [("You", C_PLAYER), ("Best practice", C_GHOST)], moment_label), crop])
-    return out, blurred
+    out = cv2.resize(crop, (OUT_WIDTH, max(1, int(round(crop.shape[0] * scale)))),
+                     interpolation=cv2.INTER_AREA if scale < 1 else cv2.INTER_CUBIC)
+    oh = out.shape[0]
 
-
-def render_side_by_side(player_n: dict, ghost_n: dict, highlights: list[str], mirrored: bool,
-                        moment_label: str, footnote: str = "") -> np.ndarray:
-    """Two stick figures on a plain background, the same scale, as filmed (a left-hander is shown
-    as a left-hander). player_n / ghost_n: normalised poses (body lengths, ghost already aligned)."""
-    import cv2
-    pw, ph = OUT_WIDTH // 2, 360
-
-    def oriented(pose):
-        return {k: np.array([-v[0] if mirrored else v[0], v[1]], float) for k, v in pose.items()}
-    a, b = oriented(player_n), oriented(ghost_n)
-    pts = np.array(list(a.values()) + list(b.values()))
-    head = 0.06  # stick-figure head radius, body lengths
-    lo, hi = pts.min(axis=0) - head, pts.max(axis=0) + head
-    span = np.maximum(hi - lo, 1e-3)
-    top, bottom, side = 40, 26, 20  # room for the labels above and the footnote below
-    s = min((pw - 2 * side) / span[0], (ph - top - bottom) / span[1])
-    centre = (lo + hi) / 2
-
-    def to_px(pose, ox):
-        return {k: np.array([ox + pw / 2 + (v[0] - centre[0]) * s, top + (ph - top - bottom) / 2 + (v[1] - centre[1]) * s])
-                for k, v in pose.items()}
-    pa, pb = to_px(a, 0), to_px(b, pw)
-    canvas = np.full((ph, OUT_WIDTH, 3), 244, np.uint8)
-    cv2.line(canvas, (pw, 10), (pw, ph - 10), (210, 210, 210), 1)
-    head_r = max(6, int(round(head * s)))
-    _draw_skeleton(canvas, pa, C_PLAYER, 3, 3, head_r)
-    _draw_skeleton(canvas, pb, C_REF_PANEL, 3, 3, head_r)
-    for n in highlights:
-        for pose in (pa, pb):
-            if n in pose:
-                p = tuple(int(round(v)) for v in pose[n])
-                cv2.circle(canvas, p, 12, C_PANEL_RING, 2, cv2.LINE_AA)
-    for text, x in (("You", 10), ("Best practice", pw + 10)):
-        cv2.putText(canvas, text, (x, 24), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (40, 40, 40), 1, cv2.LINE_AA)
-    if footnote:
-        cv2.putText(canvas, footnote, (8, ph - 8), cv2.FONT_HERSHEY_SIMPLEX, 0.38, (90, 90, 90), 1, cv2.LINE_AA)
-    return np.vstack([_header(OUT_WIDTH, [("You", C_PLAYER), ("Best practice", C_REF_PANEL)], moment_label), canvas])
+    def to_out(p):
+        return np.array([(p[0] - x0) * scale, (p[1] - y0) * scale])
+    drawn: dict[str, Any] = {"ring": None, "line": None}
+    line = cue.get("line")
+    if line:
+        kind = line[0]
+        a = b = None
+        if kind == "plumb":
+            p = _cue_point(player_img, line[1])
+            ground = max([v[1] for k, v in player_img.items() if "ankle" in k and np.isfinite(np.asarray(v, float)).all()]
+                         or [y1])
+            if p is not None:
+                a, b = to_out(p) - [0, 0.12 * body_h * scale], to_out([p[0], ground + 0.03 * body_h])
+        elif kind == "vertical":
+            p = _cue_point(player_img, line[1])
+            if p is not None:
+                a, b = np.array([to_out(p)[0], 0.0]), np.array([to_out(p)[0], float(oh)])
+        elif kind == "segment":
+            p, q = _cue_point(player_img, line[1]), _cue_point(player_img, line[2])
+            if p is not None and q is not None:
+                a, b = to_out(p), to_out(q)
+                d = b - a
+                ext = 0.6 * d
+                a, b = a - ext, b + ext
+        if a is not None and b is not None:
+            _dashed_line(out, a, b, (255, 255, 255), 7, 16, 10)
+            _dashed_line(out, a, b, C_CUE_LINE, 3, 16, 10)
+            drawn["line"] = {"type": kind, "joints": list(line[1:])}
+    ring = cue.get("ring")
+    rp = _cue_point(player_img, ring) if ring else None
+    if rp is not None:
+        c = tuple(int(round(v)) for v in to_out(rp))
+        r = max(14, int(round(0.055 * body_h * scale)))
+        cv2.circle(out, c, r, (255, 255, 255), 8, cv2.LINE_AA)
+        cv2.circle(out, c, r, C_CUE_RING, 4, cv2.LINE_AA)
+        drawn["ring"] = ring
+    return out, blurred, drawn
 
 
 def jpeg_data_url(img) -> str | None:
@@ -577,6 +638,8 @@ def read_frame(video_path, frame_index: int):
 # --- the comparison -------------------------------------------------------------------------
 
 def unavailable(fault: str | None, reason: str, **extra) -> dict:
+    """The comparison with the player cannot be made. When the fault is known, the caller adds the
+    fault's cartoon pair (base["silhouette"]) and tip, so the card can still teach the principle."""
     return {"version": COMPARE_VERSION, "available": False, "fault": fault, "reason": reason, **extra}
 
 
@@ -594,6 +657,8 @@ def compute_pose_comparison(landmarks: np.ndarray, frame_idx: np.ndarray, anchor
         return unavailable(fault, f"no comparison is defined for fault {fault!r}")
     texts, tip_texts = fault_texts(), tips()
     base = {"version": COMPARE_VERSION, "fault": fault, "fault_text": texts.get(fault, ""), "tip": tip_texts.get(fault, "")}
+    base["what_to_change"] = what_to_change(fault, base["tip"])
+    base["silhouette"] = silhouette_for(fault, handedness)
     if spec.get("unavailable"):
         return {**unavailable(fault, spec["unavailable"]), **base, "available": False}
     ref = reference if reference is not None else pr.load_reference()
@@ -691,10 +756,9 @@ def compute_pose_comparison(landmarks: np.ndarray, frame_idx: np.ndarray, anchor
         return out
 
     img = frame_image if frame_image is not None else (read_frame(video_path, frame) if video_path else None)
-    footnote = "Reference: provisional" if out["reference"]["provisional"] else ""
     to_px = lambda pose: {k: to_image(v, width, height, lc.mirrored, roll_removed) for k, v in pose.items()}  # noqa: E731
-    player_img, ghost_img = to_px(player_meas), to_px(ghost_meas)
-    images: dict[str, Any] = {"mime_type": "image/jpeg", "overlay_data_url": None, "side_by_side_data_url": None}
+    player_img = to_px(player_meas)
+    images: dict[str, Any] = {"mime_type": "image/jpeg", "overlay_label": OVERLAY_LABEL, "overlay_data_url": None}
     if img is not None:
         ih, iw = img.shape[:2]
         sx, sy = iw / float(width), ih / float(height)  # the video's own size can differ from the pose size
@@ -702,17 +766,15 @@ def compute_pose_comparison(landmarks: np.ndarray, frame_idx: np.ndarray, anchor
         all_a = np.asarray(landmarks)[np.where(np.asarray(frame_idx) == frame)[0][0]]
         all_px = np.stack([all_a[:, 0] * iw, all_a[:, 1] * ih], axis=-1)
         raw_px = None if raw_img is None else np.stack([raw_img[:, 0] * sx, raw_img[:, 1] * sy], axis=-1)
-        overlay, blurred = render_overlay(img, scale_pose(player_img), scale_pose(ghost_img), highlights,
-                                          raw_px, all_px, out["moment_label"], footnote)
+        overlay, blurred, drawn = render_video_cue(img, scale_pose(player_img), fault, raw_px, all_px)
         images["overlay_data_url"] = jpeg_data_url(overlay)
         images["overlay_size"] = [int(overlay.shape[1]), int(overlay.shape[0])]
+        images["overlay_cue"] = drawn
         out["privacy"] = {"face_blurred": bool(blurred),
-                          "note": "The player's own frame, face blurred; the reference is an averaged stick figure."}
+                          "note": "The player's own frame, face blurred, with one marker; the pictures above it are "
+                                  "fixed cartoons, not the player."}
     else:
-        out["privacy"] = {"face_blurred": None, "note": "No video frame was available, so only the stick figures are shown."}
-    sbs = render_side_by_side(player_n, ghost_n, highlights, lc.mirrored, out["moment_label"], footnote)
-    images["side_by_side_data_url"] = jpeg_data_url(sbs)
-    images["side_by_side_size"] = [int(sbs.shape[1]), int(sbs.shape[0])]
+        out["privacy"] = {"face_blurred": None, "note": "No video frame was available, so only the cartoons are shown."}
     out["images"] = images
     return out
 
@@ -780,7 +842,10 @@ def pose_comparison_for_report(report: dict, frame_poses, video_meta: dict, vide
         roll = {"roll_deg": float(capture["camera_roll_deg"]), "confidence": "ok"}
     lm, idx = arrays_from_frame_poses(frame_poses)
     if not len(idx):
-        return unavailable(fault, "no pose landmarks", source_rule=rule, fault_source=how)
+        tip = tips().get(fault, "")
+        return unavailable(fault, "no pose landmarks", source_rule=rule, fault_source=how,
+                           fault_text=fault_texts().get(fault, ""), tip=tip, what_to_change=what_to_change(fault, tip),
+                           silhouette=silhouette_for(fault, report.get("handedness") or "right"))
     out = compute_pose_comparison(lm, idx, anchors, report.get("handedness") or "right",
                                   float(video_meta.get("fps") or 30.0), float(video_meta.get("width") or 0),
                                   float(video_meta.get("height") or 0), fault, video_path=video_path, roll=roll)

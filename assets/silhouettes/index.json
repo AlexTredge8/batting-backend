@@ -1,0 +1,492 @@
+{
+  "_meta": {
+    "version": "silhouettes_v1",
+    "status": "DRAFT for Alex to sign off (docs/phase6/annotation_benchmark.md)",
+    "handedness": "drawn for a right-hander; mirror the single panels (scaleX(-1)) for a left-hander; the *_pair files carry text and must not be mirrored",
+    "views": {
+      "front_on": "from behind the bowler (our camera); off side on the left for a right-hander",
+      "side_on": "from point; the bowler to the right (chevron at the ground's right edge)",
+      "top_down": "from above",
+      "pitch_side": "the pitch from the side"
+    },
+    "panel_size": [
+      300,
+      420
+    ],
+    "pair_size": [
+      652,
+      588
+    ],
+    "palette": {
+      "not_this": "#D55E00",
+      "this": "#0072B2",
+      "figure": "#3D4450",
+      "far_limbs": "#6B7380",
+      "background": "#F5F4F0",
+      "cue_line": "#1A1A1A"
+    }
+  },
+  "F01": {
+    "view": "front_on",
+    "moment": "setup",
+    "drawn_moment": "set-up",
+    "caption_fault": "Head moving, eyes tilted",
+    "caption_correct": "Head still, eyes level",
+    "label_fault": "Not this",
+    "label_correct": "This",
+    "cue": {
+      "type": "line",
+      "what": "eye-level line across the helmet visor",
+      "fault": "the line slants and earlier head positions trail behind",
+      "correct": "the line is level"
+    },
+    "alt": "Two cartoon batters at set-up, seen from the bowler's end. Not this: the head tilted and moving, eyes on a slant. This: the head still and the eyes level.",
+    "files": {
+      "fault": "F01_fault.svg",
+      "correct": "F01_correct.svg",
+      "pair": "F01_pair.svg",
+      "fault_png": "F01_fault.png",
+      "correct_png": "F01_correct.png",
+      "pair_png": "F01_pair.png"
+    }
+  },
+  "F02": {
+    "view": "front_on",
+    "moment": "setup",
+    "drawn_moment": "set-up",
+    "caption_fault": "Leaning, head outside feet",
+    "caption_correct": "Weight even, knees soft",
+    "label_fault": "Not this",
+    "label_correct": "This",
+    "cue": {
+      "type": "line",
+      "what": "plumb line straight down from the head",
+      "fault": "the line lands outside the feet",
+      "correct": "the line lands between the feet"
+    },
+    "alt": "Two cartoon batters at set-up, seen from the bowler's end. Not this: leaning to one side with the head outside the feet. This: weight even, head between the feet.",
+    "files": {
+      "fault": "F02_fault.svg",
+      "correct": "F02_correct.svg",
+      "pair": "F02_pair.svg",
+      "fault_png": "F02_fault.png",
+      "correct_png": "F02_correct.png",
+      "pair_png": "F02_pair.png"
+    }
+  },
+  "F17": {
+    "view": "front_on",
+    "moment": "setup",
+    "drawn_moment": "set-up, at release",
+    "caption_fault": "Head, hands, feet spread",
+    "caption_correct": "Head, hands, feet over off stump",
+    "label_fault": "Not this",
+    "label_correct": "This",
+    "cue": {
+      "type": "line",
+      "what": "vertical line up from off stump",
+      "fault": "head, hands and feet sit apart, the head beyond off stump",
+      "correct": "head, hands and feet stacked on the line"
+    },
+    "alt": "Two cartoon batters at set-up, seen from the bowler's end, with the stumps behind. Not this: head, hands and feet spread apart, the head leaning beyond off stump. This: head, hands and feet lined up over off stump.",
+    "files": {
+      "fault": "F17_fault.svg",
+      "correct": "F17_correct.svg",
+      "pair": "F17_pair.svg",
+      "fault_png": "F17_fault.png",
+      "correct_png": "F17_correct.png",
+      "pair_png": "F17_pair.png"
+    }
+  },
+  "F13": {
+    "view": "side_on",
+    "moment": "setup",
+    "drawn_moment": "at release",
+    "caption_fault": "Bat still grounded",
+    "caption_correct": "Bat already lifting",
+    "label_fault": "Not this",
+    "label_correct": "This",
+    "cue": {
+      "type": "timing",
+      "what": "small bowler-at-release picture in the corner of both panels",
+      "fault": "the ball is leaving the bowler's hand and the bat is still on the ground",
+      "correct": "the ball is leaving the bowler's hand and the bat is already rising"
+    },
+    "alt": "Two cartoon batters seen from the side, each with a small bowler releasing the ball. Not this: the bat still resting on the ground. This: the bat already lifting.",
+    "files": {
+      "fault": "F13_fault.svg",
+      "correct": "F13_correct.svg",
+      "pair": "F13_pair.svg",
+      "fault_png": "F13_fault.png",
+      "correct_png": "F13_correct.png",
+      "pair_png": "F13_pair.png"
+    }
+  },
+  "F03": {
+    "view": "front_on",
+    "moment": "top_of_backlift",
+    "drawn_moment": "top of the backlift",
+    "caption_fault": "Hands push out wide",
+    "caption_correct": "Hands up, close to body",
+    "label_fault": "Not this",
+    "label_correct": "This",
+    "cue": {
+      "type": "line",
+      "what": "short line from the hands to the back hip",
+      "fault": "a long line: the hands are far out from the body",
+      "correct": "a short line: the hands are up and back, close to the body"
+    },
+    "alt": "Two cartoon batters at the top of the backlift, seen from the bowler's end. Not this: the hands pushed far out from the body. This: the hands up and back, close to the body.",
+    "files": {
+      "fault": "F03_fault.svg",
+      "correct": "F03_correct.svg",
+      "pair": "F03_pair.svg",
+      "fault_png": "F03_fault.png",
+      "correct_png": "F03_correct.png",
+      "pair_png": "F03_pair.png"
+    }
+  },
+  "F19": {
+    "view": "pitch_side",
+    "moment": null,
+    "drawn_moment": "length (shot choice)",
+    "caption_fault": "Driving a short ball",
+    "caption_correct": "Drive the pitched-up ball",
+    "label_fault": "Not this",
+    "label_correct": "This",
+    "cue": {
+      "type": "zones",
+      "what": "the pitch from the side with a full zone near the batter and a short zone further away",
+      "fault": "the ball bounces in the short zone and arrives high, and the batter drives",
+      "correct": "the ball bounces in the full zone, close to the batter, and the batter drives"
+    },
+    "alt": "Two pitch diagrams seen from the side. Not this: the ball bounces short and arrives high, and the batter still drives. This: the ball bounces full, near the batter, so it is there to drive.",
+    "files": {
+      "fault": "F19_fault.svg",
+      "correct": "F19_correct.svg",
+      "pair": "F19_pair.svg",
+      "fault_png": "F19_fault.png",
+      "correct_png": "F19_correct.png",
+      "pair_png": "F19_pair.png"
+    },
+    "note": "Shot choice, not body position: the card has no measurement bar."
+  },
+  "F15": {
+    "view": "top_down",
+    "moment": "front_foot_down",
+    "drawn_moment": "front foot down",
+    "caption_fault": "Steps across the crease",
+    "caption_correct": "Steps out to the ball",
+    "label_fault": "Not this",
+    "label_correct": "This",
+    "cue": {
+      "type": "footprints",
+      "what": "footprints from above with the ball's line on the pitch",
+      "fault": "the front foot steps sideways across the crease (dotted trail)",
+      "correct": "the front foot steps out along the ball's line (arrow)"
+    },
+    "alt": "Two diagrams from above showing footprints at the crease. Not this: the front foot steps sideways across the crease. This: the front foot steps out towards the ball, along its line.",
+    "files": {
+      "fault": "F15_fault.svg",
+      "correct": "F15_correct.svg",
+      "pair": "F15_pair.svg",
+      "fault_png": "F15_fault.png",
+      "correct_png": "F15_correct.png",
+      "pair_png": "F15_pair.png"
+    }
+  },
+  "F04": {
+    "view": "front_on",
+    "moment": "front_foot_down",
+    "drawn_moment": "front foot down",
+    "caption_fault": "Head and shoulder stay back",
+    "caption_correct": "Head and shoulder lead",
+    "label_fault": "Not this",
+    "label_correct": "This",
+    "cue": {
+      "type": "arrow",
+      "what": "the ball's line on the ground; an arrow from the head towards it on the correct panel",
+      "fault": "the foot steps out while the head and front shoulder stay upright, back",
+      "correct": "head and front shoulder lean towards the ball's line; the foot follows"
+    },
+    "alt": "Two cartoon batters stepping forward, seen from the bowler's end. Not this: the foot steps out but the head and front shoulder stay back. This: the head and front shoulder lean towards the line of the ball first.",
+    "files": {
+      "fault": "F04_fault.svg",
+      "correct": "F04_correct.svg",
+      "pair": "F04_pair.svg",
+      "fault_png": "F04_fault.png",
+      "correct_png": "F04_correct.png",
+      "pair_png": "F04_pair.png"
+    }
+  },
+  "F05": {
+    "view": "front_on",
+    "moment": "front_foot_down",
+    "drawn_moment": "front foot down",
+    "caption_fault": "Foot lands off the line",
+    "caption_correct": "Foot on the ball's line",
+    "label_fault": "Not this",
+    "label_correct": "This",
+    "cue": {
+      "type": "line",
+      "what": "the ball's line dashed on the ground, from the ball towards the stumps",
+      "fault": "the front foot lands well to the leg side of the line",
+      "correct": "the front foot lands on the line, or just inside it"
+    },
+    "alt": "Two cartoon batters stepping forward, seen from the bowler's end, with the line of the ball on the ground. Not this: the front foot lands well away from the line. This: the front foot lands on the line of the ball.",
+    "files": {
+      "fault": "F05_fault.svg",
+      "correct": "F05_correct.svg",
+      "pair": "F05_pair.svg",
+      "fault_png": "F05_fault.png",
+      "correct_png": "F05_correct.png",
+      "pair_png": "F05_pair.png"
+    }
+  },
+  "F06": {
+    "view": "side_on",
+    "moment": "contact",
+    "drawn_moment": "contact",
+    "caption_fault": "Stiff front leg, weight back",
+    "caption_correct": "Front knee bent, weight on it",
+    "label_fault": "Not this",
+    "label_correct": "This",
+    "cue": {
+      "type": "highlight",
+      "what": "the front leg and knee filled in the accent colour",
+      "fault": "the front leg is locked straight and the body leans back",
+      "correct": "the front knee is bent over the front foot, taking the weight"
+    },
+    "alt": "Two cartoon batters at contact, seen from the side. Not this: the front leg locked straight, weight back. This: the front knee bent, the weight over it.",
+    "files": {
+      "fault": "F06_fault.svg",
+      "correct": "F06_correct.svg",
+      "pair": "F06_pair.svg",
+      "fault_png": "F06_fault.png",
+      "correct_png": "F06_correct.png",
+      "pair_png": "F06_pair.png"
+    }
+  },
+  "F18": {
+    "view": "side_on",
+    "moment": "contact",
+    "drawn_moment": "contact",
+    "caption_fault": "Back foot stuck flat",
+    "caption_correct": "Push off the back foot",
+    "label_fault": "Not this",
+    "label_correct": "This",
+    "cue": {
+      "type": "arrow",
+      "what": "an arrow along the back leg towards the bowler on the correct panel",
+      "fault": "the back heel is flat and the back knee bent, weight sitting back",
+      "correct": "the back heel is up and the back leg pushes the weight forward"
+    },
+    "alt": "Two cartoon batters at contact, seen from the side. Not this: the back foot flat and the weight back. This: the back heel up, pushing the weight forward.",
+    "files": {
+      "fault": "F18_fault.svg",
+      "correct": "F18_correct.svg",
+      "pair": "F18_pair.svg",
+      "fault_png": "F18_fault.png",
+      "correct_png": "F18_correct.png",
+      "pair_png": "F18_pair.png"
+    }
+  },
+  "F16": {
+    "view": "side_on",
+    "moment": "contact",
+    "drawn_moment": "contact",
+    "caption_fault": "Weight stays back",
+    "caption_correct": "Head and chest over front foot",
+    "label_fault": "Not this",
+    "label_correct": "This",
+    "cue": {
+      "type": "line",
+      "what": "plumb line straight down from the head",
+      "fault": "the line lands well behind the front foot",
+      "correct": "the line lands on the front foot"
+    },
+    "alt": "Two cartoon batters at contact, seen from the side. Not this: the head and chest stay back, well behind the front foot. This: the head and chest are over the front foot.",
+    "files": {
+      "fault": "F16_fault.svg",
+      "correct": "F16_correct.svg",
+      "pair": "F16_pair.svg",
+      "fault_png": "F16_fault.png",
+      "correct_png": "F16_correct.png",
+      "pair_png": "F16_pair.png"
+    }
+  },
+  "F07": {
+    "view": "front_on",
+    "moment": "before_contact",
+    "drawn_moment": "just before contact",
+    "caption_fault": "Front shoulder opens early",
+    "caption_correct": "Shoulder points down the line",
+    "label_fault": "Not this",
+    "label_correct": "This",
+    "cue": {
+      "type": "line",
+      "what": "the shoulder line as a dashed bar",
+      "fault": "a long bar: the chest has turned to face the bowler",
+      "correct": "a short bar: the front shoulder still points at the bowler"
+    },
+    "alt": "Two cartoon batters just before contact, seen from the bowler's end. Not this: the chest turned square to the bowler, shoulders wide. This: the front shoulder still pointing down the pitch, shoulders narrow.",
+    "files": {
+      "fault": "F07_fault.svg",
+      "correct": "F07_correct.svg",
+      "pair": "F07_pair.svg",
+      "fault_png": "F07_fault.png",
+      "correct_png": "F07_correct.png",
+      "pair_png": "F07_pair.png"
+    }
+  },
+  "F08": {
+    "view": "front_on",
+    "moment": "contact",
+    "drawn_moment": "contact",
+    "caption_fault": "Bat swings across the line",
+    "caption_correct": "Straight bat down the line",
+    "label_fault": "Not this",
+    "label_correct": "This",
+    "cue": {
+      "type": "arrow",
+      "what": "the ball's line on the ground; the bat's path",
+      "fault": "a dotted trail shows the bat sweeping across the line",
+      "correct": "one arrow shows the bat coming straight down the line"
+    },
+    "alt": "Two cartoon batters at contact, seen from the bowler's end. Not this: the bat swinging across the line of the ball. This: the bat coming straight down the line.",
+    "files": {
+      "fault": "F08_fault.svg",
+      "correct": "F08_correct.svg",
+      "pair": "F08_pair.svg",
+      "fault_png": "F08_fault.png",
+      "correct_png": "F08_correct.png",
+      "pair_png": "F08_pair.png"
+    }
+  },
+  "F09": {
+    "view": "side_on",
+    "moment": "top_of_backlift",
+    "drawn_moment": "top of the backlift",
+    "caption_fault": "Stops at the top",
+    "caption_correct": "One smooth swing",
+    "label_fault": "Not this",
+    "label_correct": "This",
+    "cue": {
+      "type": "trail",
+      "what": "the swing arc from the top of the backlift to contact",
+      "fault": "the arc is broken, with a pause mark at the top",
+      "correct": "one unbroken arc from backlift to contact"
+    },
+    "alt": "Two cartoon batters at the top of the backlift, seen from the side. Not this: the swing stops at the top. This: one smooth swing from the top down to the ball.",
+    "files": {
+      "fault": "F09_fault.svg",
+      "correct": "F09_correct.svg",
+      "pair": "F09_pair.svg",
+      "fault_png": "F09_fault.png",
+      "correct_png": "F09_correct.png",
+      "pair_png": "F09_pair.png"
+    }
+  },
+  "F10": {
+    "view": "front_on",
+    "moment": "contact",
+    "drawn_moment": "contact",
+    "caption_fault": "Head falls away",
+    "caption_correct": "Head over the ball",
+    "label_fault": "Not this",
+    "label_correct": "This",
+    "cue": {
+      "type": "line",
+      "what": "vertical line from the head down to the ground",
+      "fault": "the line misses the ball: the head has fallen to the leg side and the ball is met away from the pad",
+      "correct": "the line runs through the ball, met next to the front pad"
+    },
+    "alt": "Two cartoon batters at contact, seen from the bowler's end. Not this: the head falls away and the ball is met away from the pad. This: the head is over the ball, next to the front pad.",
+    "files": {
+      "fault": "F10_fault.svg",
+      "correct": "F10_correct.svg",
+      "pair": "F10_pair.svg",
+      "fault_png": "F10_fault.png",
+      "correct_png": "F10_correct.png",
+      "pair_png": "F10_pair.png"
+    }
+  },
+  "F11": {
+    "view": "front_on",
+    "moment": "follow_through",
+    "drawn_moment": "the finish",
+    "caption_fault": "Falling out of the shot",
+    "caption_correct": "Hold the finish",
+    "label_fault": "Not this",
+    "label_correct": "This",
+    "cue": {
+      "type": "line",
+      "what": "plumb line straight down from the head",
+      "fault": "the line lands outside the front foot: the body topples",
+      "correct": "the line lands on the front foot: balanced, held finish"
+    },
+    "alt": "Two cartoon batters at the finish, seen from the bowler's end. Not this: toppling to one side, the head outside the feet. This: a balanced finish, held, the head over the front knee.",
+    "files": {
+      "fault": "F11_fault.svg",
+      "correct": "F11_correct.svg",
+      "pair": "F11_pair.svg",
+      "fault_png": "F11_fault.png",
+      "correct_png": "F11_correct.png",
+      "pair_png": "F11_pair.png"
+    }
+  },
+  "F12": {
+    "view": "side_on",
+    "moment": "follow_through",
+    "drawn_moment": "the finish",
+    "caption_fault": "Hands stop at the ball",
+    "caption_correct": "Hands go on to target",
+    "label_fault": "Not this",
+    "label_correct": "This",
+    "cue": {
+      "type": "arrow",
+      "what": "an arrow from contact up to the finish, towards the target, on the correct panel",
+      "fault": "the hands stop at waist height and the bat is checked",
+      "correct": "the hands carry on high towards the target"
+    },
+    "alt": "Two cartoon batters seen from the side. Not this: the hands stop at the ball. This: the hands carry on high towards the target.",
+    "files": {
+      "fault": "F12_fault.svg",
+      "correct": "F12_correct.svg",
+      "pair": "F12_pair.svg",
+      "fault_png": "F12_fault.png",
+      "correct_png": "F12_correct.png",
+      "pair_png": "F12_pair.png"
+    }
+  },
+  "F00": {
+    "view": "front_on",
+    "moment": "contact",
+    "drawn_moment": "contact and the finish",
+    "caption_fault": null,
+    "caption_correct": "Keep repeating this",
+    "caption_correct_finish": "Hold the finish",
+    "label_fault": null,
+    "label_correct": "This",
+    "cue": {
+      "type": "none",
+      "what": "no cue: the clean figure at contact and at the finish",
+      "fault": null,
+      "correct": "head over the ball at contact; a balanced, held finish"
+    },
+    "alt": "Two cartoon batters seen from the bowler's end, both with a tick: head over the ball at contact, and a balanced, held finish.",
+    "files": {
+      "fault": null,
+      "correct": "F00_correct.svg",
+      "correct_finish": "F00_correct_finish.svg",
+      "pair": "F00_pair.svg",
+      "correct_png": "F00_correct.png",
+      "correct_finish_png": "F00_correct_finish.png",
+      "pair_png": "F00_pair.png"
+    }
+  },
+  "F14": {
+    "same_as": "F07",
+    "note": "F14 was retired in rubric v0.3 and is now part of F07."
+  }
+}
