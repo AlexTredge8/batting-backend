@@ -32,7 +32,13 @@ Update the analysis results page (`src/pages/AnalysisResults.tsx` and the analys
   - Show a grey chip reading **"Estimated"** in place of the green/amber/red status colour.
   - Under it, show: "We could not measure this part of the shot in this clip, so this score is the average of your other areas." If `basis === "suppressed"`, add: "A key moment in the clip could not be pinned down."
   - Do not show the pillar's "positives" text when the pillar is not assessed.
-- If `assessed` is true or missing, show the pillar exactly as today.
+- If `assessed` is true or missing, show the pillar as today, except for rule 4b.
+
+**4b. Pillars where no fault was found (no false "25/25").** Today each area is checked by only one or two rules, so "no fault found" does not mean perfect. If `basis === "no_fault_found"` and `faults` is empty:
+- Do not show "25/25", a full bar or a green tick. In place of the number, show the words **"No fault found"** with a soft blue-grey chip (not green).
+- Under it, in small muted text: "Beta: we check {n} thing{s} in this area so far and found no problem. This is not a perfect score." where n is `rules.length` (use "thing" for 1, "things" for more). If `rules` is missing or empty, use: "Beta: we check only part of this area so far. This is not a perfect score."
+- Keep the pillar's "positives" text.
+- Do not change the overall score. If at least one pillar shows "No fault found", add one line under the overall score, once: "Areas marked 'No fault found' count in full while the app is in beta."
 
 **5. Overall score when a pillar was estimated.** If one or more pillars have `assessed === false`, add one line under the overall score: "{n} of 4 areas measured; the rest estimated", where n counts the pillars that are not `assessed === false`.
 
@@ -43,5 +49,7 @@ Update the analysis results page (`src/pages/AnalysisResults.tsx` and the analys
 - The tips card with that one line.
 - "3 of 4 areas measured; the rest estimated".
 - The BETA pill.
+
+**Second example to test with:** `pillars.access = { score: 25, max: 25, status: "green", faults: [], assessed: true, imputed: false, basis: "no_fault_found", rules: ["A5"] }`. This must show "No fault found" with a blue-grey chip (no "25/25", no full bar, no green tick), the line "Beta: we check 1 thing in this area so far and found no problem. This is not a perfect score.", and the line "Areas marked 'No fault found' count in full while the app is in beta." under the overall score. A pillar with a fault (for example `score: 18, basis: "fault_found"`) still shows "18/25" as today.
 
 Keep the current fonts, colours and layout everywhere else, and make sure the page still works on a phone.
